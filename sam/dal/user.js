@@ -1,5 +1,5 @@
 var JsonDB = require('node-json-db');
-var db = new JsonDB("Wemby", true, false);
+var db = new JsonDB("SAM", true, false);
 var _path = "/user";
 
 module.exports = {
