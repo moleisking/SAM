@@ -1,7 +1,7 @@
 var model = require('nodejs-model');
 var bCrypt = require('bcrypt-nodejs');
 
-var User = new model("User")
+var user = new model("User")
     .attr('name', {
         validations: {
             presence: {
@@ -11,6 +11,9 @@ var User = new model("User")
     })
     .attr('pass', {
         validations: {
+            presence: {
+                message: 'Password is required!'
+            },
             length: {
                 minimum: 5,
                 maximum: 20,
@@ -22,10 +25,10 @@ var User = new model("User")
         },
         // tags: ['private'] //this tags the accessibility as _private_ 
     })
-    .attr('email')
-    .attr('age');
+    .attr('email');
+    // .attr('age');
 
-module.exports = User;
+module.exports = user;
 
 
 module.exports.generateHash = function (password) {

@@ -1,20 +1,20 @@
-var userModel = require("../models/user")
-var userDAL = require("../dal/user.dal")
+var model = require("../models/user")
+var userDAL = require("../dal/user")
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 
 module.exports = {
-    
+
     create: function (data, cb) {
-        var user = userModel.create();
+        var user = model.create();
         user.update(data);
         user.validate().then(function () {
             if (user.isValid) {
-                user.password(userModel.generateHash(user.pass()));
+                user.pass(model.generateHash(user.pass()));
                 userDAL.create(user.name(), user.toJSON(), function (err, data) {
                     if (err)
                         return cb(err, null);
-                    myCache.del( "all");
+                    myCache.del("all");
                     return cb(null, data);
                 });
             } else
@@ -23,7 +23,7 @@ module.exports = {
             return cb(err, null);
         });
     },
-    
+
     read: function (id, cb) {
         myCache.get("readUser" + id, function (err, value) {
             if (err)
@@ -49,7 +49,7 @@ module.exports = {
             }
         });
     },
-    
+
     delete: function (id, cb) {
         _delete(id, function (err, value) {
             if (err)
@@ -96,7 +96,7 @@ function _read(id, cb) {
             if (err)
                 return cb(err, null);
             else {
-                var user = userModel.create();
+                var user = model.create();
                 user.update(data);
                 return cb(null, user.toJSON());
             }
@@ -110,10 +110,10 @@ function _all(cb) {
     try {
         userDAL.all(function (err, data) {
             if (err && (err.hasOwnProperty('id')))
-            	return cb(err, null);
+                return cb(err, null);
             var users = [];
             for (var item in data) {
-                var user = userModel.create();
+                var user = model.create();
                 user.update(data[item]);
                 users.push(user.toJSON());
             }
@@ -129,7 +129,7 @@ function _delete(id, cb) {
         userDAL.delete(id, function (err, data) {
             if (err)
                 return cb(err, null);
-            else 
+            else
                 return cb(null, data);
         });
     } catch (err) {
