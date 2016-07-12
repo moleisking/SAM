@@ -28,7 +28,6 @@ app.use(passport.initialize());
 
 app.use('/', home);
 app.use('/users', users);
-// connect the api routes under /api/*
 app.use('/api', apiRoutes);
 
 // catch 404 and forward to error handler

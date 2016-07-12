@@ -87,7 +87,6 @@ module.exports = {
             }
         });
     }
-
 }
 
 function _read(id, cb) {

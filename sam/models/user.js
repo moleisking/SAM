@@ -35,8 +35,8 @@ module.exports.generateHash = function (password) {
     return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 };
 
-module.exports.validPassword = function (user, password) {
-    return bCrypt.compareSync(password, user.password);
+module.exports.validPassword = function (userpass, passwordhash) {
+    return bCrypt.compareSync(userpass, passwordhash);
 };
 
 // var model = require('nodejs-model');
