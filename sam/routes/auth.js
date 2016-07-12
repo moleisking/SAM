@@ -58,18 +58,18 @@ apiRoutes.post('/login', function (req, res) {
   });
 });
 
-apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false }), function (req, res) {
+apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
     var decoded = jwt.decode(token, config.secret);
-    User.findOne({
-      name: decoded.name
-    }, function (err, user) {
-      if (err) throw err;
-      if (!user)
-        return res.status(403).send({ success: false, message: 'Authentication failed. User not found.' });
+    user.read(decoded.name, function (err, user) {
+      if (err && err.id != 5)
+        res.json({ success: false, message: JSON.stringify(err) });
       else
-        res.json({ success: true, message: 'Welcome in the member area ' + user.name + '!' });
+        if (!user)
+          return res.status(403).send({ success: false, message: 'Authentication failed. User not found.' });
+        else
+          res.json({ success: true, message: 'Welcome in the dashboard ' + user.name + '!' });
     });
   } else
     return res.status(403).send({ success: false, message: 'No token provided.' });
