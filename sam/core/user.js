@@ -2,6 +2,8 @@ var model = require("../models/user")
 var userDAL = require("../dal/user")
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
+var jwt = require('jwt-simple');
+var config = require('../config/settings');
 
 module.exports = {
 
@@ -86,8 +88,28 @@ module.exports = {
                     return cb(null, value);
             }
         });
+    },
+
+    getNameFromTokenUser: function (headers, cb) {
+        var token = _getNameFromToken(headers);
+        if (token) {
+            var decoded = jwt.decode(token, config.secret);
+            return decoded.name;
+        } else
+            return 'UserName';
     }
 }
+
+function _getNameFromToken(headers) {
+    if (headers && headers.authorization) {
+        var parted = headers.authorization.split(' ');
+        if (parted.length === 2)
+            return parted[1];
+        else
+            return null;
+    } else
+        return null;
+};
 
 function _read(id, cb) {
     try {

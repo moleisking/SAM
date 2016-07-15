@@ -1,22 +1,17 @@
 var express = require('express');
 var passport = require('passport');
-var jwt = require('jwt-simple');
 var user = require("../core/user");
-var config = require('../config/settings');
 var model = require("../models/user")
 
 var apiRoutes = express.Router();
 
-// pass passport for configuration
 require('../config/passport')(passport);
 
-// create a new user account (POST http://localhost:8080/api/signup)
 apiRoutes.post('/signup', function (req, res) {
   if (!req.body.name || !req.body.pass)
     res.json({ success: false, message: 'Please pass name and password.' });
   else
     user.read(req.body.name, function (err, data) {
-      // In case of any error return
       if (err && err.id != 5)
         res.json({ success: false, message: 'Error in SignUp: ' + err });
       else
@@ -37,7 +32,7 @@ apiRoutes.post('/signup', function (req, res) {
     });
 });
 
-apiRoutes.post('/login', function (req, res) {
+apiRoutes.post('/authenticate', function (req, res) {
   user.read(req.body.name, function (err, user) {
     if (err && err.id != 5)
       res.json({ success: false, message: JSON.stringify(err) });
@@ -59,10 +54,7 @@ apiRoutes.post('/login', function (req, res) {
 });
 
 apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), function (req, res) {
-  var token = getToken(req.headers);
-  if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    user.read(decoded.name, function (err, user) {
+    user.read(user.getNameFromTokenUser(req.headers), function (err, user) {
       if (err && err.id != 5)
         res.json({ success: false, message: JSON.stringify(err) });
       else
@@ -71,19 +63,6 @@ apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), fu
         else
           res.json({ success: true, message: 'Welcome in the dashboard ' + user.name + '!' });
     });
-  } else
-    return res.status(403).send({ success: false, message: 'No token provided.' });
 });
-
-getToken = function (headers) {
-  if (headers && headers.authorization) {
-    var parted = headers.authorization.split(' ');
-    if (parted.length === 2)
-      return parted[1];
-    else
-      return null;
-  } else
-    return null;
-};
 
 module.exports = apiRoutes;
