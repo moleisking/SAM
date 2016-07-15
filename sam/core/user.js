@@ -1,3 +1,5 @@
+//scott was here
+
 var model = require("../models/user")
 var userDAL = require("../dal/user")
 var NodeCache = require("node-cache");
