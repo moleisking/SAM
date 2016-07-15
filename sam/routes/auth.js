@@ -33,36 +33,39 @@ apiRoutes.post('/signup', function (req, res) {
 });
 
 apiRoutes.post('/authenticate', function (req, res) {
-  user.read(req.body.name, function (err, user) {
-    if (err && err.id != 5)
-      res.json({ success: false, message: JSON.stringify(err) });
-    else
-      if (!user)
-        res.send({ success: false, message: 'Authentication failed. User not found.' });
-      else {
-        // check if password matches
-        if (!model.validPassword(req.body.pass, user.pass))
-          res.send({ success: false, message: 'Authentication failed. Wrong password.' });
-        else {
-          // if user is found and password is right create a token
-          var token = jwt.encode(user, config.secret);
-          // return the information including token as JSON
-          res.json({ success: true, token: 'JWT ' + token });
-        };
-      }
-  });
-});
-
-apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), function (req, res) {
-    user.read(user.getNameFromTokenUser(req.headers), function (err, user) {
+  if (req.body.name === "" || req.body.name === "undefined" || req.body.pass === "" || req.body.pass === "undefined")
+    res.json({ success: false, message: 'Must provide a user name and a password.' });
+  else
+    user.read(req.body.name, function (err, user) {
       if (err && err.id != 5)
         res.json({ success: false, message: JSON.stringify(err) });
       else
         if (!user)
-          return res.status(403).send({ success: false, message: 'Authentication failed. User not found.' });
-        else
-          res.json({ success: true, message: 'Welcome in the dashboard ' + user.name + '!' });
+          res.send({ success: false, message: 'Authentication failed. User not found.' });
+        else {
+          // check if password matches
+          if (!model.validPassword(req.body.pass, user.pass))
+            res.send({ success: false, message: 'Authentication failed. Wrong password.' });
+          else {
+            // if user is found and password is right create a token
+            var token = jwt.encode(user, config.secret);
+            // return the information including token as JSON
+            res.json({ success: true, token: 'JWT ' + token });
+          };
+        }
     });
+});
+
+apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), function (req, res) {
+  user.read(user.getNameFromTokenUser(req.headers), function (err, user) {
+    if (err && err.id != 5)
+      res.json({ success: false, message: JSON.stringify(err) });
+    else
+      if (!user)
+        return res.status(403).send({ success: false, message: 'Authentication failed. User not found.' });
+      else
+        res.json({ success: true, message: 'Welcome in the dashboard ' + user.name + '!' });
+  });
 });
 
 module.exports = apiRoutes;
