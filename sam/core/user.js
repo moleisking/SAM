@@ -1,5 +1,5 @@
-var model = require("../models/user")
-var userDAL = require("../dal/user")
+var model = require("../models/user");
+var userDAL = require("../dal/user");
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var jwt = require('jwt-simple');

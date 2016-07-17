@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 
 var home = require('./routes/home');
+var web = require('./routes/web');
 var users = require('./routes/users');
 var apiRoutes = require('./routes/auth');
 
@@ -28,6 +29,7 @@ app.use(passport.initialize());
 app.use(allowCrossDomain);
 
 app.use('/', home);
+app.use('/', web);
 app.use('/users', users);
 app.use('/api', apiRoutes);
 
