@@ -1,5 +1,7 @@
 var express = require('express');
 var passport = require('passport');
+var jwt = require('jwt-simple');
+var config = require('../config/settings');
 var user = require("../core/user");
 var model = require("../models/user")
 
@@ -33,7 +35,8 @@ apiRoutes.post('/signup', function (req, res) {
 });
 
 apiRoutes.post('/authenticate', function (req, res) {
-  if (req.body.name === "" || req.body.name === "undefined" || req.body.pass === "" || req.body.pass === "undefined")
+  if (req.body.name === "" || req.body.name === "undefined" || req.body.pass === "" || req.body.pass === "undefined"
+  || !req.body.name || !req.body.pass)
     res.json({ success: false, message: 'Must provide a user name and a password.' });
   else
     user.read(req.body.name, function (err, user) {
