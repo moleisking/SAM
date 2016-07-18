@@ -1,0 +1,1 @@
+{"version":3,"sources":["config/settings.ts"],"names":[],"mappings":";AAAa,gBAAQ,GAAG;IACpB,WAAW,EAAE,uBAAuB;CACvC,CAAC","file":"config/settings.js","sourcesContent":["export const Settings = {\r\n    backend_url: \"http://localhost:3003\"\r\n};"],"sourceRoot":"/source/"}

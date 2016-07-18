@@ -1,0 +1,1 @@
+{"version":3,"sources":["models/user.ts"],"names":[],"mappings":";AAAA;IACE,cACS,IAAY,EACZ,IAAY;QADZ,SAAI,GAAJ,IAAI,CAAQ;QACZ,SAAI,GAAJ,IAAI,CAAQ;IAAI,CAAC;IAC5B,WAAC;AAAD,CAJA,AAIC,IAAA;AAJY,YAAI,OAIhB,CAAA","file":"models/user.js","sourcesContent":["export class User {\r\n  constructor(\r\n    public name: string,\r\n    public pass: string) { }\r\n}"],"sourceRoot":"/source/"}

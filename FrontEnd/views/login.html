@@ -1,0 +1,6 @@
+<h2>Login</h2>
+<input type="text" name="username" placeholder="Username" [(ngModel)]="localUser.name" />
+<input type="text" name="password" placeholder="Password" [(ngModel)]="localUser.pass" />
+<input type="submit" value="Login" (click)="login()"/>
+<input type="submit" value="Register" (click)="register()"/>
+<p>{{ message }}</p>
