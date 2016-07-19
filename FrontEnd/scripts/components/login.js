@@ -9,43 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var auth_1 = require("../services/auth");
-var user_1 = require("../services/user");
-var router_1 = require("@angular/router");
+var login_form_1 = require("./login-form");
 var Login = (function () {
-    function Login(auth, user, router) {
-        this.auth = auth;
-        this.user = user;
-        this.router = router;
-        this.localUser = {
-            name: "",
-            pass: ""
-        };
-        this.message = "login";
+    function Login() {
     }
-    Login.prototype.login = function () {
-        var _this = this;
-        this.auth.login(this.localUser).then(function () {
-            _this.router.navigate(["/dashboard"]);
-        }, function (res) {
-            _this.message = "invalid user";
-        });
-    };
-    Login.prototype.register = function () {
-        var _this = this;
-        this.user.register(this.localUser).then(function () {
-            _this.message = "user registered";
-        }, function (res) {
-            _this.message = res;
-        });
-    };
     Login = __decorate([
         core_1.Component({
             selector: "login-component",
             templateUrl: "/views/login.html",
-            providers: [user_1.UserService, auth_1.AuthService]
+            directives: [login_form_1.LoginFormComponent]
         }), 
-        __metadata('design:paramtypes', [auth_1.AuthService, user_1.UserService, router_1.Router])
+        __metadata('design:paramtypes', [])
     ], Login);
     return Login;
 }());
