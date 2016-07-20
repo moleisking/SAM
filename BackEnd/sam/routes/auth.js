@@ -3,6 +3,7 @@ var passport = require('passport');
 var jwt = require('jwt-simple');
 var config = require('../config/settings');
 var user = require("../core/user");
+var emailer = require("../core/emailer");
 var model = require("../models/user")
 
 var apiRoutes = express.Router();
@@ -23,7 +24,7 @@ apiRoutes.post('/signup', function (req, res) {
           data = model.create();
           data.name = req.body.name;
           data.pass = req.body.pass;
-          // data.email = req.body.email;
+          data.email = req.body.email;
           user.create(data, function (err, dataCreated) {
             if (err)
               res.json({ success: false, message: JSON.stringify(err) });
@@ -36,7 +37,7 @@ apiRoutes.post('/signup', function (req, res) {
 
 apiRoutes.post('/authenticate', function (req, res) {
   if (req.body.name === "" || req.body.name === "undefined" || req.body.pass === "" || req.body.pass === "undefined"
-  || !req.body.name || !req.body.pass)
+    || !req.body.name || !req.body.pass)
     res.json({ success: false, message: 'Must provide a user name and a password.' });
   else
     user.read(req.body.name, function (err, user) {
@@ -69,6 +70,26 @@ apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), fu
       else
         res.json({ success: true, message: 'Welcome in the dashboard ' + user.name + '!' });
   });
+});
+
+apiRoutes.post('/forgottenpassword', function (req, res) {
+  if (!req.body.email)
+    res.json({ success: false, message: 'Please provide email.' });
+  else
+    user.readByEmail(req.body.email, function (err, data) {
+      if (err && err.id != 5)
+        res.json({ success: false, message: err });
+      else
+        if (!data)
+          res.json({ success: false, message: 'User dont exist.' });
+        else
+          emailer.forgottenpassword(data, function (err, data) {
+            if (err)
+              res.json({ success: false, message: err });
+            else
+              res.json({ success: true, message: data });
+          });
+    });
 });
 
 module.exports = apiRoutes;

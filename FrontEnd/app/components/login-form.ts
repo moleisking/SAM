@@ -21,15 +21,15 @@ export class LoginFormComponent implements OnInit {
     // public events: any[] = []; // list of form changes
     public message: string;
 
-    constructor(private auth: AuthService, private user: UserService, private router: Router, private builder: FormBuilder,
-        private _fb: FormBuilder) {
+    constructor(private auth: AuthService, private user: UserService, private router: Router, private formBuilder: FormBuilder) {
         this.message = "login messages here.";
     }
 
     ngOnInit() {
-        this.myForm = this._fb.group({
+        this.myForm = this.formBuilder.group({
             name: ["", <any>Validators.required],
-            pass: ["", [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(20)]]
+            pass: ["", [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(20)]],
+            email: ["", <any>Validators.required]
         });
 
         // this.subcribeToFormChanges();

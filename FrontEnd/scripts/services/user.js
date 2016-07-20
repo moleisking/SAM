@@ -18,7 +18,7 @@ var UserService = (function () {
     }
     UserService.prototype.register = function (usercreds) {
         var _this = this;
-        var creds = "name=" + usercreds.name + "&pass=" + usercreds.pass;
+        var creds = "name=" + usercreds.name + "&pass=" + usercreds.pass + "&email=" + usercreds.email;
         var headers = new http_1.Headers();
         headers.append("Content-Type", "application/X-www-form-urlencoded");
         return new Promise(function (resolve, reject) {
@@ -37,6 +37,14 @@ var UserService = (function () {
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         return this.http.get(settings_1.Settings.backend_url + "/users", { headers: headers })
             .map(this.extractData)
+            .catch(this.handleError);
+    };
+    UserService.prototype.forgottenpassword = function (form) {
+        var creds = "email=" + form.email;
+        var headers = new http_1.Headers();
+        headers.append("Content-Type", "application/X-www-form-urlencoded");
+        return this.http.post(settings_1.Settings.backend_url + "/api/forgottenpassword", creds, { headers: headers })
+            .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     UserService.prototype.extractData = function (res) {

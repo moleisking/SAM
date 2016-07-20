@@ -9,7 +9,7 @@ export class RoutesManager implements CanActivate {
     constructor(private authService: AuthService, private router: Router) { }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (next.url[0].path === "login")
+        if (next.url[0].path === "login" || next.url[0].path === "forgottenpassword")
             if (localStorage.getItem("auth_key")) {
                 console.log("You already logged in");
                 this.router.navigate(["/dashboard"]);

@@ -17,7 +17,7 @@ var RoutesManager = (function () {
         this.router = router;
     }
     RoutesManager.prototype.canActivate = function (next, state) {
-        if (next.url[0].path === "login")
+        if (next.url[0].path === "login" || next.url[0].path === "forgottenpassword")
             if (localStorage.getItem("auth_key")) {
                 console.log("You already logged in");
                 this.router.navigate(["/dashboard"]);

@@ -11,7 +11,7 @@ export class UserService {
   constructor(private http: Http) { }
 
   register(usercreds) {
-    let creds = "name=" + usercreds.name + "&pass=" + usercreds.pass;
+    let creds = "name=" + usercreds.name + "&pass=" + usercreds.pass + "&email=" + usercreds.email;
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");
 
@@ -35,6 +35,16 @@ export class UserService {
 
     return this.http.get(Settings.backend_url + "/users", { headers: headers })
       .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  forgottenpassword(form): Observable<any> {
+    let creds = "email=" + form.email;
+    let headers = new Headers();
+    headers.append("Content-Type", "application/X-www-form-urlencoded");
+
+    return this.http.post(Settings.backend_url + "/api/forgottenpassword", creds, { headers: headers })
+      .map((res: Response) => res.json())
       .catch(this.handleError);
   }
 

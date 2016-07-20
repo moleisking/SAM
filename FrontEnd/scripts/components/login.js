@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var login_form_1 = require("./login-form");
 var Login = (function () {
     function Login() {
@@ -17,7 +18,7 @@ var Login = (function () {
         core_1.Component({
             selector: "login-component",
             templateUrl: "/views/login.html",
-            directives: [login_form_1.LoginFormComponent]
+            directives: [router_1.ROUTER_DIRECTIVES, login_form_1.LoginFormComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], Login);

@@ -27,6 +27,8 @@ module.exports = {
     },
 
     read: function (id, cb) {
+        if (id === null || id === undefined)
+            return cb("Must provide a valid value.", null);
         myCache.get("readUser" + id, function (err, value) {
             if (err)
                 return cb(err, null);
@@ -53,6 +55,8 @@ module.exports = {
     },
 
     delete: function (id, cb) {
+        if (id === null || id === undefined)
+            return cb("Must provide a valid value.", null);
         _delete(id, function (err, value) {
             if (err)
                 return cb(err, null);
@@ -79,6 +83,34 @@ module.exports = {
                                     return cb(err, null);
                                 if (success)
                                     return cb(null, readAll);
+                                else
+                                    return cb('cache internal failure', null);
+                            });
+                        }
+                    });
+                else
+                    return cb(null, value);
+            }
+        });
+    },
+
+    readByEmail: function (id, cb) {
+        if (id === null || id === undefined)
+            return cb("Must provide a valid value.", null);
+        myCache.get("readUserByEmail" + id, function (err, value) {
+            if (err)
+                return cb(err, null);
+            else {
+                if (value === undefined)
+                    _readByEmail(id, function (err, readValue) {
+                        if (err)
+                            return cb(err, null);
+                        else {
+                            myCache.set("readUserByEmail" + id, readValue, function (err, success) {
+                                if (err)
+                                    return cb(err, null);
+                                if (success)
+                                    return cb(null, readValue);
                                 else
                                     return cb('cache internal failure', null);
                             });
@@ -117,6 +149,24 @@ function _read(id, cb) {
             if (err)
                 return cb(err, null);
             else {
+                var user = model.create();
+                user.update(data);
+                return cb(null, user.toJSON());
+            }
+        });
+    } catch (err) {
+        return cb(err, null);
+    };
+}
+
+function _readByEmail(id, cb) {
+    try {
+        userDAL.readByEmail(id, function (err, data) {
+            if (err)
+                return cb(err, null);
+            else {
+                if (!data)
+                    return cb('User not found', null);
                 var user = model.create();
                 user.update(data);
                 return cb(null, user.toJSON());

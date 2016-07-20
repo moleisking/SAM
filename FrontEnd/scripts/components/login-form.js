@@ -16,18 +16,18 @@ var auth_1 = require("../services/auth");
 var user_1 = require("../services/user");
 // import { User } from "../models/user";
 var LoginFormComponent = (function () {
-    function LoginFormComponent(auth, user, router, builder, _fb) {
+    function LoginFormComponent(auth, user, router, formBuilder) {
         this.auth = auth;
         this.user = user;
         this.router = router;
-        this.builder = builder;
-        this._fb = _fb;
+        this.formBuilder = formBuilder;
         this.message = "login messages here.";
     }
     LoginFormComponent.prototype.ngOnInit = function () {
-        this.myForm = this._fb.group({
+        this.myForm = this.formBuilder.group({
             name: ["", common_1.Validators.required],
-            pass: ["", [common_1.Validators.required, common_1.Validators.minLength(3), common_1.Validators.maxLength(20)]]
+            pass: ["", [common_1.Validators.required, common_1.Validators.minLength(5), common_1.Validators.maxLength(20)]],
+            email: ["", common_1.Validators.required]
         });
         // this.subcribeToFormChanges();
     };
@@ -65,7 +65,7 @@ var LoginFormComponent = (function () {
             styleUrls: ["/styles/login-form.css"],
             directives: [forms_1.REACTIVE_FORM_DIRECTIVES]
         }), 
-        __metadata('design:paramtypes', [auth_1.AuthService, user_1.UserService, router_1.Router, forms_1.FormBuilder, forms_1.FormBuilder])
+        __metadata('design:paramtypes', [auth_1.AuthService, user_1.UserService, router_1.Router, forms_1.FormBuilder])
     ], LoginFormComponent);
     return LoginFormComponent;
 }());
