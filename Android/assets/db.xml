@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Items>
+	<Item id="1">
+		<ID>1</ID>
+		<Name>Name1</Name>
+		<Text>Text1</Text>
+		<Image>user1.png</Image>
+		<Address>calle de la arquitectura 3 , Madrid, Spain</Address>
+		<Phone>Phone1</Phone>
+		<Price>89</Price>
+	</Item>
+	<Item id="2">
+		<ID>2</ID>
+		<Name>Name2</Name>
+		<Text>Text2</Text>
+		<Image>user2.png</Image>
+		<Address>Address2</Address>
+		<Phone>Phone2</Phone>
+		<Price>90</Price>
+	</Item>
+	<Item id="3">
+		<ID>3</ID>
+		<Name>Name3</Name>
+		<Text>Text3</Text>
+		<Image>user3.png</Image>
+		<Address>Address3</Address>
+		<Phone>Phone3</Phone>
+		<Price>91</Price>
+	</Item>
+</Items>

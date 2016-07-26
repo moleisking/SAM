@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="author_name">Scott_Johnston</string>
+    <string name="author_contact">none</string>
+    <string name="app_name">Last Second Deal</string>
+    <string name="app_creator">ScottJohnston</string>
+    <string name="webservice_ip">192.168.1.10</string>
+    <string name="webservice_port">8080</string>      
+    <string name="tab_map">Map</string>
+    <string name="tab_list">List</string>
+    <string name="btn_quit">Quit</string>
+    <string name="btn_phone">Phone</string>
+    <string name="btn_about">About</string>
+    <string name="lbl_name">Name</string>
+    <string name="lbl_description">Description</string>
+    <string name="lbl_address">Address</string>
+    <string name="lbl_price">Price</string>
+    <string name="lbl_phone">Phone</string>
+</resources>
