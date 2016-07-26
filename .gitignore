@@ -3,4 +3,3 @@ node_modules
 *.log
 *.gz
 SAM.json
-settingsmail.js
