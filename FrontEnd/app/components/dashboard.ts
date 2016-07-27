@@ -1,5 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+
+import { Tabs } from "./tabs";
+import { Tab } from "./tab";
+
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
 import { User } from "../models/user";
@@ -7,7 +11,8 @@ import { User } from "../models/user";
 @Component({
     selector: "dashboard-component",
     templateUrl: "/views/dashboard.html",
-    providers: [AuthService, UserService]
+    providers: [AuthService, UserService],
+    directives: [Tabs, Tab]
 })
 
 export class Dashboard implements OnInit {

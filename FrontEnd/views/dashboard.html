@@ -1,10 +1,14 @@
 <h2>Dashboard</h2>
-{{ message }}
-<p>
-  <button (click)="logout()">Logout</button>
-</p>
-<ul>
-  <li *ngFor="let user of users">
-    {{ user.name }}
-  </li>
-</ul>
+<div class="well">
+  {{ message }} <button (click)="logout()">Logout</button>
+</div>
+<tabs>
+  <tab [tabTitle]="'My profile'">
+    My profile
+  </tab>
+  <tab tabTitle="Users">
+    <div class="list-group">
+      <a href="#" class="list-group-item" *ngFor="let user of users">{{ user.name }}</a>
+    </div>
+  </tab>
+</tabs>
