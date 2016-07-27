@@ -1,11 +1,17 @@
 import { Component } from "@angular/core";
 import { ROUTER_DIRECTIVES } from "@angular/router";
 
+import { Login } from "./components/login";
+import { About } from "./components/about";
+import { Dashboard } from "./components/dashboard";
+import { ForgottenPassword } from "./components/forgottenpassword";
+
 @Component({
   selector: "app-root",
   templateUrl: "/views/app-root.html",
   styleUrls: ["/styles/app-root.css"],
-  directives: [ROUTER_DIRECTIVES]
+  directives: [ROUTER_DIRECTIVES],
+  precompile: [Login, About, Dashboard, ForgottenPassword]
 })
 
 export class AppComponent { }
