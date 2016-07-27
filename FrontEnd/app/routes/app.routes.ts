@@ -7,11 +7,11 @@ import { Dashboard } from "../components/dashboard";
 import { ForgottenPassword } from "../components/forgottenpassword";
 
 export const routes: RouterConfig = [
-  { path: "", redirectTo: "dashboard", pathMatch: "full" },
   { path: "login", component: Login, canActivate: [RoutesManager] },
   { path: "dashboard", component: Dashboard, canActivate: [RoutesManager] },
   { path: "about", component: About },
-  { path: "forgottenpassword", component: ForgottenPassword, canActivate: [RoutesManager] }
+  { path: "forgottenpassword", component: ForgottenPassword, canActivate: [RoutesManager] },
+  { path: "", redirectTo: "dashboard", pathMatch: "full" }
 ];
 
 export const AppRouterProvider = provideRouter(routes);
