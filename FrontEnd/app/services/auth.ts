@@ -17,6 +17,7 @@ export class AuthService {
       this.http.post(Settings.backend_url + "/api/authenticate", creds, { headers: headers }).subscribe(
         (data) => {
           if (data.json().success) {
+            localStorage.setItem("auth_key_name", usercreds.name);
             localStorage.setItem("auth_key", data.json().token.split(" ")[1]);
             resolve(true);
           }
@@ -31,11 +32,11 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem("auth_key");
+    localStorage.removeItem("auth_key_name");
   }
 
   isLoggedIn() {
     if (localStorage.getItem("auth_key") !== null)
       return true;
   }
-
 }

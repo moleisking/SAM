@@ -1,0 +1,13 @@
+<div class="container">
+    <form [formGroup]="myForm" novalidate>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" formControlName="description" name="description" value="{{ description }}" />
+            <small [hidden]="myForm.controls.description.valid || (myForm.controls.description.pristine && !submitted)" class="text-danger">
+                Description is required.
+            </small>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="save(myForm)">Save</button>
+        <p>{{ message }}</p>
+    </form>
+</div>

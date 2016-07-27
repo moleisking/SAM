@@ -49,7 +49,25 @@ module.exports = {
         } catch (err) {
             return cb(err, null);
         }
-    }
+    },
+
+    saveProfile: function (username, data, cb) {
+        try {
+            db.push(_path + "/profile" + username, data);
+            cb(null, data);
+        } catch (error) {
+            return cb(error, null);
+        }
+    },
+
+    readProfile: function (username, cb) {
+        try {
+            var data = db.getData(_path + "/profile" + username);
+            return cb(null, data);
+        } catch (err) {
+            return cb(err, null);
+        }
+    },
 }
 
 

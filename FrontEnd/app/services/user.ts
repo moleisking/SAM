@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import { Settings } from "../config/settings";
 import { User } from "../models/user";
+import { Profile } from "../models/profile";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
@@ -29,11 +30,42 @@ export class UserService {
     });
   }
 
+  saveprofile(profileform) {
+    let creds = "description=" + profileform.description + "&name=" + profileform.name;
+    let headers = new Headers();
+    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+    headers.append("Content-Type", "application/X-www-form-urlencoded");
+
+    return new Promise((resolve, reject) => {
+      this.http.post(Settings.backend_url + "/users/saveprofile", creds, { headers: headers })
+        .catch(this.handleError)
+        .subscribe((data) => {
+          if (data.json().success)
+            resolve(true);
+          else {
+            console.log(data.json().message);
+            reject(data.json().message);
+          }
+        })
+    });
+  }
+
   all(): Observable<User[]> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
 
     return this.http.get(Settings.backend_url + "/users", { headers: headers })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getLoggedProfile(): Observable<Profile> {
+    let headers = new Headers();
+    let creds = "name=" + localStorage.getItem("auth_key_name");
+    headers.append("Content-Type", "application/X-www-form-urlencoded");
+    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+
+    return this.http.post(Settings.backend_url + "/users/getprofile", creds, { headers: headers })
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -44,7 +76,7 @@ export class UserService {
     headers.append("Content-Type", "application/X-www-form-urlencoded");
 
     return this.http.post(Settings.backend_url + "/api/forgottenpassword", creds, { headers: headers })
-      .map((res: Response) => res.json())
+      .map(this.extractData)
       .catch(this.handleError);
   }
 
