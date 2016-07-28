@@ -14,3 +14,9 @@ git push origin Scott
 git add .
 git commit -m "Add existing file"
 git push origin Scott
+
+#Download Latest Code
+git pull origin Scott
+
+#Upload Latest Code
+git push origin Scott
