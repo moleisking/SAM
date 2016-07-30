@@ -28,8 +28,7 @@ export class LoginFormComponent implements OnInit {
     ngOnInit() {
         this.myForm = this.formBuilder.group({
             name: ["", <any>Validators.required],
-            pass: ["", [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(20)]],
-            email: ["", <any>Validators.required]
+            pass: ["", [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(20)]]
         });
 
         // this.subcribeToFormChanges();
@@ -54,18 +53,5 @@ export class LoginFormComponent implements OnInit {
                 this.message = "invalid user";
             }
         )
-    }
-
-    register() {
-        this.submitted = true;
-        console.log(this.myForm.value);
-        this.user.register(this.myForm.value).then(
-            () => {
-                this.message = "user registered";
-            },
-            (res) => {
-                this.message = res;
-            }
-        );
     }
 }

@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { ROUTER_DIRECTIVES } from "@angular/router";
 
+import { Home } from "./components/home";
+import { Register } from "./components/register";
 import { Login } from "./components/login";
 import { About } from "./components/about";
 import { Dashboard } from "./components/dashboard";
@@ -11,7 +13,7 @@ import { ForgottenPassword } from "./components/forgottenpassword";
   templateUrl: "/views/app-root.html",
   styleUrls: ["/styles/app-root.css"],
   directives: [ROUTER_DIRECTIVES],
-  precompile: [Login, About, Dashboard, ForgottenPassword]
+  precompile: [Home, Register, Login, About, Dashboard, ForgottenPassword]
 })
 
 export class AppComponent { }

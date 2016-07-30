@@ -14,19 +14,14 @@
                 Password is required. Min 5 chars and max 20 chars.
             </small>
         </div>
-        <button type="submit" class="btn btn-default" [disabled]="!myForm.valid" (click)="login(myForm)">Login</button>
-        <!--<pre>{{ myForm.controls.name.errors | json }}</pre>
-        <pre>{{ myForm.controls.pass.errors | json }}</pre>
-        <div *ngIf="submitted">
-            <div>myForm details:</div>
-            <pre>Is myForm valid?: <br>{{myForm.valid | json}}</pre>
-            <pre>Is myForm submitted?: <br>{{submitted | json}}</pre>
-            <pre>submitted value: <br>{{myForm.value | json}}</pre>
-        </div>-->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" formControlName="email" name="email" />
+            <small [hidden]="myForm.controls.email.valid || (myForm.controls.email.pristine && !submitted)" class="text-danger">
+                Email is required.
+            </small>
+        </div>
+        <button type="submit" class="btn btn-default" [disabled]="!myForm.valid" (click)="register(myForm)">Register</button>
         <p>{{ message }}</p>
     </form>
 </div>
-<!--Form changes:
-<div *ngFor="let event of events">
-   <pre> {{ event | json }} </pre>
-</div>-->
