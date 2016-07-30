@@ -1,6 +1,9 @@
 # SAM
 SAM
 
+#Clone
+git clone https://github.com/moleisking/SAM.git
+
 #Delete Branch
 git push origin :Scott
 
