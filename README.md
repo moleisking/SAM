@@ -4,9 +4,6 @@ SAM
 #Clone
 git clone https://github.com/moleisking/SAM.git
 
-#Delete Branch
-git push origin :Scott
-
 #Create Branch
 git checkout -b Scott
 
@@ -23,3 +20,6 @@ git pull origin Scott
 
 #Upload Latest Code
 git push origin Scott
+
+#Delete Branch
+git push origin :Scott
