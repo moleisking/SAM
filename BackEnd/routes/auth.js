@@ -20,18 +20,13 @@ apiRoutes.post('/signup', function (req, res) {
       else
         if (data)
           res.json({ success: false, message: 'User Already Exists' });
-        else {
-          data = model.create();
-          data.name = req.body.name;
-          data.pass = req.body.pass;
-          data.email = req.body.email;
-          user.create(data, function (err, dataCreated) {
+        else
+          user.create(req.body, function (err, dataCreated) {
             if (err)
               res.json({ success: false, message: JSON.stringify(err) });
             else
               res.json({ success: true, message: 'Successful created new user.' });
           });
-        }
     });
 });
 

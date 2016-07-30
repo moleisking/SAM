@@ -25,11 +25,10 @@ var user = new model("User")
         },
         // tags: ['private'] //this tags the accessibility as _private_ 
     })
+    .attr('admin')
     .attr('email');
-    // .attr('age');
 
 module.exports = user;
-
 
 module.exports.generateHash = function (password) {
     return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
