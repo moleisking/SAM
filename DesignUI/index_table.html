@@ -17,8 +17,8 @@
 
   <body role="document">
 
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+     <!--Start Navbar -->
+   <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -27,29 +27,37 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="http://getbootstrap.com/examples/theme/#">Company Name</a>
+          <a class="navbar-brand" href="./about.html">Company Name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 		 <ul class="nav navbar-nav">
-		  <li class="active"><a href="http://getbootstrap.com/examples/theme/#">Home</a></li>
-          <li><a href="http://getbootstrap.com/examples/theme/#about">About</a></li>
-          <li><a href="http://getbootstrap.com/examples/theme/#contact">Contact</a></li> 
-		  <li><a href="http://getbootstrap.com/examples/theme/#contact"><span class="lang-sm lang-lbl" lang="en"></span>English</a></li> 
-          <li><a href="http://getbootstrap.com/examples/theme/#contact"><span class="lang-sm lang-lbl" lang="es"></span>Spanish</a></li> 		  
+		  <li class="active"><a href="./about.html">Home</a></li>
+          <li><a href="./about.html">About</a></li>
+          <li><a href="./message.html">Messages</a></li>
+          <li><a href="./transaction.html">Transactions</a></li>
+          <li><a href="./contact.html">Contact</a></li> 
+		  <li><a href="./about.html"><span class="lang-sm lang-lbl" lang="en"></span>English</a></li> 
+          <li><a href="./about.html"><span class="lang-sm lang-lbl" lang="es"></span>Spanish</a></li> 		  
          </ul>
 		 <ul class="nav navbar-nav navbar-right">			
-		  <li><a href="http://getbootstrap.com/examples/theme/#contact"><span class="glyphicon glyphicon-user"></span> Login</a></li>  
-		  <li><a href="http://getbootstrap.com/examples/theme/#contact"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li> 
+		  <li><a href="./login.html"><span class="glyphicon glyphicon-user"></span> Login</a></li>  
+		  <li><a href="./about.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li> 
 		 </ul> 	
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </nav>
+  <!--End Navbar -->
 
-    <div class="container theme-showcase" role="main">
- <div class="jumbotron">
-        <h1>Search</h1>
-        <input id="txtSearch" name="txtSearch" type="text" class="form-control" placeholder="Search"></input>
-      </div>
+
+    <!--Start Searchbar -->
+  <div class="container theme-showcase" role="main">    
+      <br>
+        <div class="jumbotron row">
+	          <div class="col-sm-10"><input id="txtSearch" name="txtSearch" type="text" class="form-control" placeholder="Search"></input></div>
+        	  <div class="col-sm-2"><button id="btnSearch" name="btnSearch" type="button" class="form-control" ><span class="glyphicon glyphicon-search"></span></button></div>		
+		    </div>		 
+  </div>
+  <!--End Searchbar -->
      
       
 <div class="container">
@@ -58,34 +66,27 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Name</th>
-		<th>Email</th>
-		<th>Telephone</th>
-		<th>Rating</th>
-		<th>Price</th>
+        <th>Name</th>	
+		    <th>Telephone</th>
+		    <th>Rating</th>
+		    <th>Price</th>
+    	  <th>Contact</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody>     
       <tr>
-        <td>John</td>        
-        <td>john@example.com</td>
-		<td>Doe</td>
-		<td>Doe</td>
-		<td>Doe</td>
+        <td>Mary Moe</td>
+        <td>+34 555 6869</td>
+        <td>5 Star</td>
+		    <td>50 EUR per hour</td>
+		    <td><button id="btnContact1" name="btnContact1" type="button" class="btn btn-default">Contact</button> </td>
       </tr>
       <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td>mary@example.com</td>
-		<td>Doe</td>
-		<td>Doe</td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>july@example.com</td>
-		<td>Doe</td>
-		<td>Doe</td>
+        <td>July Dooley</td>
+        <td>+34 555 7869</td>
+        <td>3 star</td>
+		    <td>20 EUR per hour</td>
+		    <td><button id="btnContact2" name="btnContact2" type="button" class="btn btn-default">Contact</button> </td>
       </tr>
     </tbody>
   </table>
