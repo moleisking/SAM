@@ -22,4 +22,19 @@ export class WebService {
       )
     });
   }
+
+    termsConditions() {
+    return new Promise((resolve) => {
+      this.http.get(Settings.backend_url + "/termsconditions").subscribe(
+        (data) => {
+          if (data.json().success)
+            resolve(data.json().data);
+          else {
+            console.log(data.json().message);
+            resolve(data.json().message);
+          }
+        }
+      )
+    });
+  }
 }
