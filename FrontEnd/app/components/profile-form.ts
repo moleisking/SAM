@@ -5,7 +5,7 @@ import { Validators } from "@angular/common";
 import { UserService } from "../services/user";
 
 @Component({
-    selector: "profile-form",
+    selector: "profile-form-component",
     providers: [UserService],
     templateUrl: "/views/profile-form.html",
     styleUrls: ["/styles/profile-form.css"],

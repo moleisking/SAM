@@ -6,7 +6,7 @@ import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
 
 @Component({
-    selector: "register-form",
+    selector: "register-form-component",
     providers: [UserService, AuthService],
     templateUrl: "/views/register-form.html",
     styleUrls: ["/styles/register-form.css"],

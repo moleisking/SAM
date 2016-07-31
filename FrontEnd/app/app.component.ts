@@ -8,13 +8,14 @@ import { About } from "./components/about";
 import { Dashboard } from "./components/dashboard";
 import { ForgottenPassword } from "./components/forgottenpassword";
 import { TermsConditions } from "./components/termsconditions";
+import { ContactUs } from "./components/contactus";
 
 @Component({
   selector: "app-root",
   templateUrl: "/views/app-root.html",
   styleUrls: ["/styles/app-root.css"],
   directives: [ROUTER_DIRECTIVES],
-  precompile: [Home, Register, Login, About, Dashboard, ForgottenPassword, TermsConditions ]
+  precompile: [Home, Register, Login, About, Dashboard, ForgottenPassword, TermsConditions, ContactUs ]
 })
 
 export class AppComponent { }

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var web = require("../core/web");
+var emailer = require("../core/emailer");
 
 router.get('/about', function (req, res, next) {
   web.about(function (err, data) {
@@ -18,6 +19,20 @@ router.get('/termsconditions', function (req, res, next) {
     else
       res.json({ success: true, data: data });
   })
+});
+
+router.post('/sendcontactform', function (req, res, next) {
+  if (!req.body.message || !req.body.email)
+    res.json({ success: false, message: 'Please pass message and email.' });
+  else
+    emailer.sendContactForm(req.body, function (err, data) {
+      if (err) {
+        // res.status(500);
+        return next(err);
+      }
+      else
+        res.json({ success: true, message: data });
+    });
 });
 
 module.exports = router;

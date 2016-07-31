@@ -7,7 +7,7 @@ import { UserService } from "../services/user";
 // import { User } from "../models/user";
 
 @Component({
-    selector: "login-form",
+    selector: "login-form-component",
     providers: [UserService, AuthService],
     templateUrl: "/views/login-form.html",
     styleUrls: ["/styles/login-form.css"],
