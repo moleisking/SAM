@@ -1,66 +1,87 @@
 {
     "tags": {
         "gardening": {
+            "name": "Gardening",
             "description": "Gardening"
         },
         "cleaning": {
+            "name": "Cleaning",
             "description": "Cleaning"
         },
         "house-improvements": {
+            "name": "House improvements",
             "description": "House improvements"
         },
         "repair": {
+            "name": "Repair",
             "description": "Repair"
         },
         "baby-sitting": {
+            "name": "Baby sitting",
             "description": "Baby sitting"
         },
         "pet-sitting": {
+            "name": "Pet sitting",
             "description": "Pet sitting"
         },
         "moving-shipping": {
+            "name": "Moving and shipping",
             "description": "Moving and shipping"
         },
         "specialised-care": {
+            "name": "Specialised care",
             "description": "Specialised care (nurse, care for elderly or disabled people)"
         },
         "art": {
+            "name": "Art",
             "description": "Art"
         },
         "events-party": {
+            "name": "Events and party",
             "description": "Events and party"
         },
         "wedding": {
+            "name": "Wedding",
             "description": "Wedding"
         },
         "catering-waiter-chef": {
+            "name": "Catering waiter chef",
             "description": "Catering waiter chef"
         },
         "music": {
+            "name": "Music",
             "description": "Music (singer - Dj)"
         },
         "photographer": {
+            "name": "Photographer",
             "description": "Photographer"
         },
         "lessons": {
+            "name": "Lessons",
             "description": "Lessons (music and languages)"
         },
         "beauty": {
+            "name": "Beauty",
             "description": "Beauty (hairdresser, manicure, make up, hair removal)"
         },
         "wellness": {
+            "name": "Wellness",
             "description": "Wellness (personal trainer, nutritionist)"
         },
         "personal-assistant": {
+            "name": "Personal assistant",
             "description": "Personal assistant (chauffeur, secretary, body guard)"
         },
         "hostess-modelling": {
+            "name": "Hostess and Modelling",
             "description": "Hostess and Modelling"
         },
         "it": {
+            "name": "IT",
             "description": "IT (Computer repairing and installations)"
         },
         "pr": {
+            "name": "PR",
             "description": "PR (flyers distribution)"
         }
     }

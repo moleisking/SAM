@@ -35,12 +35,12 @@ module.exports = {
         myCache.get("readUser" + id, function (err, value) {
             if (err)
                 return cb(err, null);
-            else {
+            else
                 if (value == undefined)
                     _read(id, function (err, readValue) {
                         if (err)
                             return cb(err, null);
-                        else {
+                        else
                             myCache.set("readUser" + id, readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
@@ -49,11 +49,9 @@ module.exports = {
                                 else
                                     return cb('cache internal failure', null);
                             });
-                        }
                     });
                 else
                     return cb(null, value);
-            }
         });
     },
 
@@ -75,12 +73,12 @@ module.exports = {
         myCache.get("all", function (err, value) {
             if (err)
                 return cb(err, null);
-            else {
+            else
                 if (value == undefined)
                     _all(function (err, readAll) {
                         if (err)
                             return cb(err, null);
-                        else {
+                        else
                             myCache.set("all", readAll, function (err, success) {
                                 if (err)
                                     return cb(err, null);
@@ -89,11 +87,9 @@ module.exports = {
                                 else
                                     return cb('cache internal failure', null);
                             });
-                        }
                     });
                 else
                     return cb(null, value);
-            }
         });
     },
 
@@ -103,12 +99,12 @@ module.exports = {
         myCache.get("readUserByEmail" + id, function (err, value) {
             if (err)
                 return cb(err, null);
-            else {
+            else
                 if (value === undefined)
                     _readByEmail(id, function (err, readValue) {
                         if (err)
                             return cb(err, null);
-                        else {
+                        else
                             myCache.set("readUserByEmail" + id, readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
@@ -117,11 +113,9 @@ module.exports = {
                                 else
                                     return cb('cache internal failure', null);
                             });
-                        }
                     });
                 else
                     return cb(null, value);
-            }
         });
     },
 
@@ -153,18 +147,18 @@ module.exports = {
         });
     },
 
-	getProfile: function (name, cb) {
+    getProfile: function (name, cb) {
         if (name === null || name === undefined)
             return cb("Must provide a valid name.", null);
         myCache.get("readUserProfile" + name, function (err, value) {
             if (err)
                 return cb(err, null);
-            else {
+            else
                 if (value == undefined)
                     _readProfile(name, function (err, readValue) {
                         if (err)
                             return cb(err, null);
-                        else {
+                        else
                             myCache.set("readUserProfile" + name, readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
@@ -173,11 +167,9 @@ module.exports = {
                                 else
                                     return cb('cache internal failure', null);
                             });
-                        }
                     });
                 else
                     return cb(null, value);
-            }
         });
     },
 }

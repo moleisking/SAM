@@ -30,7 +30,7 @@ export class UserService {
     });
   }
 
-  saveprofile(profileform) {
+  saveProfile(profileform) {
     let creds = "description=" + profileform.description + "&name=" + profileform.name;
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));

@@ -7,12 +7,12 @@ module.exports = {
         myCache.get("about", function (err, value) {
             if (err)
                 return cb(err, null);
-            else {
+            else
                 if (value == undefined)
                     _about(function (err, readValue) {
                         if (err)
                             return cb(err, null);
-                        else {
+                        else
                             myCache.set("about", readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
@@ -21,11 +21,9 @@ module.exports = {
                                 else
                                     return cb('cache internal failure', null);
                             });
-                        }
                     });
                 else
                     return cb(null, value);
-            }
         });
     },
 
@@ -33,12 +31,12 @@ module.exports = {
         myCache.get("termsConditions", function (err, value) {
             if (err)
                 return cb(err, null);
-            else {
+            else
                 if (value == undefined)
                     _termsConditions(function (err, readValue) {
                         if (err)
                             return cb(err, null);
-                        else {
+                        else
                             myCache.set("termsConditions", readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
@@ -47,11 +45,9 @@ module.exports = {
                                 else
                                     return cb('cache internal failure', null);
                             });
-                        }
                     });
                 else
                     return cb(null, value);
-            }
         });
     },
 }

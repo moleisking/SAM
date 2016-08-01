@@ -40,7 +40,7 @@ export class ProfileFormComponent implements OnInit {
     save() {
         this.submitted = true;
         this.message = "User profile sent.";
-        this.user.saveprofile(this.myForm.value).then(
+        this.user.saveProfile(this.myForm.value).then(
             () => {
                 this.message = "User profile saved.";
             },

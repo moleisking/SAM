@@ -9,12 +9,14 @@ import { TermsConditions } from "../components/termsconditions";
 import { ContactUs } from "../components/contactus";
 import { Dashboard } from "../components/dashboard";
 import { ForgottenPassword } from "../components/forgottenpassword";
+import { Categories } from "../components/categories";
 
 export const routes: RouterConfig = [
   { path: "home", component: Home },
   { path: "login", component: Login, canActivate: [RoutesManager] },
   { path: "register", component: Register, canActivate: [RoutesManager] },
   { path: "dashboard", component: Dashboard, canActivate: [RoutesManager] },
+  { path: "categories", component: Categories },
   { path: "about", component: About },
   { path: "contactus", component: ContactUs },
   { path: "termsconditions", component: TermsConditions },

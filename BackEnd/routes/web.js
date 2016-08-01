@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var web = require("../core/web");
+var cat = require("../core/categories");
 var emailer = require("../core/emailer");
 
 router.get('/about', function (req, res, next) {
@@ -33,6 +34,15 @@ router.post('/sendcontactform', function (req, res, next) {
       else
         res.json({ success: true, message: data });
     });
+});
+
+router.get('/categories', function (req, res, next) {
+  cat.all(function (err, data) {
+    if (err)
+      res.json({ success: false, message: err });
+    else
+      res.json({ success: true, data: data });
+  })
 });
 
 module.exports = router;

@@ -21,7 +21,7 @@ export class Dashboard implements OnInit {
     private message: string;
     private users: User[];
 
-    constructor(public authService: AuthService, public user: UserService, public router: Router) {
+    constructor(private authService: AuthService, private user: UserService, private router: Router) {
         this.message = "SAM";
     }
 
