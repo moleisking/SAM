@@ -1,0 +1,67 @@
+{
+    "tags": {
+        "gardening": {
+            "description": "Gardening"
+        },
+        "cleaning": {
+            "description": "Cleaning"
+        },
+        "house-improvements": {
+            "description": "House improvements"
+        },
+        "repair": {
+            "description": "Repair"
+        },
+        "baby-sitting": {
+            "description": "Baby sitting"
+        },
+        "pet-sitting": {
+            "description": "Pet sitting"
+        },
+        "moving-shipping": {
+            "description": "Moving and shipping"
+        },
+        "specialised-care": {
+            "description": "Specialised care (nurse, care for elderly or disabled people)"
+        },
+        "art": {
+            "description": "Art"
+        },
+        "events-party": {
+            "description": "Events and party"
+        },
+        "wedding": {
+            "description": "Wedding"
+        },
+        "catering-waiter-chef": {
+            "description": "Catering waiter chef"
+        },
+        "music": {
+            "description": "Music (singer - Dj)"
+        },
+        "photographer": {
+            "description": "Photographer"
+        },
+        "lessons": {
+            "description": "Lessons (music and languages)"
+        },
+        "beauty": {
+            "description": "Beauty (hairdresser, manicure, make up, hair removal)"
+        },
+        "wellness": {
+            "description": "Wellness (personal trainer, nutritionist)"
+        },
+        "personal-assistant": {
+            "description": "Personal assistant (chauffeur, secretary, body guard)"
+        },
+        "hostess-modelling": {
+            "description": "Hostess and Modelling"
+        },
+        "it": {
+            "description": "IT (Computer repairing and installations)"
+        },
+        "pr": {
+            "description": "PR (flyers distribution)"
+        }
+    }
+}
