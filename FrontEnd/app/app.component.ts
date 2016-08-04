@@ -11,6 +11,7 @@ import { TermsConditions } from "./components/termsconditions";
 import { ContactUs } from "./components/contactus";
 import { Categories } from "./components/categories";
 import { Profile } from "./components/profile";
+import { AddAWork } from "./components/addawork";
 
 import { AuthService } from "./services/auth";
 
@@ -19,7 +20,7 @@ import { AuthService } from "./services/auth";
   templateUrl: "/views/app-root.html",
   styleUrls: ["/styles/app-root.css"],
   directives: [ROUTER_DIRECTIVES],
-  precompile: [Home, Register, Login, About, Dashboard, ForgottenPassword, TermsConditions, ContactUs, Categories, Profile]
+  precompile: [Home, Register, Login, About, Dashboard, ForgottenPassword, TermsConditions, ContactUs, Categories, Profile, AddAWork]
   // ,styles: [`
   //     a.disabled, a.disabled:visited {
   //       pointer-events: none;

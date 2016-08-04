@@ -9,9 +9,11 @@
     '@angular':                   'node_modules/@angular',
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     'rxjs':                       'node_modules/rxjs',
+    'ng2-select':                 'node_modules/ng2-select',
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
+    'ng2-select':                 { main: 'ng2-select.js',  defaultExtension: 'js' },
     'app':                        { main: 'main.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
     'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
@@ -27,6 +29,7 @@
     'router',
     'router-deprecated',
     'upgrade',
+    'ng2-select',
   ];
   // Individual files (~300 requests):
   function packIndex(pkgName) {

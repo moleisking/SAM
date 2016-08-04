@@ -15,6 +15,7 @@
                 <!--<li [routerLinkActive]="['active']" [class.disabled]="isDisabled('Home')"><a [routerLink]="['/home']">Home</a></li>-->
                 <li [routerLinkActive]="['active']"><a [routerLink]="['/home']">Home</a></li>
                 <li [routerLinkActive]="['active']"><a [routerLink]="['/categories']">Categories</a></li>
+                <li [routerLinkActive]="['active']"><a [routerLink]="['/addawork']">Add a work</a></li>
                 <li [routerLinkActive]="['active']" *ngIf="!isDisabledIfLoggedIn()"><a [routerLink]="['/register']">Register</a></li>
                 <li [routerLinkActive]="['active']" *ngIf="!isDisabledIfLoggedIn()"><a [routerLink]="['/login']">Login</a></li>
                 <li [routerLinkActive]="['active']" *ngIf="isDisabledIfLoggedIn()"><a [routerLink]="['/dashboard']">Dashboard</a></li>
