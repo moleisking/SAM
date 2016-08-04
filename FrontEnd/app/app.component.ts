@@ -18,14 +18,14 @@ import { AuthService } from "./services/auth";
   templateUrl: "/views/app-root.html",
   styleUrls: ["/styles/app-root.css"],
   directives: [ROUTER_DIRECTIVES],
-  precompile: [Home, Register, Login, About, Dashboard, ForgottenPassword, TermsConditions, ContactUs, Categories],
-  styles: [`
-      a.disabled, a.disabled:visited {
-        pointer-events: none;
-        cursor: none;
-        color: gray;
-      }`
-  ]
+  precompile: [Home, Register, Login, About, Dashboard, ForgottenPassword, TermsConditions, ContactUs, Categories]
+  // ,styles: [`
+  //     a.disabled, a.disabled:visited {
+  //       pointer-events: none;
+  //       cursor: none;
+  //       color: gray;
+  //     }`
+  // ]
 })
 
 export class AppComponent {

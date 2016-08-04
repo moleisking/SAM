@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
 import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
 import { UserService } from "../services/user";
@@ -19,7 +18,7 @@ export class ProfileFormComponent implements OnInit {
     public message: string;
     public description: string;
 
-    constructor(private user: UserService, private router: Router, private formBuilder: FormBuilder) {
+    constructor(private user: UserService, private formBuilder: FormBuilder) {
         this.message = "Profile form messages will be here.";
     }
 

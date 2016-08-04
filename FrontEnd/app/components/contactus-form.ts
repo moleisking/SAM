@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
 import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
 import { WebService } from "../services/web";
@@ -19,7 +18,7 @@ export class ContactUsFormComponent implements OnInit {
     public message: string;
     public description: string;
 
-    constructor(private web: WebService, private router: Router, private formBuilder: FormBuilder) {
+    constructor(private web: WebService, private formBuilder: FormBuilder) {
         this.message = "Contact Us form messages will be here.";
     }
 

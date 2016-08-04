@@ -81,7 +81,7 @@ export class UserService {
   }
 
   private extractData(res: Response) {
-    console.log(res);
+    // console.log(res);
     let body = res.json();
     return body.data || {};
   }

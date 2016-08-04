@@ -12,7 +12,7 @@ import { ProfileFormComponent } from "./profile-form";
 @Component({
     selector: "dashboard-component",
     templateUrl: "/views/dashboard.html",
-    providers: [AuthService, UserService, ProfileFormComponent],
+    providers: [AuthService, UserService],
     directives: [Tabs, Tab, ProfileFormComponent]
 })
 
@@ -22,7 +22,7 @@ export class Dashboard implements OnInit {
     private users: User[];
 
     constructor(private authService: AuthService, private user: UserService, private router: Router) {
-        this.message = "SAM";
+        this.message = "My Dashboard in SAM";
     }
 
     ngOnInit() {
