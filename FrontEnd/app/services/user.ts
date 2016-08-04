@@ -70,6 +70,17 @@ export class UserService {
       .catch(this.handleError);
   }
 
+  getProfile(id): Observable<Profile> {
+    let headers = new Headers();
+    let creds = "name=" + id;
+    headers.append("Content-Type", "application/X-www-form-urlencoded");
+    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+
+    return this.http.post(Settings.backend_url + "/users/getprofile", creds, { headers: headers })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   forgottenpassword(form): Observable<any> {
     let creds = "email=" + form.email;
     let headers = new Headers();

@@ -10,6 +10,7 @@ import { ContactUs } from "../components/contactus";
 import { Dashboard } from "../components/dashboard";
 import { ForgottenPassword } from "../components/forgottenpassword";
 import { Categories } from "../components/categories";
+import { Profile } from "../components/profile";
 
 export const routes: RouterConfig = [
   { path: "home", component: Home },
@@ -21,6 +22,7 @@ export const routes: RouterConfig = [
   { path: "contactus", component: ContactUs },
   { path: "termsconditions", component: TermsConditions },
   { path: "forgottenpassword", component: ForgottenPassword, canActivate: [RoutesManager] },
+  { path: "profile/:id", component: Profile },
   { path: "", redirectTo: "home", pathMatch: "full" }
 ];
 

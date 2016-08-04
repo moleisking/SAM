@@ -7,8 +7,10 @@
     <profile-form-component></profile-form-component>
   </tab>
   <tab tabTitle="Users">
-    <div class="list-group">
-      <a href="#" class="list-group-item" *ngFor="let user of users">{{ user.name }}</a>
-    </div>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let user of users">
+        <a [routerLink]="['/profile', user.name]">{{ user.name }}</a>
+      </li>
+    </ul>
   </tab>
 </tabs>

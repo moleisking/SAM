@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { ROUTER_DIRECTIVES } from "@angular/router";
 
 import { Tabs } from "./tabs";
 import { Tab } from "./tab";
@@ -13,7 +14,7 @@ import { ProfileFormComponent } from "./profile-form";
     selector: "dashboard-component",
     templateUrl: "/views/dashboard.html",
     providers: [AuthService, UserService],
-    directives: [Tabs, Tab, ProfileFormComponent]
+    directives: [ROUTER_DIRECTIVES, Tabs, Tab, ProfileFormComponent]
 })
 
 export class Dashboard implements OnInit {
