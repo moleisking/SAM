@@ -1,6 +1,6 @@
 var JsonDB = require('node-json-db');
-var db = new JsonDB("tags", true, false);
-var _path = "/tags";
+var db = new JsonDB("categories", true, false);
+var _path = "/categories";
 
 module.exports = {
 

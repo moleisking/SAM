@@ -15,13 +15,14 @@ import { Category } from "../models/category";
 
 export class AddAWorkFormComponent implements OnInit {
 
-    public cats: Array<string> = ["Gardening", "Cleaning", "House improvements", "Repair", "Baby sitting", "Pet sitting", "Moving and shipping", "Specialised care", "Art", "Events and party", "Wedding", "Catering waiter chef", "Music", "Photographer", "Lessons", "Beauty", "Wellness", "Personal assistant", "Hostess and Modelling", "IT", "PR"];
+    public cats: Array<string>;
 
     private value: any = [];
 
     public myForm: FormGroup; // our model driven form
     public submitted: boolean; // keep track on form submission
     public message: string;
+    private areCategoriesAvailable: boolean = false;
 
     constructor(private formBuilder: FormBuilder, private cat: CategoriesService) {
         this.message = "Add a work messages here.";
@@ -40,6 +41,7 @@ export class AddAWorkFormComponent implements OnInit {
         this.cat.all().subscribe(
             c => {
                 this.cats = c.map(function (item) { return item["name"]; });
+                this.areCategoriesAvailable = true;
                 console.log(this.cats);
             },
             error => this.message = <any>error);
