@@ -2,23 +2,28 @@
     "tags": {
         "gardening": {
             "name": "Gardening",
-            "description": "Gardening"
+            "description": "Gardening",
+            "tags": ""
         },
         "cleaning": {
             "name": "Cleaning",
-            "description": "Cleaning"
+            "description": "Cleaning",
+            "tags": ""
         },
         "house-improvements": {
             "name": "House improvements",
-            "description": "House improvements"
+            "description": "House improvements",
+            "tags": ""
         },
         "repair": {
             "name": "Repair",
-            "description": "Repair"
+            "description": "Repair",
+            "tags": ""
         },
         "baby-sitting": {
             "name": "Baby sitting",
-            "description": "Baby sitting"
+            "description": "Baby sitting",
+            "tags": ""
         },
         "pet-sitting": {
             "name": "Pet sitting",
@@ -26,63 +31,78 @@
         },
         "moving-shipping": {
             "name": "Moving and shipping",
-            "description": "Moving and shipping"
+            "description": "Moving and shipping",
+            "tags": ""
         },
         "specialised-care": {
             "name": "Specialised care",
-            "description": "Specialised care (nurse, care for elderly or disabled people)"
+            "description": "Specialised care (nurse, care for elderly or disabled people)",
+            "tags": ""
         },
         "art": {
             "name": "Art",
-            "description": "Art"
+            "description": "Art",
+            "tags": ""
         },
         "events-party": {
             "name": "Events and party",
-            "description": "Events and party"
+            "description": "Events and party",
+            "tags": ""
         },
         "wedding": {
             "name": "Wedding",
-            "description": "Wedding"
+            "description": "Wedding",
+            "tags": ""
         },
         "catering-waiter-chef": {
             "name": "Catering waiter chef",
-            "description": "Catering waiter chef"
+            "description": "Catering waiter chef",
+            "tags": ""
         },
         "music": {
             "name": "Music",
-            "description": "Music (singer - Dj)"
+            "description": "Music (singer - Dj)",
+            "tags": ""
         },
         "photographer": {
             "name": "Photographer",
-            "description": "Photographer"
+            "description": "Photographer",
+            "tags": ""
         },
         "lessons": {
             "name": "Lessons",
-            "description": "Lessons (music and languages)"
+            "description": "Lessons (music and languages)",
+            "tags": ""
         },
         "beauty": {
             "name": "Beauty",
-            "description": "Beauty (hairdresser, manicure, make up, hair removal)"
+            "description": "Beauty (hairdresser, manicure, make up, hair removal)",
+            "tags": ""
         },
         "wellness": {
             "name": "Wellness",
-            "description": "Wellness (personal trainer, nutritionist)"
+            "description": "Wellness (personal trainer, nutritionist)",
+            "tags": ""
         },
         "personal-assistant": {
             "name": "Personal assistant",
-            "description": "Personal assistant (chauffeur, secretary, body guard)"
+            "description": "Personal assistant (chauffeur, secretary, body guard)",
+            "tags": ""
         },
         "hostess-modelling": {
             "name": "Hostess and Modelling",
-            "description": "Hostess and Modelling"
+            "description": "Hostess and Modelling",
+            "tags": ""
         },
         "it": {
             "name": "IT",
-            "description": "IT (Computer repairing and installations)"
+            "description": "IT (Computer repairing and installations)",
+            "tags": ""
         },
         "pr": {
             "name": "PR",
-            "description": "PR (flyers distribution)"
+            "description": "PR (flyers distribution)",
+            "tags": ""
         }
     }
 }

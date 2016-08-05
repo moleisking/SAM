@@ -2,33 +2,29 @@ import { Component, OnInit } from "@angular/core";
 import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
 import { SELECT_DIRECTIVES } from "ng2-select";
+import { CategoriesService } from "../services/categories";
+import { Category } from "../models/category";
 
 @Component({
     selector: "addawork-form-component",
     templateUrl: "/views/addawork-form.html",
-    // styleUrls: ["../styles/ng2-select.css"], // WARNING: find out why i cant set the styles here and yes on the index file.
-    directives: [SELECT_DIRECTIVES, REACTIVE_FORM_DIRECTIVES]
+    // styleUrls: ["../styles/ng2-select.css"], // WARNING: find out why i cant set the styles here and can on the index file.
+    directives: [SELECT_DIRECTIVES, REACTIVE_FORM_DIRECTIVES],
+    providers: [CategoriesService]
 })
 
 export class AddAWorkFormComponent implements OnInit {
 
-    public items: Array<string> = ["Amsterdam", "Antwerp", "Athens", "Barcelona",
-        "Berlin", "Birmingham", "Bradford", "Bremen", "Brussels", "Bucharest",
-        "Budapest", "Cologne", "Copenhagen", "Dortmund", "Dresden", "Dublin", "Düsseldorf",
-        "Essen", "Frankfurt", "Genoa", "Glasgow", "Gothenburg", "Hamburg", "Hannover",
-        "Helsinki", "Leeds", "Leipzig", "Lisbon", "Łódź", "London", "Kraków", "Madrid",
-        "Málaga", "Manchester", "Marseille", "Milan", "Munich", "Naples", "Palermo",
-        "Paris", "Poznań", "Prague", "Riga", "Rome", "Rotterdam", "Seville", "Sheffield",
-        "Sofia", "Stockholm", "Stuttgart", "The Hague", "Turin", "Valencia", "Vienna",
-        "Vilnius", "Warsaw", "Wrocław", "Zagreb", "Zaragoza"];
-    private value: any = ["Athens"];
+    public cats: Array<string> = ["Gardening", "Cleaning", "House improvements", "Repair", "Baby sitting", "Pet sitting", "Moving and shipping", "Specialised care", "Art", "Events and party", "Wedding", "Catering waiter chef", "Music", "Photographer", "Lessons", "Beauty", "Wellness", "Personal assistant", "Hostess and Modelling", "IT", "PR"];
+
+    private value: any = [];
 
     public myForm: FormGroup; // our model driven form
     public submitted: boolean; // keep track on form submission
     public message: string;
 
-    constructor(private formBuilder: FormBuilder) {
-        this.message = "add a work messages here.";
+    constructor(private formBuilder: FormBuilder, private cat: CategoriesService) {
+        this.message = "Add a work messages here.";
     }
 
     ngOnInit() {
@@ -37,6 +33,16 @@ export class AddAWorkFormComponent implements OnInit {
             description: ["", <any>Validators.required],
             categories: ["", <any>Validators.required]
         });
+        this.getCategories();
+    }
+
+    getCategories() {
+        this.cat.all().subscribe(
+            c => {
+                this.cats = c.map(function (item) { return item["name"]; });
+                console.log(this.cats);
+            },
+            error => this.message = <any>error);
     }
 
     // send() {
@@ -72,6 +78,6 @@ export class AddAWorkFormComponent implements OnInit {
         return value
             .map((item: any) => {
                 return item.text;
-            }).join(',');
+            }).join(",");
     }
 }
