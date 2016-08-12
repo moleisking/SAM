@@ -15,9 +15,9 @@ import { UserService } from "../services/user";
 
 export class RegisterFormComponent implements OnInit {
 
-    public myForm: FormGroup; // our model driven form
-    public submitted: boolean; // keep track on form submission
-    public message: string;
+    private myForm: FormGroup; // our model driven form
+    private submitted: boolean; // keep track on form submission
+    private message: string;
 
     constructor(private auth: AuthService, private user: UserService, private router: Router, private formBuilder: FormBuilder) {
         this.message = "register messages here.";

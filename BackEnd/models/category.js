@@ -1,17 +1,24 @@
 var model = require('nodejs-model');
 
 var category = new model("Category")
+    .attr('id', {
+        validations: {
+            presence: {
+                message: 'ID category is required!'
+            }
+        }
+    })
     .attr('name', {
         validations: {
             presence: {
-                message: 'Name is required!'
+                message: 'Category name is required!'
             }
         }
     })
     .attr('description', {
         validations: {
             presence: {
-                message: 'Description is required!'
+                message: 'Category description is required!'
             }
         }
     });

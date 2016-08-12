@@ -1,0 +1,368 @@
+{
+    "categories": {
+        "gardening": {
+            "name": "Gardening",
+            "description": "Gardening",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "cleaning": {
+            "name": "Cleaning",
+            "description": "Cleaning",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "house-improvements": {
+            "name": "House improvements",
+            "description": "House improvements",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "repair": {
+            "name": "Repair",
+            "description": "Repair",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "baby-sitting": {
+            "name": "Baby sitting",
+            "description": "Baby sitting",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "pet-sitting": {
+            "name": "Pet sitting",
+            "description": "Pet sitting"
+        },
+        "moving-shipping": {
+            "name": "Moving and shipping",
+            "description": "Moving and shipping",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "specialised-care": {
+            "name": "Specialised care",
+            "description": "Specialised care (nurse, care for elderly or disabled people)",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "art": {
+            "name": "Art",
+            "description": "Art",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "events-party": {
+            "name": "Events and party",
+            "description": "Events and party",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "wedding": {
+            "name": "Wedding",
+            "description": "Wedding",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "catering-waiter-chef": {
+            "name": "Catering waiter chef",
+            "description": "Catering waiter chef",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "music": {
+            "name": "Music",
+            "description": "Music (singer - Dj)",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "photographer": {
+            "name": "Photographer",
+            "description": "Photographer",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "lessons": {
+            "name": "Lessons",
+            "description": "Lessons (music and languages)",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "beauty": {
+            "name": "Beauty",
+            "description": "Beauty (hairdresser, manicure, make up, hair removal)",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "wellness": {
+            "name": "Wellness",
+            "description": "Wellness (personal trainer, nutritionist)",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "personal-assistant": {
+            "name": "Personal assistant",
+            "description": "Personal assistant (chauffeur, secretary, body guard)",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "hostess-modelling": {
+            "name": "Hostess and Modelling",
+            "description": "Hostess and Modelling",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "it": {
+            "name": "IT",
+            "description": "IT (Computer repairing and installations)",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        },
+        "pr": {
+            "name": "PR",
+            "description": "PR (flyers distribution)",
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "PR Tag 1"
+                },
+                {
+                    "id": 2,
+                    "name": "PR Tag 2"
+                },
+                {
+                    "id": 3,
+                    "name": "PR Tag 3"
+                }
+            ]
+        }
+    }
+}

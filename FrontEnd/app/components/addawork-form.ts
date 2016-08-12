@@ -4,6 +4,8 @@ import { Validators } from "@angular/common";
 import { SELECT_DIRECTIVES } from "ng2-select";
 import { CategoriesService } from "../services/categories";
 import { Category } from "../models/category";
+import { Tag } from "../models/tag";
+import { CategoryDropdownModel } from "../models/category-dropdown";
 
 @Component({
     selector: "addawork-form-component",
@@ -15,34 +17,42 @@ import { Category } from "../models/category";
 
 export class AddAWorkFormComponent implements OnInit {
 
-    public cats: Array<string>;
+    private cats: Array<Category>;
+    private tags: Array<Tag>;
 
     private value: any = [];
 
-    public myForm: FormGroup; // our model driven form
-    public submitted: boolean; // keep track on form submission
-    public message: string;
-    private areCategoriesAvailable: boolean = false;
+    private myForm: FormGroup; // our model driven form
+    private submitted: boolean; // keep track on form submission
+    private message: string;
+    private areTagsAvailable: boolean = false;
 
     constructor(private formBuilder: FormBuilder, private cat: CategoriesService) {
         this.message = "Add a work messages here.";
     }
 
     ngOnInit() {
+        let regexPatterns = { numbers: "\d\d" };
         this.myForm = this.formBuilder.group({
             name: ["", <any>Validators.required],
             description: ["", <any>Validators.required],
-            categories: ["", <any>Validators.required]
+            categories: ["", Validators.pattern(regexPatterns.numbers)],
+            tags: [""]
         });
         this.getCategories();
+    }
+
+    onChangeCategory(value) {
+        this.value = []
+        this.tags = this.cats.find(x => x.id === value).tags;
+        this.areTagsAvailable = this.tags.length > 0;
     }
 
     getCategories() {
         this.cat.all().subscribe(
             c => {
-                this.cats = c.map(function (item) { return item["name"]; });
-                this.areCategoriesAvailable = true;
-                console.log(this.cats);
+                this.cats = c;
+                // console.log(this.cats);
             },
             error => this.message = <any>error);
     }

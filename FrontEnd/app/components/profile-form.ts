@@ -13,10 +13,10 @@ import { UserService } from "../services/user";
 
 export class ProfileFormComponent implements OnInit {
 
-    public myForm: FormGroup; // our model driven form
-    public submitted: boolean; // keep track on form submission
-    public message: string;
-    public description: string;
+    private myForm: FormGroup; // our model driven form
+    private submitted: boolean; // keep track on form submission
+    private message: string;
+    private description: string;
 
     constructor(private user: UserService, private formBuilder: FormBuilder) {
         this.message = "Profile form messages will be here.";

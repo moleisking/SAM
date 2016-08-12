@@ -40,6 +40,8 @@ router.get('/categories', function (req, res, next) {
   cat.all(function (err, data) {
     if (err)
       res.json({ success: false, message: err });
+    else if (data.length === 0)
+      res.json({ success: false, message: "No data obtained" });
     else
       res.json({ success: true, data: data });
   })

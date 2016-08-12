@@ -1,4 +1,8 @@
+import { Tag } from "./tag";
+
 export interface Category {
-   name: string;
-   description: string;
+    id: number;
+    name: string;
+    description: string;
+    tags: Array<Tag>
 }

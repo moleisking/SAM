@@ -13,8 +13,8 @@ import { UserService } from "../services/user";
 
 export class ForgottenPassword implements OnInit {
 
-    public myForm: FormGroup;
-    message: string;
+    private myForm: FormGroup;
+    private message: string;
 
     constructor(private builder: FormBuilder, private formBuilder: FormBuilder, private user: UserService) {
         this.message = "Forgotten Password Text";

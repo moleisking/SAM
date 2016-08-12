@@ -16,10 +16,10 @@ import { UserService } from "../services/user";
 
 export class LoginFormComponent implements OnInit {
 
-    public myForm: FormGroup; // our model driven form
-    public submitted: boolean; // keep track on form submission
-    // public events: any[] = []; // list of form changes
-    public message: string;
+    private myForm: FormGroup; // our model driven form
+    private submitted: boolean; // keep track on form submission
+    // private events: any[] = []; // list of form changes
+    private message: string;
 
     constructor(private auth: AuthService, private user: UserService, private router: Router, private formBuilder: FormBuilder) {
         this.message = "login messages here.";

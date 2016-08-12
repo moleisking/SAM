@@ -13,10 +13,10 @@ import { WebService } from "../services/web";
 
 export class ContactUsFormComponent implements OnInit {
 
-    public myForm: FormGroup; // our model driven form
-    public submitted: boolean; // keep track on form submission
-    public message: string;
-    public description: string;
+    private myForm: FormGroup; // our model driven form
+    private submitted: boolean; // keep track on form submission
+    private message: string;
+    private description: string;
 
     constructor(private web: WebService, private formBuilder: FormBuilder) {
         this.message = "Contact Us form messages will be here.";
