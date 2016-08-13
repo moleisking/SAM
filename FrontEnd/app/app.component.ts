@@ -20,7 +20,7 @@ import { AuthService } from "./services/auth";
   templateUrl: "/views/app-root.html",
   styleUrls: ["/styles/app-root.css"],
   directives: [ROUTER_DIRECTIVES],
-  precompile: [Home, Register, Login, About, Dashboard, ForgottenPassword, TermsConditions, ContactUs, Categories, Profile, AddAWork]
+  // precompile: [Home, Register, Login, About, Dashboard, ForgottenPassword, TermsConditions, ContactUs, Categories, Profile, AddAWork]
   // ,styles: [`
   //     a.disabled, a.disabled:visited {
   //       pointer-events: none;

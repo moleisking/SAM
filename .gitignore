@@ -4,3 +4,4 @@ node_modules
 *.gz
 SAM.json
 FrontEnd/scripts/
+FrontEnd/typings/

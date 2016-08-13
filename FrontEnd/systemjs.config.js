@@ -31,6 +31,7 @@
     'upgrade',
     'ng2-select',
   ];
+  
   // Individual files (~300 requests):
   function packIndex(pkgName) {
     packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
