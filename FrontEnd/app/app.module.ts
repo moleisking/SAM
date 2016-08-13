@@ -11,6 +11,7 @@ import { AuthService } from "./services/auth";
 import { CategoriesService } from "./services/categories";
 import { UserService } from "./services/user";
 import { WebService } from "./services/web";
+import { WorkService } from "./services/work";
 
 import { Home } from "./components/home";
 import { Login } from "./components/login";
@@ -81,6 +82,7 @@ if (environment.production)
         UserService,
         WebService,
         RoutesManager,
+        WorkService,
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA

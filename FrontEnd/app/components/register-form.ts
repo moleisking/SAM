@@ -9,7 +9,7 @@ import { UserService } from "../services/user";
     selector: "register-form-component",
     providers: [UserService, AuthService],
     templateUrl: "/views/register-form.html",
-    styleUrls: ["/styles/register-form.css"],
+    styleUrls: ["/styles/form.css"],
     directives: [REACTIVE_FORM_DIRECTIVES]
 })
 

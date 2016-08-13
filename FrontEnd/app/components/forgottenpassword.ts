@@ -4,9 +4,9 @@ import { Validators } from "@angular/common";
 import { UserService } from "../services/user";
 
 @Component({
-    selector: "forgottenpassword-component",
+    selector: "forgottenpassword-form-component",
     templateUrl: "/views/forgottenpassword.html",
-    styleUrls: ["/styles/forgottenpassword.css"],
+    styleUrls: ["/styles/form.css"],
     directives: [REACTIVE_FORM_DIRECTIVES],
     providers: [UserService]
 })
@@ -35,7 +35,7 @@ export class ForgottenPassword implements OnInit {
             error => {
                 this.message = "Error sending email.";
             },
-            () => console.log("done forgotten password")
+            () => console.log("Done forgotten password")
             );
     }
 }

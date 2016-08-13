@@ -7,7 +7,7 @@ import { WebService } from "../services/web";
     selector: "contactus-form-component",
     providers: [WebService],
     templateUrl: "/views/contactus-form.html",
-    styleUrls: ["/styles/contactus-form.css"],
+    styleUrls: ["/styles/form.css"],
     directives: [REACTIVE_FORM_DIRECTIVES]
 })
 

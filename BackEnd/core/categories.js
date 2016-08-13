@@ -1,6 +1,7 @@
 var NodeCache = require("node-cache");
 var async = require('async');
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
+var myCacheName = "categories";
 var catDAL = require("../dal/categories");
 var modelCat = require("../models/category");
 var modelTag = require("../models/tag");
@@ -8,7 +9,7 @@ var modelTag = require("../models/tag");
 module.exports = {
 
     all: function (cb) {
-        myCache.get("allCategories", function (err, value) {
+        myCache.get(myCacheName + "allCategories", function (err, value) {
             if (err)
                 return cb(err, null);
             else
@@ -17,7 +18,7 @@ module.exports = {
                         if (err)
                             return cb(err, null);
                         else
-                            myCache.set("allCategories", readAll, function (err, success) {
+                            myCache.set(myCacheName + "allCategories", readAll, function (err, success) {
                                 if (err)
                                     return cb(err, null);
                                 if (success)

@@ -10,7 +10,7 @@ import { UserService } from "../services/user";
     selector: "login-form-component",
     providers: [UserService, AuthService],
     templateUrl: "/views/login-form.html",
-    styleUrls: ["/styles/login-form.css"],
+    styleUrls: ["/styles/form.css"],
     directives: [REACTIVE_FORM_DIRECTIVES]
 })
 

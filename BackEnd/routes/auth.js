@@ -4,13 +4,12 @@ var jwt = require('jwt-simple');
 var config = require('../config/settings');
 var user = require("../core/user");
 var emailer = require("../core/emailer");
-var model = require("../models/user")
-
-var apiRoutes = express.Router();
+var model = require("../models/user");
+var router = express.Router();
 
 require('../config/passport')(passport);
 
-apiRoutes.post('/signup', function (req, res) {
+router.post('/signup', function (req, res) {
   if (!req.body.name || !req.body.pass)
     res.json({ success: false, message: 'Please pass name and password.' });
   else
@@ -30,7 +29,7 @@ apiRoutes.post('/signup', function (req, res) {
     });
 });
 
-apiRoutes.post('/authenticate', function (req, res) {
+router.post('/authenticate', function (req, res) {
   if (req.body.name === "" || req.body.name === "undefined" || req.body.pass === "" || req.body.pass === "undefined"
     || !req.body.name || !req.body.pass)
     res.json({ success: false, message: 'Must provide a user name and a password.' });
@@ -55,7 +54,7 @@ apiRoutes.post('/authenticate', function (req, res) {
     });
 });
 
-apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), function (req, res) {
+router.get('/dashboard', passport.authenticate('jwt', { session: false }), function (req, res) {
   user.read(user.getNameFromTokenUser(req.headers), function (err, user) {
     if (err && err.id != 5)
       res.json({ success: false, message: JSON.stringify(err) });
@@ -67,7 +66,7 @@ apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), fu
   });
 });
 
-apiRoutes.post('/forgottenpassword', function (req, res) {
+router.post('/forgottenpassword', function (req, res) {
   if (!req.body.email)
     res.json({ success: false, message: 'Please provide email.' });
   else
@@ -87,4 +86,4 @@ apiRoutes.post('/forgottenpassword', function (req, res) {
     });
 });
 
-module.exports = apiRoutes;
+module.exports = router;

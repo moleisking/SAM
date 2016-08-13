@@ -17,7 +17,6 @@
         <div class="form-group">
             <label for="categories">Categories</label>
             <select class="form-control" formControlName="categories" name="categories" (change)="onChangeCategory($event.target.value)">
-                <!--<option value=0 selected="selected">Select a category</option>-->
                 <option *ngFor="let cat of cats" value={{cat.id}}>
                     {{cat.name}}
                 </option>
@@ -25,12 +24,12 @@
         </div>
         <div class="form-group" *ngIf="areTagsAvailable">
             <label for="tags">Tags</label>
-            <ng-select [data]="value" [multiple]="true" [items]="tags" [disabled]="disabled" (data)="refreshValue($event)" (selected)="selected($event)"
-                (removed)="removed($event)" placeholder="No tags selected yet"></ng-select>
-            <pre>{{itemsToString(value)}}</pre>
-            <input type="hidden" class="form-control" formControlName="tags" name="tags" />
+            <ng-select [data]="tagsValue" [multiple]="true" [items]="tags" (data)="refreshValue($event)" 
+                placeholder="No tags selected yet"></ng-select>
+             <!--(typed)="typed($event)" (removed)="removed($event)" [disabled]="disabled" (selected)="selected($event)"-->
+            <!--<pre>{{itemsToString(tagsValue)}}</pre>-->
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="save(myForm)">Save</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="send(myForm)">Send</button>
         <p>{{ message }}</p>
     </form>
 </div>

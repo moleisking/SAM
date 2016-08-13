@@ -3,6 +3,7 @@ var modelprofile = require("../models/profile");
 var userDAL = require("../dal/user");
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
+var myCacheName = "user";
 var jwt = require('jwt-simple');
 var config = require('../config/settings');
 
@@ -19,7 +20,7 @@ module.exports = {
                 userDAL.create(user.name(), user.toJSON(), function (err, data) {
                     if (err)
                         return cb(err, null);
-                    myCache.del("all");
+                    myCache.del(myCacheName + "all");
                     return cb(null, data);
                 });
             } else
@@ -32,7 +33,7 @@ module.exports = {
     read: function (id, cb) {
         if (id === null || id === undefined)
             return cb("Must provide a valid value.", null);
-        myCache.get("readUser" + id, function (err, value) {
+        myCache.get(myCacheName + "readUser" + id, function (err, value) {
             if (err)
                 return cb(err, null);
             else
@@ -41,7 +42,7 @@ module.exports = {
                         if (err)
                             return cb(err, null);
                         else
-                            myCache.set("readUser" + id, readValue, function (err, success) {
+                            myCache.set(myCacheName + "readUser" + id, readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
                                 if (success)
@@ -62,15 +63,15 @@ module.exports = {
             if (err)
                 return cb(err, null);
             else {
-                myCache.del("readUser" + id);
-                myCache.del("all");
+                myCache.del(myCacheName + "readUser" + id);
+                myCache.del(myCacheName + "all");
                 return cb(null, value);
             }
         });
     },
 
     all: function (cb) {
-        myCache.get("all", function (err, value) {
+        myCache.get(myCacheName + "all", function (err, value) {
             if (err)
                 return cb(err, null);
             else
@@ -79,7 +80,7 @@ module.exports = {
                         if (err)
                             return cb(err, null);
                         else
-                            myCache.set("all", readAll, function (err, success) {
+                            myCache.set(myCacheName + "all", readAll, function (err, success) {
                                 if (err)
                                     return cb(err, null);
                                 if (success)
@@ -96,7 +97,7 @@ module.exports = {
     readByEmail: function (id, cb) {
         if (id === null || id === undefined)
             return cb("Must provide a valid value.", null);
-        myCache.get("readUserByEmail" + id, function (err, value) {
+        myCache.get(myCacheName + "readUserByEmail" + id, function (err, value) {
             if (err)
                 return cb(err, null);
             else
@@ -105,7 +106,7 @@ module.exports = {
                         if (err)
                             return cb(err, null);
                         else
-                            myCache.set("readUserByEmail" + id, readValue, function (err, success) {
+                            myCache.set(myCacheName + "readUserByEmail" + id, readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
                                 if (success)
@@ -137,7 +138,7 @@ module.exports = {
                 userDAL.saveProfile(data.name, profile.toJSON(), function (err, data) {
                     if (err)
                         return cb(err, null);
-                    myCache.del("readUserProfile" + data.name);
+                    myCache.del(myCacheName + "readUserProfile" + data.name);
                     return cb(null, data);
                 });
             } else
@@ -150,7 +151,7 @@ module.exports = {
     getProfile: function (name, cb) {
         if (name === null || name === undefined)
             return cb("Must provide a valid name.", null);
-        myCache.get("readUserProfile" + name, function (err, value) {
+        myCache.get(myCacheName + "readUserProfile" + name, function (err, value) {
             if (err)
                 return cb(err, null);
             else
@@ -159,7 +160,7 @@ module.exports = {
                         if (err)
                             return cb(err, null);
                         else
-                            myCache.set("readUserProfile" + name, readValue, function (err, success) {
+                            myCache.set(myCacheName + "readUserProfile" + name, readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
                                 if (success)

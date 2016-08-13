@@ -1,10 +1,11 @@
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
+var myCacheName = "web";
 
 module.exports = {
 
     about: function (cb) {
-        myCache.get("about", function (err, value) {
+        myCache.get(myCacheName + "about", function (err, value) {
             if (err)
                 return cb(err, null);
             else
@@ -13,7 +14,7 @@ module.exports = {
                         if (err)
                             return cb(err, null);
                         else
-                            myCache.set("about", readValue, function (err, success) {
+                            myCache.set(myCacheName + "about", readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
                                 if (success)
@@ -28,7 +29,7 @@ module.exports = {
     },
 
     termsConditions: function (cb) {
-        myCache.get("termsConditions", function (err, value) {
+        myCache.get(myCacheName + "termsConditions", function (err, value) {
             if (err)
                 return cb(err, null);
             else
@@ -37,7 +38,7 @@ module.exports = {
                         if (err)
                             return cb(err, null);
                         else
-                            myCache.set("termsConditions", readValue, function (err, success) {
+                            myCache.set(myCacheName + "termsConditions", readValue, function (err, success) {
                                 if (err)
                                     return cb(err, null);
                                 if (success)
