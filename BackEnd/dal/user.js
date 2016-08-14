@@ -53,7 +53,7 @@ module.exports = {
 
     saveProfile: function (username, data, cb) {
         try {
-            db.push(_path + "/profile" + username, data);
+            db.push(_path + "/profile/" + username, data);
             cb(null, data);
         } catch (error) {
             return cb(error, null);
@@ -62,7 +62,7 @@ module.exports = {
 
     readProfile: function (username, cb) {
         try {
-            var data = db.getData(_path + "/profile" + username);
+            var data = db.getData(_path + "/profile/" + username);
             return cb(null, data);
         } catch (err) {
             return cb(err, null);

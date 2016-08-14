@@ -32,7 +32,7 @@ module.exports = {
 
     read: function (id, cb) {
         if (id === null || id === undefined)
-            return cb("Must provide a valid value.", null);
+            return cb("Must provide a valid id.", null);
         myCache.get(myCacheName + "readUser" + id, function (err, value) {
             if (err)
                 return cb(err, null);
@@ -121,24 +121,24 @@ module.exports = {
     },
 
     getNameFromTokenUser: function (headers, cb) {
-        var token = _getNameFromToken(headers);
+        var token = _getToken(headers);
         if (token) {
-            var decoded = jwt.decode(token, config.secret);
-            return decoded.name;
+            var decodedUser = jwt.decode(token, config.secret);
+            return decodedUser.name;
         } else
-            return 'UserName';
+            return null;
     },
 
-    saveProfile: function (data, cb) {
+    saveProfile: function (username, data, cb) {
         var profile = modelprofile.create();
-        profile.name(data.name);
+        profile.name(username);
         profile.description(data.description);
         profile.validate().then(function () {
             if (profile.isValid) {
-                userDAL.saveProfile(data.name, profile.toJSON(), function (err, data) {
+                userDAL.saveProfile(username, profile.toJSON(), function (err, data) {
                     if (err)
                         return cb(err, null);
-                    myCache.del(myCacheName + "readUserProfile" + data.name);
+                    myCache.del(myCacheName + "readUserProfile" + username);
                     return cb(null, data);
                 });
             } else
@@ -175,7 +175,7 @@ module.exports = {
     },
 }
 
-function _getNameFromToken(headers) {
+function _getToken(headers) {
     if (headers && headers.authorization) {
         var parted = headers.authorization.split(' ');
         if (parted.length === 2)
@@ -239,7 +239,7 @@ function _readByEmail(id, cb) {
 function _all(cb) {
     try {
         userDAL.all(function (err, data) {
-            if (err && (err.hasOwnProperty('id')))
+            if (err && err.hasOwnProperty('id'))
                 return cb(err, null);
             var users = [];
             for (var item in data) {

@@ -64,8 +64,7 @@ export class AddAWorkFormComponent implements OnInit {
     send() {
         this.submitted = true;
         this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
-        console.log(this.myForm.value);
-        this.work.create(this.myForm.value).then(
+        this.work.create(this.myForm.value).subscribe(
             () => {
                 this.router.navigate(["/dashboard"]);
             },

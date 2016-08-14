@@ -8,18 +8,16 @@ import { WebService } from "../services/web";
 })
 
 export class TermsConditions implements OnInit {
-    message: string;
+    private message: string;
 
     constructor(private web: WebService) {
-        this.message = "Terms & Conditions Text";
+        this.message = "Here will come Terms & Conditions Text from backend";
     }
 
     getTermsConditionsText() {
-        this.web.termsConditions().then(
-            (res) => {
-                this.message = res.toString();
-            }
-        )
+        this.web.termsConditions().subscribe(
+            text => this.message = text,
+            error => this.message = <any>error);
     }
 
     ngOnInit() {

@@ -4,7 +4,6 @@ import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms
 import { Validators } from "@angular/common";
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
-// import { User } from "../models/user";
 
 @Component({
     selector: "login-form-component",
@@ -22,7 +21,7 @@ export class LoginFormComponent implements OnInit {
     private message: string;
 
     constructor(private auth: AuthService, private user: UserService, private router: Router, private formBuilder: FormBuilder) {
-        this.message = "login messages here.";
+        this.message = "Login messages will come here.";
     }
 
     ngOnInit() {
@@ -44,14 +43,11 @@ export class LoginFormComponent implements OnInit {
 
     login() {
         this.submitted = true;
-        console.log(this.myForm.value);
-        this.auth.login(this.myForm.value).then(
-            () => {
-                this.router.navigate(["/dashboard"]);
-            },
-            (res) => {
-                this.message = "invalid user";
-            }
-        )
+        this.message = "User sent to be logged in. Wait...";
+        this.auth.login(this.myForm.value).subscribe(
+            () => this.router.navigate(["/dashboard"]),
+            error => this.message = "Login not possible." + error,
+            () => console.log("Done login call.")
+        );
     }
 }

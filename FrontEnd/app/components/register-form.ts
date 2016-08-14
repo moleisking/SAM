@@ -33,14 +33,11 @@ export class RegisterFormComponent implements OnInit {
 
     register() {
         this.submitted = true;
-        console.log(this.myForm.value);
-        this.user.register(this.myForm.value).then(
-            () => {
-                this.router.navigate(["/login"]);
-            },
-            (res) => {
-                this.message = res;
-            }
+        this.message = "New user sent to be registered. Wait...";
+        this.user.register(this.myForm.value).subscribe(
+            () => this.router.navigate(["/login"]),
+            error => this.message = <any>error,
+            () => console.log("Done register call.")
         );
     }
 }

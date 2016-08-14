@@ -7,43 +7,41 @@ var emailer = require("../core/emailer");
 router.get('/about', function (req, res, next) {
   web.about(function (err, data) {
     if (err)
-      res.json({ success: false, message: err });
+      res.status(500).json({err});
     else
-      res.json({ success: true, data: data });
+      res.json({data});
   })
 });
 
 router.get('/termsconditions', function (req, res, next) {
   web.termsConditions(function (err, data) {
     if (err)
-      res.json({ success: false, message: err });
+      res.status(500).json({err});
     else
-      res.json({ success: true, data: data });
+      res.json({data});
   })
 });
 
 router.post('/sendcontactform', function (req, res, next) {
   if (!req.body.message || !req.body.email)
-    res.json({ success: false, message: 'Please pass message and email.' });
+    res.status(400).send("Please pass message and email.");
   else
     emailer.sendContactForm(req.body, function (err, data) {
-      if (err) {
-        // res.status(500);
-        return next(err);
-      }
+      if (err)
+        res.status(500).json({err});
       else
-        res.json({ success: true, message: data });
+        res.json({data});
     });
 });
 
 router.get('/categories', function (req, res, next) {
   cat.all(function (err, data) {
     if (err)
-      res.json({ success: false, message: err });
+      res.status(500).json({err});
     else if (data.length === 0)
-      res.json({ success: false, message: "No data obtained" });
+      res.status(404).json({data});
     else
-      res.json({ success: true, data: data });
+      res.json({data});
   })
 });
 

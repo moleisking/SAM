@@ -25,7 +25,6 @@ export class ProfileFormComponent implements OnInit {
     ngOnInit() {
         this.getLoggedProfile();
         this.myForm = this.formBuilder.group({
-            name: [localStorage.getItem("auth_key_name"), <any>Validators.required],
             description: [this.description, <any>Validators.required]
         });
     }
@@ -39,7 +38,7 @@ export class ProfileFormComponent implements OnInit {
     save() {
         this.submitted = true;
         this.message = "User profile sent.";
-        this.user.saveProfile(this.myForm.value).then(
+        this.user.saveProfile(this.myForm.value).subscribe(
             () => {
                 this.message = "User profile saved.";
             },

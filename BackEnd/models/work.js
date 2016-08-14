@@ -8,7 +8,14 @@ var work = new model("Work")
             }
         }
     })
-    .attr('nameUrl', {
+    .attr('username', {
+        validations: {
+            presence: {
+                message: 'Username is required!'
+            }
+        }
+    })
+    .attr('nameurl', {
         validations: {
             presence: {
                 message: 'Name URL is required!'

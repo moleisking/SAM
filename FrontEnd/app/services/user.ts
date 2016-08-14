@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
+import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import { Settings } from "../config/settings";
 import { User } from "../models/user";
 import { Profile } from "../models/profile";
@@ -11,43 +11,22 @@ export class UserService {
 
   constructor(private http: Http) { }
 
-  register(usercreds) {
-    let creds = "name=" + usercreds.name + "&pass=" + usercreds.pass + "&email=" + usercreds.email;
+  register(usercreds): Observable<any> {
+    let body = "name=" + usercreds.name + "&pass=" + usercreds.pass + "&email=" + usercreds.email;
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");
+    let options = new RequestOptions({ headers: headers });
 
-    return new Promise((resolve, reject) => {
-      this.http.post(Settings.backend_url + "/api/signup", creds, { headers: headers }).subscribe(
-        (data) => {
-          if (data.json().success)
-            resolve(true);
-          else {
-            console.log(data.json().message);
-            reject(data.json().message);
-          }
-        }
-      )
-    });
+    return this.http.post(Settings.backend_url + "/api/signup", body, options).catch(this.handleError);
   }
 
-  saveProfile(profileform) {
-    let creds = "description=" + profileform.description + "&name=" + profileform.name;
+  saveProfile(profileform): Observable<any> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
     headers.append("Content-Type", "application/X-www-form-urlencoded");
+    let c = "description=" + profileform.description + "&name=" + profileform.name;
 
-    return new Promise((resolve, reject) => {
-      this.http.post(Settings.backend_url + "/users/saveprofile", creds, { headers: headers })
-        .catch(this.handleError)
-        .subscribe((data) => {
-          if (data.json().success)
-            resolve(true);
-          else {
-            console.log(data.json().message);
-            reject(data.json().message);
-          }
-        })
-    });
+    return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }
 
   all(): Observable<User[]> {
@@ -55,17 +34,14 @@ export class UserService {
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
 
     return this.http.get(Settings.backend_url + "/users", { headers: headers })
-      .map(this.extractData)
-      .catch(this.handleError);
+      .map(this.extractData).catch(this.handleError);
   }
 
   getLoggedProfile(): Observable<Profile> {
     let headers = new Headers();
-    let creds = "name=" + localStorage.getItem("auth_key_name");
-    headers.append("Content-Type", "application/X-www-form-urlencoded");
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
 
-    return this.http.post(Settings.backend_url + "/users/getprofile", creds, { headers: headers })
+    return this.http.get(Settings.backend_url + "/users/getprofile", { headers: headers })
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -77,8 +53,7 @@ export class UserService {
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
 
     return this.http.post(Settings.backend_url + "/users/getprofile", creds, { headers: headers })
-      .map(this.extractData)
-      .catch(this.handleError);
+      .map(this.extractData).catch(this.handleError);
   }
 
   forgottenpassword(form): Observable<any> {
@@ -87,8 +62,7 @@ export class UserService {
     headers.append("Content-Type", "application/X-www-form-urlencoded");
 
     return this.http.post(Settings.backend_url + "/api/forgottenpassword", creds, { headers: headers })
-      .map(this.extractData)
-      .catch(this.handleError);
+      .map(this.extractData).catch(this.handleError);
   }
 
   private extractData(res: Response) {
@@ -98,11 +72,11 @@ export class UserService {
   }
 
   private handleError(error: any) {
-    // In a real world app, we might use a remote logging infrastructure
-    // We'd also dig deeper into the error to get a better message
+    // console.error(error);
     let errMsg = (error.message) ? error.message :
-      error.status ? `${error.status} - ${error.statusText}` : "Server error";
-    console.error(errMsg); // log to console instead
+      (error._body) ? error._body :
+        error.status ? `${error.status} - ${error.statusText}` : "Server error";
+    console.error(errMsg);
     return Observable.throw(errMsg);
   }
 }

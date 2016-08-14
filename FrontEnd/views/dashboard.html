@@ -3,10 +3,19 @@
   {{ message }} <button (click)="logout()">Logout</button>
 </div>
 <tabs>
+  <tab [tabTitle]="'My works'">
+    {{ messageWorks }}
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let work of works">
+        <a [routerLink]="['/works', work.nameurl]">{{ work.name }}</a>
+      </li>
+    </ul>
+  </tab>
   <tab [tabTitle]="'My profile'">
     <profile-form-component></profile-form-component>
   </tab>
   <tab tabTitle="Users">
+    {{ messageUsers }}
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let user of users">
         <a [routerLink]="['/profile', user.name]">{{ user.name }}</a>

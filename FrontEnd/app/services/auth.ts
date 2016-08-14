@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers } from "@angular/http";
+import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import { Settings } from "../config/settings";
+import { Observable } from "rxjs/Rx";
 
 @Injectable()
 
@@ -9,34 +10,37 @@ export class AuthService {
   constructor(private http: Http) { }
 
   login(usercreds) {
-    let creds = "name=" + usercreds.name + "&pass=" + usercreds.pass;
+    let body = "name=" + usercreds.name + "&pass=" + usercreds.pass;
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");
+    let options = new RequestOptions({ headers: headers });
 
-    return new Promise((resolve, reject) => {
-      this.http.post(Settings.backend_url + "/api/authenticate", creds, { headers: headers }).subscribe(
-        (data) => {
-          if (data.json().success) {
-            localStorage.setItem("auth_key_name", usercreds.name);
-            localStorage.setItem("auth_key", data.json().token.split(" ")[1]);
-            resolve(true);
-          }
-          else {
-            console.log(data.json().message);
-            reject(data.json().message);
-          }
-        }
-      )
-    });
+    return this.http.post(Settings.backend_url + "/api/authenticate", body, options)
+      .map(this.extractData).catch(this.handleError);
   }
 
   logout() {
     localStorage.removeItem("auth_key");
-    localStorage.removeItem("auth_key_name");
   }
 
   isLoggedIn() {
     if (localStorage.getItem("auth_key") !== null)
       return true;
+  }
+
+  private extractData(res: Response) {
+    // console.log(res);
+    localStorage.setItem("auth_key", res.json().token.split(" ")[1]);
+    let body = res.json();
+    return body.data || {};
+  }
+
+  private handleError(error: any) {
+    // console.error(error);
+    let errMsg = (error.message) ? error.message :
+      (error._body) ? error._body :
+        error.status ? `${error.status} - ${error.statusText}` : "Server error";
+    console.error(errMsg);
+    return Observable.throw(errMsg);
   }
 }

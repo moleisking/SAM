@@ -11,77 +11,73 @@ require('../config/passport')(passport);
 
 router.post('/signup', function (req, res) {
   if (!req.body.name || !req.body.pass)
-    res.json({ success: false, message: 'Please pass name and password.' });
+    res.status(400).send("Please provide name and password.");
   else
     user.read(req.body.name, function (err, data) {
       if (err && err.id != 5)
-        res.json({ success: false, message: 'Error in SignUp: ' + err });
+        res.status(500).json("Error in SignUp: " + err);
       else
         if (data)
-          res.json({ success: false, message: 'User Already Exists' });
+          res.status(409).send("User Already Exists");
         else
-          user.create(req.body, function (err, dataCreated) {
+          user.create(req.body, function (err, data) {
             if (err)
-              res.json({ success: false, message: JSON.stringify(err) });
+              res.status(500).json({ err });
             else
-              res.json({ success: true, message: 'Successful created new user.' });
+              res.status(201).json({ data });
           });
     });
 });
 
 router.post('/authenticate', function (req, res) {
-  if (req.body.name === "" || req.body.name === "undefined" || req.body.pass === "" || req.body.pass === "undefined"
-    || !req.body.name || !req.body.pass)
-    res.json({ success: false, message: 'Must provide a user name and a password.' });
+  if (!req.body.name || !req.body.pass)
+    res.status(400).send("Please provide name and password.");
   else
     user.read(req.body.name, function (err, user) {
       if (err && err.id != 5)
-        res.json({ success: false, message: JSON.stringify(err) });
+        res.status(500).json({ err });
       else
         if (!user)
-          res.send({ success: false, message: 'Authentication failed. User not found.' });
+          res.status(404).send("Authentication failed. User not found.");
         else {
-          // check if password matches
           if (!model.validPassword(req.body.pass, user.pass))
-            res.send({ success: false, message: 'Authentication failed. Wrong password.' });
+            res.status(403).json("Authentication failed. Wrong password.");
           else {
-            // if user is found and password is right create a token
             var token = jwt.encode(user, config.secret);
-            // return the information including token as JSON
-            res.json({ success: true, token: 'JWT ' + token });
+            res.json({ token: 'JWT ' + token });
           };
         }
     });
 });
 
 router.get('/dashboard', passport.authenticate('jwt', { session: false }), function (req, res) {
-  user.read(user.getNameFromTokenUser(req.headers), function (err, user) {
+  user.read(user.getNameFromTokenUser(req.headers), function (err, data) {
     if (err && err.id != 5)
-      res.json({ success: false, message: JSON.stringify(err) });
+      res.status(500).json({ err });
     else
-      if (!user)
-        return res.status(403).send({ success: false, message: 'Authentication failed. User not found.' });
+      if (!data)
+        return res.status(404).send("Authentication failed. User not found.");
       else
-        res.json({ success: true, message: 'Welcome in the dashboard ' + user.name + '!' });
+        res.status(200).json({ data });
   });
 });
 
 router.post('/forgottenpassword', function (req, res) {
   if (!req.body.email)
-    res.json({ success: false, message: 'Please provide email.' });
+    res.status(400).send("Please provide email.");
   else
     user.readByEmail(req.body.email, function (err, data) {
       if (err && err.id != 5)
-        res.json({ success: false, message: err });
+        res.status(500).json({ err });
       else
         if (!data)
-          res.json({ success: false, message: 'User dont exist.' });
+          res.status(404).send("User dont exist.");
         else
           emailer.forgottenpassword(data, function (err, data) {
             if (err)
-              res.json({ success: false, message: err });
+              res.status(500).json({ err });
             else
-              res.json({ success: true, message: data });
+              res.json({ data });
           });
     });
 });

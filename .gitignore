@@ -2,6 +2,7 @@
 node_modules
 *.log
 *.gz
-SAM.json
+BackEnd/SAM.json
+BackEnd/works.json
 FrontEnd/scripts/
 FrontEnd/typings/

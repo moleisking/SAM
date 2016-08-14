@@ -8,18 +8,16 @@ import { WebService } from "../services/web";
 })
 
 export class About implements OnInit {
-    message: string;
+    private message: string;
 
     constructor(private web: WebService) {
-        this.message = "About Text";
+        this.message = "Here will come About Text from backend";
     }
 
     getAboutText() {
-        this.web.about().then(
-            (res) => {
-                this.message = res.toString();
-            }
-        )
+        this.web.about().subscribe(
+            text => this.message = text,
+            error => this.message = <any>error);
     }
 
     ngOnInit() {

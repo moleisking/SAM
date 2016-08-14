@@ -4,30 +4,38 @@ import { ROUTER_DIRECTIVES } from "@angular/router";
 
 import { Tabs } from "./tabs";
 import { Tab } from "./tab";
+import { ProfileFormComponent } from "./profile-form";
 
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
+import { WorkService } from "../services/work";
+
 import { User } from "../models/user";
-import { ProfileFormComponent } from "./profile-form";
+import { Work } from "../models/work";
 
 @Component({
     selector: "dashboard-component",
     templateUrl: "/views/dashboard.html",
-    providers: [AuthService, UserService],
+    providers: [AuthService, UserService, WorkService],
     directives: [ROUTER_DIRECTIVES, Tabs, Tab, ProfileFormComponent]
 })
 
 export class Dashboard implements OnInit {
 
     private message: string;
-    private users: User[];
+    private messageWorks: string;
+    private messageUsers: string;
 
-    constructor(private authService: AuthService, private user: UserService, private router: Router) {
+    private users: User[];
+    private works: Work[];
+
+    constructor(private authService: AuthService, private user: UserService, private work: WorkService, private router: Router) {
         this.message = "My Dashboard in SAM";
     }
 
     ngOnInit() {
         this.getAllUsers();
+        this.getMyWorks();
     }
 
     logout() {
@@ -38,6 +46,19 @@ export class Dashboard implements OnInit {
     getAllUsers() {
         this.user.all().subscribe(
             users => this.users = users,
-            error => this.message = <any>error);
+            error => this.messageUsers = <any>error,
+            () => console.log("Done get all users.")
+        );
+    }
+
+    getMyWorks() {
+        this.work.allMyWorks().subscribe(
+            works => {
+                // console.log(works);
+                this.works = works;
+            },
+            error => this.messageWorks = <any>error,
+            () => console.log("Done get my works.")
+        );
     }
 }

@@ -7,7 +7,7 @@ var passport = require('passport');
 
 var home = require('./routes/home');
 var web = require('./routes/web');
-var users = require('./routes/users');
+var users = require('./routes/user');
 var auth = require('./routes/auth');
 var work = require('./routes/work');
 
@@ -33,7 +33,7 @@ app.use('/', home);
 app.use('/', web);
 app.use('/users', users);
 app.use('/api', auth);
-app.use('/work', work);
+app.use('/works', work);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

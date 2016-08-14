@@ -1,15 +1,23 @@
 var JsonDB = require('node-json-db');
 var db = new JsonDB("works", true, false);
-var _path = "/work";
 
 module.exports = {
 
-    create: function (workName, data, cb) {
+    create: function (data, cb) {
         try {
-            db.push(_path + "/" + workName, data);
+            db.push("/" + data.username + "/" + data.nameurl, data);
             cb(null, data);
         } catch (error) {
             return cb(error, null);
+        }
+    },
+
+    allByUser: function (username, cb) {
+        try {
+            var data = db.getData("/" + username);
+            return cb(null, data);
+        } catch (err) {
+            return cb(err, null);
         }
     },
 }
