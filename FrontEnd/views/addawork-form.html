@@ -15,8 +15,8 @@
             </small>
         </div>
         <div class="form-group">
-            <label for="categories">Categories</label>
-            <select class="form-control" formControlName="categories" name="categories" (change)="onChangeCategory($event.target.value)">
+            <label for="category">Categories</label>
+            <select class="form-control" formControlName="category" name="category" (change)="onChangeCategory($event.target.value)">
                 <option *ngFor="let cat of cats" value={{cat.id}}>
                     {{cat.name}}
                 </option>

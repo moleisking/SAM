@@ -39,7 +39,7 @@ export class AddAWorkFormComponent implements OnInit {
         this.myForm = this.formBuilder.group({
             name: ["", <any>Validators.required],
             description: ["", <any>Validators.required],
-            categories: ["",
+            category: ["",
                 Validators.compose([
                     Validators.pattern(regexPatterns.numbers),
                     Validators.required
