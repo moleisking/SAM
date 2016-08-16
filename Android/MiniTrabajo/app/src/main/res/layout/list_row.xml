@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_height="wrap_content"
+	    android:gravity="start|center"
+	    android:layout_width="wrap_content">
+    <ImageView
+        android:id="@+id/imgItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_person_black_24dp">
+    </ImageView>
+    <TextView
+        android:id="@+id/txtItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:text="Hello World"
+        android:textColor="#7f0000"
+        android:textSize="28dip"
+        android:gravity="left"
+        android:layout_marginLeft="10dip">
+    </TextView>
+</LinearLayout>

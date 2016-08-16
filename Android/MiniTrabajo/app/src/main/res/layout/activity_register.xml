@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_register"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <ImageView
+        android:id="@+id/imgItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:contentDescription="@string/lbl_description">
+    </ImageView>
+    <EditText
+        android:id="@+id/txtName"
+        android:text="Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Firstname and Lastname"
+        android:maxLines="1"
+        android:singleLine="true">
+        <requestFocus />
+    </EditText>
+    <EditText
+        android:id="@+id/txtPassword"
+        android:text="Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:singleLine="true">
+        <requestFocus />
+    </EditText>
+    <EditText
+        android:id="@+id/txtEmail"
+        android:text="Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email Address"
+        android:maxLines="1"
+        android:singleLine="true">
+        <requestFocus />
+    </EditText>
+    <EditText
+        android:id="@+id/txtDescription"
+        android:text="Description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:singleLine="true">
+    </EditText>
+    <EditText
+        android:id="@+id/txtAddress"
+        android:text="Address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:singleLine="true">
+    </EditText>
+    <EditText
+        android:id="@+id/txtPrice"
+        android:text="Price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:singleLine="true">
+    </EditText>
+    <Button
+        android:id="@+id/btnRegister"
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:singleLine="true">
+    </Button>
+</LinearLayout>
