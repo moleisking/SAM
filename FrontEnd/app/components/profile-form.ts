@@ -23,14 +23,14 @@ export class ProfileFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getLoggedProfile();
+        this.getMyProfile();
         this.myForm = this.formBuilder.group({
             description: [this.description, <any>Validators.required]
         });
     }
 
-    getLoggedProfile() {
-        this.user.getLoggedProfile().subscribe(
+    getMyProfile() {
+        this.user.getMyProfile().subscribe(
             profile => this.description = profile.description,
             error => this.message = <any>error);
     }

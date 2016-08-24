@@ -1,8 +1,8 @@
-import { Tag } from "./tag";
+import { TagModel } from "./tag";
 
-export interface Category {
+export interface CategoryModel {
     id: number;
     name: string;
     description: string;
-    tags: Array<Tag>
+    tags: Array<TagModel>
 }

@@ -55,6 +55,32 @@ module.exports = {
                     return cb(null, value);
         });
     },
+
+    read: function (id, cb) {
+        if (id === null || id === undefined)
+            return cb("Must provide a valid id.", null);
+        myCache.get(myCacheName + "readWork" + id, function (err, value) {
+            if (err)
+                return cb(err, null);
+            else
+                if (value == undefined)
+                    _read(id, function (err, readValue) {
+                        if (err)
+                            return cb(err, null);
+                        else
+                            myCache.set(myCacheName + "readWork" + id, readValue, function (err, success) {
+                                if (err)
+                                    return cb(err, null);
+                                if (success)
+                                    return cb(null, readValue);
+                                else
+                                    return cb('cache internal failure', null);
+                            });
+                    });
+                else
+                    return cb(null, value);
+        });
+    },
 }
 
 function _allByUser(username, cb) {

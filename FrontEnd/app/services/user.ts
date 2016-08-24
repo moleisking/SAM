@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import { Settings } from "../config/settings";
-import { User } from "../models/user";
-import { Profile } from "../models/profile";
+import { UserModel } from "../models/user";
+import { ProfileModel } from "../models/profile";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
@@ -29,7 +29,7 @@ export class UserService {
     return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }
 
-  all(): Observable<User[]> {
+  all(): Observable<UserModel[]> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
 
@@ -37,22 +37,17 @@ export class UserService {
       .map(this.extractData).catch(this.handleError);
   }
 
-  getLoggedProfile(): Observable<Profile> {
+  getMyProfile(): Observable<ProfileModel> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
 
-    return this.http.get(Settings.backend_url + "/users/getprofile", { headers: headers })
+    return this.http.get(Settings.backend_url + "/users/getmyprofile", { headers: headers })
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  getProfile(id): Observable<Profile> {
-    let headers = new Headers();
-    let creds = "name=" + id;
-    headers.append("Content-Type", "application/X-www-form-urlencoded");
-    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
-
-    return this.http.post(Settings.backend_url + "/users/getprofile", creds, { headers: headers })
+  getProfile(id): Observable<ProfileModel> {
+    return this.http.get(Settings.backend_url + "/users/getprofile/" + id)
       .map(this.extractData).catch(this.handleError);
   }
 

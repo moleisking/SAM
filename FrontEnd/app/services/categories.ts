@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import { Settings } from "../config/settings";
-import { Category } from "../models/category";
-import { Profile } from "../models/profile";
+import { CategoryModel } from "../models/category";
+import { ProfileModel } from "../models/profile";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
@@ -11,7 +11,7 @@ export class CategoriesService {
 
   constructor(private http: Http) { }
 
-  all(): Observable<Category[]> {
+  all(): Observable<CategoryModel[]> {
     return this.http.get(Settings.backend_url + "/categories")
       .map(this.extractData)
       .catch(this.handleError);

@@ -25,8 +25,17 @@ router.post('/saveprofile', passport.authenticate('jwt', { session: false }), fu
     })
 });
 
-router.get('/getprofile', passport.authenticate('jwt', { session: false }), function (req, res, next) {
+router.get('/getmyprofile', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     user.getProfile(user.getNameFromTokenUser(req.headers), function (err, data) {
+      if (err)
+        res.status(500).json({err});
+      else
+        res.json({data});
+    })
+});
+
+router.get('/getprofile/:nameUrl', function (req, res, next) {
+    user.getProfile(req.params.nameUrl, function (err, data) {
       if (err)
         res.status(500).json({err});
       else

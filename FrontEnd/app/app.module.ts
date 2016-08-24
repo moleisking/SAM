@@ -24,6 +24,7 @@ import { ContactUs } from "./components/contactus";
 import { TermsConditions } from "./components/termsconditions";
 import { ForgottenPassword } from "./components/forgottenpassword";
 import { Profile } from "./components/profile";
+import { Work } from "./components/work";
 
 import { AddAWorkFormComponent } from "./components/addawork-form";
 import { ContactUsFormComponent } from "./components/contactus-form";
@@ -67,6 +68,7 @@ if (environment.production)
         TermsConditions,
         ForgottenPassword,
         Profile,
+        Work,
 
         AddAWorkFormComponent,
         ContactUsFormComponent,

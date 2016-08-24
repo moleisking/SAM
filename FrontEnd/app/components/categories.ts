@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Category } from "../models/category";
+import { CategoryModel } from "../models/category";
 import { CategoriesService } from "../services/categories";
 
 @Component({
@@ -9,7 +9,7 @@ import { CategoriesService } from "../services/categories";
 })
 
 export class Categories implements OnInit {
-    private cats: Category[];
+    private cats: CategoryModel[];
     private message: string;
 
     constructor(private cat: CategoriesService) {

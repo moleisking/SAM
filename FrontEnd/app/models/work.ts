@@ -1,4 +1,4 @@
-export interface Work {
+export interface WorkModel {
     name: string;
     nameurl: string;
     username: string;

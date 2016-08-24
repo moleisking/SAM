@@ -10,8 +10,8 @@ import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
 import { WorkService } from "../services/work";
 
-import { User } from "../models/user";
-import { Work } from "../models/work";
+import { UserModel } from "../models/user";
+import { WorkModel } from "../models/work";
 
 @Component({
     selector: "dashboard-component",
@@ -26,8 +26,8 @@ export class Dashboard implements OnInit {
     private messageWorks: string;
     private messageUsers: string;
 
-    private users: User[];
-    private works: Work[];
+    private users: UserModel[];
+    private works: WorkModel[];
 
     constructor(private authService: AuthService, private user: UserService, private work: WorkService, private router: Router) {
         this.message = "My Dashboard in SAM";

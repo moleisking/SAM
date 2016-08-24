@@ -5,8 +5,8 @@ import { Router } from "@angular/router";
 import { SELECT_DIRECTIVES } from "ng2-select";
 import { CategoriesService } from "../services/categories";
 import { WorkService } from "../services/work";
-import { Category } from "../models/category";
-import { Tag } from "../models/tag";
+import { CategoryModel } from "../models/category";
+import { TagModel } from "../models/tag";
 
 @Component({
     selector: "addawork-form-component",
@@ -19,8 +19,8 @@ import { Tag } from "../models/tag";
 
 export class AddAWorkFormComponent implements OnInit {
 
-    private cats: Array<Category>;
-    private tags: Array<Tag>;
+    private cats: Array<CategoryModel>;
+    private tags: Array<TagModel>;
 
     private tagsValue: any = [];
 

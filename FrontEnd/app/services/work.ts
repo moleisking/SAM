@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import { Settings } from "../config/settings";
-import { Work } from "../models/work";
+import { WorkModel } from "../models/work";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
@@ -20,11 +20,16 @@ export class WorkService {
       .map(this.extractData).catch(this.handleError);
   }
 
-  allMyWorks(): Observable<Work[]> {
+  allMyWorks(): Observable<WorkModel[]> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
 
     return this.http.get(Settings.backend_url + "/works/allbyuser", { headers: headers })
+      .map(this.extractData).catch(this.handleError);
+  }
+
+  getWork(id): Observable<WorkModel> {
+    return this.http.get(Settings.backend_url + "/works" + id)
       .map(this.extractData).catch(this.handleError);
   }
 

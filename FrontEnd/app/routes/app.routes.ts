@@ -11,6 +11,7 @@ import { Dashboard } from "../components/dashboard";
 import { ForgottenPassword } from "../components/forgottenpassword";
 import { Categories } from "../components/categories";
 import { Profile } from "../components/profile";
+import { Work } from "../components/work";
 import { AddAWork } from "../components/addawork";
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { path: "dashboard", component: Dashboard, canActivate: [RoutesManager] },
   { path: "addawork", component: AddAWork, canActivate: [RoutesManager] },
   { path: "categories", component: Categories },
+  { path: "works/:id", component: Work },
   { path: "about", component: About },
   { path: "contactus", component: ContactUs },
   { path: "termsconditions", component: TermsConditions },
