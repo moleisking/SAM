@@ -56,7 +56,7 @@ module.exports = {
         });
     },
 
-    read: function (id, cb) {
+    read: function (username, id, cb) {
         if (id === null || id === undefined)
             return cb("Must provide a valid id.", null);
         myCache.get(myCacheName + "readWork" + id, function (err, value) {
@@ -64,7 +64,7 @@ module.exports = {
                 return cb(err, null);
             else
                 if (value == undefined)
-                    _read(id, function (err, readValue) {
+                    _read(username, id, function (err, readValue) {
                         if (err)
                             return cb(err, null);
                         else
@@ -98,6 +98,22 @@ function _allByUser(username, cb) {
                     works.push(work.toJSON());
                 }
                 return cb(null, works);
+            }
+        });
+    } catch (err) {
+        return cb(err, null);
+    };
+}
+
+function _read(username, id, cb) {
+    try {
+        workDAL.read(username, id, function (err, data) {
+            if (err)
+                return cb(err, null);
+            else {
+                var work = model.create();
+                work.update(data);
+                return cb(null, work.toJSON());
             }
         });
     } catch (err) {

@@ -28,8 +28,8 @@ export class WorkService {
       .map(this.extractData).catch(this.handleError);
   }
 
-  getWork(id): Observable<WorkModel> {
-    return this.http.get(Settings.backend_url + "/works" + id)
+  getWork(username, id): Observable<WorkModel> {
+    return this.http.get(Settings.backend_url + "/works/" + username + "/" + id)
       .map(this.extractData).catch(this.handleError);
   }
 

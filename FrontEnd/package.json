@@ -4,8 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
-    "lite": "lite-server",
+    "start": "gulp",
     "postinstall": "typings install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",

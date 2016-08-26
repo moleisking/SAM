@@ -20,4 +20,13 @@ module.exports = {
             return cb(err, null);
         }
     },
+
+    read: function (username, id, cb) {
+        try {
+            var data = db.getData("/" + username + "/" + id);
+            return cb(null, data);
+        } catch (err) {
+            return cb(err, null);
+        }
+    },
 }

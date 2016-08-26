@@ -7,7 +7,7 @@
     {{ messageWorks }}
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let work of works">
-        <a [routerLink]="['/works', work.nameurl]">{{ work.name }}</a>
+        <a [routerLink]="['/works', work.username, work.nameurl]">{{ work.name }}</a>
       </li>
     </ul>
   </tab>

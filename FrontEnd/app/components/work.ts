@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
 import { WorkService } from "../services/work";
@@ -10,19 +10,23 @@ import { WorkModel } from "../models/work";
     providers: [WorkService]
 })
 
-export class Work implements OnInit {
+export class Work implements OnInit, OnDestroy {
 
     private sub: any;
-    public message: string;
-    public workModel: WorkModel;
+    private message: string;
+    private workModel: WorkModel;
 
     constructor(private route: ActivatedRoute, private work: WorkService) { }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
             let id = params["id"];
-            this.work.getWork(id).subscribe(
-                work => this.workModel = work,
+            let username = params["username"];
+            this.work.getWork(username, id).subscribe(
+                    work => {
+                        this.workModel = work;
+                        console.log(this.workModel);
+                    },
                 error => this.message = <any>error);
         });
     }

@@ -28,8 +28,8 @@ router.get('/allbyuser', passport.authenticate('jwt', { session: false }), funct
   })
 });
 
-router.get('/:nameWork', function (req, res, next) {
-    work.getWork(req.params.nameWork, function (err, data) {
+router.get('/:username/:nameWork', function (req, res, next) {
+    work.read(req.params.username, req.params.nameWork, function (err, data) {
       if (err)
         res.status(500).json({err});
       else

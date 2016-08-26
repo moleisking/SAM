@@ -21,7 +21,7 @@ export const routes: Routes = [
   { path: "dashboard", component: Dashboard, canActivate: [RoutesManager] },
   { path: "addawork", component: AddAWork, canActivate: [RoutesManager] },
   { path: "categories", component: Categories },
-  { path: "works/:id", component: Work },
+  { path: "works/:username/:id", component: Work },
   { path: "about", component: About },
   { path: "contactus", component: ContactUs },
   { path: "termsconditions", component: TermsConditions },

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
 import { UserService } from "../services/user";
@@ -9,7 +9,7 @@ import { UserService } from "../services/user";
     providers: [UserService]
 })
 
-export class Profile implements OnInit {
+export class Profile implements OnInit, OnDestroy {
 
     private sub: any;
     public message: string;
