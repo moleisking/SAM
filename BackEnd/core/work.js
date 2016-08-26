@@ -93,9 +93,9 @@ function _allByUser(username, cb) {
                     return cb("No works created yet", null);
                 var works = [];
                 for (var item in data) {
-                    var work = model.create();
-                    work.update(data[item]);
-                    works.push(work.toJSON());
+                    var m = model.create();
+                    m.update(data[item]);
+                    works.push(m.toJSON());
                 }
                 return cb(null, works);
             }
@@ -111,9 +111,9 @@ function _read(username, id, cb) {
             if (err)
                 return cb(err, null);
             else {
-                var work = model.create();
-                work.update(data);
-                return cb(null, work.toJSON());
+                var m = model.create();
+                m.update(data);
+                return cb(null, m.toJSON());
             }
         });
     } catch (err) {

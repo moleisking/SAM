@@ -30,7 +30,7 @@ module.exports = {
                 else
                     return cb(null, value);
         });
-    }
+    },
 }
 
 function _all(cb) {

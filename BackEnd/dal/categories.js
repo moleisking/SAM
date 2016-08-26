@@ -11,5 +11,5 @@ module.exports = {
         } catch (err) {
             return cb(err, null);
         }
-    }
+    },
 }

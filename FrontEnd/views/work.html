@@ -9,9 +9,13 @@
         <p>{{ workModel.username }}</p>
         <p>NameUrl:</p>
         <p>{{ workModel.nameurl }}</p>
-        <p>Category:</p>
-        <p>{{ workModel.category }}</p>
+        <!--<p>Category:</p>
+        <p>{{ workModel.category }}</p>-->
+        <p>Category Name:</p>
+        <p>{{ workModel.categoryName }}</p>
+        <!--<p>Tags:</p>
+        <p>{{ workModel.tags }}</p>-->
         <p>Tags:</p>
-        <p>{{ workModel.tags }}</p>
+        <p *ngFor="let tag of workModel.tagsObject">{{ tag.text }}</p>
     </div>
 </div>

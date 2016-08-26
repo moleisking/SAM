@@ -192,9 +192,9 @@ function _read(id, cb) {
             if (err)
                 return cb(err, null);
             else {
-                var user = model.create();
-                user.update(data);
-                return cb(null, user.toJSON());
+                var m = model.create();
+                m.update(data);
+                return cb(null, m.toJSON());
             }
         });
     } catch (err) {
@@ -226,9 +226,9 @@ function _readByEmail(id, cb) {
             else {
                 if (!data)
                     return cb('User not found', null);
-                var user = model.create();
-                user.update(data);
-                return cb(null, user.toJSON());
+                var m = model.create();
+                m.update(data);
+                return cb(null, m.toJSON());
             }
         });
     } catch (err) {
@@ -243,9 +243,9 @@ function _all(cb) {
                 return cb(err, null);
             var users = [];
             for (var item in data) {
-                var user = model.create();
-                user.update(data[item]);
-                users.push(user.toJSON());
+                var m = model.create();
+                m.update(data[item]);
+                users.push(m.toJSON());
             }
             return cb(null, users);
         });
