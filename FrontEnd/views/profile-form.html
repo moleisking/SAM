@@ -6,6 +6,6 @@
                 Description is required.
             </small>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="save(myForm)">Save</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid && !submitted" (click)="save(myForm)">Save</button>
     <p>{{ message }}</p>
 </form>

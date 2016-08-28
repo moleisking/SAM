@@ -10,7 +10,7 @@ var router = express.Router();
 require('../config/passport')(passport);
 
 router.post('/signup', function (req, res) {
-  if (!req.body.name || !req.body.pass || !req.body.lat || !req.body.lng)
+  if (!req.body.name || !req.body.email || !req.body.pass || !req.body.lat || !req.body.lng)
     res.status(400).send("Please provide name and password.");
   else
     user.read(req.body.name, function (err, data) {

@@ -14,9 +14,9 @@ module.exports = {
         }
     },
 
-    read: function (id, cb) {
+    read: function (usernameurl, cb) {
         try {
-            var data = db.getData(_path + "/" + id);
+            var data = db.getData(_path + "/" + usernameurl);
             return cb(null, data);
         } catch (err) {
             return cb(err, null);
@@ -32,9 +32,9 @@ module.exports = {
         }
     },
 
-    delete: function (id, cb) {
+    delete: function (usernameurl, cb) {
         try {
-            var data = db.delete(_path + "/" + id);
+            var data = db.delete(_path + "/" + usernameurl);
             return cb(null, true);
         } catch (err) {
             return cb(err, null);
@@ -51,18 +51,18 @@ module.exports = {
         }
     },
 
-    saveProfile: function (username, data, cb) {
+    saveProfile: function (usernameurl, data, cb) {
         try {
-            db.push(_path + "/profile/" + username, data);
+            db.push(_path + "/" + usernameurl + "/profile", data);
             cb(null, data);
         } catch (error) {
             return cb(error, null);
         }
     },
 
-    readProfile: function (username, cb) {
+    readProfile: function (usernameurl, cb) {
         try {
-            var data = db.getData(_path + "/profile/" + username);
+            var data = db.getData(_path + "/" + usernameurl + "/profile");
             return cb(null, data);
         } catch (err) {
             return cb(err, null);

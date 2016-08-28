@@ -16,6 +16,8 @@ module.exports = {
         user.nameurl(toURLString(data.name));
         user.pass(data.pass);
         user.email(data.email);
+        user.lat(data.lat);
+        user.lng(data.lng);
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
@@ -24,7 +26,12 @@ module.exports = {
                 if (err)
                     return cb(err, null);
                 myCache.del(myCacheName + "all");
-                return cb(null, data);
+                var userdata = data;
+                module.exports.saveProfile(user.name(), null, function (err, data) {
+                    if (err)
+                        return cb(err, null);
+                    return cb(null, userdata);
+                });
             });
         }).catch(function (err) {
             return cb(err, null);
@@ -117,8 +124,10 @@ module.exports = {
 
     saveProfile: function (username, data, cb) {
         var profile = modelprofile.create();
-        profile.name(username);
-        profile.description(data.description);
+        if (data === null)
+            profile.description("");
+        else        
+            profile.description(data.description);
         profile.validate().then(function () {
             if (!profile.isValid)
                 return cb(profile.errors, null);

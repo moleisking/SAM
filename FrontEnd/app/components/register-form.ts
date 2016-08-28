@@ -53,7 +53,7 @@ export class RegisterFormComponent implements OnInit {
         else {
             this.submitted = true;
             this.message = "New user sent to be registered. Wait...";
-            this.user.register(this.myForm.value).subscribe(
+            this.user.register(this.myForm.value, this.lat, this.lng).subscribe(
                 () => this.router.navigate(["/login"]),
                 error => this.message = <any>error,
                 () => console.log("Done register call.")

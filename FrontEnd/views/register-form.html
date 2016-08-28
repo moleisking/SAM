@@ -21,7 +21,7 @@
                 Email is required.
             </small>
         </div>
-        <button type="submit" class="btn btn-default" [disabled]="!myForm.valid" (click)="register(myForm)">Register</button>
+        <button type="submit" class="btn btn-default" [disabled]="!myForm.valid && !submitted" (click)="register(myForm)">Register</button>
         <p>{{ message }}</p>
     </form>
 </div>

@@ -15,6 +15,7 @@ export class ForgottenPassword implements OnInit {
 
     private myForm: FormGroup;
     private message: string;
+    private submitted: boolean; // keep track on form submission
 
     constructor(private builder: FormBuilder, private formBuilder: FormBuilder, private user: UserService) {
         this.message = "Forgotten Password Text";
@@ -27,8 +28,8 @@ export class ForgottenPassword implements OnInit {
     }
 
     send() {
-        this.user.forgottenpassword(this.myForm.value)
-            .subscribe(
+        this.submitted = true;
+        this.user.forgottenpassword(this.myForm.value).subscribe(
             data => {
                 this.message = data.message;
             },
@@ -36,6 +37,6 @@ export class ForgottenPassword implements OnInit {
                 this.message = "Error sending email.";
             },
             () => console.log("Done forgotten password")
-            );
+        );
     }
 }
