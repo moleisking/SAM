@@ -8,8 +8,7 @@ import { TagModel } from "../models/tag";
 
 @Component({
     selector: "work-component",
-    templateUrl: "/views/work.html",
-    providers: [WorkService]
+    templateUrl: "/views/work.html"
 })
 
 export class Work implements OnInit, OnDestroy {
