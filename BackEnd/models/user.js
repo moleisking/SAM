@@ -26,7 +26,21 @@ var user = new model("User")
         // tags: ['private'] //this tags the accessibility as _private_ 
     })
     .attr('admin')
-    .attr('email');
+    .attr('email')
+    .attr('lat', {
+        validations: {
+            presence: {
+                message: 'Latitude is required!'
+            }
+        }
+    })
+    .attr('lng', {
+        validations: {
+            presence: {
+                message: 'Longitude is required!'
+            }
+        }
+    });
 
 module.exports = user;
 

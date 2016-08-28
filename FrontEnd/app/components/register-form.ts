@@ -18,6 +18,8 @@ export class RegisterFormComponent implements OnInit {
     private myForm: FormGroup; // our model driven form
     private submitted: boolean; // keep track on form submission
     private message: string;
+    private lat: number;
+    private lng: number;
 
     constructor(private auth: AuthService, private user: UserService, private router: Router, private formBuilder: FormBuilder) {
         this.message = "register messages here.";
@@ -29,15 +31,51 @@ export class RegisterFormComponent implements OnInit {
             pass: ["", [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(20)]],
             email: ["", <any>Validators.required]
         });
+        this.getPosition();
+    }
+
+    getPosition() {
+        if (navigator.geolocation)
+            navigator.geolocation.getCurrentPosition(this.setPosition, this.showErrorGeoLoc);
+        else
+            this.message = "Geo-location is not supported by this browser or allowed. Can't register an user then.";
+    }
+
+    setPosition(position) {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        console.log("position coords", this.lat, this.lng);
     }
 
     register() {
-        this.submitted = true;
-        this.message = "New user sent to be registered. Wait...";
-        this.user.register(this.myForm.value).subscribe(
-            () => this.router.navigate(["/login"]),
-            error => this.message = <any>error,
-            () => console.log("Done register call.")
-        );
+        if (!this.lat || this.lat === undefined || this.lat === 0 ||
+            !this.lng || this.lng === undefined || this.lng === 0)
+            this.message = "Coordenades not specified. Can't register an user then.";
+        else {
+            this.submitted = true;
+            this.message = "New user sent to be registered. Wait...";
+            this.user.register(this.myForm.value).subscribe(
+                () => this.router.navigate(["/login"]),
+                error => this.message = <any>error,
+                () => console.log("Done register call.")
+            );
+        }
+    }
+
+    showErrorGeoLoc(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                this.message = "User denied the request for Geo-location.";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                this.message = "Location information is unavailable.";
+                break;
+            case error.TIMEOUT:
+                this.message = "The request to get user location timed out.";
+                break;
+            case error.UNKNOWN_ERROR:
+                this.message = "An unknown error occurred.";
+                break;
+        }
     }
 }
