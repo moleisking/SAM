@@ -6,25 +6,26 @@ var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "user";
 var jwt = require('jwt-simple');
 var config = require('../config/settings');
+var toURLString = require('speakingurl');
 
 module.exports = {
 
     create: function (data, cb) {
         var user = model.create();
         user.name(data.name);
+        user.nameurl(toURLString(data.name));
         user.pass(data.pass);
         user.email(data.email);
         user.validate().then(function () {
-            if (user.isValid) {
-                user.pass(model.generateHash(user.pass()));
-                userDAL.create(user.name(), user.toJSON(), function (err, data) {
-                    if (err)
-                        return cb(err, null);
-                    myCache.del(myCacheName + "all");
-                    return cb(null, data);
-                });
-            } else
+            if (!user.isValid)
                 return cb(user.errors, null);
+            user.pass(model.generateHash(user.pass()));
+            userDAL.create(user.name(), user.toJSON(), function (err, data) {
+                if (err)
+                    return cb(err, null);
+                myCache.del(myCacheName + "all");
+                return cb(null, data);
+            });
         }).catch(function (err) {
             return cb(err, null);
         });
@@ -36,23 +37,19 @@ module.exports = {
         myCache.get(myCacheName + "readUser" + id, function (err, value) {
             if (err)
                 return cb(err, null);
-            else
-                if (value == undefined)
-                    _read(id, function (err, readValue) {
-                        if (err)
-                            return cb(err, null);
-                        else
-                            myCache.set(myCacheName + "readUser" + id, readValue, function (err, success) {
-                                if (err)
-                                    return cb(err, null);
-                                if (success)
-                                    return cb(null, readValue);
-                                else
-                                    return cb('cache internal failure', null);
-                            });
-                    });
-                else
-                    return cb(null, value);
+            if (value != undefined)
+                return cb(null, value);
+            _read(id, function (err, readValue) {
+                if (err)
+                    return cb(err, null);
+                myCache.set(myCacheName + "readUser" + id, readValue, function (err, success) {
+                    if (err)
+                        return cb(err, null);
+                    if (success)
+                        return cb(null, readValue);
+                    return cb('cache internal failure', null);
+                });
+            });
         });
     },
 
@@ -62,11 +59,9 @@ module.exports = {
         _delete(id, function (err, value) {
             if (err)
                 return cb(err, null);
-            else {
-                myCache.del(myCacheName + "readUser" + id);
-                myCache.del(myCacheName + "all");
-                return cb(null, value);
-            }
+            myCache.del(myCacheName + "readUser" + id);
+            myCache.del(myCacheName + "all");
+            return cb(null, value);
         });
     },
 
@@ -74,23 +69,19 @@ module.exports = {
         myCache.get(myCacheName + "all", function (err, value) {
             if (err)
                 return cb(err, null);
-            else
-                if (value == undefined)
-                    _all(function (err, readAll) {
-                        if (err)
-                            return cb(err, null);
-                        else
-                            myCache.set(myCacheName + "all", readAll, function (err, success) {
-                                if (err)
-                                    return cb(err, null);
-                                if (success)
-                                    return cb(null, readAll);
-                                else
-                                    return cb('cache internal failure', null);
-                            });
-                    });
-                else
-                    return cb(null, value);
+            if (value != undefined)
+                return cb(null, value);
+            _all(function (err, readAll) {
+                if (err)
+                    return cb(err, null);
+                myCache.set(myCacheName + "all", readAll, function (err, success) {
+                    if (err)
+                        return cb(err, null);
+                    if (success)
+                        return cb(null, readAll);
+                    return cb('cache internal failure', null);
+                });
+            });
         });
     },
 
@@ -100,33 +91,28 @@ module.exports = {
         myCache.get(myCacheName + "readUserByEmail" + id, function (err, value) {
             if (err)
                 return cb(err, null);
-            else
-                if (value === undefined)
-                    _readByEmail(id, function (err, readValue) {
-                        if (err)
-                            return cb(err, null);
-                        else
-                            myCache.set(myCacheName + "readUserByEmail" + id, readValue, function (err, success) {
-                                if (err)
-                                    return cb(err, null);
-                                if (success)
-                                    return cb(null, readValue);
-                                else
-                                    return cb('cache internal failure', null);
-                            });
-                    });
-                else
-                    return cb(null, value);
+            if (value !== undefined)
+                return cb(null, value);
+            _readByEmail(id, function (err, readValue) {
+                if (err)
+                    return cb(err, null);
+                myCache.set(myCacheName + "readUserByEmail" + id, readValue, function (err, success) {
+                    if (err)
+                        return cb(err, null);
+                    if (success)
+                        return cb(null, readValue);
+                    return cb('cache internal failure', null);
+                });
+            });
         });
     },
 
     getNameFromTokenUser: function (headers, cb) {
         var token = _getToken(headers);
-        if (token) {
-            var decodedUser = jwt.decode(token, config.secret);
-            return decodedUser.name;
-        } else
+        if (!token)
             return null;
+        var decodedUser = jwt.decode(token, config.secret);
+        return decodedUser.name;
     },
 
     saveProfile: function (username, data, cb) {
@@ -134,15 +120,14 @@ module.exports = {
         profile.name(username);
         profile.description(data.description);
         profile.validate().then(function () {
-            if (profile.isValid) {
-                userDAL.saveProfile(username, profile.toJSON(), function (err, data) {
-                    if (err)
-                        return cb(err, null);
-                    myCache.del(myCacheName + "readUserProfile" + username);
-                    return cb(null, data);
-                });
-            } else
+            if (!profile.isValid)
                 return cb(profile.errors, null);
+            userDAL.saveProfile(username, profile.toJSON(), function (err, data) {
+                if (err)
+                    return cb(err, null);
+                myCache.del(myCacheName + "readUserProfile" + username);
+                return cb(null, data);
+            });
         }).catch(function (err) {
             return cb(err, null);
         });
@@ -154,35 +139,30 @@ module.exports = {
         myCache.get(myCacheName + "readUserProfile" + name, function (err, value) {
             if (err)
                 return cb(err, null);
-            else
-                if (value == undefined)
-                    _readProfile(name, function (err, readValue) {
-                        if (err)
-                            return cb(err, null);
-                        else
-                            myCache.set(myCacheName + "readUserProfile" + name, readValue, function (err, success) {
-                                if (err)
-                                    return cb(err, null);
-                                if (success)
-                                    return cb(null, readValue);
-                                else
-                                    return cb('cache internal failure', null);
-                            });
-                    });
-                else
-                    return cb(null, value);
+            if (value !== undefined)
+                return cb(null, value);
+            _readProfile(name, function (err, readValue) {
+                if (err)
+                    return cb(err, null);
+                myCache.set(myCacheName + "readUserProfile" + name, readValue, function (err, success) {
+                    if (err)
+                        return cb(err, null);
+                    if (success)
+                        return cb(null, readValue);
+                    return cb('cache internal failure', null);
+                });
+            });
         });
     },
 }
 
 function _getToken(headers) {
-    if (headers && headers.authorization) {
-        var parted = headers.authorization.split(' ');
-        if (parted.length === 2)
-            return parted[1];
-        else
-            return null;
-    } else
+    if (!headers || !headers.authorization)
+        return null;
+    var parted = headers.authorization.split(' ');
+    if (parted.length === 2)
+        return parted[1];
+    else
         return null;
 };
 
@@ -191,11 +171,9 @@ function _read(id, cb) {
         userDAL.read(id, function (err, data) {
             if (err)
                 return cb(err, null);
-            else {
-                var m = model.create();
-                m.update(data);
-                return cb(null, m.toJSON());
-            }
+            var m = model.create();
+            m.update(data);
+            return cb(null, m.toJSON());
         });
     } catch (err) {
         return cb(err, null);
@@ -207,11 +185,9 @@ function _readProfile(id, cb) {
         userDAL.readProfile(id, function (err, data) {
             if (err)
                 return cb(err, null);
-            else {
-                var user = modelprofile.create();
-                user.update(data);
-                return cb(null, user.toJSON());
-            }
+            var user = modelprofile.create();
+            user.update(data);
+            return cb(null, user.toJSON());
         });
     } catch (err) {
         return cb(err, null);
@@ -223,13 +199,11 @@ function _readByEmail(id, cb) {
         userDAL.readByEmail(id, function (err, data) {
             if (err)
                 return cb(err, null);
-            else {
-                if (!data)
-                    return cb('User not found', null);
-                var m = model.create();
-                m.update(data);
-                return cb(null, m.toJSON());
-            }
+            if (!data)
+                return cb('User not found', null);
+            var m = model.create();
+            m.update(data);
+            return cb(null, m.toJSON());
         });
     } catch (err) {
         return cb(err, null);
@@ -259,8 +233,7 @@ function _delete(id, cb) {
         userDAL.delete(id, function (err, data) {
             if (err)
                 return cb(err, null);
-            else
-                return cb(null, data);
+            return cb(null, data);
         });
     } catch (err) {
         return cb(err, null);

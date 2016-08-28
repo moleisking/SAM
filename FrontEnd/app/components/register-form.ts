@@ -7,10 +7,8 @@ import { UserService } from "../services/user";
 
 @Component({
     selector: "register-form-component",
-    providers: [UserService, AuthService],
     templateUrl: "/views/register-form.html",
     styleUrls: ["/styles/form.css"],
-    directives: [REACTIVE_FORM_DIRECTIVES]
 })
 
 export class RegisterFormComponent implements OnInit {
@@ -22,7 +20,9 @@ export class RegisterFormComponent implements OnInit {
     private lng: number;
 
     constructor(private auth: AuthService, private user: UserService, private router: Router, private formBuilder: FormBuilder) {
-        this.message = "register messages here.";
+        this.message = "Register messages will be here.";
+        this.lat = 0;
+        this.lng = 0;
     }
 
     ngOnInit() {
@@ -36,18 +36,22 @@ export class RegisterFormComponent implements OnInit {
 
     getPosition() {
         if (navigator.geolocation)
-            navigator.geolocation.getCurrentPosition(this.setPosition, this.showErrorGeoLoc);
+            navigator.geolocation.getCurrentPosition(position => { this.setPosition(position) }, this.showErrorGeoLoc);
         else
-            this.message = "Geo-location is not supported by this browser or allowed. Can't register an user then.";
+            this.message = "Geolocation is not supported by this browser or allowed. Can't register an user then.";
     }
 
     setPosition(position) {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
-        console.log("position coords", this.lat, this.lng);
+        console.log(this.lat);
+        console.log(this.lng);
     }
 
     register() {
+        console.log(this.lat);
+        console.log(this.lng);
+        console.log(this.message);
         if (!this.lat || this.lat === undefined || this.lat === 0 ||
             !this.lng || this.lng === undefined || this.lng === 0)
             this.message = "Coordenades not specified. Can't register an user then.";

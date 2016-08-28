@@ -10,7 +10,7 @@ var router = express.Router();
 require('../config/passport')(passport);
 
 router.post('/signup', function (req, res) {
-  if (!req.body.name || !req.body.pass)
+  if (!req.body.name || !req.body.pass || !req.body.lat || !req.body.lng)
     res.status(400).send("Please provide name and password.");
   else
     user.read(req.body.name, function (err, data) {
@@ -18,7 +18,7 @@ router.post('/signup', function (req, res) {
         res.status(500).json("Error in SignUp: " + err);
       else
         if (data)
-          res.status(409).send("User Already Exists");
+          res.status(409).send("User already exists");
         else
           user.create(req.body, function (err, data) {
             if (err)
