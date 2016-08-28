@@ -44,14 +44,9 @@ export class RegisterFormComponent implements OnInit {
     setPosition(position) {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
-        console.log(this.lat);
-        console.log(this.lng);
     }
 
     register() {
-        console.log(this.lat);
-        console.log(this.lng);
-        console.log(this.message);
         if (!this.lat || this.lat === undefined || this.lat === 0 ||
             !this.lng || this.lng === undefined || this.lng === 0)
             this.message = "Coordenades not specified. Can't register an user then.";

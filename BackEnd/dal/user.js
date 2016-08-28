@@ -5,9 +5,9 @@ var _ = require("lodash");
 
 module.exports = {
 
-    create: function (username, data, cb) {
+    create: function (usernameurl, data, cb) {
         try {
-            db.push(_path + "/" + username, data);
+            db.push(_path + "/" + usernameurl, data);
             cb(null, data);
         } catch (error) {
             return cb(error, null);
