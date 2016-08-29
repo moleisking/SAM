@@ -18,7 +18,7 @@ export class UserService {
     headers.append("Content-Type", "application/X-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(Settings.backend_url + "/api/signup", body, options).catch(this.handleError);
+    return this.http.post(Settings.backend_url + "/signup", body, options).catch(this.handleError);
   }
 
   saveProfile(profileform): Observable<any> {
@@ -57,7 +57,7 @@ export class UserService {
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");
 
-    return this.http.post(Settings.backend_url + "/api/forgottenpassword", creds, { headers: headers })
+    return this.http.post(Settings.backend_url + "/forgottenpassword", creds, { headers: headers })
       .map(this.extractData).catch(this.handleError);
   }
 

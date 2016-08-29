@@ -8,15 +8,16 @@ import { ProfileFormComponent } from "./profile-form";
 
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
-import { WorkService } from "../services/work";
+// import { WorkService } from "../services/work";
 
 import { UserModel } from "../models/user";
-import { WorkModel } from "../models/work";
+// import { WorkModel } from "../models/work";
 
 @Component({
     selector: "dashboard-component",
     templateUrl: "/views/dashboard.html",
-    providers: [AuthService, UserService, WorkService],
+    // providers: [AuthService, UserService, WorkService],
+    providers: [AuthService, UserService],
     directives: [ROUTER_DIRECTIVES, Tabs, Tab, ProfileFormComponent]
 })
 
@@ -27,15 +28,16 @@ export class Dashboard implements OnInit {
     private messageUsers: string;
 
     private users: UserModel[];
-    private works: WorkModel[];
+    // private works: WorkModel[];
 
-    constructor(private authService: AuthService, private user: UserService, private work: WorkService, private router: Router) {
+    // constructor(private authService: AuthService, private user: UserService, private work: WorkService, private router: Router) {
+    constructor(private authService: AuthService, private user: UserService, private router: Router) {
         this.message = "My Dashboard in SAM";
     }
 
     ngOnInit() {
         this.getAllUsers();
-        this.getMyWorks();
+        // this.getMyWorks();
     }
 
     logout() {
@@ -54,14 +56,14 @@ export class Dashboard implements OnInit {
         );
     }
 
-    getMyWorks() {
-        this.work.allMyWorks().subscribe(
-            works => {
-                // console.log(works);
-                this.works = works;
-            },
-            error => this.messageWorks = <any>error,
-            () => console.log("Done get my works.")
-        );
-    }
+    // getMyWorks() {
+    //     this.work.allMyWorks().subscribe(
+    //         works => {
+    //             // console.log(works);
+    //             this.works = works;
+    //         },
+    //         error => this.messageWorks = <any>error,
+    //         () => console.log("Done get my works.")
+    //     );
+    // }
 }

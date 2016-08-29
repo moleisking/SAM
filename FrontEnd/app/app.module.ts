@@ -11,22 +11,22 @@ import { AuthService } from "./services/auth";
 import { CategoriesService } from "./services/categories";
 import { UserService } from "./services/user";
 import { WebService } from "./services/web";
-import { WorkService } from "./services/work";
+// import { WorkService } from "./services/work";
 
 import { Home } from "./components/home";
 import { Login } from "./components/login";
 import { Register } from "./components/register";
 import { Dashboard } from "./components/dashboard";
-import { AddAWork } from "./components/addawork";
+// import { AddAWork } from "./components/addawork";
 import { Categories } from "./components/categories";
 import { About } from "./components/about";
 import { ContactUs } from "./components/contactus";
 import { TermsConditions } from "./components/termsconditions";
 import { ForgottenPassword } from "./components/forgottenpassword";
 import { Profile } from "./components/profile";
-import { Work } from "./components/work";
+// import { Work } from "./components/work";
 
-import { AddAWorkFormComponent } from "./components/addawork-form";
+// import { AddAWorkFormComponent } from "./components/addawork-form";
 import { ContactUsFormComponent } from "./components/contactus-form";
 import { LoginFormComponent } from "./components/login-form";
 import { ProfileFormComponent } from "./components/profile-form";
@@ -61,16 +61,16 @@ if (environment.production)
         Login,
         Register,
         Dashboard,
-        AddAWork,
+        // AddAWork,
         Categories,
         About,
         ContactUs,
         TermsConditions,
         ForgottenPassword,
         Profile,
-        Work,
+        // Work,
 
-        AddAWorkFormComponent,
+        // AddAWorkFormComponent,
         ContactUsFormComponent,
         LoginFormComponent,
         ProfileFormComponent,
@@ -84,7 +84,7 @@ if (environment.production)
         UserService,
         WebService,
         RoutesManager,
-        WorkService,
+        // WorkService,
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA

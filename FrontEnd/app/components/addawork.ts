@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { AddAWorkFormComponent } from "./addawork-form";
+// import { Component } from "@angular/core";
+// import { AddAWorkFormComponent } from "./addawork-form";
 
-@Component({
-    selector: "addawork-component",
-    templateUrl: "/views/addawork.html",
-    directives: [AddAWorkFormComponent]
-})
+// @Component({
+//     selector: "addawork-component",
+//     templateUrl: "/views/addawork.html",
+//     directives: [AddAWorkFormComponent]
+// })
 
-export class AddAWork { }
+// export class AddAWork { }

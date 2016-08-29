@@ -15,7 +15,7 @@ export class AuthService {
     headers.append("Content-Type", "application/X-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(Settings.backend_url + "/api/authenticate", body, options)
+    return this.http.post(Settings.backend_url + "/authenticate", body, options)
       .map(this.extractData).catch(this.handleError);
   }
 

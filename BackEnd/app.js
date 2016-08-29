@@ -32,8 +32,8 @@ app.use(allowCrossDomain);
 app.use('/', home);
 app.use('/', web);
 app.use('/users', users);
-app.use('/api', auth);
-app.use('/works', work);
+app.use('/', auth);
+// app.use('/works', work);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
