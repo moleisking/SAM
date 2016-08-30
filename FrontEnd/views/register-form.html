@@ -21,6 +21,21 @@
                 Email is required.
             </small>
         </div>
+                <div class="form-group">
+            <label for="category">Categories</label>
+            <select class="form-control" formControlName="category" name="category" (change)="onChangeCategory($event.target.value)">
+                <option *ngFor="let cat of cats" value={{cat.id}}>
+                    {{cat.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="areTagsAvailable">
+            <label for="tags">Tags</label>
+            <ng-select [data]="tagsValue" [multiple]="true" [items]="tags" (data)="refreshValue($event)" 
+                placeholder="No tags selected yet"></ng-select>
+             <!--(typed)="typed($event)" (removed)="removed($event)" [disabled]="disabled" (selected)="selected($event)"-->
+            <!--<pre>{{itemsToString(tagsValue)}}</pre>-->
+        </div>
         <button type="submit" class="btn btn-default" [disabled]="!myForm.valid && !submitted" (click)="register(myForm)">Register</button>
         <p>{{ message }}</p>
     </form>

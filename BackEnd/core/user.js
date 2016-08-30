@@ -18,6 +18,8 @@ module.exports = {
         user.email(data.email);
         user.lat(data.lat);
         user.lng(data.lng);
+        user.category(data.category);
+        user.tags(data.tags);
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
@@ -38,18 +40,18 @@ module.exports = {
         });
     },
 
-    read: function (id, cb) {
-        if (id === null || id === undefined)
-            return cb("Must provide a valid id.", null);
-        myCache.get(myCacheName + "readUser" + id, function (err, value) {
+    read: function (username, cb) {
+        if (username === null || username === undefined)
+            return cb("Must provide a valid username.", null);
+        myCache.get(myCacheName + "readUser" + username, function (err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _read(id, function (err, readValue) {
+            _read(username, function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                myCache.set(myCacheName + "readUser" + id, readValue, function (err, success) {
+                myCache.set(myCacheName + "readUser" + username, readValue, function (err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)

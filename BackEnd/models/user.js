@@ -47,8 +47,16 @@ var user = new model("User")
                 message: 'Longitude is required!'
             }
         }
-    });
-
+    })
+    .attr('category', {
+        validations: {
+            presence: {
+                message: 'Category is required!'
+            }
+        }
+    })
+    .attr('tags');
+    
 module.exports = user;
 
 module.exports.generateHash = function (password) {

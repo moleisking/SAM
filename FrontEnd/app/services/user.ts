@@ -11,9 +11,9 @@ export class UserService {
 
   constructor(private http: Http) { }
 
-  register(usercreds, lat, lng): Observable<any> {
-    let body = "name=" + usercreds.name + "&pass=" + usercreds.pass + "&email=" + usercreds.email
-      + "&lat=" + lat + "&lng=" + lng;
+  register(user, lat, lng): Observable<any> {
+    let body = "name=" + user.name + "&pass=" + user.pass + "&email=" + user.email
+      + "&lat=" + lat + "&lng=" + lng + "&category=" + user.category + "&tags=" + user.tags;;
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
