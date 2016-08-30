@@ -4,9 +4,14 @@ var tsc = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var tsProject = tsc.createProject('tsconfig.json');
 var config = require('./gulp.config')();
+const del = require('del');
 
 var browserSync = require('browser-sync');
 var superstatic = require('superstatic');
+
+gulp.task('clean', function () {
+  return del('dist/**/*');
+});
 
 gulp.task('ts-lint', function () {
     return gulp.src(config.allTs)
@@ -14,7 +19,7 @@ gulp.task('ts-lint', function () {
         .pipe(tslint.report('prose', {
             emitError: false
         }))
-})
+});
 
 gulp.task('compile-ts', function () {
     var sourceTsFiles = [
@@ -30,7 +35,12 @@ gulp.task('compile-ts', function () {
     return tsResult
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(config.tsOutputPath));
-})
+});
+
+gulp.task('compile', ['clean', 'compile-ts'], function () {
+  return gulp
+    .pipe(gulp.dest('dist'));
+});
 
 gulp.task('serve', ['ts-lint', 'compile-ts'], function () {
     gulp.watch([config.allTs], ['ts-lint', 'compile-ts']).on("change", browserSync.reload);
@@ -47,8 +57,9 @@ gulp.task('serve', ['ts-lint', 'compile-ts'], function () {
             baseDir: './',
             middleware: superstatic({debug: false})
         }
-    })
+    });
     
-})
+});
 
-gulp.task('default', ['serve'])
+gulp.task('build', ['compile']);
+gulp.task('default', ['serve']);

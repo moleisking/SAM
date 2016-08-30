@@ -5,6 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp",
+    "vompile": "gulp build",
     "postinstall": "typings install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
@@ -33,6 +34,7 @@
     "@angular/upgrade": "2.0.0-rc.5",
     "angular2-in-memory-web-api": "0.0.15",
     "bootstrap": "^3.3.6",
+    "clean": "4.0.2",
     "core-js": "^2.4.0",
     "ng2-select": "1.0.3",
     "reflect-metadata": "^0.1.3",
@@ -42,6 +44,7 @@
   },
   "devDependencies": {
     "browser-sync": "2.13.0",
+    "del": "2.2.2",
     "gulp": "3.9.1",
     "gulp-sourcemaps": "1.6.0",
     "gulp-tslint": "5.0.0",
