@@ -63,3 +63,4 @@ gulp.task('serve', ['ts-lint', 'compile-ts'], function () {
 
 gulp.task('build', ['compile']);
 gulp.task('default', ['serve']);
+// http://blog.scottlogic.com/2015/12/24/creating-an-angular-2-build.html
