@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_register"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <ImageView
-        android:id="@+id/imgItem"
-        android:layout_width="wrap_content"
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:background="?attr/colorPrimary"/>
+
+    </android.support.design.widget.AppBarLayout>
+    <ImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
         android:scrollbars="none"
-        android:contentDescription="@string/lbl_description">
+        android:contentDescription="@string/lbl_description"
+        android:src="@drawable/ic_person_black_24dp"
+        android:clickable="true"
+        android:onClick="onImageUpload">
     </ImageView>
     <EditText
         android:id="@+id/txtName"
@@ -66,12 +88,17 @@
         android:maxLines="1"
         android:singleLine="true">
     </EditText>
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnRegister"
-        android:text="Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:singleLine="true">
-    </Button>
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_add_black_24dp"
+        android:onClick="onRegisterClick">
+    </android.support.design.widget.FloatingActionButton>
+
 </LinearLayout>
+<!--/android.support.design.widget.CoordinatorLayout-->
+<!-- app:popupTheme="@style/AppTheme.PopupOverlay" ?attr/actionBarSize Toolbar-->

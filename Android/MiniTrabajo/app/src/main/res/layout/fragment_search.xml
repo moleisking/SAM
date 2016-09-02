@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/minitrabajo_activity_search"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <EditText
+        android:id="@+id/txtSearch"
+        android:text="Search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search tags"
+        android:maxLines="1"
+        android:singleLine="true">
+        <requestFocus />
+    </EditText>
+
+    <RadioGroup
+        android:id="@+id/radRadius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rad1km"
+            android:text="1km" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rad5km"
+            android:text="5km" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rad10km"
+            android:text="10km" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rad25km"
+            android:text="25km" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rad50km"
+            android:text="50km" />
+
+    </RadioGroup>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_search_black_24dp"
+        android:onClick="onSearchClick">
+    </android.support.design.widget.FloatingActionButton>
+
+</LinearLayout>

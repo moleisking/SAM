@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_user"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:background="@drawable/ic_thumb_up_black_24dp"
+        android:contentDescription="@string/lbl_description">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/lblTitle"
+        android:text="@string/app_name"
+        style="@style/AppTheme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/lblDescription"
+        android:text="@string/app_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:id="@+id/lblAddress"
+        android:text="@string/app_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_email_black_24dp"
+        android:onClick="onEmailClick">
+    </android.support.design.widget.FloatingActionButton>
+</LinearLayout>

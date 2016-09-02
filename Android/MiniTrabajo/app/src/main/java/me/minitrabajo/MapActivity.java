@@ -82,9 +82,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     public void onListClick(View view)
     {
-        Intent intent = new Intent(this, ListActivity.class);
+        /*Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
-        Log.w("ListClick", "Map button Clicked");
+        Log.w("ListClick", "Map button Clicked");*/
     }
 
 }

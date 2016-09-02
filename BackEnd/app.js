@@ -14,7 +14,7 @@ var work = require('./routes/work');
 var app = express();
 
 var allowCrossDomain = function (req, res, next) {
-  var allowedOrigins = ['http://localhost:3000', 'http://localhost:63592', 'http://minitrabajo.me:3000']; 
+  var allowedOrigins = ['http://localhost:3000', 'http://localhost:63592', 'http://minitrabajo.me:3000','http://192.168.1.100:3000','http://192.168.1.110:3000']; 
   var origin = req.headers.origin;
   if (allowedOrigins.indexOf(origin) > -1)
     res.setHeader('Access-Control-Allow-Origin', origin);
