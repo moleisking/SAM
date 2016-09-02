@@ -1,6 +1,10 @@
 package me.minitrabajo;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 //import com.google.android.maps.GeoPoint;
@@ -8,163 +12,303 @@ import java.io.Serializable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
+
+import com.google.android.gms.vision.barcode.Barcode;
 
 public class User implements Serializable {
 		
 	private static final long serialVersionUID = -5964311117196182558L;
 	private int mId;
-	private Double mPrice;
+	private int mType;
 	private String mName;
-	private String mText;
+	private String mMobile;
+	private String mEmail;
+	private String mDescription;
 	private String mAddress;
-	private String mPhone;
-	private String mLatitude;
-	private String mLongitude;
-	private byte[] mImage = null;
+	private Double mHourRate;
+	private Double mDayRate;
+	private Double mRegisteredLatitude;
+	private Double mRegisteredLongitude;
+	private Double mCurrentLatitude;
+	private Double mCurrentLongitude;
+	private Byte[] mImage = null;
+
+	public static final int PROFILE_ACCOUNT = 0, PROFILE_RESULT = 1;
 		
 	public User()
 	{
 		super();
 	}
-	
-	public User(int ID, String Name, String Text, String Address, String Phone, Double Price)
+
+	public User(int id, int type, String name,  String description,  String email, String mobile, String address,
+				Double hour_rate, Double day_rate )
 	{
-		mId= ID;
-		mName = Name;
-		mText = Text;		
-		mPhone = Phone;
-		mPrice = Price;
-	}
-		
-	//ID
-	public int getID() { return mId; }
-
-	public void setID(int a) { this.mId = a; }
-
-	//Name
-	public String getName() { return mName; }
-
-	public void setName(String a)
-	{
-		this.mName = a;
+		this.mId= id;
+		this.mType= type;
+		this.mName = name;
+		this.mMobile = mobile;
+		this.mEmail = email;
+		this.mDescription = description;
+		this.mHourRate = hour_rate;
+		this.mDayRate = day_rate;
 	}
 
-	//Price
-	public Double getPrice() { return mPrice; }
-
-	public void setPrice(Double a) { this.mPrice = a; }
-
-	//Tags
-	public String getText() { return mText; }
-
-	public void setText(String a)
+	public User(int id, int type, String name,  String description,  String email, String mobile, String address,
+				Double hour_rate, Double day_rate, Double registered_latitude, Double registered_longitude, Double current_latitude, Double current_longitude )
 	{
-		this.mText = a;
+		this.mId= id;
+		this.mType= type;
+		this.mName = name;
+		this.mMobile = mobile;
+		this.mEmail = email;
+		this.mDescription = description;
+		this.mHourRate = hour_rate;
+		this.mDayRate = day_rate;
+		this.mCurrentLatitude =  current_latitude;
+		this.mCurrentLongitude = current_longitude;
+		this.mRegisteredLatitude = registered_latitude;
+		this.mRegisteredLongitude = registered_longitude;
 	}
 
-	//Address
-	public String getAddress() { return mAddress; }
-
-	public void setAddress(String a)
+	public User(String string)
 	{
-		this.mAddress = a;
+		super();
 	}
 
-	//Phone
-	public String getPhone()
+	public int getID()
 	{
-		return mPhone;
+		return mId;
 	}
 
-	public void setPhone(String a)
+	public void setID(int id)
 	{
-		this.mPhone = a;
+		this.mId = id;
 	}
 
-	//Latitude & Longitude
-
-	public String getLatitude() { return mLatitude; }
-
-	public void setLatitude(String a)
+	public String getName()
 	{
-		this.mLatitude = a;
+		return mName;
 	}
 
-	public String getLongitude()
+	public void setName(String name)
 	{
-		return mLongitude;
+		this.mName = name;
 	}
 
-	public void setLongitude(String a) { this.mLongitude = a; }
-
-	/*GeoPoint getGeoPoint()
+	public int getType()
 	{
-		float lat = Float.valueOf(mLatitude) ;
-		float lon = Float.valueOf(mLongitude);
-		return new GeoPoint((int)(lat * 1E6) , (int)(lon * 1E6)) ;
+		return mType;
+	}
+
+	public void setType(int type)
+	{
+		this.mType = type;
+	}
+
+	public String getEmail()
+	{
+		return mEmail;
+	}
+
+	public void setEmail(String email)
+	{
+		this.mEmail = email;
+	}
+
+	public double getHourRate()
+	{
+		return mHourRate;
+	}
+
+	public void setHourRate(Double hour_rate)
+	{
+		this.mHourRate = hour_rate;
+	}
+
+	public double getDayRate()
+	{
+		return mDayRate;
+	}
+
+	public void setDayRate(Double day_rate)
+	{
+		this.mDayRate = day_rate;
+	}
+
+	public String getDescription()
+	{
+		return mDescription;
+	}
+
+	public void setDescription(String description)
+	{
+		this.mDescription = description;
+	}
+
+	public String getAddress()
+	{
+		return mAddress;
+	}
+
+	public void setAddress(String address)
+	{
+		this.mAddress = address;
+	}
+	public String getMobile()
+	{
+		return mMobile;
+	}
+
+	public void setMobile(String mobile)
+	{
+		this.mMobile = mobile;
+	}
+
+	public double getRegisteredLatitude()
+	{
+		return mRegisteredLatitude;
+	}
+
+	public void setRegisteredLatitude(Double registered_latitude)
+	{
+		this.mRegisteredLatitude = registered_latitude;
+	}
+
+	public double getRegisteredLongitude()
+	{
+		return mRegisteredLongitude;
+	}
+
+	public void setRegisteredLongitude(Double registered_longitude)
+	{
+		this.mRegisteredLongitude = registered_longitude;
+	}
+
+	public double getCurrentLatitude()
+	{
+		return mCurrentLatitude;
+	}
+
+	public void setCurrentLatitude(Double current_latitude)
+	{
+		this.mCurrentLatitude = current_latitude;
+	}
+
+	public double getCurrentLongitude()
+	{
+		return mCurrentLongitude;
+	}
+
+	public void setCurrentLongitude(Double current_longitude)
+	{
+		this.mCurrentLongitude = current_longitude;
+	}
+
+	public void setImage(Byte[] image)
+	{
+		if (!image.equals(null)) { this.mImage = image; }
+	}
+
+	public Byte[] getImage()
+	{
+		return mImage;
+	}
+
+	public byte[] getImageAsPrimitive()
+	{
+		byte[] bytes = new byte[mImage.length];
+		for(int i = 0; i < mImage.length; i++){
+			bytes[i] = mImage[i];
+		}
+		return bytes;
+	}
+
+	public void setImageFromPrimitive(byte[] bytesPrim)
+	{
+		Byte[] bytes = new Byte[bytesPrim.length];
+		int i = 0;
+		for (byte b : bytesPrim) bytes[i++] = b; //Autoboxing
+		mImage = bytes;
+	}
+
+	public Bitmap getImageAsBitmap()
+	{
+		ByteArrayInputStream inputStream = new ByteArrayInputStream (this.getImageAsPrimitive());
+		Bitmap mBitmap = BitmapFactory.decodeStream(inputStream);
+		return mBitmap;
+	}
+
+	public Bitmap getImageFromBase64(String str)
+	{
+		byte[] arr = Base64.decode(str, Base64.DEFAULT);
+		return BitmapFactory.decodeByteArray(arr,0,arr.length);
+	}
+
+
+	public void setImageAsBase64(String str)
+	{
+		setImageFromPrimitive(Base64.decode(str, Base64.DEFAULT));
+	}
+
+	/*Barcode.GeoPoint getRegisteredGeoPoint()
+	{
+		double lat = mRegisteredLatitude ;
+		double lon = mRegisteredLongitude;
+		return new Barcode.GeoPoint((int)(lat * 1E6) , (int)(lon * 1E6)) ;
 	}*/
 
-	//Images
-	public Bitmap getImage()
+
+	public String toString()
 	{
-		if (!mImage.equals(null))
+		String output = "";
+		try
 		{
-			ByteArrayInputStream inputStream = new ByteArrayInputStream (mImage);
-			Bitmap mBitmap = BitmapFactory.decodeStream(inputStream);
-			System.out.println("Image Found:getImage:ID:" + mId);
-			return mBitmap;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(this);
+			oos.close();
+			output = Base64.encodeToString(baos.toByteArray(),0);
 		}
-		else
+		catch (Exception ex)
 		{
-			System.out.println("Image Not Found:getImage");
-			return null;
+			Log.v("User:toString()", ex.getMessage());
 		}
+		return output;
 	}
 
-	public void setImage(byte[] image)
+	public User fromString( String str )
 	{
-		if (!image.equals(null))
+		Object output = null;
+		try
 		{
-			this.mImage = image;
-			System.out.println("Image Found:setImage:ID:" + mId);
+			byte [] data = Base64.decode( str,0 );
+			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(  data ) );
+			output  = ois.readObject();
+			ois.close();
 		}
-		else
+		catch (Exception ex)
 		{
-			System.out.println("Image Not Found:setImage");
+			Log.v("User:fromString()", ex.getMessage());
 		}
+		return (User)output;
 	}
 
-	public void setImage(String str)
-	{
-		if (!str.equals(null) || str !="")
-		{
-			try
-			{				
-				this.mImage = Base64.decode(str, Base64.DEFAULT);				  		
-				System.out.println("Image Found:setImage:ID:" + mId);
-			}
-			catch (Exception ex)
-			{
-				System.out.println("setImage error for string:"+ex.getMessage());
-			}
-			
-			
-		}
-		else
-		{
-			System.out.println("Image Not Found:setImage");
-		}
-	}
 
 	public void print()
-	{		
-		System.out.println("ID:"+this.mId);
-		System.out.println("Name:" + this.mName);
-		System.out.println("Text:"+this.mText);
-		System.out.println("Address:"+this.getAddress());
-		System.out.println("Phone:"+this.mPhone);
-		System.out.println("Price:"+this.mPrice);
-		
+	{
+		Log.v("User:", "Object");
+		Log.v("ID:", String.valueOf(mId));
+		Log.v("Name:" , this.mName);
+		Log.v("Description:" , this.mDescription);
+		Log.v("Address:", this.mAddress);
+		Log.v("Mobile:", this.mMobile);
+		Log.v("HourRate:",String.valueOf(this.mHourRate));
+		Log.v("DayRate:",String.valueOf(this.mDayRate));
+		Log.v("CurrentLongitude:",String.valueOf(this.mCurrentLongitude));
+		Log.v("CurrentLatitude:",String.valueOf(this.mCurrentLatitude));
+		Log.v("RegisteredLongitude:",String.valueOf(this.mRegisteredLongitude));
+		Log.v("RegisteredLatitude:",String.valueOf(this.mRegisteredLatitude));
 	}
 	
 }

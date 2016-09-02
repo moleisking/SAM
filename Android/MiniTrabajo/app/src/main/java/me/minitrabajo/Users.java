@@ -4,20 +4,18 @@ import java.io.*;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Base64;
+import android.util.Log;
+
+import org.json.JSONObject;
 
 public class Users implements Serializable  {
 	
 	private static final long serialVersionUID = 8653566573642203226L;
 	private ArrayList<User> mUsers = new  ArrayList<User>(0);
-	private String mUrl=""; //"http://192.168.1.10:8080/LastSecondDealWebService/LastSecondDealWebService.php?f=getdeal&u=webservice"
-	private String result = "";
-	private Context mContext;
+
 	
-	public Users(String ip, String port, Context context)
-	{
-		mUrl = "http://" +ip +":" + port + "/LastSecondDealWebService/LastSecondDealWebService.php?f=getdeal&u=webservice";
-		mContext = context;
-	}
+	public Users()	{	}
 	
 	public User get(int index)
 	{
@@ -52,49 +50,75 @@ public class Users implements Serializable  {
 		return mUsers;
 	}
 
-	void print()
+	public String toString()
 	{
-		System.out.println("Printing mItems");
-		System.out.println("Items Size:" + this.size());
-		for (int j = 0; j < mUsers.size(); j++ )
-		{
-			System.out.println("-------------");			
-			mUsers.get(j).print();
-			System.out.println("-------------");
-		}	
-		System.out.println("Result:" + result);
-		
-	}
-	
-	void FillFromXML()
-	{
-		
-
-	}
-	
-	
-	
-	/*public Users FillFromWebservice(Users mItems)
-	{			
-		ItemsDownload itemsDownLoad = new ItemsDownload(mUrl, mContext);
-		itemsDownLoad.execute(new Users[] { mItems });
-		
+		String output = "";
 		try
 		{
-			mItems = itemsDownLoad.get();
-			//System.out.println("Print Result From HTTP:"+result);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(this);
+			oos.close();
+			output = Base64.encodeToString(baos.toByteArray(),0);
 		}
 		catch (Exception ex)
 		{
-			System.out.println("FillFromWebservice" + ex.getMessage());
-		}	
-		
-		//mItems.print();
-		return mItems;
-	}*/
-	
-	
-	
-	
+			Log.v("Users:toString()", ex.getMessage());
+		}
+		return output;
+	}
+
+	public Users fromString( String str )
+	{
+		Object output = null;
+		try
+		{
+			byte [] data = Base64.decode( str,0 );
+			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(  data ) );
+			output  = ois.readObject();
+			ois.close();
+		}
+		catch (Exception ex)
+		{
+			Log.v("Users:fromString()", ex.getMessage());
+		}
+		return (Users)output;
+	}
+
+	public void importUsers(String json)
+	{
+		Users users = new Users();
+		try
+		{
+			JSONObject data = new JSONObject(json).getJSONObject("data");
+			for(int i =0;i < data.getJSONArray("Users").length();i++)
+			{
+			User user = new User(0,0,
+					data.getJSONArray("User").getJSONObject(i).getString("name"),
+					data.getJSONArray("User").getJSONObject(i).getString("description"),
+					data.getJSONArray("User").getJSONObject(i).getString("email"),
+					data.getJSONArray("User").getJSONObject(i).getString("mobile"),
+					data.getJSONArray("User").getJSONObject(i).getString("address"),
+					Double.parseDouble(data.getJSONArray("User").getJSONObject(i).getString("hour_rate")),
+					Double.parseDouble(data.getJSONArray("User").getJSONObject(i).getString("day_rate")));
+				this.add(user);
+			}
+		}
+		catch (Exception ex)
+		{
+
+		}
+
+	}
+
+	void print()
+	{
+		Log.v("Users:", "Object Array");
+		Log.v("Users:Size", String.valueOf(this.size()));
+		for (int j = 0; j < mUsers.size(); j++ )
+		{
+			mUsers.get(j).print();
+		}
+	}
 }
 

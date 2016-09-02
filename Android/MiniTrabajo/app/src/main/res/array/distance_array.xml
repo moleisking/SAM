@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="distance">
+        <item name="1KM">1 Km</item>
+        <item name="5KM">5 Km</item>
+        <item name="10KM">10Km</item>
+        <item name="25KM">25Km</item>
+    </string-array>
+    <string-array name="distance_values">
+        <item name="1KMV">1</item>
+        <item name="5KMV">5</item>
+        <item name="10KMV">10</item>
+        <item name="25KMV">25</item>
+    </string-array>
+</resources>

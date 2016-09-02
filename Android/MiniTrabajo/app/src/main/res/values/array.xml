@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="time_frequency">
+        <item name="Daily">Once a day</item>
+        <item name="Weekly">Once a week</item>
+        <item name="Monthly">Once a Month</item>
+        <item name="Never">Never (Update maually)</item>
+    </string-array>
+    <string-array name="distance">
+        <item name="1KM">1Km</item>
+        <item name="5KM">5Km</item>
+        <item name="10KM">10Km</item>
+        <item name="25KM">25Km</item>
+    </string-array>
+    <string-array name="image_source">
+        <item name="camera">Take a photo</item>
+        <item name="library">Choose from library</item>
+        <item name="cancel">Cancel</item>
+    </string-array>
+</resources>
