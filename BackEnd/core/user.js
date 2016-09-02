@@ -18,8 +18,14 @@ module.exports = {
         user.email(data.email);
         user.lat(data.lat);
         user.lng(data.lng);
+        user.currentLat(data.lat);
+        user.currentLng(data.lng);
         user.category(data.category);
         user.tags(data.tags);
+        user.address(data.address);
+        user.mobile(data.mobile);
+        user.rate(0);
+        user.balance(0);
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
@@ -128,7 +134,7 @@ module.exports = {
         var profile = modelprofile.create();
         if (data === null)
             profile.description("");
-        else        
+        else
             profile.description(data.description);
         profile.validate().then(function () {
             if (!profile.isValid)
