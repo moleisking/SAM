@@ -45,7 +45,7 @@ export class RegisterFormComponent implements OnInit {
                     Validators.required
                 ])],
             tags: [""],
-            address: [""],
+            address: ["", <any>Validators.required],
             mobile: [""]
         });
         this.getPosition();
