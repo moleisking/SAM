@@ -13,7 +13,8 @@ export class UserService {
 
   register(user:any, lat:any, lng:any): Observable<any> {
     let body = "name=" + user.name + "&pass=" + user.pass + "&email=" + user.email
-      + "&lat=" + lat + "&lng=" + lng + "&category=" + user.category + "&tags=" + user.tags;
+      + "&lat=" + lat + "&lng=" + lng + "&category=" + user.category + "&tags=" + user.tags
+       + "&address=" + user.address + "&mobile=" + user.mobile;
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });

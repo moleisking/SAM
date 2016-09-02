@@ -1,0 +1,21 @@
+{
+    "version": "0.1.0",
+    "command": "npm",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "suppressTaskName": true,
+    "tasks": [
+        {
+            // Server task, Ctrl+Shift+T
+            "taskName": "serve",
+            "isTestCommand": true,
+            "args": ["run", "serve"]
+        },
+        {
+            // Build command, Ctrl+Shift+B
+            "taskName": "build",
+            "isBuildCommand": true,
+            "args": ["run", "build"]
+        }
+    ]
+}

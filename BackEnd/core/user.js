@@ -24,6 +24,7 @@ module.exports = {
         user.tags(data.tags);
         user.address(data.address);
         user.mobile(data.mobile);
+        user.image(data.image);
         user.rate(0);
         user.balance(0);
         user.validate().then(function () {

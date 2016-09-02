@@ -44,7 +44,9 @@ export class RegisterFormComponent implements OnInit {
                     Validators.pattern(regexPatterns.numbers),
                     Validators.required
                 ])],
-            tags: [""]
+            tags: [""],
+            address: [""],
+            mobile: [""]
         });
         this.getPosition();
         this.getCategories();
