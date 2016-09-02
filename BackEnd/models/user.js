@@ -48,6 +48,20 @@ var user = new model("User")
             }
         }
     })
+    .attr('currentLat', {
+        validations: {
+            presence: {
+                message: 'Current Latitude is required!'
+            }
+        }
+    })
+    .attr('currentLng', {
+        validations: {
+            presence: {
+                message: 'Current Longitude is required!'
+            }
+        }
+    })
     .attr('category', {
         validations: {
             presence: {
@@ -55,8 +69,19 @@ var user = new model("User")
             }
         }
     })
-    .attr('tags');
-    
+    .attr('tags')
+    .attr('address', {
+        validations: {
+            presence: {
+                message: 'Address is required!'
+            }
+        }
+    })
+    .attr('image')
+    .attr('mobile')
+    .attr('rate')
+    .attr('balance');
+
 module.exports = user;
 
 module.exports.generateHash = function (password) {
