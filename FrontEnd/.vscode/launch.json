@@ -2,12 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Node gulp",
+            "name": "Npm Webpack",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
-            "sourceMaps": true,
-            "outDir": "${workspaceRoot}/scripts"
+            "program": "${workspaceRoot} npm run serve",
+            "sourceMaps": true
         },
         {
             "name": "Attach to Chrome, with sourcemaps",
