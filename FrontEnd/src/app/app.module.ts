@@ -32,16 +32,12 @@ import { SELECT_DIRECTIVES } from "ng2-select";
 
 import { HTTP_PROVIDERS } from "@angular/http";
 
+import { Settings } from "./config/settings";
 import { enableProdMode } from "@angular/core";
 
-declare var process: {
-   env: {
-       ENV: string
-   }
-};
-
-if (process.env.ENV === 'production') {
-  enableProdMode();
+if (Settings.prod) {
+// if (process.env.NODE_ENV === "production") {
+    enableProdMode();
 }
 
 @NgModule({

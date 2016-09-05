@@ -14,9 +14,10 @@
   "scripts": {
     "reinstall": "npm cache clean && rimraf dist typings node_modules && npm i",
     "deletedist": "rimraf dist",
-    "serve": "start http://localhost:3000/ & webpack-dev-server --inline --progress --port 3000",
+    "postinstall": "typings install",
+    "serve": "start http://localhost:3000/ && webpack-dev-server --inline --progress --port 3000",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
-    "postinstall": "typings install"
+    "serveprod": "start http://localhost:3000/ && webpack-dev-server --content-base dist/ --port 3000"
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.5",
@@ -45,6 +46,7 @@
     "phantomjs-prebuilt": "^2.1.7",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.5.2",
+    "string-replace-loader": "^1.0.3",
     "style-loader": "^0.13.1",
     "to-string-loader": "^1.1.4",
     "ts-loader": "^0.8.1",

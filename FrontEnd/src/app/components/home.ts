@@ -40,8 +40,8 @@ export class Home implements OnInit {
         let searchBox: any = document.getElementById("location");
         let options = {
             // return only geocoding results, rather than business results.
-            types: ["geocode"]
-            // componentRestrictions: { country: "my" }
+            types: ["geocode"],
+            componentRestrictions: { country: "es" }
         };
 
         let autocomplete = new google.maps.places.Autocomplete(searchBox, options);
