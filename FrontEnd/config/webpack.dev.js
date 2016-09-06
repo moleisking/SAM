@@ -17,5 +17,10 @@ module.exports = webpackMerge(commonConfig, {
   devServer: {
     historyApiFallback: true,
     stats: 'minimal'
+  },
+  tslint: {
+    emitErrors: false,
+    failOnHint: false,
+    resourcePath: 'src'
   }
 });
