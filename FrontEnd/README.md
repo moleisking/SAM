@@ -1,6 +1,6 @@
 # SAM-fe
 
-## Install all packages dependencies (after we delete node_modules folder)
+## Install all packages dependencies (BTW after we delete node_modules folder)
 npm i
 
 ## Clean (delete node_modules typings and dist folder) all folders and ReInstall all packages dependencies
@@ -15,5 +15,5 @@ npm run serve
 ## Compile the project for production and set all files in dist folder
 npm run build
 
-## Serve the website for production
+## Serve the website with production files (port 3000)
 npm run serveprod
