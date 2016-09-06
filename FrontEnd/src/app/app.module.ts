@@ -35,10 +35,8 @@ import { HTTP_PROVIDERS } from "@angular/http";
 import { Settings } from "./config/settings";
 import { enableProdMode } from "@angular/core";
 
-if (Settings.prod) {
-// if (process.env.NODE_ENV === "production") {
+if (Settings.prod)
     enableProdMode();
-}
 
 @NgModule({
     imports: [

@@ -15,8 +15,8 @@
     "reinstall": "npm cache clean && rimraf dist typings node_modules && npm i",
     "deletedist": "rimraf dist",
     "postinstall": "typings install",
-    "serve": "start http://localhost:3000/ && webpack-dev-server --inline --progress --port 3000",
-    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
+    "serve": "node ./src/app/config/renDev.js && start http://localhost:3000/ && webpack-dev-server --inline --progress --port 3000",
+    "build": "node ./src/app/config/renProd.js && rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "serveprod": "start http://localhost:3000/ && webpack-dev-server --content-base dist/ --port 3000"
   },
   "dependencies": {
