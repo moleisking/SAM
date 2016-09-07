@@ -19,6 +19,8 @@ export class ProfileFormComponent implements OnInit {
     private description: string;
     private mobile: string;
     private address: string;
+    private imageBase64: string;
+    private imageCode: string;
 
     constructor(private user: UserService, private formBuilder: FormBuilder) {
         this.message = "Profile form messages will be here.";
@@ -33,6 +35,11 @@ export class ProfileFormComponent implements OnInit {
         });
     }
 
+    ngAfterViewChecked() {
+        if (document.getElementById("image") !== null)
+            document.getElementById("image").addEventListener("change", e => { this.readImage(e); }, false);
+    }
+
     getMyProfile() {
         this.user.getMyProfile().subscribe(
             profile => {
@@ -43,10 +50,25 @@ export class ProfileFormComponent implements OnInit {
             error => this.message = <any>error);
     }
 
+    readImage(e: any) {
+        let fileName = e.target.files[0];
+        if (!fileName)
+            return;
+        let reader = new FileReader();
+        let self = this;
+        reader.onload = file => {
+            let contents: any = file.target;
+            self.imageBase64 = contents.result.substring(0, contents.result.indexOf("base64,") + 7);
+            self.imageCode = contents.result.substring(contents.result.indexOf("base64,") + 7);
+            console.log(self.imageCode)
+        };
+        reader.readAsDataURL(fileName);
+    }
+
     save() {
         this.submitted = true;
-        this.message = "User profile sent.";
-        this.user.saveProfile(this.myForm.value).subscribe(
+        this.message = "User profile sent...";
+        this.user.saveProfile(this.myForm.value, this.imageBase64, this.imageCode).subscribe(
             () => {
                 this.message = "User profile saved.";
             },

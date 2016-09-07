@@ -24,7 +24,8 @@ module.exports = {
         user.tags(data.tags);
         user.address(data.address);
         user.mobile(data.mobile);
-        user.image(data.image);
+        user.imageBase64("");
+        user.imageCode("");
         user.rate(0);
         user.balance(0);
         user.description("");
@@ -114,7 +115,8 @@ module.exports = {
             user.description(data.description);
             user.mobile(data.mobile);
             user.address(data.address);
-            user.image(data.image);
+            user.imageBase64(data.imageBase64);
+            user.imageCode(data.imageCode);
             user.validate().then(function () {
                 if (!user.isValid)
                     return cb(user.errors, null);
@@ -152,6 +154,7 @@ module.exports = {
                         return cb(err, null);
                     var profile = modelProfile.create();
                     profile.update(readValue);
+                    // profile.imageCode(readValue.imageCode.replace(/(\r\n|\n|\r)/gm, ""));
                     myCache.set(myCacheName + "readUserProfile" + nameurl, profile.toJSON(), function (err, success) {
                         if (err)
                             return cb(err, null);

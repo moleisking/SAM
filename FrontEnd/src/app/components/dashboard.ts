@@ -48,7 +48,7 @@ export class Dashboard implements OnInit {
         this.user.all().subscribe(
             users => {
                 this.users = users;
-                console.log(users)
+                // console.log(users);
             },
             error => this.messageUsers = <any>error,
             () => console.log("Done get all users.")

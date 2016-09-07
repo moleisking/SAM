@@ -14,7 +14,7 @@ export class UserService {
   register(user: any, lat: any, lng: any): Observable<any> {
     let body = "name=" + user.name + "&pass=" + user.pass + "&email=" + user.email
       + "&lat=" + lat + "&lng=" + lng + "&category=" + user.category + "&tags=" + user.tags
-       + "&address=" + user.address + "&mobile=" + user.mobile;
+      + "&address=" + user.address + "&mobile=" + user.mobile;
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
@@ -22,11 +22,12 @@ export class UserService {
     return this.http.post(Settings.backend_url + "/signup", body, options).catch(this.handleError);
   }
 
-  saveProfile(profileform: any): Observable<any> {
+  saveProfile(profileform: any, imageBase64: any, imageCode: any): Observable<any> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
     headers.append("Content-Type", "application/X-www-form-urlencoded");
-    let c = "description=" + profileform.description + "&address=" + profileform.address + "&mobile=" + profileform.mobile;
+    let c = "description=" + profileform.description + "&address=" + profileform.address + "&mobile=" + profileform.mobile
+      + "&imageBase64=" + imageBase64 + "&imageCode=" + imageCode;
 
     return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }

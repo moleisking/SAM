@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { DomSanitizationService } from "@angular/platform-browser";
 
 import { UserService } from "../services/user";
 
@@ -16,8 +17,10 @@ export class Profile implements OnInit, OnDestroy {
     private description: string;
     private mobile: string;
     private address: string;
+    private imageBase64: string;
+    private imageCode: string;
 
-    constructor(private route: ActivatedRoute, private user: UserService) { }
+    constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService) { }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
@@ -27,6 +30,9 @@ export class Profile implements OnInit, OnDestroy {
                     this.description = profile.description;
                     this.mobile = profile.mobile;
                     this.address = profile.address;
+                    this.imageBase64 = profile.imageBase64;
+                    this.imageCode = profile.imageCode;
+                    console.log(this.imageCode)
                 },
                 error => this.message = <any>error);
         });

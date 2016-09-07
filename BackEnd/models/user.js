@@ -76,7 +76,8 @@ var user = new model("User")
             }
         }
     })
-    .attr('image')
+    .attr('imageBase64')
+    .attr('imageCode')
     .attr('mobile', {
         validations: {
             presence: {
