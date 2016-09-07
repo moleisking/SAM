@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity
             Log.v("LoadProfile","From Post");
             String url = getResources().getString(R.string.net_profile_url); //"http://192.168.1.100:3003/api/profile";
             String parameters = "token="+ token;
-            PostAPI asyncTask =new PostAPI();
+            PostAPI asyncTask =new PostAPI(this);
             asyncTask.delegate = this;
             asyncTask.execute(url,parameters,"");
         }

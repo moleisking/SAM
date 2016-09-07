@@ -39,6 +39,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
 
 import org.json.JSONObject;
 
@@ -79,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
     private static final int REQUEST_LOCATION = 2;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private LocationSettingsRequest mLocationSettingRequest;
     private double currentLatitude;
     private double currentLongitude;
     private String selectedImagePath;
@@ -121,18 +123,22 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
         txtPassword.setText("12345");
         txtEmail.setText("moleisking@gmail.com");
 
-        Log.w("onCreate", "Create the GoogleApiClient object");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+        if (mGoogleApiClient == null) {
+            Log.w("onCreate", "Create the GoogleApiClient object");
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
 
         Log.w("onCreate", "Create the LocationRequest object");
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+
+
     }
 
     /*@Override
@@ -174,7 +180,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
                             "&latitude=" + String.valueOf(currentLatitude) +
                             "&longitude=" + String.valueOf(currentLongitude) +
                             "&image=" + ((BitmapDrawable) imgProfile.getDrawable()).getBitmap();
-        PostAPI asyncTask =new PostAPI();
+        PostAPI asyncTask =new PostAPI(this);
         asyncTask.delegate = this;
         asyncTask.execute(url,parameters,"");
     }
@@ -367,12 +373,25 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK)
+        {
             if (requestCode == SELECT_FILE)
+            {
                 onSelectFromGalleryResult(data);
+            }
             else if (requestCode == REQUEST_CAMERA)
+            {
                 onCaptureImageResult(data);
+            }
+
+
+
         }
+        else if (resultCode == Activity.RESULT_CANCELED)
+        {
+            // The user was asked to change settings, but chose not to
+        }
+
     }
 
     @SuppressWarnings("deprecation")

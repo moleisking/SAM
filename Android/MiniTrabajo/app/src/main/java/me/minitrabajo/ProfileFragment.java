@@ -36,7 +36,7 @@ public class ProfileFragment extends Fragment {
         mUser = mUser.fromString(getActivity().getIntent().getStringExtra("user"));
         imgProfile = (ImageView)container.findViewById(R.id.imgItem);
         txtName = (TextView)container.findViewById(R.id.txtName);
-        txtDescription = (TextView)container.findViewById(R.id.txtText);
+        txtDescription = (TextView)container.findViewById(R.id.txtDescription);
         txtAddress = (TextView)container.findViewById(R.id.txtAddress);
         txtHourRate = (TextView)container.findViewById(R.id.txtHourRate);
         txtDayRate = (TextView)container.findViewById(R.id.txtDayRate);

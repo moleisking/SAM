@@ -17,3 +17,9 @@ npm run build
 
 ## Serve the website with production files (port 3000)
 npm run serveprod
+
+## Troubleshoot preconfigured server example
+Search for string presence
+grep -rl "localhost" /usr/share/nginx/html
+Chandge settings in compiled file
+sudo sed -i 's/localhost/192.168.1.110/g' main.670b9311459a1bfde6b0.js.map

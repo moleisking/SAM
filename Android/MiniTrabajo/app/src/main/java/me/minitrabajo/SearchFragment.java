@@ -34,7 +34,7 @@ public class SearchFragment extends Fragment implements ResponseAPI{
     {
         //Define Objects
         txtSearch = (TextView)container.findViewById(R.id.txtName);
-        radRadius = (RadioGroup) container.findViewById(R.id.radDistance);
+        radRadius = (RadioGroup) container.findViewById(R.id.radRadius);
         btnSearch = (FloatingActionButton)container.findViewById(R.id.btnRegister);
 
         // Inflate the layout for this fragment
@@ -78,7 +78,7 @@ public class SearchFragment extends Fragment implements ResponseAPI{
         Log.v("Search:onSearchClick()","Post");
         String url = getResources().getString(R.string.net_search_url); //"http://192.168.1.100:3003/api/profile";
         String parameters = "search="+ txtSearch.getText() + "&radius="+radRadius;
-        PostAPI asyncTask =new PostAPI();
+        PostAPI asyncTask =new PostAPI(this.getActivity());
         asyncTask.delegate = this;
         asyncTask.execute(url,parameters,"");
     }
