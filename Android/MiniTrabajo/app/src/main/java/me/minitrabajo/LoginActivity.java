@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //call authenticate
             String url = getResources().getString(R.string.net_auth_url); //"http://192.168.1.100:3003/api/authenticate";
             String parameters = "name=" + txtName.getText().toString() +"&pass=" + txtPassword.getText().toString();  //"name=scott&pass=12345&email=moleisking%40gmail.com";
-            PostAPI asyncTask =new PostAPI();
+            PostAPI asyncTask =new PostAPI(this);
             asyncTask.delegate = this;
             asyncTask.execute(url,parameters,"");
         }

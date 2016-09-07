@@ -27,16 +27,25 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 //import com.google.common.net.*;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
 import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import org.apache.http.conn.*;
@@ -45,23 +54,20 @@ import org.apache.http.conn.*;
 //https://www.youtube.com/watch?v=ryY7Dy3z-7Q
 //http://stackoverflow.com/questions/2938502/sending-post-data-in-android
 //https://blog.dahanne.net/2009/08/16/how-to-access-http-resources-from-android/
-
+//http://littlesvr.ca/grumble/2014/07/21/android-programming-connect-to-an-https-server-with-self-signed-certificate/
 
 
 public class PostAPI extends AsyncTask <String, String, String>
 {
     //Call back interface
     public ResponseAPI delegate = null;
-
-
-    //private Context mContext;
+    private Context mContext;
     //private String parameters = "name=scott&pass=12345&email=moleisking%40gmail.com";
 
-	/*public  APIConnect()
+	public  PostAPI(Context context)
 	{
-		//mUrl = url;
-		//mContext = context;
-	}*/
+		mContext = context;
+	}
 
 
     @Override
@@ -78,12 +84,44 @@ public class PostAPI extends AsyncTask <String, String, String>
             Log.w("doInBackground[1]", params[1]);
 
             HttpURLConnection connection = null;
+            //HttpsURLConnection connection = null;
             String reply = "No Reply";
 
-            try {
+            try
+            {
+               /* // My CRT file that I put in the assets folder
+                CertificateFactory cf = CertificateFactory.getInstance("X.509");
+                InputStream caInput = new BufferedInputStream(mContext.getAssets().open("server.key"));//crt
+                Certificate ca = cf.generateCertificate(caInput);
+                System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
+
+                // Create a KeyStore containing our trusted CAs
+                String keyStoreType = KeyStore.getDefaultType();
+                KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+                keyStore.load(null, null);
+                keyStore.setCertificateEntry("ca", ca);
+
+                // Create a TrustManager that trusts the CAs in our KeyStore
+                String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+                TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+                tmf.init(keyStore);
+
+                // Create an SSLContext that uses our TrustManager
+                SSLContext context = SSLContext.getInstance("TLS");
+                context.init(null, tmf.getTrustManagers(), null);*/
+
+
                 //Set Network IO
                 URL url = new URL(params[0].toString());
                 connection = (HttpURLConnection) url.openConnection();
+                //connection = (HttpsURLConnection) url.openConnection();
+                //connection.setSSLSocketFactory(context.getSocketFactory());
+
+
+                // Use this if you need SSL authentication
+                //String userpass = user + ":" + password;
+                //String basicAuth = "Basic " + Base64.encodeToString(userpass.getBytes(), Base64.DEFAULT);
+                // connection.setRequestProperty("Authorization", basicAuth);
 
                 //Build Header
                 connection.setDoInput(true);
@@ -112,9 +150,13 @@ public class PostAPI extends AsyncTask <String, String, String>
                 InputStream in = connection.getInputStream();
                 reply = this.convertStreamToString(in);
                 Log.w("doInBackground:REPLY", reply);
-            } catch (IOException ioe) {
+            }
+            catch (IOException ioe)
+            {
                 Log.v("Post:IOException", ioe.getMessage());
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Log.v("Post:Exception", ex.getMessage());
             } finally {
                 if (connection != null) {
