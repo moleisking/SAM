@@ -12,8 +12,10 @@ import { UserService } from "../services/user";
 export class Profile implements OnInit, OnDestroy {
 
     private sub: any;
-    public message: string;
-    public description: string;
+    private message: string;
+    private description: string;
+    private mobile: string;
+    private address: string;
 
     constructor(private route: ActivatedRoute, private user: UserService) { }
 
@@ -21,7 +23,11 @@ export class Profile implements OnInit, OnDestroy {
         this.sub = this.route.params.subscribe(params => {
             let id = params["id"];
             this.user.getProfile(id).subscribe(
-                profile => this.description = profile.description,
+                profile => {
+                    this.description = profile.description;
+                    this.mobile = profile.mobile;
+                    this.address = profile.address;
+                },
                 error => this.message = <any>error);
         });
     }

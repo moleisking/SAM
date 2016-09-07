@@ -20,16 +20,19 @@ export class LoginFormComponent implements OnInit {
     // private events: any[] = []; // list of form changes
     private message: string;
 
-    constructor(private auth: AuthService, private user: UserService, private router: Router, private formBuilder: FormBuilder) {
+    constructor(
+        private auth: AuthService,
+        private user: UserService, private router: Router, private formBuilder: FormBuilder) {
         this.message = "Login messages will come here.";
     }
 
     ngOnInit() {
         this.myForm = this.formBuilder.group({
-            name: ["", <any>Validators.required],
-            pass: ["", [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(20)]]
+            email: ["", <any>Validators.required],
+            pass: ["", [<any>Validators.required,
+                <any>Validators.minLength(5),
+                <any>Validators.maxLength(20)]]
         });
-
         // this.subcribeToFormChanges();
     }
 
@@ -37,8 +40,10 @@ export class LoginFormComponent implements OnInit {
     //     const myFormStatusChanges$ = this.myForm.statusChanges;
     //     const myFormValueChanges$ = this.myForm.valueChanges;
 
-    //     myFormStatusChanges$.subscribe(x => this.events.push({ event: "STATUS_CHANGED", object: x }));
-    //     myFormValueChanges$.subscribe(x => this.events.push({ event: "VALUE_CHANGED", object: x }));
+    //     myFormStatusChanges$.subscribe(x => 
+    // this.events.push({ event: "STATUS_CHANGED", object: x }));
+    //     myFormValueChanges$.subscribe(x => 
+    // this.events.push({ event: "VALUE_CHANGED", object: x }));
     // }
 
     login() {

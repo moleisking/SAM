@@ -5,18 +5,18 @@ var _ = require("lodash");
 
 module.exports = {
 
-    create: function (usernameurl, data, cb) {
+    create: function (email, data, cb) {
         try {
-            db.push(_path + "/" + usernameurl, data);
+            db.push(_path + "/" + email, data);
             cb(null, data);
         } catch (error) {
             return cb(error, null);
         }
     },
 
-    read: function (usernameurl, cb) {
+    read: function (email, cb) {
         try {
-            var data = db.getData(_path + "/" + usernameurl);
+            var data = db.getData(_path + "/" + email);
             return cb(null, data);
         } catch (err) {
             return cb(err, null);
@@ -41,33 +41,6 @@ module.exports = {
         }
     },
 
-    readByEmail: function (id, cb) {
-        try {
-            var dataAll = db.getData(_path);
-            var data = _.find(dataAll, { 'email': id });
-            return cb(null, data);
-        } catch (err) {
-            return cb(err, null);
-        }
-    },
-
-    saveProfile: function (usernameurl, data, cb) {
-        try {
-            db.push(_path + "/" + usernameurl + "/profile", data);
-            cb(null, data);
-        } catch (error) {
-            return cb(error, null);
-        }
-    },
-
-    readProfile: function (usernameurl, cb) {
-        try {
-            var data = db.getData(_path + "/" + usernameurl + "/profile");
-            return cb(null, data);
-        } catch (err) {
-            return cb(err, null);
-        }
-    },
 }
 
 

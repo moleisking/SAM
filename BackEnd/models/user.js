@@ -16,10 +16,8 @@ var user = new model("User")
             },
             length: {
                 minimum: 5,
-                maximum: 20,
                 messages: {
-                    tooShort: 'password is too short!',
-                    tooLong: 'password is too long!'
+                    tooShort: 'password is too short!'
                 }
             }
         },
@@ -34,6 +32,7 @@ var user = new model("User")
     })
     .attr('admin')
     .attr('email')
+    .attr('description')
     .attr('lat', {
         validations: {
             presence: {
@@ -78,7 +77,13 @@ var user = new model("User")
         }
     })
     .attr('image')
-    .attr('mobile')
+    .attr('mobile', {
+        validations: {
+            presence: {
+                message: 'Mobile is required!'
+            }
+        }
+    })
     .attr('rate')
     .attr('balance');
 

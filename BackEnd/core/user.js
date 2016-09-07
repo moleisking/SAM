@@ -1,12 +1,12 @@
 var model = require("../models/user");
-var modelprofile = require("../models/profile");
+var modelProfile = require("../models/profile");
 var userDAL = require("../dal/user");
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
-var myCacheName = "user";
 var jwt = require('jwt-simple');
 var config = require('../config/settings');
 var toURLString = require('speakingurl');
+var myCacheName = "user";
 
 module.exports = {
 
@@ -27,38 +27,34 @@ module.exports = {
         user.image(data.image);
         user.rate(0);
         user.balance(0);
+        user.description("");
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
             user.pass(model.generateHash(user.pass()));
-            userDAL.create(user.name(), user.toJSON(), function (err, data) {
+            userDAL.create(user.email(), user.toJSON(), function (err, data) {
                 if (err)
                     return cb(err, null);
                 myCache.del(myCacheName + "all");
-                var userdata = data;
-                module.exports.saveProfile(user.name(), null, function (err, data) {
-                    if (err)
-                        return cb(err, null);
-                    return cb(null, userdata);
-                });
+                return cb(null, data);
             });
         }).catch(function (err) {
             return cb(err, null);
         });
     },
 
-    read: function (username, cb) {
-        if (username === null || username === undefined)
+    read: function (email, cb) {
+        if (email === null || email === undefined)
             return cb("Must provide a valid username.", null);
-        myCache.get(myCacheName + "readUser" + username, function (err, value) {
+        myCache.get(myCacheName + "readUser" + email, function (err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _read(username, function (err, readValue) {
+            _read(email, function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                myCache.set(myCacheName + "readUser" + username, readValue, function (err, success) {
+                myCache.set(myCacheName + "readUser" + email, readValue, function (err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -69,13 +65,13 @@ module.exports = {
         });
     },
 
-    delete: function (id, cb) {
-        if (id === null || id === undefined)
+    delete: function (email, cb) {
+        if (email === null || email === undefined)
             return cb("Must provide a valid value.", null);
-        _delete(id, function (err, value) {
+        _delete(email, function (err, value) {
             if (err)
                 return cb(err, null);
-            myCache.del(myCacheName + "readUser" + id);
+            myCache.del(myCacheName + "readUser" + email);
             myCache.del(myCacheName + "all");
             return cb(null, value);
         });
@@ -101,68 +97,87 @@ module.exports = {
         });
     },
 
-    readByEmail: function (id, cb) {
-        if (id === null || id === undefined)
-            return cb("Must provide a valid value.", null);
-        myCache.get(myCacheName + "readUserByEmail" + id, function (err, value) {
+    getEmailFromTokenUser: function (headers, cb) {
+        var token = _getToken(headers);
+        if (!token)
+            return null;
+        var decodedUser = jwt.decode(token, config.secret);
+        return decodedUser.email;
+    },
+
+    saveProfile: function (email, data, cb) {
+        userDAL.read(email, function (err, userData) {
             if (err)
                 return cb(err, null);
-            if (value !== undefined)
-                return cb(null, value);
-            _readByEmail(id, function (err, readValue) {
-                if (err)
-                    return cb(err, null);
-                myCache.set(myCacheName + "readUserByEmail" + id, readValue, function (err, success) {
+            var user = model.create();
+            user.update(userData);
+            user.description(data.description);
+            user.mobile(data.mobile);
+            user.address(data.address);
+            user.image(data.image);
+            user.validate().then(function () {
+                if (!user.isValid)
+                    return cb(user.errors, null);
+                userDAL.create(email, user.toJSON(), function (err, data) {
                     if (err)
                         return cb(err, null);
-                    if (success)
-                        return cb(null, readValue);
-                    return cb('cache internal failure', null);
+                    myCache.del(myCacheName + "readUser" + email);
+                    myCache.del(myCacheName + "all");
+                    return cb(null, data);
+                });
+            }).catch(function (err) {
+                return cb(err, null);
+            });
+        });
+    },
+
+    getProfile: function (nameurl, cb) {
+        if (nameurl === null || nameurl === undefined)
+            return cb("Must provide a valid name.", null);
+        myCache.get(myCacheName + "readUserProfile" + nameurl, function (err, value) {
+            if (err)
+                return cb(err, null);
+            if (value != undefined)
+                return cb(null, value);
+            module.exports.all(function (err, data) {
+                if (err)
+                    return cb(err, null);
+                var email;
+                data.forEach(function (item) {
+                    if (item.nameurl === nameurl)
+                        email = item.email;
+                });
+                _read(email, function (err, readValue) {
+                    if (err)
+                        return cb(err, null);
+                    var profile = modelProfile.create();
+                    profile.update(readValue);
+                    myCache.set(myCacheName + "readUserProfile" + nameurl, profile.toJSON(), function (err, success) {
+                        if (err)
+                            return cb(err, null);
+                        if (success)
+                            return cb(null, readValue);
+                        return cb('cache internal failure', null);
+                    });
                 });
             });
         });
     },
 
-    getNameFromTokenUser: function (headers, cb) {
-        var token = _getToken(headers);
-        if (!token)
-            return null;
-        var decodedUser = jwt.decode(token, config.secret);
-        return decodedUser.name;
-    },
-
-    saveProfile: function (username, data, cb) {
-        var profile = modelprofile.create();
-        if (data === null)
-            profile.description("");
-        else
-            profile.description(data.description);
-        profile.validate().then(function () {
-            if (!profile.isValid)
-                return cb(profile.errors, null);
-            userDAL.saveProfile(username, profile.toJSON(), function (err, data) {
-                if (err)
-                    return cb(err, null);
-                myCache.del(myCacheName + "readUserProfile" + username);
-                return cb(null, data);
-            });
-        }).catch(function (err) {
-            return cb(err, null);
-        });
-    },
-
-    getProfile: function (name, cb) {
-        if (name === null || name === undefined)
+    getMyProfile: function (email, cb) {
+        if (email === null || email === undefined)
             return cb("Must provide a valid name.", null);
-        myCache.get(myCacheName + "readUserProfile" + name, function (err, value) {
+        myCache.get(myCacheName + "readMyProfile" + email, function (err, value) {
             if (err)
                 return cb(err, null);
-            if (value !== undefined)
+            if (value != undefined)
                 return cb(null, value);
-            _readProfile(name, function (err, readValue) {
+            _read(email, function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                myCache.set(myCacheName + "readUserProfile" + name, readValue, function (err, success) {
+                var profile = modelProfile.create();
+                profile.update(readValue);
+                myCache.set(myCacheName + "readMyProfile" + email, profile.toJSON(), function (err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -184,41 +199,11 @@ function _getToken(headers) {
         return null;
 };
 
-function _read(id, cb) {
+function _read(email, cb) {
     try {
-        userDAL.read(id, function (err, data) {
+        userDAL.read(email, function (err, data) {
             if (err)
                 return cb(err, null);
-            var m = model.create();
-            m.update(data);
-            return cb(null, m.toJSON());
-        });
-    } catch (err) {
-        return cb(err, null);
-    };
-}
-
-function _readProfile(id, cb) {
-    try {
-        userDAL.readProfile(id, function (err, data) {
-            if (err)
-                return cb(err, null);
-            var user = modelprofile.create();
-            user.update(data);
-            return cb(null, user.toJSON());
-        });
-    } catch (err) {
-        return cb(err, null);
-    };
-}
-
-function _readByEmail(id, cb) {
-    try {
-        userDAL.readByEmail(id, function (err, data) {
-            if (err)
-                return cb(err, null);
-            if (!data)
-                return cb('User not found', null);
             var m = model.create();
             m.update(data);
             return cb(null, m.toJSON());

@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response, RequestOptions } from "@angular/http";
+import { UserModel } from "../models/user";
 import { Settings } from "../config/settings";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
-
 export class AuthService {
 
   constructor(private http: Http) { }
 
-  login(usercreds:any) {
-    let body = "name=" + usercreds.name + "&pass=" + usercreds.pass;
+  login(usercreds: UserModel) {
+    let body = "email=" + usercreds.email + "&pass=" + usercreds.pass;
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });

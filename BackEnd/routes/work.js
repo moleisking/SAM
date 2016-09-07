@@ -8,7 +8,7 @@
 //   if (!req.body.description || !req.body.name || !req.body.category)
 //     res.status(400).send("Please pass name, description and category.");
 //   else
-//     work.create(user.getNameFromTokenUser(req.headers), req.body, function (err, data) {
+//     work.create(user.getEmailFromTokenUser(req.headers), req.body, function (err, data) {
 //       if (err)
 //         res.status(500).json({err});
 //       else
@@ -17,7 +17,7 @@
 // });
 
 // router.get('/allbyuser', passport.authenticate('jwt', { session: false }), function (req, res, next) {
-//   work.allByUser(user.getNameFromTokenUser(req.headers), function (err, data) {
+//   work.allByUser(user.getEmailFromTokenUser(req.headers), function (err, data) {
 //     if (err)
 //       res.status(500).json({err});
 //     else

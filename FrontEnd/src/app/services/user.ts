@@ -11,7 +11,7 @@ export class UserService {
 
   constructor(private http: Http) { }
 
-  register(user:any, lat:any, lng:any): Observable<any> {
+  register(user: any, lat: any, lng: any): Observable<any> {
     let body = "name=" + user.name + "&pass=" + user.pass + "&email=" + user.email
       + "&lat=" + lat + "&lng=" + lng + "&category=" + user.category + "&tags=" + user.tags
        + "&address=" + user.address + "&mobile=" + user.mobile;
@@ -22,11 +22,11 @@ export class UserService {
     return this.http.post(Settings.backend_url + "/signup", body, options).catch(this.handleError);
   }
 
-  saveProfile(profileform:any): Observable<any> {
+  saveProfile(profileform: any): Observable<any> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
     headers.append("Content-Type", "application/X-www-form-urlencoded");
-    let c = "description=" + profileform.description + "&name=" + profileform.name;
+    let c = "description=" + profileform.description + "&address=" + profileform.address + "&mobile=" + profileform.mobile;
 
     return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }
@@ -44,16 +44,15 @@ export class UserService {
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
 
     return this.http.get(Settings.backend_url + "/users/getmyprofile", { headers: headers })
-      .map(this.extractData)
-      .catch(this.handleError);
+      .map(this.extractData).catch(this.handleError);
   }
 
-  getProfile(id:any): Observable<ProfileModel> {
+  getProfile(id: any): Observable<ProfileModel> {
     return this.http.get(Settings.backend_url + "/users/getprofile/" + id)
       .map(this.extractData).catch(this.handleError);
   }
 
-  forgottenpassword(form:any): Observable<any> {
+  forgottenpassword(form: any): Observable<any> {
     let creds = "email=" + form.email;
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");

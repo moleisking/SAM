@@ -19,7 +19,7 @@ export class WebService {
       .map(this.extractData).catch(this.handleError);
   }
 
-  sendContactForm(form:any): Observable<any> {
+  sendContactForm(form: any): Observable<any> {
     let creds = "email=" + form.email + "&message=" + form.message;
     let headers = new Headers();
     headers.append("Content-Type", "application/X-www-form-urlencoded");

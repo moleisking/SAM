@@ -32,7 +32,7 @@ export class Home implements OnInit {
         );
     }
 
-    onChangeCategory(value:any) {
+    onChangeCategory(value: any) {
         console.log(value);
     }
 
