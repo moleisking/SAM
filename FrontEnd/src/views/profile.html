@@ -8,6 +8,5 @@
     <p><b>Mobile:</b></p>
     <p>{{ mobile }}</p>
     <p><b>Image:</b></p>
-    <p><img [src]="sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + imageCode)" alt="user name" /></p>
-    <!--<p>{{ imageCode }}</p>-->
+    <p><img [src]="sanitizer.bypassSecurityTrustUrl(image)" alt="user name" /></p>
 </div>

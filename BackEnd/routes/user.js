@@ -14,6 +14,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), function (req,
 router.post('/saveprofile', passport.authenticate('jwt', { session: false }), function (req, res, next) {
   if (!req.body.description && !req.body.mobile && !req.body.address)
     return res.status(400).send("Please pass description, mobile and address.");
+  req.body.image = req.body.image.replace(/ /g, '+');
   user.saveProfile(user.getEmailFromTokenUser(req.headers), req.body, function (err, data) {
     if (err)
       return res.status(500).json({ err });

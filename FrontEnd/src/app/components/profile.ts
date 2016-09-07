@@ -17,8 +17,7 @@ export class Profile implements OnInit, OnDestroy {
     private description: string;
     private mobile: string;
     private address: string;
-    private imageBase64: string;
-    private imageCode: string;
+    private image: string;
 
     constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService) { }
 
@@ -30,9 +29,7 @@ export class Profile implements OnInit, OnDestroy {
                     this.description = profile.description;
                     this.mobile = profile.mobile;
                     this.address = profile.address;
-                    this.imageBase64 = profile.imageBase64;
-                    this.imageCode = profile.imageCode;
-                    console.log(this.imageCode)
+                    this.image = profile.image;
                 },
                 error => this.message = <any>error);
         });

@@ -22,12 +22,12 @@ export class UserService {
     return this.http.post(Settings.backend_url + "/signup", body, options).catch(this.handleError);
   }
 
-  saveProfile(profileform: any, imageBase64: any, imageCode: any): Observable<any> {
+  saveProfile(profileform: any, image: any): Observable<any> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
     headers.append("Content-Type", "application/X-www-form-urlencoded");
     let c = "description=" + profileform.description + "&address=" + profileform.address + "&mobile=" + profileform.mobile
-      + "&imageBase64=" + imageBase64 + "&imageCode=" + imageCode;
+      + "&image=" + image;
 
     return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }

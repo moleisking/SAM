@@ -23,6 +23,8 @@
     <div class="form-group">
         <label for="image">Image</label>
         <input type="file" class="form-control" id="image" />
+        <br>
+        <img [src]="image" alt="" />
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid && !submitted" (click)="save(myForm)">Save</button>
     <p>{{ message }}</p>

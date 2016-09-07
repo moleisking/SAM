@@ -3,8 +3,7 @@ var model = require('nodejs-model');
 var profile = new model("Profile")
     .attr('description')
     .attr('address')
-    .attr('imageCode')
-    .attr('imageBase64')
+    .attr('image')
     .attr('mobile');
 
 module.exports = profile;
