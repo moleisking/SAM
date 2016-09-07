@@ -1,17 +1,17 @@
 <div class="container">
     <form [formGroup]="myForm" novalidate>
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" formControlName="name" name="username" />
+            <label for="name">Name</label>
+            <input type="text" class="form-control" formControlName="name" name="name" />
             <small [hidden]="myForm.controls.name.valid || (myForm.controls.name.pristine && !submitted)" class="text-danger">
-                Username is required.
+                Name is required.
             </small>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="text" class="form-control" formControlName="pass" name="password" />
+            <input type="text" class="form-control" formControlName="pass" name="password" minlength="5" />
             <small [hidden]="myForm.controls.pass.valid || (myForm.controls.pass.pristine && !submitted)" class="text-danger">
-                Password is required. Min 5 chars and max 20 chars.
+                Password is required. Min 5 chars.
             </small>
         </div>
         <div class="form-group">

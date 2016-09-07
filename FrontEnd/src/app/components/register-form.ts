@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
+
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
 import { CategoriesService } from "../services/categories";
@@ -37,13 +38,9 @@ export class RegisterFormComponent implements OnInit {
         let regexPatterns = { numbers: "^[0-9]*$" };
         this.myForm = this.formBuilder.group({
             name: ["", <any>Validators.required],
-            pass: ["", [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(20)]],
+            pass: ["", [<any>Validators.required, <any>Validators.minLength(5)]],
             email: ["", <any>Validators.required],
-            category: ["",
-                Validators.compose([
-                    Validators.pattern(regexPatterns.numbers),
-                    Validators.required
-                ])],
+            category: ["", Validators.compose([Validators.pattern(regexPatterns.numbers), Validators.required])],
             tags: [""],
             address: ["", <any>Validators.required],
             mobile: [""]
@@ -52,8 +49,8 @@ export class RegisterFormComponent implements OnInit {
         this.getCategories();
     }
 
-    onChangeCategory(value:any) {
-        this.tagsValue = []
+    onChangeCategory(value: any) {
+        this.tagsValue = [];
         this.tags = this.cats.find(x => x.id === value).tags;
         this.areTagsAvailable = this.tags.length > 0;
     }
@@ -66,12 +63,12 @@ export class RegisterFormComponent implements OnInit {
 
     getPosition() {
         if (navigator.geolocation)
-            navigator.geolocation.getCurrentPosition(position => { this.setPosition(position) }, this.showErrorGeoLoc);
+            navigator.geolocation.getCurrentPosition(position => { this.setPosition(position); }, this.showErrorGeoLoc);
         else
             this.message = "Geolocation is not supported by this browser or allowed. Can't register an user then.";
     }
 
-    setPosition(position:any) {
+    setPosition(position: any) {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
     }
@@ -92,7 +89,7 @@ export class RegisterFormComponent implements OnInit {
         }
     }
 
-    showErrorGeoLoc(error:any) {
+    showErrorGeoLoc(error: any) {
         switch (error.code) {
             case error.PERMISSION_DENIED:
                 this.message = "User denied the request for Geo-location.";
@@ -104,6 +101,9 @@ export class RegisterFormComponent implements OnInit {
                 this.message = "The request to get user location timed out.";
                 break;
             case error.UNKNOWN_ERROR:
+                this.message = "An unknown error occurred.";
+                break;
+            default:
                 this.message = "An unknown error occurred.";
                 break;
         }

@@ -17,6 +17,8 @@ export class ProfileFormComponent implements OnInit {
     private submitted: boolean; // keep track on form submission
     private message: string;
     private description: string;
+    private mobile: string;
+    private address: string;
 
     constructor(private user: UserService, private formBuilder: FormBuilder) {
         this.message = "Profile form messages will be here.";
@@ -25,13 +27,19 @@ export class ProfileFormComponent implements OnInit {
     ngOnInit() {
         this.getMyProfile();
         this.myForm = this.formBuilder.group({
-            description: [this.description, <any>Validators.required]
+            description: [this.description, <any>Validators.required],
+            address: [this.address, <any>Validators.required],
+            mobile: [this.mobile]
         });
     }
 
     getMyProfile() {
         this.user.getMyProfile().subscribe(
-            profile => this.description = profile.description,
+            profile => {
+                this.description = profile.description;
+                this.mobile = profile.mobile;
+                this.address = profile.address;
+            },
             error => this.message = <any>error);
     }
 

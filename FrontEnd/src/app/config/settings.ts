@@ -1,4 +1,4 @@
 export const Settings = {
-  backend_url: "http://minitrabajo.me:3003",
-  prod: true
+  backend_url: "http://localhost:3003",
+  prod: false
 };
