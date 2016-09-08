@@ -10,12 +10,14 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -36,10 +38,16 @@ import android.location.Location;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
+/*import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;*/
 
 import org.json.JSONObject;
 
@@ -76,11 +84,12 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int SELECT_PICTURE = 1;
     private static final int SELECT_FILE = 1;
-    private static final int REQUEST_CAMERA = 0;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;//was 0
     private static final int REQUEST_LOCATION = 2;
+    private final static int REQUEST_LOCATION_SETTING = 199;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    private LocationSettingsRequest mLocationSettingRequest;
+    //private PendingResult<LocationSettingsResult> mLocationSettingRequestResult;
     private double currentLatitude;
     private double currentLongitude;
     private String selectedImagePath;
@@ -138,6 +147,94 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
+
+
+        isNetworkConnected();
+    }
+
+    public boolean isNetworkConnected()
+    {
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
+        if ( !manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) )
+        {
+            Log.d("isNetworkConnected", "NETWORK UNAVAILABLE");
+            showNoNetworkAlert();
+            return false;
+        }
+        else if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
+        {
+            Log.d("isNetworkConnected", "GPS UNAVAILABLE");
+            showNoGpsAlert();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    private void showNoGpsAlert() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog,  final int id) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showNoNetworkAlert() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your Network seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog,  final int id) {
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("onActivityResult()", Integer.toString(resultCode));
+
+        if ((resultCode == Activity.RESULT_OK) && (requestCode == SELECT_FILE))
+        {
+            onSelectFromGalleryResult(data);
+        }
+        else if ((resultCode == Activity.RESULT_OK) && (requestCode == REQUEST_IMAGE_CAPTURE))
+        {
+            onCaptureImageResult(data);
+        }
+        else if ((resultCode == Activity.RESULT_OK) && (requestCode == REQUEST_LOCATION_SETTING))
+        {
+            Toast.makeText(this, "Location enabled by user!", Toast.LENGTH_LONG).show();
+        }
+        else if ((resultCode == Activity.RESULT_CANCELED) && (requestCode == REQUEST_IMAGE_CAPTURE))
+        {
+            Toast.makeText(this, "Camera image cancelled by user.", Toast.LENGTH_LONG).show();
+        }
+        else if ((resultCode == Activity.RESULT_CANCELED) && (requestCode == REQUEST_LOCATION_SETTING))
+        {
+            Toast.makeText(this, "Location not enabled, user cancelled.", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -344,7 +441,9 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
                             {
                                 Log.v("onImageUpload:Click","Camera" );
                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(intent, REQUEST_CAMERA);
+                                //startActivityForResult(intent, REQUEST_CAMERA);
+
+
                             }
                             case 1:
                             {
@@ -370,29 +469,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
         alert.show();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK)
-        {
-            if (requestCode == SELECT_FILE)
-            {
-                onSelectFromGalleryResult(data);
-            }
-            else if (requestCode == REQUEST_CAMERA)
-            {
-                onCaptureImageResult(data);
-            }
 
-
-
-        }
-        else if (resultCode == Activity.RESULT_CANCELED)
-        {
-            // The user was asked to change settings, but chose not to
-        }
-
-    }
 
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
