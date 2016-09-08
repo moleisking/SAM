@@ -1,43 +1,7 @@
 {
     "categories": [{
             "id": "1",
-            "name": "Gardening",
-            "description": "Gardening",
-            "tags": [
-                {
-                    "id": 1,
-                    "text": "Gardening Tag 1"
-                },
-                {
-                    "id": 2,
-                    "text": "Gardening Tag 2"
-                },
-                {
-                    "id": 3,
-                    "text": "Gardening Tag 3"
-                }
-            ]
-        },{
-            "id": "2",
-            "name": "Cleaning",
-            "description": "Cleaning",
-            "tags": [
-                {
-                    "id": 1,
-                    "text": "Cleaning Tag 1"
-                },
-                {
-                    "id": 2,
-                    "text": "Cleaning Tag 2"
-                },
-                {
-                    "id": 3,
-                    "text": "Cleaning Tag 3"
-                }
-            ]
-        }, {
-            "id": "3",
-            "name": "House improvements",
+            "name": "artist",
             "description": "House improvements",
             "tags": [
                 {
@@ -53,6 +17,1093 @@
                     "text": "House Tag 3"
                 }
             ]
-        }
+			},	
+			{
+            "id": "2",
+            "name": "beautician",
+            "description": "House improvements",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "nails"
+                },
+                {
+                    "id": 2,
+                    "text": "House Tag 2"
+                },
+                {
+                    "id": 3,
+                    "text": "House Tag 3"
+                }
+            ]
+			}, 	
+			{
+            "id": "3",
+            "name": "body guard",
+            "description": "House improvements",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "House Tag 1"
+                },
+                {
+                    "id": 2,
+                    "text": "House Tag 2"
+                },
+                {
+                    "id": 3,
+                    "text": "House Tag 3"
+                }
+            ]
+			}, 			
+			{
+            "id": "4",
+            "name": "builder",
+            "description": "builder",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "House Tag 1"
+                },
+                {
+                    "id": 2,
+                    "text": "House Tag 2"
+                },
+                {
+                    "id": 3,
+                    "text": "House Tag 3"
+                }
+            ]
+			},
+			{
+            "id": "5",
+            "name": "caterer",
+            "description": "caterer",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "indian"
+                },
+                {
+                    "id": 2,
+                    "text": "italian"
+                },
+                {
+                    "id": 3,
+                    "text": "african"
+                }
+            ]
+			}, 
+			{
+            "id": "6",
+            "name": "chauffeur",
+            "description": "chauffeur",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "car"
+                },
+                {
+                    "id": 2,
+                    "text": "truck"
+                },
+                {
+                    "id": 3,
+                    "text": "long"
+                }
+            ]
+			}, 
+			{
+            "id": "7",
+            "name": "child carer",
+            "description": "child carer",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "education"
+                },
+                {
+                    "id": 2,
+                    "text": "small"
+                },
+                {
+                    "id": 3,
+                    "text": "teenagers"
+                }
+            ]
+			}, 			
+			{
+            "id": "8",
+            "name": "cleaner",
+            "description": "cleaner",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "bathroom"
+                },
+                {
+                    "id": 2,
+                    "text": "vacuum"
+                },
+                 {
+                    "id": 3,
+                    "text": "laundry"
+                },
+                 {
+                    "id": 4,
+                    "text": "dishes"
+                },
+                 {
+                    "id": 5,
+                    "text": "children"
+                }                
+            ]
+			}, 	
+			{
+            "id": "9",
+            "name": "electrician",
+            "description": "electrician",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "building"
+                },
+                {
+                    "id": 2,
+                    "text": "apartment"
+                },
+                {
+                    "id": 3,
+                    "text": "house"
+                },
+                {
+                    "id": 3,
+                    "text": "solar"
+                },
+                {
+                    "id": 3,
+                    "text": "panel"
+                }
+            ]
+			}, 	
+			{
+            "id": "10",
+            "name": "hairdresser",
+            "description": "hairdresser",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "cut"
+                },
+                {
+                    "id": 2,
+                    "text": "dryer"
+                },
+                {
+                    "id": 3,
+                    "text": "dye"
+                }
+            ]
+			}, 		
+			{
+            "id": "11",
+            "name": "hostess",
+            "description": "hostess",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "hotel"
+                },
+                {
+                    "id": 2,
+                    "text": "restaurants"
+                },
+                {
+                    "id": 3,
+                    "text": "wedding"
+                }
+            ]
+			}, 			
+			{
+            "id": "12",
+            "name": "gardener",
+            "description": "Gardener",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "lawn"
+                },
+                {
+                    "id": 2,
+                    "text": "plants"
+                },
+                 {
+                    "id": 3,
+                    "text": "vegitables"
+                },
+                 {
+                    "id": 4,
+                    "text": "flowers"
+                },
+                 {
+                    "id": 5,
+                    "text": "pots"
+                },				
+                {
+                    "id": 6,
+                    "text": "weeds"
+                },
+                {
+                    "id": 7,
+                    "text": "roof"
+                }
+            ]
+			},
+			{
+            "id": "13",
+            "name": "locksmith",
+            "description": "locksmith",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "House Tag 1"
+                },
+                {
+                    "id": 2,
+                    "text": "House Tag 2"
+                },
+                {
+                    "id": 3,
+                    "text": "House Tag 3"
+                }
+            ]
+			}, 
+			{
+            "id": "14",
+            "name": "model",
+            "description": "model",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "tall"
+                },
+                {
+                    "id": 2,
+                    "text": "blond"
+                },
+                {
+                    "id": 3,
+                    "text": "brunette"
+                },
+                {
+                    "id": 3,
+                    "text": "black"
+                },
+                {
+                    "id": 4,
+                    "text": "white"
+                },
+                {
+                    "id": 5,
+                    "text": "african"
+                },
+                {
+                    "id": 6,
+                    "text": "latin"
+                },
+                {
+                    "id": 7,
+                    "text": "caucasian"
+                },
+                {
+                    "id": 8,
+                    "text": "asian"
+                },
+                {
+                    "id": 9,
+                    "text": "curvy"
+                },
+                {
+                    "id": 10,
+                    "text": "brown"
+                },
+                {
+                    "id": 11,
+                    "text": "green"
+                },
+                {
+                    "id": 12,
+                    "text": "blue"
+                },
+                {
+                    "id": 13,
+                    "text": "hazel"
+                },
+                {
+                    "id": 14,
+                    "text": "plus"
+                },
+                {
+                    "id": 15,
+                    "text": "size"
+                },
+                {
+                    "id": 16,
+                    "text": "swimwear"
+                },
+                {
+                    "id": 17,
+                    "text": "voluptuous"
+                },
+                {
+                    "id": 18,
+                    "text": "nude"
+                },
+                {
+                    "id": 19,
+                    "text": "short"
+                }
+            ]
+			}, 			
+			{
+            "id": "15",
+            "name": "mover",
+            "description": "mover",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "truck"
+                },
+                {
+                    "id": 2,
+                    "text": "car"
+                },
+                {
+                    "id": 3,
+                    "text": "trolley"
+                }
+            ]
+			}, 	
+			{
+            "id": "16",
+            "name": "musician",
+            "description": "musician",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "guitar"
+                },
+                {
+                    "id": 2,
+                    "text": "drums"
+                },
+                {
+                    "id": 3,
+                    "text": "vocalist"
+                },
+                {
+                    "id": 4,
+                    "text": "sing"
+                },
+                {
+                    "id": 5,
+                    "text": "base"
+                },
+                {
+                    "id": 6,
+                    "text": "piano"
+                },
+                {
+                    "id": 7,
+                    "text": "castanets"
+                },
+                {
+                    "id": 8,
+                    "text": "steelpan"
+                },
+                {
+                    "id": 9,
+                    "text": "triangle"
+                },
+                {
+                    "id": 10,
+                    "text": "vibraphone"
+                },
+                {
+                    "id": 11,
+                    "text": "xylophone"
+                },
+                {
+                    "id": 12,
+                    "text": "idiophones"
+                },
+                {
+                    "id": 13,
+                    "text": "membranophones"
+                },
+                {
+                    "id": 14,
+                    "text": "wind"
+                },
+                {
+                    "id": 15,
+                    "text": "vocalist"
+                },
+                {
+                    "id": 16,
+                    "text": "accordion"
+                },
+                {
+                    "id": 17,
+                    "text": "vocalist"
+                },
+                {
+                    "id": 18,
+                    "text": "horn"
+                },
+                {
+                    "id": 19,
+                    "text": "violin"
+                },
+                {
+                    "id": 20,
+                    "text": "harp"
+                },
+                {
+                    "id": 21,
+                    "text": "bass"
+                },
+                {
+                    "id": 22,
+                    "text": "cello"
+                },
+                {
+                    "id": 23,
+                    "text": "flute"
+                },
+                {
+                    "id": 24,
+                    "text": "clarinet"
+                },
+                {
+                    "id": 25,
+                    "text": "saxophone"
+                },
+                {
+                    "id": 26,
+                    "text": "trumpet"
+                },
+                {
+                    "id": 27,
+                    "text": "trombone"
+                },
+                {
+                    "id": 28,
+                    "text": "tuba"
+                },
+                {
+                    "id": 29,
+                    "text": "bongos"
+                },
+                {
+                    "id": 30,
+                    "text": "drum"
+                },
+                {
+                    "id": 31,
+                    "text": "dj"
+                },
+                {
+                    "id": 32,
+                    "text": "synthesizer"
+                },
+                {
+                    "id": 33,
+                    "text": "harmonica"
+                },
+                {
+                    "id": 34,
+                    "text": "keybord"
+                },
+                {
+                    "id": 35,
+                    "text": "anplifier"
+                },
+                {
+                    "id": 36,
+                    "text": "pop"
+                },
+                {
+                    "id": 37,
+                    "text": "rock"
+                },
+                {
+                    "id": 38,
+                    "text": "jazz"
+                },
+                {
+                    "id": 39,
+                    "text": "80s"
+                },
+                {
+                    "id": 40,
+                    "text": "90s"
+                },
+                {
+                    "id": 41,
+                    "text": "70s"
+                },
+                {
+                    "id": 42,
+                    "text": "80s"
+                },
+                {
+                    "id": 43,
+                    "text": "60s"
+                },
+                {
+                    "id": 44,
+                    "text": "bagpipes"
+                },
+                {
+                    "id": 45,
+                    "text": "banjo"
+                },
+                {
+                    "id": 46,
+                    "text": "disco"
+                }
+            ]
+			}, 			
+			{
+            "id": "17",
+            "name": "nurse",
+            "description": "nurse",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "babies"
+                },
+                {
+                    "id": 2,
+                    "text": "children"
+                },
+                {
+                    "id": 3,
+                    "text": "elderly"
+                },
+                {
+                    "id": 4,
+                    "text": "senior"
+                },
+                {
+                    "id": 5,
+                    "text": "citizen"
+                },
+                {
+                    "id": 6,
+                    "text": "oxygen"
+                },
+                {
+                    "id": 7,
+                    "text": "diabetes"
+                }
+            ]
+			}, 
+			{
+            "id": "18",
+            "name": "nutritionist",
+            "description": "nutritionist",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "diet"
+                },
+                {
+                    "id": 2,
+                    "text": "vegeterian"
+                },
+                {
+                    "id": 3,
+                    "text": "diabetes"
+                },
+                {
+                    "id": 4,
+                    "text": "weight"
+                },
+                {
+                    "id": 5,
+                    "text": "loss"
+                }
+            ]
+			}, 		
+			{
+            "id": "19",
+            "name": "personal assistant",
+            "description": "personal assistant",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "House Tag 1"
+                },
+                {
+                    "id": 2,
+                    "text": "House Tag 2"
+                },
+                {
+                    "id": 3,
+                    "text": "House Tag 3"
+                }
+            ]
+			}, 	
+			{
+            "id": "20",
+            "name": "personal trainer",
+            "description": "House improvements",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "weight"
+                },
+                {
+                    "id": 2,
+                    "text": "loss"
+                },
+                {
+                    "id": 3,
+                    "text": "injury"
+                }
+            ]
+			}, 
+			{
+            "id": "21",
+            "name": "pet sitter",
+            "description": "pet sitter",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "dogs"
+                },
+                {
+                    "id": 2,
+                    "text": "cats"
+                },
+                {
+                    "id": 3,
+                    "text": "birds"
+                },
+                {
+                    "id": 4,
+                    "text": "rodents"
+                },
+                {
+                    "id": 5,
+                    "text": "snakes"
+                },
+                {
+                    "id": 6,
+                    "text": "walks"
+                },
+                {
+                    "id": 7,
+                    "text": "excursions"
+                }
+            ]
+			}, 
+			{
+            "id": "22",
+            "name": "photographer",
+            "description": "photographer",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "wedding"
+                },
+                {
+                    "id": 2,
+                    "text": "event"
+                },
+                {
+                    "id": 3,
+                    "text": "profile"
+                }
+            ]
+			}, 	
+			{
+            "id": "23",
+            "name": "plumber",
+            "description": "plumber",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "toilet"
+                },
+                {
+                    "id": 2,
+                    "text": "apartment"
+                },
+                {
+                    "id": 3,
+                    "text": "building"
+                },
+                {
+                    "id": 4,
+                    "text": "kitchen"
+                },
+                {
+                    "id": 5,
+                    "text": "bathroom"
+                },
+				{
+                    "id": 6,
+                    "text": "sanitation"
+                },
+				{
+                    "id": 7,
+                    "text": "heating"
+                },
+				{
+                    "id": 8,
+                    "text": "pipes"
+                },
+				{
+                    "id": 9,
+                    "text": "leak"
+                },
+				{
+                    "id": 10,
+                    "text": "emergancy"
+                }
+            ]
+			}, 				
+			{
+            "id": "24",
+            "name": "salesman",
+            "description": "salesman",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "software"
+                },
+                {
+                    "id": 2,
+                    "text": "insurance"
+                },
+                {
+                    "id": 3,
+                    "text": "equipment"
+                }
+            ]
+			},
+			{
+            "id": "25",
+            "name": "secretary",
+            "description": "secretary",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "licence"
+                },
+                {
+                    "id": 2,
+                    "text": "meetings"
+                },
+                {
+                    "id": 3,
+                    "text": "calendar"
+                }
+            ]
+			}, 				
+			{
+            "id": "26",
+            "name": "software developer",
+            "description": "software developer, programmer",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "java"
+                },
+                {
+                    "id": 2,
+                    "text": "javascript"
+                },
+                {
+                    "id": 3,
+                    "text": "sql"
+                },
+                {
+                    "id": 4,
+                    "text": "mongodb"
+                },
+                {
+                    "id": 5,
+                    "text": "angular.js"
+                },
+                {
+                    "id": 6,
+                    "text": "node.js"
+                },
+                {
+                    "id": 7,
+                    "text": "c#"
+                },
+                {
+                    "id": 8,
+                    "text": ".net"
+                },
+                {
+                    "id": 9,
+                    "text": "android"
+                },
+                {
+                    "id": 10,
+                    "text": "windows"
+                },
+				 {
+                    "id": 11,
+                    "text": "html"
+                },
+				{
+                    "id": 12,
+                    "text": "css"
+                },
+				{
+                    "id": 13,
+                    "text": "c++"
+                },
+				{
+                    "id": 14,
+                    "text": "c"
+                },
+				{
+                    "id": 15,
+                    "text": "wifi"
+                },
+				{
+                    "id": 16,
+                    "text": "cryptography"
+                },
+				{
+                    "id": 17,
+                    "text": "firewall"
+                },
+				{
+                    "id": 18,
+                    "text": "router"
+                },
+				{
+                    "id": 19,
+                    "text": "switch"
+                },
+				{
+                    "id": 20,
+                    "text": "apple"
+                },
+				{
+                    "id": 21,
+                    "text": "ios"
+                },
+				{
+                    "id": 22,
+                    "text": "mysql"
+                },
+				{
+                    "id": 23,
+                    "text": "microsoft"
+                },
+				{
+                    "id": 24,
+                    "text": "oracle"
+                },
+				{
+                    "id": 25,
+                    "text": "google"
+                },
+                {
+                    "id": 26,
+                    "text": "linux"
+                }
+            ]
+			}, 							
+			{
+            "id": "27",
+            "name": "teacher",
+            "description": "teacher",
+            "tags": [	
+				{
+                    "id": 1,
+                    "text": "acting"
+                },
+				{
+                    "id": 2,
+                    "text": "arithmetic"
+                },			
+                {
+                    "id": 3,
+                    "text": "art"
+                },
+				{
+                    "id": 4,
+                    "text": "belly"
+                },
+				{
+                    "id": 5,
+                    "text": "calculus"
+                },
+				{
+                    "id": 6,
+                    "text": "chemistry"
+                },
+				{
+                    "id": 7,
+                    "text": "classical"
+                },
+				{
+                    "id": 8,
+                    "text": "coding"
+                },
+				{
+                    "id": 9,
+                    "text": "cooking"
+                },
+				{
+                    "id": 10,
+                    "text": "computer"
+                },
+				{
+                    "id": 11,
+                    "text": "dance"
+                },
+				{
+                    "id": 12,
+                    "text": "differential"
+                },
+				{
+                    "id": 13,
+                    "text": "drama"
+                },
+				{
+                    "id": 14,
+                    "text": "drums"
+                },
+                {
+                    "id": 15,
+                    "text": "english"
+                },               
+				{
+                    "id": 16,
+                    "text": "french"
+                },	
+				{
+                    "id": 17,
+                    "text": "geometry"
+                },	
+{
+                    "id": 18,
+                    "text": "guitar"
+                },				
+				{
+                    "id": 19,
+                    "text": "german"
+                },
+				{
+                    "id": 20,
+                    "text": "math"
+                },
+				{
+                    "id": 21,
+                    "text": "mathematics"
+                },
+				{
+                    "id": 22,
+                    "text": "modern"
+                },
+				{
+                    "id": 23,
+                    "text": "music"
+                },
+				{
+                    "id": 24,
+                    "text": "organic"
+                },
+				{
+                    "id": 25,
+                    "text": "piano"
+                },
+				{
+                    "id": 26,
+                    "text": "programming"
+                },
+				{
+                    "id": 27,
+                    "text": "physics"
+                },
+				{
+                    "id": 28,
+                    "text": "salsa"
+                },
+				{
+                    "id": 29,
+                    "text": "science"
+                },
+				{
+                    "id": 30,
+                    "text": "spanish"
+                },	
+				{
+                    "id": 31,
+                    "text": "tango"
+                }					
+            ]
+			},
+			{
+            "id": "28",
+            "name": "marketer",
+            "description": "marketer",
+            "tags": [
+                {
+                    "id": 1,
+                    "text": "seo"
+                },
+                {
+                    "id": 2,
+                    "text": "sem"
+                },
+                {
+                    "id": 3,
+                    "text": "ppc"
+                }
+				,
+                {
+                    "id": 4,
+                    "text": "adwords"
+                },
+                {
+                    "id": 5,
+                    "text": "link"
+                },
+                {
+                    "id": 6,
+                    "text": "advertising"
+                },
+                {
+                    "id": 7,
+                    "text": "facebook"
+                },
+                {
+                    "id": 8,
+                    "text": "twitter"
+                },
+                {
+                    "id": 9,
+                    "text": "linkedin"
+                },
+                {
+                    "id": 10,
+                    "text": "display"
+                }
+            ]
+			} 		
+		
     ]
 }
