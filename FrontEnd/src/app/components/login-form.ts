@@ -16,7 +16,7 @@ import { UserService } from "../services/user";
 export class LoginFormComponent implements OnInit {
 
     private myForm: FormGroup; // our model driven form
-    private submitted: boolean; // keep track on form submission
+    
     // private events: any[] = []; // list of form changes
     private message: string;
 
@@ -47,10 +47,10 @@ export class LoginFormComponent implements OnInit {
     // }
 
     login() {
-        if (!this.myForm.dirty || !this.myForm.valid)
+        if (!this.myForm.dirty && !this.myForm.valid)
             this.message = "Form not valid to be sent.";
         else {
-            this.submitted = true;
+            
             this.message = "User sent to be logged in. Wait...";
             this.auth.login(this.myForm.value).subscribe(
                 () => this.router.navigate(["/dashboard"]),

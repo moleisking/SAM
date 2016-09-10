@@ -14,7 +14,7 @@ import { UserService } from "../services/user";
 export class ProfileFormComponent implements OnInit {
 
     private myForm: FormGroup; // our model driven form
-    private submitted: boolean; // keep track on form submission
+
     private message: string;
     private description: string;
     private mobile: string;
@@ -38,7 +38,7 @@ export class ProfileFormComponent implements OnInit {
     ngAfterViewChecked() {
         if (document.getElementById("image") !== null)
             document.getElementById("image")
-            .addEventListener("change", e => { this.readImage(e); }, false);
+                .addEventListener("change", e => { this.readImage(e); }, false);
     }
 
     getMyProfile() {
@@ -66,10 +66,9 @@ export class ProfileFormComponent implements OnInit {
     }
 
     save() {
-        if (!this.myForm.dirty || !this.myForm.valid)
+        if (!this.myForm.dirty && !this.myForm.valid)
             this.message = "Form not valid to be sent.";
         else {
-            this.submitted = true;
             this.message = "User profile sent...";
             this.user.saveProfile(this.myForm.value, this.image).subscribe(
                 () => {

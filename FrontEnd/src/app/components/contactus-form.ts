@@ -14,7 +14,7 @@ import { WebService } from "../services/web";
 export class ContactUsFormComponent implements OnInit {
 
     private myForm: FormGroup; // our model driven form
-    private submitted: boolean; // keep track on form submission
+    
     private message: string;
     private description: string;
 
@@ -30,10 +30,10 @@ export class ContactUsFormComponent implements OnInit {
     }
 
     sendContactForm() {
-        if (!this.myForm.dirty || !this.myForm.valid)
+        if (!this.myForm.dirty && !this.myForm.valid)
             this.message = "Form not valid to be sent.";
         else {
-            this.submitted = true;
+            
             this.message = "Contact Us message sent.";
             this.web.sendContactForm(this.myForm.value).subscribe(
                 data => {

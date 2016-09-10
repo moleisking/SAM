@@ -1,43 +1,44 @@
 <div class="container">
-    <form [formGroup]="myForm" novalidate>
+    <form [formGroup]="myForm" novalidate (submit)="register()">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" formControlName="name" name="name" />
-            <small [hidden]="myForm.controls.name.valid || (myForm.controls.name.pristine && !submitted)" class="text-danger">
+            <input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" />
+            <small [hidden]="myForm.controls.name.valid || (myForm.controls.name.pristine)" class="text-danger">
                 Name is required.
             </small>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="text" class="form-control" formControlName="pass" name="password" minlength="5" />
-            <small [hidden]="myForm.controls.pass.valid || (myForm.controls.pass.pristine && !submitted)" class="text-danger">
+            <input type="text" class="form-control" formControlName="pass" name="password" [(ngModel)]="password" minlength="5" />
+            <small [hidden]="myForm.controls.pass.valid || (myForm.controls.pass.pristine)" class="text-danger">
                 Password is required. Min 5 chars.
             </small>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" class="form-control" formControlName="email" name="email" />
-            <small [hidden]="myForm.controls.email.valid || (myForm.controls.email.pristine && !submitted)" class="text-danger">
+            <input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="email" />
+            <small [hidden]="myForm.controls.email.valid || (myForm.controls.email.pristine)" class="text-danger">
                 Email is required.
             </small>
         </div>
         <div class="form-group">
-            <label for="email">Address</label>
-            <input type="text" class="form-control" formControlName="address" name="address" />
-            <small [hidden]="myForm.controls.address.valid || (myForm.controls.address.pristine && !submitted)" class="text-danger">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" formControlName="address" name="address" [(ngModel)]="address" />
+            <small [hidden]="myForm.controls.address.valid || (myForm.controls.address.pristine)" class="text-danger">
                 Address is required.
             </small>
         </div>
         <div class="form-group">
-            <label for="email">Mobile</label>
-            <input type="text" class="form-control" formControlName="mobile" name="mobile" />
-            <small [hidden]="myForm.controls.mobile.valid || (myForm.controls.mobile.pristine && !submitted)" class="text-danger">
+            <label for="mobile">Mobile</label>
+            <input type="text" class="form-control" formControlName="mobile" name="mobile" [(ngModel)]="mobile" />
+            <small [hidden]="myForm.controls.mobile.valid || (myForm.controls.mobile.pristine)" class="text-danger">
                 Mobile is required.
             </small>
         </div>
         <div class="form-group">
             <label for="category">Categories</label>
-            <select class="form-control" formControlName="category" name="category" (change)="onChangeCategory($event.target.value)">
+            <select class="form-control" formControlName="category" name="category" [(ngModel)]="category"
+                (change)="onChangeCategory($event.target.value)">
                 <option *ngFor="let cat of cats" value={{cat.id}}>
                     {{cat.name}}
                 </option>
@@ -45,11 +46,12 @@
         </div>
         <div class="form-group" *ngIf="areTagsAvailable">
             <label for="tags">Tags</label>
-            <ng-select [data]="tagsValue" [multiple]="true" [items]="tags" (data)="refreshValue($event)" placeholder="No tags selected yet"></ng-select>
+            <ng-select [data]="tagsValue" [multiple]="true" [items]="tags" (data)="refreshValue($event)"
+                placeholder="No tags selected yet"></ng-select>
             <!--(typed)="typed($event)" (removed)="removed($event)" [disabled]="disabled" (selected)="selected($event)"-->
             <!--<pre>{{itemsToString(tagsValue)}}</pre>-->
         </div>
-        <button type="submit" class="btn btn-default" [disabled]="!myForm.valid && !submitted" (click)="register(myForm)">Register</button>
+        <button type="submit" class="btn btn-default" [disabled]="!myForm.valid">Register</button>
         <p>{{ message }}</p>
     </form>
 </div>

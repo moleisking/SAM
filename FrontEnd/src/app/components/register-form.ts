@@ -18,7 +18,7 @@ import { TagModel } from "../models/tag";
 export class RegisterFormComponent implements OnInit {
 
     private myForm: FormGroup; // our model driven form
-    private submitted: boolean; // keep track on form submission
+    
     private message: string;
     private lat: number;
     private lng: number;
@@ -78,10 +78,10 @@ export class RegisterFormComponent implements OnInit {
             !this.lng || this.lng === undefined || this.lng === 0)
             this.message = "Coordenades not specified. Can't register an user then.";
         else {
-            if (!this.myForm.dirty || !this.myForm.valid)
+            if (!this.myForm.dirty && !this.myForm.valid)
                 this.message = "Form not valid to be sent.";
             else {
-                this.submitted = true;
+                
                 this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
                 this.message = "New user sent to be registered. Wait...";
                 this.user.register(this.myForm.value, this.lat, this.lng).subscribe(
