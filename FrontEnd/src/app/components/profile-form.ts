@@ -28,15 +28,17 @@ export class ProfileFormComponent implements OnInit {
     ngOnInit() {
         this.getMyProfile();
         this.myForm = this.formBuilder.group({
-            description: [this.description, <any>Validators.required],
-            address: [this.address, <any>Validators.required],
+            description: [this.description, Validators.required],
+            address: [this.address, Validators.required],
+            image: [this.image],
             mobile: [this.mobile]
         });
     }
 
     ngAfterViewChecked() {
         if (document.getElementById("image") !== null)
-            document.getElementById("image").addEventListener("change", e => { this.readImage(e); }, false);
+            document.getElementById("image")
+            .addEventListener("change", e => { this.readImage(e); }, false);
     }
 
     getMyProfile() {
@@ -63,15 +65,19 @@ export class ProfileFormComponent implements OnInit {
     }
 
     save() {
-        this.submitted = true;
-        this.message = "User profile sent...";
-        this.user.saveProfile(this.myForm.value, this.image).subscribe(
-            () => {
-                this.message = "User profile saved.";
-            },
-            (res) => {
-                this.message = res;
-            }
-        );
+        if (!this.myForm.dirty || !this.myForm.valid)
+            this.message = "Form not valid to be sent.";
+        else {
+            this.submitted = true;
+            this.message = "User profile sent...";
+            this.user.saveProfile(this.myForm.value, this.image).subscribe(
+                () => {
+                    this.message = "User profile saved.";
+                },
+                (res) => {
+                    this.message = res;
+                }
+            );
+        }
     }
 }

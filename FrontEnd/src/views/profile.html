@@ -1,12 +1,17 @@
-<h2>Profile</h2>
-<div class="container">
-    <p>{{ message }}</p>
-    <p><b>Description:</b></p>
-    <p>{{ description }}</p>
-    <p><b>Address:</b></p>
-    <p>{{ address }}</p>
-    <p><b>Mobile:</b></p>
-    <p>{{ mobile }}</p>
-    <p><b>Image:</b></p>
-    <p><img [src]="sanitizer.bypassSecurityTrustUrl(image)" alt="user name" /></p>
+<div class="row">
+    <div class="col-md-4">
+        <img [src]="sanitizer.bypassSecurityTrustUrl(image)" alt="user name" />
+    </div>
+    <div class="col-md-8">
+        <h2>Profile</h2>
+        <div class="container">
+            <p>{{ message }}</p>
+            <p><b>Description:</b></p>
+            <p>{{ description }}</p>
+            <p><b>Address:</b></p>
+            <p>{{ address }}</p>
+            <p><b>Mobile:</b></p>
+            <p>{{ mobile }}</p>
+        </div>
+    </div>
 </div>

@@ -1,17 +1,11 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { REACTIVE_FORM_DIRECTIVES, FormBuilder } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { RoutesManager } from "./routes/route.manager";
+import { appRouterProvider } from "./routes/app.routes";
 
 import { AppComponent } from "./app.component";
-import { AppRouterProvider } from "./routes/app.routes";
-import { RoutesManager } from "./routes/route.manager";
-
-import { AuthService } from "./services/auth";
-import { CategoriesService } from "./services/categories";
-import { UserService } from "./services/user";
-import { WebService } from "./services/web";
-
 import { Home } from "./components/home";
 import { Login } from "./components/login";
 import { Register } from "./components/register";
@@ -28,6 +22,11 @@ import { LoginFormComponent } from "./components/login-form";
 import { ProfileFormComponent } from "./components/profile-form";
 import { RegisterFormComponent } from "./components/register-form";
 
+import { AuthService } from "./services/auth";
+import { CategoriesService } from "./services/categories";
+import { UserService } from "./services/user";
+import { WebService } from "./services/web";
+
 import { SELECT_DIRECTIVES } from "ng2-select";
 
 import { HTTP_PROVIDERS } from "@angular/http";
@@ -35,13 +34,13 @@ import { HTTP_PROVIDERS } from "@angular/http";
 import { Settings } from "./config/settings";
 import { enableProdMode } from "@angular/core";
 
-if (Settings.prod)
-    enableProdMode();
+if (Settings.prod) enableProdMode();
 
 @NgModule({
     imports: [
         BrowserModule,
-        AppRouterProvider,
+        ReactiveFormsModule,
+        appRouterProvider,
     ],
     bootstrap: [
         AppComponent,
@@ -49,7 +48,6 @@ if (Settings.prod)
     declarations: [
         AppComponent,
 
-        REACTIVE_FORM_DIRECTIVES,
         SELECT_DIRECTIVES,
 
         Home,
@@ -70,12 +68,11 @@ if (Settings.prod)
     ],
     providers: [
         HTTP_PROVIDERS,
-        FormBuilder,
+        RoutesManager,
         AuthService,
         CategoriesService,
         UserService,
         WebService,
-        RoutesManager,
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA

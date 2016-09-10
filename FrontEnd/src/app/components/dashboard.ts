@@ -7,15 +7,12 @@ import { ProfileFormComponent } from "./profile-form";
 
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
-// import { WorkService } from "../services/work";
 
 import { UserModel } from "../models/user";
-// import { WorkModel } from "../models/work";
 
 @Component({
     selector: "dashboard-component",
     templateUrl: "../../views/dashboard.html",
-    // providers: [AuthService, UserService, WorkService],
     providers: [AuthService, UserService],
     directives: [ROUTER_DIRECTIVES, TAB_DIRECTIVES, ProfileFormComponent]
 })
@@ -23,20 +20,16 @@ import { UserModel } from "../models/user";
 export class Dashboard implements OnInit {
 
     private message: string;
-    private messageWorks: string;
     private messageUsers: string;
 
     private users: UserModel[];
-    // private works: WorkModel[];
 
-    // constructor(private authService: AuthService, private user: UserService, private work: WorkService, private router: Router) {
     constructor(private authService: AuthService, private user: UserService, private router: Router) {
         this.message = "My Dashboard in SAM";
     }
 
     ngOnInit() {
         this.getAllUsers();
-        // this.getMyWorks();
     }
 
     logout() {
@@ -54,15 +47,4 @@ export class Dashboard implements OnInit {
             () => console.log("Done get all users.")
         );
     }
-
-    // getMyWorks() {
-    //     this.work.allMyWorks().subscribe(
-    //         works => {
-    //             // console.log(works);
-    //             this.works = works;
-    //         },
-    //         error => this.messageWorks = <any>error,
-    //         () => console.log("Done get my works.")
-    //     );
-    // }
 }

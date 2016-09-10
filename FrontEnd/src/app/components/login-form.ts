@@ -28,10 +28,10 @@ export class LoginFormComponent implements OnInit {
 
     ngOnInit() {
         this.myForm = this.formBuilder.group({
-            email: ["", <any>Validators.required],
-            pass: ["", [<any>Validators.required,
-                <any>Validators.minLength(5),
-                <any>Validators.maxLength(20)]]
+            email: ["", Validators.required],
+            pass: ["", [Validators.required,
+                Validators.minLength(5),
+                Validators.maxLength(20)]]
         });
         // this.subcribeToFormChanges();
     }
@@ -47,12 +47,16 @@ export class LoginFormComponent implements OnInit {
     // }
 
     login() {
-        this.submitted = true;
-        this.message = "User sent to be logged in. Wait...";
-        this.auth.login(this.myForm.value).subscribe(
-            () => this.router.navigate(["/dashboard"]),
-            error => this.message = "Login not possible." + error,
-            () => console.log("Done login call.")
-        );
+        if (!this.myForm.dirty || !this.myForm.valid)
+            this.message = "Form not valid to be sent.";
+        else {
+            this.submitted = true;
+            this.message = "User sent to be logged in. Wait...";
+            this.auth.login(this.myForm.value).subscribe(
+                () => this.router.navigate(["/dashboard"]),
+                error => this.message = "Login not possible." + error,
+                () => console.log("Done login call.")
+            );
+        }
     }
 }

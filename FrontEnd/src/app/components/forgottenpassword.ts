@@ -23,20 +23,24 @@ export class ForgottenPassword implements OnInit {
 
     ngOnInit() {
         this.myForm = this.formBuilder.group({
-            email: ["", <any>Validators.required]
+            email: ["", Validators.required]
         });
     }
 
     send() {
-        this.submitted = true;
-        this.user.forgottenpassword(this.myForm.value).subscribe(
-            data => {
-                this.message = data.message;
-            },
-            error => {
-                this.message = "Error sending email.";
-            },
-            () => console.log("Done forgotten password")
-        );
+        if (!this.myForm.dirty || !this.myForm.valid)
+            this.message = "Form not valid to be sent.";
+        else {
+            this.submitted = true;
+            this.user.forgottenpassword(this.myForm.value).subscribe(
+                data => {
+                    this.message = data.message;
+                },
+                error => {
+                    this.message = "Error sending email.";
+                },
+                () => console.log("Done forgotten password")
+            );
+        }
     }
 }

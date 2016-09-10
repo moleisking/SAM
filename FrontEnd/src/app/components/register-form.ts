@@ -37,12 +37,12 @@ export class RegisterFormComponent implements OnInit {
     ngOnInit() {
         let regexPatterns = { numbers: "^[0-9]*$" };
         this.myForm = this.formBuilder.group({
-            name: ["", <any>Validators.required],
-            pass: ["", [<any>Validators.required, <any>Validators.minLength(5)]],
-            email: ["", <any>Validators.required],
+            name: ["", Validators.required],
+            pass: ["", [Validators.required, Validators.minLength(5)]],
+            email: ["", Validators.required],
             category: ["", Validators.compose([Validators.pattern(regexPatterns.numbers), Validators.required])],
             tags: [""],
-            address: ["", <any>Validators.required],
+            address: ["", Validators.required],
             mobile: [""]
         });
         this.getPosition();
@@ -78,14 +78,18 @@ export class RegisterFormComponent implements OnInit {
             !this.lng || this.lng === undefined || this.lng === 0)
             this.message = "Coordenades not specified. Can't register an user then.";
         else {
-            this.submitted = true;
-            this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
-            this.message = "New user sent to be registered. Wait...";
-            this.user.register(this.myForm.value, this.lat, this.lng).subscribe(
-                () => this.router.navigate(["/login"]),
-                error => this.message = <any>error,
-                () => console.log("Done register call.")
-            );
+            if (!this.myForm.dirty || !this.myForm.valid)
+                this.message = "Form not valid to be sent.";
+            else {
+                this.submitted = true;
+                this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
+                this.message = "New user sent to be registered. Wait...";
+                this.user.register(this.myForm.value, this.lat, this.lng).subscribe(
+                    () => this.router.navigate(["/login"]),
+                    error => this.message = <any>error,
+                    () => console.log("Done register call.")
+                );
+            }
         }
     }
 
