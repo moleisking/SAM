@@ -122,7 +122,7 @@ module.exports = {
                     if (err)
                         return cb(err, null);
                     myCache.del(myCacheName + "readMyProfile" + email);
-                    myCache.del(myCacheName + "readUserProfile" + user.nameurl());
+                    myCache.del(myCacheName + "readUserProfile" + data.nameurl);
                     myCache.del(myCacheName + "all");
                     return cb(null, data);
                 });
@@ -173,12 +173,10 @@ module.exports = {
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _read(email, function (err, readValue) {
+            _readProfile(email, function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                var profile = modelProfile.create();
-                profile.update(readValue);
-                myCache.set(myCacheName + "readMyProfile" + email, profile.toJSON(), function (err, success) {
+                myCache.set(myCacheName + "readMyProfile" + email, readValue, function (err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -206,6 +204,20 @@ function _read(email, cb) {
             if (err)
                 return cb(err, null);
             var m = model.create();
+            m.update(data);
+            return cb(null, m.toJSON());
+        });
+    } catch (err) {
+        return cb(err, null);
+    };
+}
+
+function _readProfile(email, cb) {
+    try {
+        userDAL.read(email, function (err, data) {
+            if (err)
+                return cb(err, null);
+            var m = modelProfile.create();
             m.update(data);
             return cb(null, m.toJSON());
         });

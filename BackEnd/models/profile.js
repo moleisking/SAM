@@ -1,6 +1,7 @@
 var model = require('nodejs-model');
 
 var profile = new model("Profile")
+    .attr('name')
     .attr('description')
     .attr('address')
     .attr('image')

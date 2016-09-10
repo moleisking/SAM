@@ -18,6 +18,7 @@ export class Profile implements OnInit, OnDestroy {
     private mobile: string;
     private address: string;
     private image: string;
+    private name: string;
 
     constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService) { }
 
@@ -26,6 +27,7 @@ export class Profile implements OnInit, OnDestroy {
             let id = params["id"];
             this.user.getProfile(id).subscribe(
                 profile => {
+                    this.name = profile.name;
                     this.description = profile.description;
                     this.mobile = profile.mobile;
                     this.address = profile.address;

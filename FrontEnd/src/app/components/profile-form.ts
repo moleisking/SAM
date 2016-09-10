@@ -44,6 +44,7 @@ export class ProfileFormComponent implements OnInit {
     getMyProfile() {
         this.user.getMyProfile().subscribe(
             profile => {
+                this.image = profile.image;
                 this.description = profile.description;
                 this.mobile = profile.mobile;
                 this.address = profile.address;
