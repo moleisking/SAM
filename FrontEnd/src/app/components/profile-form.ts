@@ -13,7 +13,7 @@ import { UserService } from "../services/user";
 
 export class ProfileFormComponent implements OnInit {
 
-    private myForm: FormGroup; // our model driven form
+    private myForm: FormGroup;
 
     private message: string;
     private description: string;

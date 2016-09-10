@@ -2,7 +2,7 @@
     <form [formGroup]="myForm" novalidate (submit)="register()">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" />
+            <input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" autofocus />
             <small [hidden]="myForm.controls.name.valid || (myForm.controls.name.pristine)" class="text-danger">
                 Name is required.
             </small>
@@ -20,6 +20,10 @@
             <small [hidden]="myForm.controls.email.valid || (myForm.controls.email.pristine)" class="text-danger">
                 Email is required.
             </small>
+        </div>
+        <div class="form-group" [class.GoogleInvisible]="!isGoogleVisible">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" placeholder="Where do you live?" />
         </div>
         <div class="form-group">
             <label for="address">Address</label>

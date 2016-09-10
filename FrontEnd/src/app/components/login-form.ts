@@ -15,7 +15,7 @@ import { UserService } from "../services/user";
 
 export class LoginFormComponent implements OnInit {
 
-    private myForm: FormGroup; // our model driven form
+    private myForm: FormGroup;
     
     // private events: any[] = []; // list of form changes
     private message: string;

@@ -22,12 +22,12 @@ export class Home implements OnInit {
         let location = place["geometry"]["location"];
         let lat = location.lat();
         let lng = location.lng();
-        console.log("Object", address, location, lat, lng);
+        console.log("place", address, location, lat, lng);
     }
 
     getCategories() {
         this.cat.all().subscribe(
-            c => { this.cats = c; },
+            c => this.cats = c,
             error => this.message = <any>error
         );
     }

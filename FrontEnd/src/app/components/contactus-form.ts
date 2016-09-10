@@ -13,7 +13,7 @@ import { WebService } from "../services/web";
 
 export class ContactUsFormComponent implements OnInit {
 
-    private myForm: FormGroup; // our model driven form
+    private myForm: FormGroup;
     
     private message: string;
     private description: string;

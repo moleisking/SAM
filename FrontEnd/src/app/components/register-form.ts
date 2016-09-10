@@ -9,16 +9,18 @@ import { CategoriesService } from "../services/categories";
 import { CategoryModel } from "../models/category";
 import { TagModel } from "../models/tag";
 
+declare let google: any;
+
 @Component({
     selector: "register-form-component",
     templateUrl: "../../views/register-form.html",
-    styleUrls: ["../../styles/form.css", "../../styles/ng2-select.css"],
+    styleUrls: ["../../styles/form.css", "../../styles/ng2-select.css"]
 })
 
 export class RegisterFormComponent implements OnInit {
 
-    private myForm: FormGroup; // our model driven form
-    
+    private myForm: FormGroup;
+
     private message: string;
     private lat: number;
     private lng: number;
@@ -26,6 +28,7 @@ export class RegisterFormComponent implements OnInit {
     private tags: Array<TagModel>;
     private tagsValue: any = [];
     private areTagsAvailable: boolean = false;
+    private isGoogleVisible: boolean = false;
 
     constructor(private auth: AuthService, private user: UserService, private router: Router,
         private formBuilder: FormBuilder, private cat: CategoriesService) {
@@ -35,6 +38,25 @@ export class RegisterFormComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        let searchBox: any = document.getElementById("location");
+        let options = {
+            // return only geocoding results, rather than business results.
+            types: ["geocode"],
+            componentRestrictions: { country: "es" }
+        };
+
+        let autocomplete = new google.maps.places.Autocomplete(searchBox, options);
+
+        // Add listener to the place changed event
+        autocomplete.addListener("place_changed", () => {
+            let place = autocomplete.getPlace();
+            let lat = place.geometry.location.lat();
+            let lng = place.geometry.location.lng();
+            let address = place.formatted_address;
+            this.getAddress(place);
+        });
+
         let regexPatterns = { numbers: "^[0-9]*$" };
         this.myForm = this.formBuilder.group({
             name: ["", Validators.required],
@@ -45,7 +67,9 @@ export class RegisterFormComponent implements OnInit {
             address: ["", Validators.required],
             mobile: [""]
         });
+
         this.getPosition();
+
         this.getCategories();
     }
 
@@ -57,20 +81,32 @@ export class RegisterFormComponent implements OnInit {
 
     getCategories() {
         this.cat.all().subscribe(
-            c => { this.cats = c; },
-            error => this.message = <any>error);
+            c => this.cats = c,
+            error => this.message = <any>error
+        );
     }
 
     getPosition() {
         if (navigator.geolocation)
-            navigator.geolocation.getCurrentPosition(position => { this.setPosition(position); }, this.showErrorGeoLoc);
-        else
-            this.message = "Geolocation is not supported by this browser or allowed. Can't register an user then.";
+            navigator.geolocation.getCurrentPosition(
+                position => { this.setPosition(position); },
+                error => { this.showErrorGeoLoc(error); }
+            );
+        else {
+            this.message = "Geolocation is not supported by this browser or allowed. You can choose a city.";
+            console.log("getPosition");
+            this.isGoogleVisible = true;
+        }
     }
 
     setPosition(position: any) {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
+    }
+
+    showErrorGeoLoc(error: any) {
+        this.message = error.message + ", we will ask google.";
+        this.isGoogleVisible = true;
     }
 
     register() {
@@ -81,7 +117,6 @@ export class RegisterFormComponent implements OnInit {
             if (!this.myForm.dirty && !this.myForm.valid)
                 this.message = "Form not valid to be sent.";
             else {
-                
                 this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
                 this.message = "New user sent to be registered. Wait...";
                 this.user.register(this.myForm.value, this.lat, this.lng).subscribe(
@@ -93,28 +128,16 @@ export class RegisterFormComponent implements OnInit {
         }
     }
 
-    showErrorGeoLoc(error: any) {
-        switch (error.code) {
-            case error.PERMISSION_DENIED:
-                this.message = "User denied the request for Geo-location.";
-                break;
-            case error.POSITION_UNAVAILABLE:
-                this.message = "Location information is unavailable.";
-                break;
-            case error.TIMEOUT:
-                this.message = "The request to get user location timed out.";
-                break;
-            case error.UNKNOWN_ERROR:
-                this.message = "An unknown error occurred.";
-                break;
-            default:
-                this.message = "An unknown error occurred.";
-                break;
-        }
+    refreshValue(value: any): void {
+        this.tagsValue = value;
     }
 
-    public refreshValue(value: any): void {
-        this.tagsValue = value;
+    getAddress(place: Object) {
+        let address = place["formatted_address"];
+        let location = place["geometry"]["location"];
+        this.lat = location.lat();
+        this.lng = location.lng();
+        console.log("place", address, location, this.lat, this.lng);
     }
 
     // public selected(value: any): void {

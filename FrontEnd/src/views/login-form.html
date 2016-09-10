@@ -2,7 +2,7 @@
     <form [formGroup]="myForm" novalidate (submit)="login()">
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="email" />
+            <input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="email" autofocus />
             <small [hidden]="myForm.controls.email.valid || (myForm.controls.email.pristine)" class="text-danger">
                 Email is required.
             </small>
