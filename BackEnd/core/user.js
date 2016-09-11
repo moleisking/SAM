@@ -5,6 +5,7 @@ var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var jwt = require('jwt-simple');
 var config = require('../config/settings');
+var dist = require('./calcdist');
 var toURLString = require('speakingurl');
 var myCacheName = "user";
 
@@ -186,6 +187,31 @@ module.exports = {
             });
         });
     },
+
+    search: function (data, cb) {
+        var cachename = myCacheName + "search" + data.category + data.radius + data.lat.toString() + data.lng.toString();
+        myCache.get(cachename, function (err, value) {
+            if (err)
+                return cb(err, null);
+            if (value != undefined)
+                return cb(null, value);
+            module.exports.all(function (err, readAll) {
+                if (err)
+                    return cb(err, null);
+                var result = readAll.filter(function (item) {
+                    if (item.category === data.category && (dist.CalcDist(item, data) < parseInt(data.radius)))
+                        return item;
+                });
+                myCache.set(cachename, result, function (err, success) {
+                    if (err)
+                        return cb(err, null);
+                    if (success)
+                        return cb(null, result);
+                    return cb('cache internal failure', null);
+                });
+            });
+        });
+    }
 }
 
 function _getToken(headers) {

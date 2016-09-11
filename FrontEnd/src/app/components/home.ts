@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+
 import { CategoriesService } from "../services/categories";
 import { CategoryModel } from "../models/category";
+import { UserModel } from "../models/user";
+import { UserService } from "../services/user";
 
 declare let google: any;
 
@@ -12,28 +15,41 @@ declare let google: any;
 
 export class Home implements OnInit {
 
+    private users: Array<UserModel>;
     private cats: Array<CategoryModel>;
     private message: string;
 
-    constructor(private cat: CategoriesService) { }
+    private lat: number;
+    private lng: number;
+    private category: number;
+    private radius: number = 5;
+
+    constructor(private cat: CategoriesService, private user: UserService) { }
 
     getAddress(place: Object) {
         let address = place["formatted_address"];
         let location = place["geometry"]["location"];
-        let lat = location.lat();
-        let lng = location.lng();
-        console.log("place", address, location, lat, lng);
+        this.lat = location.lat();
+        this.lng = location.lng();
+        console.log("place", address, location, this.lat, this.lng);
     }
 
     getCategories() {
         this.cat.all().subscribe(
-            c => this.cats = c,
+            c => {
+                this.cats = c;
+                this.category = c[0].id;
+            },
             error => this.message = <any>error
         );
     }
 
     onChangeCategory(value: any) {
-        console.log(value);
+        this.category = value;
+    }
+
+    onChangeRadius(value: any) {
+        this.radius = value;
     }
 
     ngOnInit() {
@@ -49,12 +65,31 @@ export class Home implements OnInit {
         // Add listener to the place changed event
         autocomplete.addListener("place_changed", () => {
             let place = autocomplete.getPlace();
-            let lat = place.geometry.location.lat();
-            let lng = place.geometry.location.lng();
+            this.lat = place.geometry.location.lat();
+            this.lng = place.geometry.location.lng();
             let address = place.formatted_address;
             this.getAddress(place);
         });
 
         this.getCategories();
+    }
+
+    search() {
+        if (!this.lat || !this.lng)
+            this.message = "Please, select a city.";
+        else {
+            this.user.search(this.lat, this.lng, this.category, this.radius).subscribe(
+                (users) => {
+                    console.log(users);
+                    this.users = users;
+                    if (users.length === 0)
+                        this.message = "No users found.";
+                    else
+                        this.message = "";
+                },
+                error => this.message = <any>error,
+                () => console.log("Done search call.")
+            );
+        }
     }
 }

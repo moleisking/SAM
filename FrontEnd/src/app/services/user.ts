@@ -62,6 +62,16 @@ export class UserService {
       .map(this.extractData).catch(this.handleError);
   }
 
+  search(lat: number, lng: number, category: number, radius: number): Observable<UserModel[]> {
+    let body = "lat=" + lat + "&lng=" + lng + "&category=" + category + "&radius=" + radius;
+    let headers = new Headers();
+    headers.append("Content-Type", "application/X-www-form-urlencoded");
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(Settings.backend_url + "/users/search", body, options)
+      .map(this.extractData).catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     // console.log(res);
     let body = res.json();

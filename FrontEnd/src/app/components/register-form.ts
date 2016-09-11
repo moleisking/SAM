@@ -38,7 +38,6 @@ export class RegisterFormComponent implements OnInit {
     }
 
     ngOnInit() {
-
         let searchBox: any = document.getElementById("location");
         let options = {
             // return only geocoding results, rather than business results.
