@@ -12,6 +12,7 @@
   },
   "homepage": "https://github.com/moleisking/SAM#readme",
   "scripts": {
+    "start": "npm run serve",
     "reinstall": "npm cache clean && rimraf dist typings node_modules && npm i",
     "deletedist": "rimraf dist",
     "postinstall": "typings install",

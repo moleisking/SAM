@@ -55,7 +55,12 @@ app.use('/', home);
 app.use('/', web);
 app.use('/users', users);
 app.use('/', auth);
-// app.use('/works', work);
+
+function redirectRouterUnmatched(req, res, next) {
+  res.sendFile("index.html", { root: './' });
+}
+
+app.use(redirectRouterUnmatched);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

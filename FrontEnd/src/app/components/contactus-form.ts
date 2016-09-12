@@ -14,7 +14,7 @@ import { WebService } from "../services/web";
 export class ContactUsFormComponent implements OnInit {
 
     private myForm: FormGroup;
-    
+
     private message: string;
     private description: string;
 
@@ -33,7 +33,7 @@ export class ContactUsFormComponent implements OnInit {
         if (!this.myForm.dirty && !this.myForm.valid)
             this.message = "Form not valid to be sent.";
         else {
-            
+
             this.message = "Contact Us message sent.";
             this.web.sendContactForm(this.myForm.value).subscribe(
                 data => {
