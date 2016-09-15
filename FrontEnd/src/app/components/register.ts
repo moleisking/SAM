@@ -3,8 +3,7 @@ import { RegisterFormComponent } from "./register-form";
 
 @Component({
     selector: "register-component",
-    templateUrl: "../../views/register.html",
-    directives: [RegisterFormComponent]
+    templateUrl: "../../views/register.html"
 })
 
 export class Register { }

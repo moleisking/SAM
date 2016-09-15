@@ -3,8 +3,7 @@ import { ContactUsFormComponent } from "./contactus-form";
 
 @Component({
     selector: "contactus-component",
-    templateUrl: "../../views/contactus.html",
-    directives: [ ContactUsFormComponent ]
+    templateUrl: "../../views/contactus.html"
 })
 
 export class ContactUs { }

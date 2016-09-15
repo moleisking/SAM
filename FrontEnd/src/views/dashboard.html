@@ -1,22 +1,29 @@
 <h2>Dashboard</h2>
 <div class="well">
-  {{ message }} <button (click)="logout()" class="pull-right">Logout</button>
+    {{ message }} <button (click)="logout()" class="pull-right">Logout</button>
 </div>
 <!-- regular tabs -->
 <tabset>
-  <tab title="My Profile">
-    <br>
-    <profile-form-component></profile-form-component>
-  </tab>
-  <tab title="Users">
-    <br>
-    {{ messageUsers }}
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let user of users">
-        <a [routerLink]="['/profile', user.nameurl]">{{ user.name }}</a>
-      </li>
-    </ul>
-  </tab>
+    <tab title="My Profile">
+        <br>
+        <profile-form-component></profile-form-component>
+    </tab>
+    <tab title="Users">
+        <br> {{ messageUsers }}
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let user of usersList">
+                <a [routerLink]="['/profile', user.nameurl]">{{ user.name }}</a>
+            </li>
+        </ul>
+    </tab>
+    <tab title="Messages">
+        <br> {{ messageMessages }}
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let message of messagesList">
+                <a [routerLink]="['/messages', message.from]">{{ message.from }} {{ message.to }} {{ message.text }}</a>
+            </li>
+        </ul>
+    </tab>
 </tabset>
 
 

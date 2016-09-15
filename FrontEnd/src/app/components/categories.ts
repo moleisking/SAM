@@ -4,8 +4,7 @@ import { CategoriesService } from "../services/categories";
 
 @Component({
     selector: "categories-component",
-    templateUrl: "../../views/categories.html",
-    providers: [CategoriesService]
+    templateUrl: "../../views/categories.html"
 })
 
 export class Categories implements OnInit {

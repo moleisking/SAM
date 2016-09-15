@@ -8,7 +8,7 @@ module.exports = {
     create: function (email, data, cb) {
         try {
             db.push(_path + "/" + email, data);
-            cb(null, data);
+            return cb(null, data);
         } catch (error) {
             return cb(error, null);
         }

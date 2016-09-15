@@ -26,6 +26,7 @@ import { AuthService } from "./services/auth";
 import { CategoriesService } from "./services/categories";
 import { UserService } from "./services/user";
 import { WebService } from "./services/web";
+import { MessageService } from "./services/message";
 
 import { SELECT_DIRECTIVES } from "ng2-select";
 
@@ -73,6 +74,7 @@ if (Settings.prod) enableProdMode();
         CategoriesService,
         UserService,
         WebService,
+        MessageService,
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA

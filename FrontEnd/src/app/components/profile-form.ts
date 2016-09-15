@@ -5,7 +5,6 @@ import { UserService } from "../services/user";
 
 @Component({
     selector: "profile-form-component",
-    providers: [UserService],
     templateUrl: "../../views/profile-form.html",
     styleUrls: ["../../styles/form.css"],
     directives: [REACTIVE_FORM_DIRECTIVES]

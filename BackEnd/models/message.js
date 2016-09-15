@@ -1,29 +1,42 @@
 var model = require('nodejs-model');
 var bCrypt = require('bcrypt-nodejs');
 
-var transaction = new model("Message")
-    .attr('User', {
+var message = new model("Message")
+    .attr('from', {
         validations: {
             presence: {
-                message: 'Name is required!'
+                message: 'From is required!'
             }
         }
     })
-    .attr('Message', {
+    .attr('to', {
         validations: {
             presence: {
-                message: 'Value is required!'
+                message: 'To is required!'
+            }
+        }
+    })
+    .attr('text', {
+        validations: {
+            presence: {
+                message: 'Text is required!'
             },
             length: {
                 minimum: 3,
-                maximum: 50,
+                maximum: 500,
                 messages: {
-                    tooShort: 'message is too short!',
-                    tooLong: 'message is too long!'
+                    tooShort: 'Text is too short!',
+                    tooLong: 'Text is too long!'
                 }
             }
-        },
-        // tags: ['private'] //this tags the accessibility as _private_ 
+        }
+    })
+    .attr('datestamp', {
+        validations: {
+            presence: {
+                message: 'DateStamp is required!'
+            }
+        }
     });
 
 module.exports = message;

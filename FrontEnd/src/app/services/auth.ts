@@ -5,6 +5,7 @@ import { Settings } from "../config/settings";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
+
 export class AuthService {
 
   constructor(private http: Http) { }

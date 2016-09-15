@@ -10,7 +10,7 @@ router.get('/about', function (req, res, next) {
       res.status(500).json({err});
     else
       res.json({data});
-  })
+  });
 });
 
 router.get('/termsconditions', function (req, res, next) {
@@ -19,7 +19,7 @@ router.get('/termsconditions', function (req, res, next) {
       res.status(500).json({err});
     else
       res.json({data});
-  })
+  });
 });
 
 router.post('/sendcontactform', function (req, res, next) {
@@ -42,7 +42,7 @@ router.get('/categories', function (req, res, next) {
       res.status(404).json({data});
     else
       res.json({data});
-  })
+  });
 });
 
 module.exports = router;
