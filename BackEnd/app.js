@@ -32,7 +32,7 @@ var allowCrossDomain = function (req, res, next) {
     "http://minitrabajo.me:80",
     "http://minitrabajo.me",
     "http://www.minitrabajo.me:3000",
-    "http://wwww.minitrabajo.me:80",
+    "http://www.minitrabajo.me:80",
     "http://www.minitrabajo.me"
   ];
   var origin = req.headers.origin;
