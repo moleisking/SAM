@@ -13,7 +13,7 @@ export class MessageService {
     add(model: MessageModel): Observable<any> {
         let headers = new Headers();
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
-        headers.append("Content-Type", "application/X-www-form-urlencoded");
+        headers.append("Content-Type", "application/x-www-form-urlencoded");
         let c = "to=" + model.to + "&text=" + model.text;
 
         return this.http.post(Settings.backend_url + "/messages/add", c, { headers: headers }).catch(this.handleError);

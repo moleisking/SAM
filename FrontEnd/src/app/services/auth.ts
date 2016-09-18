@@ -13,7 +13,7 @@ export class AuthService {
   login(usercreds: UserModel) {
     let body = "email=" + usercreds.email + "&pass=" + usercreds.pass;
     let headers = new Headers();
-    headers.append("Content-Type", "application/X-www-form-urlencoded");
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(Settings.backend_url + "/authenticate", body, options)

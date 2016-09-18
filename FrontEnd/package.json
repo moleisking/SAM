@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "angular2-template-loader": "^0.4.0",
-    "codelyzer": "0.0.28",
+    "codelyzer": "^0.0.28",
     "css-loader": "^0.23.1",
     "eslint": "^3.4.0",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -52,7 +52,7 @@
     "style-loader": "^0.13.1",
     "to-string-loader": "^1.1.4",
     "ts-loader": "^0.8.1",
-    "tslint-loader": "2.1.5",
+    "tslint-loader": "^2.1.5",
     "typescript": "^1.8.10",
     "typings": "^1.0.4",
     "webpack": "^1.13.0",

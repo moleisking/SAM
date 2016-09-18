@@ -22,7 +22,7 @@ export class WebService {
   sendContactForm(form: any): Observable<any> {
     let creds = "email=" + form.email + "&message=" + form.message;
     let headers = new Headers();
-    headers.append("Content-Type", "application/X-www-form-urlencoded");
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
 
     return this.http.post(Settings.backend_url + "/sendcontactform", creds, { headers: headers })
       .map(this.extractData).catch(this.handleError);

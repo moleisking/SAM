@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
+
 import { UserService } from "../services/user";
+import { UserDefaultImage } from "../config/userdefaultimage";
 
 @Component({
     selector: "profile-form-component",
@@ -13,6 +15,8 @@ import { UserService } from "../services/user";
 export class ProfileFormComponent implements OnInit {
 
     private myForm: FormGroup;
+
+    private defaultImage = UserDefaultImage.image;
 
     private message: string;
     private description: string;
@@ -43,7 +47,7 @@ export class ProfileFormComponent implements OnInit {
     getMyProfile() {
         this.user.getMyProfile().subscribe(
             profile => {
-                this.image = profile.image;
+                this.image = profile.image === "" ? this.defaultImage : profile.image;
                 this.description = profile.description;
                 this.mobile = profile.mobile;
                 this.address = profile.address;

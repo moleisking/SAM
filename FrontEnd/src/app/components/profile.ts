@@ -6,6 +6,7 @@ import { UserService } from "../services/user";
 import { MessageService } from "../services/message";
 
 import { MessageModel } from "../models/message";
+import { UserDefaultImage } from "../config/userdefaultimage";
 
 declare var jQuery: any;
 
@@ -17,6 +18,8 @@ declare var jQuery: any;
 export class Profile implements OnInit, OnDestroy {
 
     private sub: any;
+    private defaultImage = UserDefaultImage.image;
+
     private message: string;
     private description: string;
     private mobile: string;
@@ -38,7 +41,7 @@ export class Profile implements OnInit, OnDestroy {
                     this.description = profile.description;
                     this.mobile = profile.mobile;
                     this.address = profile.address;
-                    this.image = profile.image;
+                    this.image = profile.image === "" ? this.defaultImage : profile.image;
                 },
                 error => this.message = <any>error
             );

@@ -11,12 +11,12 @@ export class UserService {
 
   constructor(private http: Http) { }
 
-  register(user: any, lat: any, lng: any): Observable<any> {
+  register(user: UserModel, lat: any, lng: any): Observable<any> {
     let body = "name=" + user.name + "&pass=" + user.pass + "&email=" + user.email
       + "&lat=" + lat + "&lng=" + lng + "&category=" + user.category + "&tags=" + user.tags
       + "&address=" + user.address + "&mobile=" + user.mobile;
     let headers = new Headers();
-    headers.append("Content-Type", "application/X-www-form-urlencoded");
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(Settings.backend_url + "/signup", body, options).catch(this.handleError);
@@ -25,9 +25,9 @@ export class UserService {
   saveProfile(profileform: any, image: any): Observable<any> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
-    headers.append("Content-Type", "application/X-www-form-urlencoded");
-    let c = "description=" + profileform.description + "&address=" + profileform.address + "&mobile=" + profileform.mobile
-      + "&image=" + image;
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+    let c = "description=" + profileform.description + "&address=" + profileform.address
+      + "&mobile=" + profileform.mobile + "&image=" + image;
 
     return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }
@@ -35,16 +35,18 @@ export class UserService {
   all(): Observable<UserModel[]> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+    let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(Settings.backend_url + "/users", { headers: headers })
+    return this.http.get(Settings.backend_url + "/users", options)
       .map(this.extractData).catch(this.handleError);
   }
 
   getMyProfile(): Observable<ProfileModel> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+    let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(Settings.backend_url + "/users/getmyprofile", { headers: headers })
+    return this.http.get(Settings.backend_url + "/users/getmyprofile", options)
       .map(this.extractData).catch(this.handleError);
   }
 
@@ -56,16 +58,17 @@ export class UserService {
   forgottenpassword(form: any): Observable<any> {
     let creds = "email=" + form.email;
     let headers = new Headers();
-    headers.append("Content-Type", "application/X-www-form-urlencoded");
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+    let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(Settings.backend_url + "/forgottenpassword", creds, { headers: headers })
+    return this.http.post(Settings.backend_url + "/forgottenpassword", creds, options)
       .map(this.extractData).catch(this.handleError);
   }
 
   search(lat: number, lng: number, category: number, radius: number): Observable<UserModel[]> {
     let body = "lat=" + lat + "&lng=" + lng + "&category=" + category + "&radius=" + radius;
     let headers = new Headers();
-    headers.append("Content-Type", "application/X-www-form-urlencoded");
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(Settings.backend_url + "/users/search", body, options)
