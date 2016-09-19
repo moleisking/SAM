@@ -1,5 +1,5 @@
 var NodeCache = require("node-cache");
-var async = require('async');
+var async = require("async");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "categories";
 var catDAL = require("../dal/categories");
@@ -24,7 +24,7 @@ module.exports = {
                                 if (success)
                                     return cb(null, readAll);
                                 else
-                                    return cb('cache internal failure', null);
+                                    return cb("cache internal failure", null);
                             });
                     });
                 else
@@ -36,7 +36,7 @@ module.exports = {
 function _all(cb) {
     try {
         catDAL.all(function (err, data) {
-            if (err && (err.hasOwnProperty('id')))
+            if (err && (err.hasOwnProperty("id")))
                 return cb(err, null);
             var cats = [], c = 0;
             async.forEach(data, function (item, callback) {

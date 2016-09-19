@@ -8,7 +8,7 @@
         <br>
         <profile-form-component></profile-form-component>
     </tab>
-    <tab title="Users">
+    <tab title="List all users">
         <br> {{ messageUsers }}
         <ul class="list-group">
             <li class="list-group-item" *ngFor="let user of usersList">
@@ -16,11 +16,11 @@
             </li>
         </ul>
     </tab>
-    <tab title="Messages">
+    <tab title="My messages">
         <br> {{ messageMessages }}
         <ul class="list-group">
             <li class="list-group-item" *ngFor="let message of messagesList">
-                <a [routerLink]="['/messages', message.from]">{{ message.from }} {{ message.to }} {{ message.text }}</a>
+                <a [routerLink]="['/messages', message.from]">{{ message.name }}</a> - {{ message.text }}
             </li>
         </ul>
     </tab>

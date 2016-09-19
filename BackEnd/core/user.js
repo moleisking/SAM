@@ -72,6 +72,7 @@ module.exports = {
         _delete(email, function (err, value) {
             if (err)
                 return cb(err, null);
+            myCache.del(myCacheName + "getNameByEmail" + email);
             myCache.del(myCacheName + "readUser" + email);
             myCache.del(myCacheName + "all");
             return cb(null, value);
@@ -207,6 +208,28 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, result);
+                    return cb('cache internal failure', null);
+                });
+            });
+        });
+    },
+
+    getNameByEmail: function (email, cb) {
+        var cachename = myCacheName + "getNameByEmail" + email;
+        myCache.get(cachename, function (err, value) {
+            if (err)
+                return cb(err, null);
+            if (value != undefined)
+                return cb(null, value);
+            _read(email, function (err, readValue) {
+                if (err)
+                    return cb(err, null);
+                readValue = readValue.name;
+                myCache.set(myCacheName + "getNameByEmail" + email, readValue, function (err, success) {
+                    if (err)
+                        return cb(err, null);
+                    if (success)
+                        return cb(null, readValue);
                     return cb('cache internal failure', null);
                 });
             });

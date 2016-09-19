@@ -15,15 +15,17 @@ export class MessageService {
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         let c = "to=" + model.to + "&text=" + model.text;
+        let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(Settings.backend_url + "/messages/add", c, { headers: headers }).catch(this.handleError);
+        return this.http.post(Settings.backend_url + "/messages/add", c, options).catch(this.handleError);
     }
 
-    read(): Observable<MessageModel[]> {
+    readAllLasts(): Observable<MessageModel[]> {
         let headers = new Headers();
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+        let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(Settings.backend_url + "/messages/read", { headers: headers })
+        return this.http.get(Settings.backend_url + "/messages/readalllasts", options)
             .map(this.extractData).catch(this.handleError);
     }
 

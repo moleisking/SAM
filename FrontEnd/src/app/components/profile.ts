@@ -19,6 +19,7 @@ export class Profile implements OnInit, OnDestroy {
 
     private sub: any;
     private defaultImage = UserDefaultImage.image;
+    private itsMe: boolean;
 
     private message: string;
     private description: string;
@@ -32,18 +33,26 @@ export class Profile implements OnInit, OnDestroy {
         private m: MessageService) { }
 
     ngOnInit() {
-        this.sub = this.route.params.subscribe(params => {
-            let id = params["id"];
-            this.user.getProfile(id).subscribe(
-                profile => {
-                    this.name = profile.name;
-                    this.email = profile.email;
-                    this.description = profile.description;
-                    this.mobile = profile.mobile;
-                    this.address = profile.address;
-                    this.image = profile.image === "" ? this.defaultImage : profile.image;
+        this.sub = this.route.params.subscribe(p => {
+            let id = p["id"];
+            this.user.getMyProfile().subscribe(
+                my => {
+                    this.user.getProfile(id).subscribe(
+                        profile => {
+                            this.name = profile.name;
+                            this.email = profile.email;
+                            this.description = profile.description;
+                            this.mobile = profile.mobile;
+                            this.address = profile.address;
+                            this.image = profile.image === "" ? this.defaultImage : profile.image;
+                            this.itsMe = profile.email === my.email;
+                        },
+                        error => this.message = <any>error,
+                        () => console.log("Done get profile")
+                    );
                 },
-                error => this.message = <any>error
+                error => this.message = <any>error,
+                () => console.log("Done get my profile")
             );
         });
     }

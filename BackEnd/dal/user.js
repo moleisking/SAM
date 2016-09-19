@@ -1,7 +1,6 @@
 var JsonDB = require('node-json-db');
 var db = new JsonDB("SAM", true, false);
 var _path = "/user";
-var _ = require("lodash");
 
 module.exports = {
 

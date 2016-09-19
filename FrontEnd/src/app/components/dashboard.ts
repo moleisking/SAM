@@ -9,6 +9,7 @@ import { MessageService } from "../services/message";
 
 import { UserModel } from "../models/user";
 import { MessageModel } from "../models/message";
+import { ProfileModel } from "../models/profile";
 
 @Component({
     selector: "dashboard-component",
@@ -24,6 +25,7 @@ export class Dashboard implements OnInit {
 
     private usersList: UserModel[];
     private messagesList: MessageModel[];
+    private me: ProfileModel;
 
     constructor(private authService: AuthService, private user: UserService, private router: Router,
         private messages: MessageService) {
@@ -33,6 +35,14 @@ export class Dashboard implements OnInit {
     ngOnInit() {
         this.getAllUsers();
         this.getAllMessages();
+        this.user.getMyProfile().subscribe(
+            p => {
+                this.me = p;
+                this.message = this.me.name;
+            },
+            error => this.messageUsers = <any>error,
+            () => console.log("Done get my profile.")
+        );
     }
 
     logout() {
@@ -49,10 +59,10 @@ export class Dashboard implements OnInit {
     }
 
     getAllMessages() {
-        this.messages.read().subscribe(
-            m => {
-                this.messagesList = m;
-                console.log(m);
+        this.messages.readAllLasts().subscribe(
+            ml => {
+                this.messagesList = ml;
+                console.log(ml);
             },
             error => this.messageMessages = <any>error,
             () => console.log("Done get all messages.")
