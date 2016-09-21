@@ -4,6 +4,7 @@ import { DomSanitizationService } from "@angular/platform-browser";
 
 import { UserService } from "../services/user";
 import { MessageService } from "../services/message";
+import { AuthService } from "../services/auth";
 
 import { MessageModel } from "../models/message";
 import { UserDefaultImage } from "../config/userdefaultimage";
@@ -30,29 +31,31 @@ export class Profile implements OnInit, OnDestroy {
     private email: string;
 
     constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService,
-        private m: MessageService) { }
+        private m: MessageService, private authService: AuthService) { }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(p => {
             let id = p["id"];
-            this.user.getMyProfile().subscribe(
-                my => {
-                    this.user.getProfile(id).subscribe(
-                        profile => {
-                            this.name = profile.name;
-                            this.email = profile.email;
-                            this.description = profile.description;
-                            this.mobile = profile.mobile;
-                            this.address = profile.address;
-                            this.image = profile.image === "" ? this.defaultImage : profile.image;
-                            this.itsMe = profile.email === my.email;
-                        },
-                        error => this.message = <any>error,
-                        () => console.log("Done get profile")
-                    );
+            this.user.getProfile(id).subscribe(
+                profile => {
+                    this.name = profile.name;
+                    this.email = profile.email;
+                    this.description = profile.description;
+                    this.mobile = profile.mobile;
+                    this.address = profile.address;
+                    this.image = profile.image === "" ? this.defaultImage : profile.image;
+                    if (this.authService.isLoggedIn()) {
+                        this.user.getMyProfile().subscribe(
+                            my => this.itsMe = profile.email === my.email,
+                            error => this.message = <any>error,
+                            () => console.log("Done get my profile")
+                        );
+                    }
+                    else
+                        this.itsMe = true; // for unlogged we use same logic as it were us.
                 },
                 error => this.message = <any>error,
-                () => console.log("Done get my profile")
+                () => console.log("Done get profile")
             );
         });
     }

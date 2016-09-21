@@ -145,24 +145,27 @@ module.exports = {
             module.exports.all(function (err, data) {
                 if (err)
                     return cb(err, null);
-                var email;
+                var found = false;
                 data.forEach(function (item) {
-                    if (item.nameurl === nameurl)
-                        email = item.email;
+                    if (item.nameurl === nameurl) {
+                        found = true;
+                        _read(item.email, function (err, readValue) {
+                            if (err)
+                                return cb(err, null);
+                            var profile = modelProfile.create();
+                            profile.update(readValue);
+                            myCache.set(myCacheName + "readUserProfile" + nameurl, profile.toJSON(), function (err, success) {
+                                if (err)
+                                    return cb(err, null);
+                                if (success)
+                                    return cb(null, readValue);
+                                return cb('cache internal failure', null);
+                            });
+                        });
+                    }
                 });
-                _read(email, function (err, readValue) {
-                    if (err)
-                        return cb(err, null);
-                    var profile = modelProfile.create();
-                    profile.update(readValue);
-                    myCache.set(myCacheName + "readUserProfile" + nameurl, profile.toJSON(), function (err, success) {
-                        if (err)
-                            return cb(err, null);
-                        if (success)
-                            return cb(null, readValue);
-                        return cb('cache internal failure', null);
-                    });
-                });
+                if (!found)
+                    return cb('Profile not found', null);
             });
         });
     },

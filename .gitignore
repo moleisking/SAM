@@ -1,6 +1,6 @@
 # npm
 node_modules
-*.log
+FrontEnd/*.log
 *.gz
 BackEnd/SAM.json
 BackEnd/Messages.json
