@@ -62,7 +62,8 @@ export class Dashboard implements OnInit {
         this.messages.readAllLasts().subscribe(
             ml => {
                 this.messagesList = ml;
-                console.log(ml);
+                if (ml.length === 0)
+                    this.messageMessages = "You have no messages yet.";
             },
             error => this.messageMessages = <any>error,
             () => console.log("Done get all messages.")

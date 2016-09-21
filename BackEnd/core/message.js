@@ -101,7 +101,7 @@ module.exports = {
 function _read(cb) {
     try {
         messageDAL.read(function (err, data) {
-            if (err)
+            if (err && err.id != 5)
                 return cb(err, null);
             var messages = [];
             for (var item in data) {
