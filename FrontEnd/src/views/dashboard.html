@@ -1,4 +1,4 @@
-<h2>Dashboard</h2>
+<h1>Dashboard</h1>
 <div class="well">
     {{ message }} <button (click)="logout()" class="pull-right">Logout</button>
 </div>
@@ -20,7 +20,7 @@
         <br> {{ messageMessages }}
         <ul class="list-group">
             <li class="list-group-item" *ngFor="let message of messagesList">
-                <a [routerLink]="['/messages', message.from]">{{ message.name }}</a> - {{ message.text }}
+                <a [routerLink]="['/messages', message.nameurl]">{{ message.name }}</a> - {{ message.text }}
             </li>
         </ul>
     </tab>

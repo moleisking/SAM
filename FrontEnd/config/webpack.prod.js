@@ -8,6 +8,7 @@ var helpers = require('./helpers');
 
 module.exports = webpackMerge(commonConfig, {
   devtool: 'source-map',
+  debug: false,
   output: {
     path: helpers.root('dist'),
     publicPath: '/',
