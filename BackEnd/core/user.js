@@ -281,7 +281,7 @@ function _readProfile(email, cb) {
 function _all(cb) {
     try {
         userDAL.all(function (err, data) {
-            if (err && err.hasOwnProperty('id'))
+            if (err && err.id != 5)
                 return cb(err, null);
             var users = [];
             for (var item in data) {
