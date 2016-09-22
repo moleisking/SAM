@@ -20,7 +20,8 @@ export class LoginFormComponent implements OnInit {
     // private events: any[] = []; // list of form changes
     private message: string;
 
-    constructor(private auth: AuthService, private user: UserService, private router: Router, private formBuilder: FormBuilder) {
+    constructor(private auth: AuthService, private user: UserService, private router: Router,
+        private formBuilder: FormBuilder) {
         this.message = "Login messages will come here.";
     }
 

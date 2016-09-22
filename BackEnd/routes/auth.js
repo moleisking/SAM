@@ -35,6 +35,7 @@ router.post("/authenticate", function (req, res) {
       return res.status(404).send("Authentication failed. User not found.");
     if (!model.validPassword(req.body.pass, user.pass))
       return res.status(403).json("Authentication failed. Wrong password.");
+    delete user.image;
     var token = jwt.encode(user, config.secret);
     res.json({ token: "JWT " + token });
   });
