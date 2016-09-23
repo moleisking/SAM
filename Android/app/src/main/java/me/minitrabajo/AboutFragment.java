@@ -33,6 +33,7 @@ public class AboutFragment extends Fragment {
         txtDescription = (TextView)container.findViewById(R.id.txtDescription);
         txtAddress = (TextView)container.findViewById(R.id.txtAddress);
         imgItem = (ImageView)container.findViewById(R.id.imgItem);
+        btnEmail = (FloatingActionButton)container.findViewById(R.id.btnEmail);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_about, container, false);

@@ -16,6 +16,8 @@ import android.util.Log;
 
 import com.google.android.gms.vision.barcode.Barcode;
 
+import org.json.JSONObject;
+
 public class User implements Serializable {
 		
 	private static final long serialVersionUID = -5964311117196182558L;
@@ -26,6 +28,8 @@ public class User implements Serializable {
 	private String mEmail;
 	private String mDescription;
 	private String mAddress;
+	private String mCategory;
+	private String mTags;
 	private Double mHourRate;
 	private Double mDayRate;
 	private Double mRegisteredLatitude;
@@ -155,6 +159,7 @@ public class User implements Serializable {
 	{
 		this.mAddress = address;
 	}
+
 	public String getMobile()
 	{
 		return mMobile;
@@ -163,6 +168,26 @@ public class User implements Serializable {
 	public void setMobile(String mobile)
 	{
 		this.mMobile = mobile;
+	}
+
+	public String getCategory()
+	{
+		return mCategory;
+	}
+
+	public void setCategory(String category)
+	{
+		this.mCategory = category;
+	}
+
+	public String getTags()
+	{
+		return mTags;
+	}
+
+	public void setTags(String tags)
+	{
+		this.mTags = tags;
 	}
 
 	public double getRegisteredLatitude()
@@ -292,6 +317,30 @@ public class User implements Serializable {
 			Log.v("User:fromString()", ex.getMessage());
 		}
 		return (User)output;
+	}
+
+	public void parseJSONtoObject(String json)
+	{
+		try
+		{
+			JSONObject data = new JSONObject(json).getJSONObject("data");
+
+			this.mName = data.getString("name");
+			this.mDescription = data.getString("description");
+			this.mEmail = data.getString("email");
+			this.mAddress = data.getString("address");
+			this.mMobile = data.getString("mobile");
+			//this.mCategory = data.getString("category");
+			//this.mTags = data.getString("tags");
+			//this.mHourRate = Double.parseDouble(data.getString("hour_rate"));
+			//this.mDayRate = Double.parseDouble(data.getString("day_rate"));
+			//this.mRegisteredLongitude = Double.parseDouble(data.getString("reglat"));
+			//this.mRegisteredLatitude = Double.parseDouble(data.getString("reglon"));
+		}
+		catch (Exception ex)
+		{
+
+		}
 	}
 
 

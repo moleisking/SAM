@@ -13,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.io.ObjectInputStream;
 
-/*Note: No calls to server. User object passed from ListFragment*/
+/*Note: No calls to server through ResponseAPI. User object passed from ListFragment*/
 public class ProfileFragment extends Fragment {
 
-    private FloatingActionButton btnSave;
+    private FloatingActionButton btnMessage;
     private TextView txtName, txtDescription, txtAddress, txtDayRate, txtHourRate;
     private ImageView imgProfile;
     private User mUser;
@@ -40,7 +42,7 @@ public class ProfileFragment extends Fragment {
         txtAddress = (TextView)container.findViewById(R.id.txtAddress);
         txtHourRate = (TextView)container.findViewById(R.id.txtHourRate);
         txtDayRate = (TextView)container.findViewById(R.id.txtDayRate);
-        btnSave = (FloatingActionButton) container.findViewById(R.id.btnSave);
+        btnMessage = (FloatingActionButton) container.findViewById(R.id.btnMessage);
 
         //Fill Objects
         txtName.setText(mUser.getName());
@@ -54,7 +56,7 @@ public class ProfileFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
-    public void onSaveClick(View view)
+    public void onMessageClick(View view)
     {
         //Send message to user
         Snackbar.make(view, "Saved", Snackbar.LENGTH_LONG).setAction("Action", null).show();

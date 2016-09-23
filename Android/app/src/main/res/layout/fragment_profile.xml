@@ -73,6 +73,6 @@
         android:clickable="true"
         android:background="@color/colorPrimary"
         android:src="@drawable/ic_email_black_24dp"
-        android:onClick="onMEssageClick">
+        android:onClick="onMessageClick">
     </android.support.design.widget.FloatingActionButton>
 </LinearLayout>

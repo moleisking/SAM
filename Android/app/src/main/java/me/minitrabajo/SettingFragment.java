@@ -1,41 +1,109 @@
 package me.minitrabajo;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.design.widget.FloatingActionButton;
 //import android.support.v4.app.Fragment;
 //import android.support.v4.preference.PreferenceFragment;
 //import android.support.v7.preference.PreferenceFragmentCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-public class SettingFragment extends PreferenceFragment {
+public class SettingFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
+{
 
-    private FloatingActionButton btnResetPassword,btnContactUs, btnSave;
     private RadioButton radNotification;
     private RadioGroup radDefaultSearch;
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference_setting);
+
+        sharedPreferences = getPreferenceScreen().getSharedPreferences();
+
+        //Set build version value
+        try
+        {
+            PackageInfo packageInfo = this.getActivity().getPackageManager().getPackageInfo(this.getActivity().getPackageName(), 0);
+            String version = packageInfo.versionName;
+            Preference pref = findPreference("pref_item_build_version");
+            pref.setSummary(version);
+
+           // editTextPref
+            //        .setSummary(sp.getString("thePrefKey", "Some Default Text"));
+        }
+        catch (Exception ex)
+        {
+            Log.v("SettingFragment:Err",ex.getMessage());
+        }
     }
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public void onResume() {
+        super.onResume();
+        getPreferenceScreen().getSharedPreferences()
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    public void onPause() {
+        super.onPause();
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
     {
-        //Define Objects
-        //btnResetPassword = (FloatingActionButton)container.findViewById(R.id.btnResetPassword);
-        //btnContactUs = (FloatingActionButton)container.findViewById(R.id.btnContactUs);
-        //btnSave = (FloatingActionButton)container.findViewById(R.id.btnSave);
-        //radNotification = (RadioButton)container.findViewById(R.id.radNotification);
-        //radDefaultSearch = (RadioGroup)container.findViewById(R.id.radDefaultSearch);
+        if (key.equals("pref_item_privacy_policy"))
+        {
+            //Show your AlertDialog here!
+        }
+        else if (key.equals("pref_item_terms_of_user"))
+        {
 
-        // Inflate the layout for this fragment
+        }
+        else if (key.equals("pref_item_delete_stored_account"))
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Are you sure you want to delete your stored account?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //sharedPreferences. preference =  getPreferences(Context.MODE_PRIVATE);
+                            //sharedPreferences.Editor editor = preference.edit();
+                            //editor.putString(ACCOUNT_TOKEN, token);
+                           // editor.commit();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
 
-        return inflater.inflate(R.layout.fragment_setting, container, false);
-    }*/
+        }
+
+
+            Log.v("PreferenceChanged",key);
+        Preference pref = findPreference(key);
+        if (pref instanceof EditTextPreference) {
+            EditTextPreference etp = (EditTextPreference) pref;
+            pref.setSummary(etp.getText());
+        }
+    }
+
+    private void onDeleteStoredAccount()
+    {
+
+    }
 
     private void onDefaultResultClick(View v)
     {
@@ -53,6 +121,10 @@ public class SettingFragment extends PreferenceFragment {
             //ShowMessage("Save List option");
         }*/
 
+
+    }
+
+    protected void onSaveClick(View view) {
 
     }
 

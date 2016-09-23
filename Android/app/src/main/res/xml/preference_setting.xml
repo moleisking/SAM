@@ -2,17 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="Notifications"
-        android:key="pref_key_storage_settings"
+        android:key="pref_group_notification"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
         <CheckBoxPreference
-            android:key="pref_sync"
+            android:key="pref_item_email_notification"
             android:title="Email Notifications"
             android:defaultValue="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <CheckBoxPreference
-            android:key="pref_sync"
+            android:key="pref_item_screen_notification"
             android:title="Screen Notifications"
             android:summary="My Summary"
             android:defaultValue="true"
@@ -21,13 +21,40 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:title="Account"
-        android:key="pref_key_storage_settings"
+        android:key="pref_group_account"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <EditTextPreference
+            android:key="pref_item_change_password"
+            android:summary="Deletes stored account data. Next time use will require login."
+            android:title="Change password"/>
+        <Preference
+            android:key="pref_item_delete_stored_account"
+            android:summary="Deletes stored account data. Next time use will require login."
+            android:title="Delete stored account"/>
+        <Preference
+            android:key="pref_item_location"
+            android:summary="Deletes stored account data. Next time use will require login."
+            android:title="Set default location"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="About"
+        android:key="pref_group_about"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
         <Preference
-            android:key="delete_token"
-            android:summary="Deletes stored account data. Next time use will require login."
-            android:title="Delete Token"/>
+            android:key="pref_item_build_version"
+            android:summary=""
+            android:title="Build version"/>
+        <Preference
+            android:key="pref_item_privacy_policy"
+            android:summary=""
+            android:title="Privacy policy"/>
+        <Preference
+            android:key="pref_item_terms_of_user"
+            android:summary=""
+            android:title="Terms of use"/>
+
     </PreferenceCategory>
 </PreferenceScreen>
 <!--LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

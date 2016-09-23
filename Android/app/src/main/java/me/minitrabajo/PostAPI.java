@@ -80,8 +80,11 @@ public class PostAPI extends AsyncTask <String, String, String>
         Log.w("doInBackground", "Start");
         if(params.length >=2)
         {
-            Log.w("doInBackground[0]", params[0]);
-            Log.w("doInBackground[1]", params[1]);
+            try {
+                Log.w("doInBackground[0]", params[0]);
+                Log.w("doInBackground[1]", params[1]);
+                Log.w("doInBackground[2]", params[2]);
+            }catch (Exception exlog){}
 
             HttpURLConnection connection = null;
             //HttpsURLConnection connection = null;
@@ -133,6 +136,13 @@ public class PostAPI extends AsyncTask <String, String, String>
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setRequestProperty("charset", "utf-8");
                 connection.setFixedLengthStreamingMode(params[1].getBytes().length);
+                if(params.length == 3)
+                {
+                    if(!params[2].equals(""))
+                    {
+                        connection.setRequestProperty("Authorization" , params[2]);
+                    }
+                }
                 Log.w("doInBackground:HEAD", "Built");
 
                 //Write Parameters
