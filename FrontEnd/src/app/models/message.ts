@@ -3,4 +3,5 @@ export class MessageModel {
     public to: string;
     public text: string;
     public datestamp: string;
+    public nameurl: string;
 }

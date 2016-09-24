@@ -26,6 +26,7 @@ export class Messages implements OnInit, OnDestroy {
     private message: string;
     private image: string;
     private name: string;
+    private nameurl: string;
     private email: string;
     private messages: MessageModel[];
 
@@ -38,24 +39,27 @@ export class Messages implements OnInit, OnDestroy {
             this.user.getProfile(id).subscribe(
                 profile => {
                     this.name = profile.name;
+                    this.nameurl = profile.nameurl;
                     this.email = profile.email;
                     this.image = profile.image === "" ? this.defaultImage : profile.image;
                     this.message = "Loading your messages...";
-                    setInterval(() =>
-                        this.m.readWith(profile.nameurl).subscribe(
-                            messages => {
-                                messages.forEach(element => {
-                                    if (element.from === profile.email)
-                                        element.from = profile.name;
-                                    else
-                                        element.from = "Me";
-                                });
-                                this.messages = messages;
-                                this.message = "";
-                            },
-                            error => this.message = <any>error,
-                            () => console.log("Done get messages")
-                        ), 5000);
+                    setInterval(() => {
+                        if (location.pathname.indexOf("/messages/") !== -1)
+                            this.m.readWith(profile.nameurl).subscribe(
+                                messages => {
+                                    messages.forEach(element => {
+                                        if (element.from === profile.email)
+                                            element.from = profile.name;
+                                        else
+                                            element.from = "Me";
+                                    });
+                                    this.messages = messages;
+                                    this.message = "";
+                                },
+                                error => this.message = <any>error,
+                                () => console.log("Done get messages")
+                            );
+                    }, 5000);
                 },
                 error => this.message = <any>error,
                 () => console.log("Done get profile")
@@ -68,7 +72,7 @@ export class Messages implements OnInit, OnDestroy {
     }
 
     sendMessage(messageText: string) {
-        if (!messageText || !this.email || this.email === "undefined")
+        if (!messageText || !this.email || this.email === "undefined" || !this.nameurl || this.nameurl === "undefined")
             this.message = "Message not valid to be sent.";
         else if (messageText.length < 4 || messageText.length > 500)
             this.message = "Message not cannot be less that 3 characters or bigger than 500.";
@@ -77,6 +81,7 @@ export class Messages implements OnInit, OnDestroy {
 
             let model = new MessageModel();
             model.to = this.email;
+            model.nameurl = this.nameurl;
             model.text = messageText;
 
             this.m.add(model).subscribe(

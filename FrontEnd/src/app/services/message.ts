@@ -15,7 +15,8 @@ export class MessageService {
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         let options = new RequestOptions({ headers: headers });
-        let body = "to=" + model.to + "&text=" + model.text;
+        let body = "to=" + model.to + "&text=" + model.text + "&front=" + Settings.frontend_url
+         + "&fromUrl=" + model.nameurl;
 
         return this.http.post(Settings.backend_url + "/messages/add", body, options)
             .map(this.extractData).catch(this.handleError);

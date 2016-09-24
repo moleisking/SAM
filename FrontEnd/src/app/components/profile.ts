@@ -28,6 +28,7 @@ export class Profile implements OnInit, OnDestroy {
     private address: string;
     private image: string;
     private name: string;
+    private nameurl: string;
     private email: string;
 
     constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService,
@@ -39,6 +40,7 @@ export class Profile implements OnInit, OnDestroy {
             this.user.getProfile(id).subscribe(
                 profile => {
                     this.name = profile.name;
+                    this.nameurl = profile.nameurl;
                     this.email = profile.email;
                     this.description = profile.description;
                     this.mobile = profile.mobile;
@@ -74,6 +76,7 @@ export class Profile implements OnInit, OnDestroy {
 
             let model = new MessageModel();
             model.to = this.email;
+            model.nameurl = this.nameurl;
             model.text = messageText;
 
             this.m.add(model).subscribe(

@@ -5,14 +5,16 @@ var toURLString = require('speakingurl');
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "message";
+var emailer = require("./emailer");
 
 module.exports = {
 
     create: function (from, data, cb) {
+        var front = data.front;
+        var fromUrl = data.fromUrl;
         var message = model.create();
         message.from(from);
-        message.to(data.to);
-        message.text(data.text);
+        message.update(data);
         message.datestamp(new Date().getTime());
         message.validate().then(function () {
             if (!message.isValid)
@@ -20,10 +22,14 @@ module.exports = {
             messageDAL.create(message.toJSON(), function (err, data) {
                 if (err)
                     return cb(err, null);
-                myCache.del(myCacheName + "allLasts" + from);
-                myCache.del(myCacheName + "allWith" + from + data.to);
-                myCache.del(myCacheName + "allWith" + data.to + from);
-                return cb(null, data);
+                myCache.del(myCacheName + "allLasts" + data.from);
+                myCache.del(myCacheName + "allWith" + data.from + data.to);
+                myCache.del(myCacheName + "allWith" + data.to + data.from);
+                emailer.newMessage(front, fromUrl, data.to, function (err, statusCode, body, headers) {
+                    if (err)
+                        return cb(err, null);
+                    return cb(null, data);
+                });
             });
         }).catch(function (err) {
             return cb(err, null);
