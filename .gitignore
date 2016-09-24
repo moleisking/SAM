@@ -5,7 +5,7 @@ FrontEnd/npm-debug.log.*
 *.gz
 BackEnd/SAM.json
 BackEnd/Messages.json
-FrontEnd/config/settingsmail.js
+BackEnd/config/settingsmail.js
 FrontEnd/scripts/
 FrontEnd/typings/
 FrontEnd/dist/
