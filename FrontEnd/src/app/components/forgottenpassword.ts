@@ -1,28 +1,26 @@
 import { Component, OnInit } from "@angular/core";
-import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
 import { UserService } from "../services/user";
 
 @Component({
     selector: "forgottenpassword-form-component",
     templateUrl: "../../views/forgottenpassword.html",
-    styleUrls: ["../../styles/form.css"],
-    directives: [REACTIVE_FORM_DIRECTIVES],
-    providers: [UserService]
+    styleUrls: ["../../styles/form.css"]
 })
 
 export class ForgottenPassword implements OnInit {
 
     private myForm: FormGroup;
     private message: string;
-    
 
-    constructor(private builder: FormBuilder, private formBuilder: FormBuilder, private user: UserService) {
+
+    constructor(private builder: FormBuilder, private user: UserService) {
         this.message = "Forgotten Password Text";
     }
 
     ngOnInit() {
-        this.myForm = this.formBuilder.group({
+        this.myForm = this.builder.group({
             email: ["", Validators.required]
         });
     }
@@ -31,10 +29,10 @@ export class ForgottenPassword implements OnInit {
         if (!this.myForm.dirty && !this.myForm.valid)
             this.message = "Form not valid to be sent.";
         else {
-            
+
             this.user.forgottenpassword(this.myForm.value).subscribe(
                 data => {
-                    this.message = data.message;
+                    this.message = "Petition send.";
                 },
                 error => {
                     this.message = "Error sending email.";

@@ -25,7 +25,7 @@ export class ContactUsFormComponent implements OnInit {
     ngOnInit() {
         this.myForm = this.formBuilder.group({
             email: ["", Validators.required],
-            message: ["", Validators.required]
+            notification: ["", Validators.required]
         });
     }
 
@@ -34,10 +34,10 @@ export class ContactUsFormComponent implements OnInit {
             this.message = "Form not valid to be sent.";
         else {
 
-            this.message = "Contact Us message sent.";
+            this.message = "Contact Us message sending...";
             this.web.sendContactForm(this.myForm.value).subscribe(
                 data => {
-                    this.message = data.message;
+                    this.message = "Message sent.";
                 },
                 error => {
                     this.message = "Error sending Contact Us form.";

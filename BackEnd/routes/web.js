@@ -7,41 +7,36 @@ var emailer = require("../core/emailer");
 router.get('/about', function (req, res, next) {
   web.about(function (err, data) {
     if (err)
-      res.status(500).json({err});
-    else
-      res.json({data});
+      return res.status(500).json({ err });
+    res.json({ data });
   });
 });
 
 router.get('/termsconditions', function (req, res, next) {
   web.termsConditions(function (err, data) {
     if (err)
-      res.status(500).json({err});
-    else
-      res.json({data});
+      return res.status(500).json({ err });
+    res.json({ data });
   });
 });
 
 router.post('/sendcontactform', function (req, res, next) {
   if (!req.body.message || !req.body.email)
-    res.status(400).send("Please pass message and email.");
-  else
-    emailer.sendContactForm(req.body, function (err, data) {
-      if (err)
-        res.status(500).json({err});
-      else
-        res.json({data});
-    });
+    return res.status(400).send("Please pass message and email.");
+  emailer.sendContactForm(req.body, function (err, status, body, headers) {
+    if (err)
+      return res.status(500).json({ err });
+    res.json({ status, body, headers });
+  });
 });
 
 router.get('/categories', function (req, res, next) {
   cat.all(function (err, data) {
     if (err)
-      res.status(500).json({err});
+      return res.status(500).json({ err });
     else if (data.length === 0)
-      res.status(404).json({data});
-    else
-      res.json({data});
+      return res.status(404).json({ data });
+    res.json({ data });
   });
 });
 
