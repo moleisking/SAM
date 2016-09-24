@@ -52,13 +52,14 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> , ResponseAPI
 {
     private static final int REQUEST_READ_CONTACTS = 0;
-    private static final String ACCOUNT_TOKEN = "minitrabajo_token";
+    //private static final String ACCOUNT_TOKEN = "token";
     //private AutoCompleteTextView mEmailView;
     private AutoCompleteTextView txtName;
     private EditText txtPassword;
     private Button btnLogin;
     private View mProgressView;
     private View mLoginFormView;
+    private SharedPreferences mSharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -342,8 +343,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void setTokenCookie(String token)
     {
         //Save previous successful login
-        SharedPreferences preference = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preference.edit();
+        mSharedPreference = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPreference.edit();
         editor.putString(ACCOUNT_TOKEN, token);
         editor.commit();
     }
@@ -351,9 +352,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String getTokenCookie()
     {
         //Get previous successful login
-        SharedPreferences preference = this.getPreferences(Context.MODE_PRIVATE);
+        mSharedPreference = this.getPreferences(Context.MODE_PRIVATE);
         //TODO: Check token is valid
-        return preference.getString(ACCOUNT_TOKEN,"");
+        return mSharedPreference.getString(ACCOUNT_TOKEN,"");
     }
 
 

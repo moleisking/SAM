@@ -54,14 +54,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -220,6 +220,28 @@ public class MainActivity extends AppCompatActivity
             Log.w("Register:ProFin", ex.getMessage());
         }
 
+    }
+
+    public void onFragmentViewClick(View v) {
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.content_frame);
+        if (fragment != null && fragment.isVisible()) {
+            if (fragment instanceof ProfileFragment) {
+                Log.w("MainActivity", "ProfileFragment");
+                ((ProfileFragment) fragment).onMessageClick(v);
+            }
+            else if (fragment instanceof SearchFragment) {
+                Log.w("MainActivity", "SearchFragment");
+                ((SearchFragment) fragment).onSearchClick(v);
+            }
+            else if (fragment instanceof SettingFragment) {
+                Log.w("MainActivity", "SettingFragment");
+                ((SettingFragment) fragment).onSaveClick(v);
+            }
+            else if (fragment instanceof AboutFragment) {
+                Log.w("MainActivity", "AboutFragment");
+                ((AboutFragment) fragment).onEmailClick(v);
+            }
+        }
     }
 
     private void LoadProfile()
