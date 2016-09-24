@@ -16,6 +16,7 @@ import { ContactUs } from "./components/contactus";
 import { TermsConditions } from "./components/termsconditions";
 import { ForgottenPassword } from "./components/forgottenpassword";
 import { Profile } from "./components/profile";
+import { Messages } from "./components/messages";
 
 import { ContactUsFormComponent } from "./components/contactus-form";
 import { LoginFormComponent } from "./components/login-form";
@@ -61,6 +62,7 @@ if (Settings.prod) enableProdMode();
         TermsConditions,
         ForgottenPassword,
         Profile,
+        Messages,
 
         ContactUsFormComponent,
         LoginFormComponent,

@@ -11,6 +11,7 @@ import { Dashboard } from "../components/dashboard";
 import { ForgottenPassword } from "../components/forgottenpassword";
 import { Categories } from "../components/categories";
 import { Profile } from "../components/profile";
+import { Messages } from "../components/messages";
 
 export const routes: Routes = [
   { path: "home", component: Home },
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: "contactus", component: ContactUs },
   { path: "termsconditions", component: TermsConditions },
   { path: "forgottenpassword", component: ForgottenPassword, canActivate: [RoutesManager] },
+  { path: "messages/:id", component: Messages, canActivate: [RoutesManager] },
   { path: "profile/:id", component: Profile },
   { path: "", redirectTo: "home", pathMatch: "full" }
 ];

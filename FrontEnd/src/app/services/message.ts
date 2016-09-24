@@ -14,10 +14,11 @@ export class MessageService {
         let headers = new Headers();
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-        let c = "to=" + model.to + "&text=" + model.text;
         let options = new RequestOptions({ headers: headers });
+        let body = "to=" + model.to + "&text=" + model.text;
 
-        return this.http.post(Settings.backend_url + "/messages/add", c, options).catch(this.handleError);
+        return this.http.post(Settings.backend_url + "/messages/add", body, options)
+            .map(this.extractData).catch(this.handleError);
     }
 
     readAllLasts(): Observable<MessageModel[]> {
@@ -26,6 +27,15 @@ export class MessageService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.get(Settings.backend_url + "/messages/readalllasts", options)
+            .map(this.extractData).catch(this.handleError);
+    }
+
+    readWith(name: string): Observable<MessageModel[]> {
+        let headers = new Headers();
+        headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.get(Settings.backend_url + "/messages/read/" + name, options)
             .map(this.extractData).catch(this.handleError);
     }
 

@@ -1,6 +1,7 @@
 var model = require("../models/message");
 var user = require("./user");
 var messageDAL = require("../dal/message");
+var toURLString = require('speakingurl');
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "message";
@@ -21,6 +22,7 @@ module.exports = {
                     return cb(err, null);
                 myCache.del(myCacheName + "allLasts" + from);
                 myCache.del(myCacheName + "allWith" + from + data.to);
+                myCache.del(myCacheName + "allWith" + data.to + from);
                 return cb(null, data);
             });
         }).catch(function (err) {
@@ -48,6 +50,7 @@ module.exports = {
                     var contact = item.to === id ? item.from : item.to;
                     user.getNameByEmail(contact, function (err, data) {
                         item.name = data;
+                        item.nameurl = toURLString(data);
                         if (result.length === 0)
                             result.push(item);
                         else
@@ -72,26 +75,28 @@ module.exports = {
     },
 
     readWith: function (id, to, cb) {
-        if (id === null || id === undefined)
-            return cb("Must provide a valid id.", null);
-        myCache.get(myCacheName + "allWith" + id + to, function (err, value) {
-            if (err)
-                return cb(err, null);
-            if (value != undefined)
-                return cb(null, value);
-            _read(function (err, messages) {
+        if (id === null || id === undefined || to === null || to === undefined)
+            return cb("Must provide a valid id and to.", null);
+        user.getEmailByNameUrl(to, function (err, emailTo) {
+            myCache.get(myCacheName + "allWith" + id + emailTo, function (err, value) {
                 if (err)
                     return cb(err, null);
-                var result = messages.filter(function (item) {
-                    if (item.from === id || item.to === id)
-                        return item;
-                });
-                myCache.set(myCacheName + "allWith" + id + to, result, function (err, success) {
+                if (value != undefined)
+                    return cb(null, value);
+                _read(function (err, messages) {
                     if (err)
                         return cb(err, null);
-                    if (success)
-                        return cb(null, result);
-                    return cb('cache internal failure', null);
+                    var result = messages.filter(function (item) {
+                        if ((item.from === id && item.to === emailTo) || (item.from === emailTo || item.to === id))
+                            return item;
+                    });
+                    myCache.set(myCacheName + "allWith" + id + emailTo, result, function (err, success) {
+                        if (err)
+                            return cb(err, null);
+                        if (success)
+                            return cb(null, result);
+                        return cb('cache internal failure', null);
+                    });
                 });
             });
         });

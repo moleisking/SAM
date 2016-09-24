@@ -50,7 +50,7 @@ export class UserService {
       .map(this.extractData).catch(this.handleError);
   }
 
-  getProfile(id: any): Observable<ProfileModel> {
+  getProfile(id: string): Observable<ProfileModel> {
     return this.http.get(Settings.backend_url + "/users/getprofile/" + id)
       .map(this.extractData).catch(this.handleError);
   }

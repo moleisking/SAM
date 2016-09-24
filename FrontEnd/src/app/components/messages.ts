@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DomSanitizationService } from "@angular/platform-browser";
 
@@ -12,23 +12,22 @@ import { UserDefaultImage } from "../config/userdefaultimage";
 declare var jQuery: any;
 
 @Component({
-    selector: "profile-component",
-    templateUrl: "../../views/profile.html"
+    selector: "messages-component",
+    templateUrl: "../../views/messages.html"
 })
 
-export class Profile implements OnInit, OnDestroy {
+export class Messages implements OnInit, OnDestroy {
 
+    @ViewChild("messagetext") messageText: ElementRef;
     private sub: any;
     private defaultImage = UserDefaultImage.image;
     private itsMe: boolean;
 
     private message: string;
-    private description: string;
-    private mobile: string;
-    private address: string;
     private image: string;
     private name: string;
     private email: string;
+    private messages: MessageModel[];
 
     constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService,
         private m: MessageService, private authService: AuthService) { }
@@ -40,19 +39,23 @@ export class Profile implements OnInit, OnDestroy {
                 profile => {
                     this.name = profile.name;
                     this.email = profile.email;
-                    this.description = profile.description;
-                    this.mobile = profile.mobile;
-                    this.address = profile.address;
                     this.image = profile.image === "" ? this.defaultImage : profile.image;
-                    if (this.authService.isLoggedIn()) {
-                        this.user.getMyProfile().subscribe(
-                            my => this.itsMe = profile.email === my.email,
+                    this.message = "Loading your messages...";
+                    setInterval(() =>
+                        this.m.readWith(profile.nameurl).subscribe(
+                            messages => {
+                                messages.forEach(element => {
+                                    if (element.from === profile.email)
+                                        element.from = profile.name;
+                                    else
+                                        element.from = "Me";
+                                });
+                                this.messages = messages;
+                                this.message = "";
+                            },
                             error => this.message = <any>error,
-                            () => console.log("Done get my profile")
-                        );
-                    }
-                    else
-                        this.itsMe = true; // for unlogged we use same logic as it were us.
+                            () => console.log("Done get messages")
+                        ), 5000);
                 },
                 error => this.message = <any>error,
                 () => console.log("Done get profile")
@@ -77,7 +80,14 @@ export class Profile implements OnInit, OnDestroy {
             model.text = messageText;
 
             this.m.add(model).subscribe(
-                () => this.message = "Message sent.",
+                (m) => {
+                    this.message = "Message sent.";
+                    m.from = "Me";
+                    this.messages.push(m);
+                    // clean the new message form
+                    this.message = "";
+                    this.messageText.nativeElement.value = "";
+                },
                 (res) => this.message = res,
                 () => jQuery("#SendMessageModal").modal("hide")
             );

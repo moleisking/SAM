@@ -12,6 +12,14 @@ router.get("/readalllasts", passport.authenticate("jwt", { session: false }), fu
   });
 });
 
+router.get("/read/:nameUrl", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+  message.readWith(user.getEmailFromTokenUser(req.headers), req.params.nameUrl, function (err, data) {
+    if (err)
+      return res.status(500).json({ err });
+    res.json({ data });
+  });
+});
+
 router.post("/add", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   if (!req.body.to || !req.body.text)
     return res.status(400).send("Please pass from, to and text.");

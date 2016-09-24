@@ -237,6 +237,30 @@ module.exports = {
                 });
             });
         });
+    },
+
+    getEmailByNameUrl: function (nameUrl, cb) {
+        var cachename = myCacheName + "getEmailByNameUrl" + nameUrl;
+        myCache.get(cachename, function (err, value) {
+            if (err)
+                return cb(err, null);
+            if (value != undefined)
+                return cb(null, value);
+            _all(function (err, readValue) {
+                if (err)
+                    return cb(err, null);
+                readValue.forEach(function (element) {
+                    if (element.nameurl == nameUrl)
+                        myCache.set(myCacheName + "getEmailByNameUrl" + nameUrl, element.email, function (err, success) {
+                            if (err)
+                                return cb(err, null);
+                            if (success)
+                                return cb(null, element.email);
+                            return cb('cache internal failure', null);
+                        });
+                }, this);
+            });
+        });
     }
 }
 
