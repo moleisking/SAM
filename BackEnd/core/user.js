@@ -13,23 +13,15 @@ module.exports = {
 
     create: function (data, cb) {
         var user = model.create();
-        user.name(data.name);
+        user.update(data);
         user.nameurl(toURLString(data.name));
-        user.pass(data.pass);
-        user.email(data.email);
-        user.lat(data.lat);
-        user.lng(data.lng);
         user.currentLat(data.lat);
         user.currentLng(data.lng);
-        user.category(data.category);
-        user.tags(data.tags);
-        user.address(data.address);
-        user.mobile(data.mobile);
+        user.description("");
         user.image("");
         user.dayRate(0);
         user.hourRate(0);
         user.credit(0);
-        user.description("");
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
