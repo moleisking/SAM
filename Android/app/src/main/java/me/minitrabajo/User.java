@@ -36,7 +36,9 @@ public class User implements Serializable {
 	private Double mRegisteredLongitude;
 	private Double mCurrentLatitude;
 	private Double mCurrentLongitude;
-	private Byte[] mImage = null;
+	private Byte[] mImageByteArray = null;
+	private String mImageType = "";
+	private Bitmap mImage = null;
 
 	public static final int PROFILE_ACCOUNT = 0, PROFILE_RESULT = 1;
 		
@@ -230,21 +232,31 @@ public class User implements Serializable {
 		this.mCurrentLongitude = current_longitude;
 	}
 
-	public void setImage(Byte[] image)
-	{
-		if (!image.equals(null)) { this.mImage = image; }
-	}
-
-	public Byte[] getImage()
+	public Bitmap getImage()
 	{
 		return mImage;
 	}
 
+	public void setImage(Bitmap image)
+	{
+		this.mImage = image;
+	}
+
+	public void setImageByteArray(Byte[] image)
+	{
+		if (!image.equals(null)) { this.mImageByteArray = image; }
+	}
+
+	public Byte[] getImageByteArray()
+	{
+		return mImageByteArray;
+	}
+
 	public byte[] getImageAsPrimitive()
 	{
-		byte[] bytes = new byte[mImage.length];
-		for(int i = 0; i < mImage.length; i++){
-			bytes[i] = mImage[i];
+		byte[] bytes = new byte[mImageByteArray.length];
+		for(int i = 0; i < mImageByteArray.length; i++){
+			bytes[i] = mImageByteArray[i];
 		}
 		return bytes;
 	}
@@ -254,7 +266,7 @@ public class User implements Serializable {
 		Byte[] bytes = new Byte[bytesPrim.length];
 		int i = 0;
 		for (byte b : bytesPrim) bytes[i++] = b; //Autoboxing
-		mImage = bytes;
+		mImageByteArray = bytes;
 	}
 
 	public Bitmap getImageAsBitmap()
@@ -270,6 +282,48 @@ public class User implements Serializable {
 		return BitmapFactory.decodeByteArray(arr,0,arr.length);
 	}
 
+	public Bitmap getImageFromRawString(String str)
+	{
+		//Extract "data:image/png;base64,"
+		String header = str.substring(0,20);
+		if (header.contains("data")&& header.contains("image")&&header.contains("base64"))
+		{
+			if (header.contains("png"))
+			{
+				mImageType = "png";
+			}
+			else if (header.contains("gif"))
+			{
+				mImageType = "gif";
+			}
+			else if (header.contains("bmp"))
+			{
+				mImageType = "bmp";
+			}
+			else if (header.contains("jpeg"))
+			{
+				mImageType = "jpeg";
+			}
+			else if (header.contains("tiff"))
+			{
+				mImageType = "tiff";
+			}
+		}
+		else
+		{
+			Log.v("User","No raw image found");
+		}
+
+		//Remove "data:image/png;base64,"
+		str = str.replaceFirst("data:image/"+mImageType + "base64,","");
+
+		//Convert base64 to array
+		byte[] arr = Base64.decode(str, Base64.DEFAULT);
+
+		return BitmapFactory.decodeByteArray(arr,0,arr.length);
+	}
+
+
 
 	public void setImageAsBase64(String str)
 	{
@@ -284,7 +338,7 @@ public class User implements Serializable {
 	}*/
 
 
-	public String toString()
+	public String serializeToString()
 	{
 		String output = "";
 		try
@@ -302,7 +356,7 @@ public class User implements Serializable {
 		return output;
 	}
 
-	public User fromString( String str )
+	public User deserializeFromString( String str )
 	{
 		Object output = null;
 		try
@@ -334,15 +388,18 @@ public class User implements Serializable {
 			//this.mTags = data.getString("tags");
 			//this.mHourRate = Double.parseDouble(data.getString("hour_rate"));
 			//this.mDayRate = Double.parseDouble(data.getString("day_rate"));
-			//this.mRegisteredLongitude = Double.parseDouble(data.getString("reglat"));
-			//this.mRegisteredLatitude = Double.parseDouble(data.getString("reglon"));
+			//this.mRegisteredLongitude = Double.parseDouble(data.getString("regLat"));
+			//this.mRegisteredLatitude = Double.parseDouble(data.getString("regLng"));
+			//this.mCurrentLongitude = Double.parseDouble(data.getString("curLat"));
+			//this.mCurrentLatitude = Double.parseDouble(data.getString("curLng"));
+			//this.mCredit = Double.parseDouble(data.getString("credit"));
+			//this.setImage(this.getImageFromRawString(data.getString("image")));
 		}
 		catch (Exception ex)
 		{
 
 		}
 	}
-
 
 	public void print()
 	{

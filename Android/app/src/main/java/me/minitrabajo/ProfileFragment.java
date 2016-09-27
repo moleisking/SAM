@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         //Define Objects
-        mUser = mUser.fromString(getActivity().getIntent().getStringExtra("user"));
+        mUser = (User)getActivity().getIntent().getSerializableExtra("User");
         imgProfile = (ImageView)container.findViewById(R.id.imgItem);
         txtName = (TextView)container.findViewById(R.id.txtName);
         txtDescription = (TextView)container.findViewById(R.id.txtDescription);

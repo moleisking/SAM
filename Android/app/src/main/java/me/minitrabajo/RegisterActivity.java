@@ -267,7 +267,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
     {
         //Example: "name=scott&pass=12345&email=moleisking%40gmail.com";
         Log.w("onRegisterClick", "Register button clicked");
-        String url = getResources().getString(R.string.net_register_url); //"http://192.168.1.100:3003/api/signup";
+        String url = getResources().getString(R.string.net_register_account_url); //"http://192.168.1.100:3003/api/signup";
         Bitmap bitmap = ((BitmapDrawable)imgProfile.getDrawable()).getBitmap();
         String parameters = "name=" + txtName.getText().toString() +
                             "&pass=" + txtPassword.getText().toString() +

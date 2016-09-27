@@ -54,27 +54,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
     //private static final String ACCOUNT_TOKEN = "token";
     //private AutoCompleteTextView mEmailView;
-    private AutoCompleteTextView txtName;
+    private AutoCompleteTextView txtEmail;
     private EditText txtPassword;
     private Button btnLogin;
     private View mProgressView;
     private View mLoginFormView;
-    private SharedPreferences mSharedPreference;
+   // private SharedPreferences mSharedPreference;
+    private UserAccount mUserAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUserAccount = new UserAccount(this);
+        mUserAccount.getToken();
 
-        if(!getTokenCookie().equals(""))
+        if(mUserAccount.hasToken()) //!getTokenCookie().equals("")
         {
             //Already logged in go straight to main application
-            loadMainActivity( getTokenCookie());
+            // loadMainActivity( getTokenCookie());
+            loadMainActivity( mUserAccount);
         }
         else
         {
            //No saved account yet
             setContentView(R.layout.activity_login);
-            txtName = (AutoCompleteTextView) findViewById(R.id.txtName);
+            txtEmail = (AutoCompleteTextView) findViewById(R.id.txtEmail);
             txtPassword = (EditText) findViewById(R.id.txtPassword);
             btnLogin = (Button) findViewById(R.id.btnLogin);
            // mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -155,12 +159,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Reset errors.
         //mEmailView.setError(null);
-        txtName.setError(null);
+        txtEmail.setError(null);
         txtPassword.setError(null);
 
         // Store values at the time of the login attempt.
        // String email = mEmailView.getText().toString();
-        String name = txtName.getText().toString();
+        String email = txtEmail.getText().toString();
         String password = txtPassword.getText().toString();
 
         boolean cancel = false;
@@ -193,8 +197,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             //call authenticate
-            String url = getResources().getString(R.string.net_auth_url); //"http://192.168.1.100:3003/api/authenticate";
-            String parameters = "name=" + txtName.getText().toString() +"&pass=" + txtPassword.getText().toString();  //"name=scott&pass=12345&email=moleisking%40gmail.com";
+            String url = getResources().getString(R.string.net_authenticate_url); //"http://192.168.1.100:3003/api/authenticate";
+            String parameters = "email=" + txtEmail.getText().toString() +"&pass=" + txtPassword.getText().toString();  //"name=scott&pass=12345&email=moleisking%40gmail.com";
             PostAPI asyncTask =new PostAPI(this);
             asyncTask.delegate = this;
             asyncTask.execute(url,parameters,"");
@@ -320,8 +324,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         if (!token.equals(""))
         {
-            setTokenCookie(token);
-            loadMainActivity(token);
+            //setTokenCookie(token);
+            //loadMainActivity(token);
+            mUserAccount.setToken(token);
+            loadMainActivity(mUserAccount);
         }
         else
         {
@@ -331,16 +337,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private void loadMainActivity(String token)
+    private void loadMainActivity(UserAccount userAccount)
     {
         //Load Main Activity
         Log.v("loadMainActivity", "intent");
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("token", token);
+        intent.putExtra("UserAccount", userAccount);
         startActivity(intent);
     }
 
-    private void setTokenCookie(String token)
+    /*private void setTokenCookie(String token)
     {
         //Save previous successful login
         mSharedPreference = this.getPreferences(Context.MODE_PRIVATE);
@@ -355,7 +361,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mSharedPreference = this.getPreferences(Context.MODE_PRIVATE);
         //TODO: Check token is valid
         return mSharedPreference.getString(ACCOUNT_TOKEN,"");
-    }
+    }*/
 
 
 
