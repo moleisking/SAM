@@ -3,7 +3,7 @@
         <img [src]="image" alt="" class="img-rounded img-responsive" />
     </div>
     <div class="col-md-8">
-        <form [formGroup]="myForm" novalidate (submit)="save()" *ngIf="model">
+        <form [formGroup]="myForm" novalidate (submit)="save()">
             <div class="form-group">
                 <label for="image">Image</label>
                 <input type="file" class="form-control" id="image" name="image" />

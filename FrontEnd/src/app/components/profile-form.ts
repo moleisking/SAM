@@ -42,15 +42,6 @@ export class ProfileFormComponent implements OnInit {
                 .addEventListener("change", e => { this.readImage(e); }, false);
     }
 
-    // getMyProfile() {
-    //     this.user.getMyProfile().subscribe(
-    //         profile => {
-    //             this.model = profile;
-    //             this.model.image = profile.image === "" ? this.defaultImage : profile.image;
-    //         },
-    //         error => this.message = <any>error);
-    // }
-
     readImage(e: any) {
         let fileName = e.target.files[0];
         if (!fileName)
