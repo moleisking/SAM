@@ -26,8 +26,9 @@ module.exports = {
         user.address(data.address);
         user.mobile(data.mobile);
         user.image("");
-        user.rate(0);
-        user.balance(0);
+        user.dayRate(0);
+        user.hourRate(0);
+        user.credit(0);
         user.description("");
         user.validate().then(function () {
             if (!user.isValid)
@@ -113,10 +114,7 @@ module.exports = {
                 return cb(err, null);
             var user = model.create();
             user.update(userData);
-            user.description(data.description);
-            user.mobile(data.mobile);
-            user.address(data.address);
-            user.image(data.image);
+            user.update(data);
             user.validate().then(function () {
                 if (!user.isValid)
                     return cb(user.errors, null);

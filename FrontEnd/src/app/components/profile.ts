@@ -23,6 +23,7 @@ export class Profile implements OnInit, OnDestroy {
     private itsMe: boolean;
 
     private message: string;
+
     private description: string;
     private mobile: string;
     private address: string;
@@ -30,6 +31,8 @@ export class Profile implements OnInit, OnDestroy {
     private name: string;
     private nameurl: string;
     private email: string;
+    private hourRate: number;
+    private dayRate: number;
 
     constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService,
         private m: MessageService, private authService: AuthService) { }
@@ -45,6 +48,8 @@ export class Profile implements OnInit, OnDestroy {
                     this.description = profile.description;
                     this.mobile = profile.mobile;
                     this.address = profile.address;
+                    this.hourRate = profile.hourRate;
+                    this.dayRate = profile.dayRate;
                     this.image = profile.image === "" ? this.defaultImage : profile.image;
                     if (this.authService.isLoggedIn()) {
                         this.user.getMyProfile().subscribe(

@@ -6,4 +6,8 @@ export interface ProfileModel {
     mobile: string;
     address: string;
     image: string;
+    hourRate: number;
+    dayRate: number;
+    credit: number;
+    score: number;
 }

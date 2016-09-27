@@ -27,7 +27,8 @@ export class UserService {
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let c = "description=" + profileform.description + "&address=" + profileform.address
-      + "&mobile=" + profileform.mobile + "&image=" + image;
+      + "&mobile=" + profileform.mobile + "&image=" + image + "&dayRate=" + profileform.dayRate
+      + "&hourRate=" + profileform.hourRate;
 
     return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }
@@ -78,6 +79,7 @@ export class UserService {
   private extractData(res: Response) {
     // console.log(res);
     let body = res.json();
+    // console.log(body.data);
     return body.data || {};
   }
 

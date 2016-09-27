@@ -84,8 +84,10 @@ var user = new model("User")
             }
         }
     })
-    .attr('rate')
-    .attr('balance');
+    .attr('score')
+    .attr('hourRate')
+    .attr('dayRate')
+    .attr('credit');
 
 module.exports = user;
 

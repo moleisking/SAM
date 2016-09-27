@@ -29,6 +29,14 @@
                     Mobile is required.
                 </small>
             </div>
+            <div class="form-group">
+                <label for="hourRate">Hour Rate</label>
+                <input type="number" class="form-control" formControlName="hourRate" name="hourRate" [(ngModel)]="hourRate" />
+            </div>
+            <div class="form-group">
+                <label for="dayRate">Day Rate</label>
+                <input type="number" class="form-control" formControlName="dayRate" name="dayRate" [(ngModel)]="dayRate" />
+            </div>
             <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Save</button>
             <p>{{ message }}</p>
         </form>

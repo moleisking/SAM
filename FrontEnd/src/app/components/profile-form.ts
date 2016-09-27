@@ -23,6 +23,10 @@ export class ProfileFormComponent implements OnInit {
     private mobile: string;
     private address: string;
     private image: string;
+    private dayRate: number;
+    private hourRate: number;
+    private score: number;
+    private credit: number;
 
     constructor(private user: UserService, private formBuilder: FormBuilder) {
         this.message = "Profile form messages will be here.";
@@ -34,7 +38,9 @@ export class ProfileFormComponent implements OnInit {
             description: [this.description, Validators.required],
             address: [this.address, Validators.required],
             image: [this.image],
-            mobile: [this.mobile]
+            mobile: [this.mobile],
+            dayRate: [this.dayRate],
+            hourRate: [this.hourRate]
         });
     }
 
@@ -51,6 +57,8 @@ export class ProfileFormComponent implements OnInit {
                 this.description = profile.description;
                 this.mobile = profile.mobile;
                 this.address = profile.address;
+                this.dayRate = profile.dayRate;
+                this.hourRate = profile.hourRate;
             },
             error => this.message = <any>error);
     }
