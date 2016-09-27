@@ -11,9 +11,10 @@ export class UserService {
 
   constructor(private http: Http) { }
 
-  register(user: UserModel, lat: any, lng: any): Observable<any> {
+  register(user: UserModel, regLat: any, regLng: any): Observable<any> {
     let body = "name=" + user.name + "&pass=" + user.pass + "&email=" + user.email
-      + "&lat=" + lat + "&lng=" + lng + "&category=" + user.category + "&tags=" + user.tags
+      + "&regLat=" + regLat + "&regLng=" + regLng  + "&curLat=" + regLat + "&curLng=" + regLng  
+      + "&category=" + user.category + "&tags=" + user.tags
       + "&address=" + user.address + "&mobile=" + user.mobile;
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
@@ -66,8 +67,8 @@ export class UserService {
       .map(this.extractData).catch(this.handleError);
   }
 
-  search(lat: number, lng: number, category: number, radius: number): Observable<UserModel[]> {
-    let body = "lat=" + lat + "&lng=" + lng + "&category=" + category + "&radius=" + radius;
+  search(regLat: number, regLng: number, category: number, radius: number): Observable<UserModel[]> {
+    let body = "regLat=" + regLat + "&regLng=" + regLng + "&category=" + category + "&radius=" + radius;
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });

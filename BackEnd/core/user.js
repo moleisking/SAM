@@ -17,10 +17,10 @@ module.exports = {
         user.nameurl(toURLString(data.name));
         user.pass(data.pass);
         user.email(data.email);
-        user.lat(data.lat);
-        user.lng(data.lng);
-        user.currentLat(data.lat);
-        user.currentLng(data.lng);
+        user.regLat(data.regLat);
+        user.regLng(data.regLng);
+        user.curLat(data.curLat);
+        user.curLng(data.curLng);
         user.category(data.category);
         user.tags(data.tags);
         user.address(data.address);
@@ -191,7 +191,7 @@ module.exports = {
     },
 
     search: function (data, cb) {
-        var cachename = myCacheName + "search" + data.category + data.radius + data.lat.toString() + data.lng.toString();
+        var cachename = myCacheName + "search" + data.category + data.radius + data.regLat.toString() + data.regLng.toString();
         myCache.get(cachename, function (err, value) {
             if (err)
                 return cb(err, null);

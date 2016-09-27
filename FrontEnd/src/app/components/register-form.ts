@@ -22,8 +22,10 @@ export class RegisterFormComponent implements OnInit {
     private myForm: FormGroup;
 
     private message: string;
-    private lat: number;
-    private lng: number;
+    private regLat: number;
+    private regLng: number;
+    private curLat: number;
+    private curLng: number;
     private cats: Array<CategoryModel>;
     private tags: Array<TagModel>;
     private tagsValue: any = [];
@@ -33,8 +35,10 @@ export class RegisterFormComponent implements OnInit {
     constructor(private auth: AuthService, private user: UserService, private router: Router,
         private formBuilder: FormBuilder, private cat: CategoriesService) {
         this.message = "Register messages will be here.";
-        this.lat = 0;
-        this.lng = 0;
+        this.regLat = 0;
+        this.regLng = 0;
+        this.curLat = 0;
+        this.curLng = 0;
     }
 
     ngOnInit() {
@@ -50,8 +54,10 @@ export class RegisterFormComponent implements OnInit {
         // Add listener to the place changed event
         autocomplete.addListener("place_changed", () => {
             let place = autocomplete.getPlace();
-            let lat = place.geometry.location.lat();
-            let lng = place.geometry.location.lng();
+            let regLat = place.geometry.location.lat();
+            let regLng = place.geometry.location.lng();
+            let curLat = regLat;
+            let curLng = regLng;
             let address = place.formatted_address;
             this.getAddress(place);
         });
@@ -99,8 +105,8 @@ export class RegisterFormComponent implements OnInit {
     }
 
     setPosition(position: any) {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
+        this.regLat = position.coords.latitude;
+        this.regLng = position.coords.longitude;
     }
 
     showErrorGeoLoc(error: any) {
@@ -109,8 +115,8 @@ export class RegisterFormComponent implements OnInit {
     }
 
     register() {
-        if (!this.lat || this.lat === undefined || this.lat === 0 ||
-            !this.lng || this.lng === undefined || this.lng === 0)
+        if (!this.regLat || this.regLat === undefined || this.regLat === 0 ||
+            !this.regLng || this.regLng === undefined || this.regLng === 0)
             this.message = "Coordenades not specified. Can't register an user then.";
         else {
             if (!this.myForm.dirty && !this.myForm.valid)
@@ -118,7 +124,7 @@ export class RegisterFormComponent implements OnInit {
             else {
                 this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
                 this.message = "New user sent to be registered. Wait...";
-                this.user.register(this.myForm.value, this.lat, this.lng).subscribe(
+                this.user.register(this.myForm.value, this.regLat, this.regLng).subscribe(
                     () => this.router.navigate(["/login"]),
                     error => this.message = <any>error,
                     () => console.log("Done register call.")
@@ -134,9 +140,9 @@ export class RegisterFormComponent implements OnInit {
     getAddress(place: Object) {
         let address = place["formatted_address"];
         let location = place["geometry"]["location"];
-        this.lat = location.lat();
-        this.lng = location.lng();
-        console.log("place", address, location, this.lat, this.lng);
+        this.regLat = location.regLat();
+        this.regLng = location.regLng();
+        console.log("place", address, location, this.regLat, this.regLng);
     }
 
     // public selected(value: any): void {

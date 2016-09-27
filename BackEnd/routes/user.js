@@ -39,7 +39,7 @@ router.get('/getprofile/:nameUrl', function (req, res, next) {
 });
 
 router.post('/search', function (req, res, next) {
-  if (!req.body.lat || !req.body.lng || !req.body.category || !req.body.radius)
+  if (!req.body.regLat || !req.body.regLng || !req.body.category || !req.body.radius)
     return res.status(400).send("Please pass radius, category, lat and lng.");
   user.search(req.body, function (err, data) {
     if (err)

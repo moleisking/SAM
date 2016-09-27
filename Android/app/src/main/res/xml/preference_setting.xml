@@ -33,6 +33,10 @@
             android:summary="Deletes stored account data. Next time use will require login."
             android:title="Delete stored account"/>
         <Preference
+            android:key="pref_item_profile_refresh"
+            android:summary="Refreshes profile from server."
+            android:title="Profile refresh"/>
+        <Preference
             android:key="pref_item_location"
             android:summary="Deletes stored account data. Next time use will require login."
             android:title="Set default location"/>

@@ -43,10 +43,10 @@
                     android:maxLines="1"
                     android:singleLine="true" /-->
                 <AutoCompleteTextView
-                    android:id="@+id/txtName"
+                    android:id="@+id/txtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_username"
+                    android:hint="Email address"
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true" />

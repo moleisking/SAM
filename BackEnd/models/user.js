@@ -33,28 +33,28 @@ var user = new model("User")
     .attr('admin')
     .attr('email')
     .attr('description')
-    .attr('lat', {
+    .attr('regLat', {
         validations: {
             presence: {
                 message: 'Latitude is required!'
             }
         }
     })
-    .attr('lng', {
+    .attr('regLng', {
         validations: {
             presence: {
                 message: 'Longitude is required!'
             }
         }
     })
-    .attr('currentLat', {
+    .attr('curLat', {
         validations: {
             presence: {
                 message: 'Current Latitude is required!'
             }
         }
     })
-    .attr('currentLng', {
+    .attr('curLng', {
         validations: {
             presence: {
                 message: 'Current Longitude is required!'
