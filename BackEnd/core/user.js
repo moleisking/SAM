@@ -15,7 +15,6 @@ module.exports = {
         var user = model.create();
         user.update(data);
         user.nameurl(toURLString(data.name));
-HEAD
         user.pass(data.pass);
         user.email(data.email);
         user.regLat(data.regLat);
@@ -27,7 +26,6 @@ HEAD
         user.address(data.address);
         user.mobile(data.mobile);
         user.description("");
-cf0ce7352c2e5006fb82f2c5b7ac63e394911b99
         user.image("");
         user.dayRate(0);
         user.hourRate(0);
