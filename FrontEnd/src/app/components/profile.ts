@@ -6,6 +6,7 @@ import { UserService } from "../services/user";
 import { MessageService } from "../services/message";
 import { AuthService } from "../services/auth";
 
+import { ProfileModel } from "../models/profile";
 import { MessageModel } from "../models/message";
 import { UserDefaultImage } from "../config/userdefaultimage";
 
@@ -24,15 +25,7 @@ export class Profile implements OnInit, OnDestroy {
 
     private message: string;
 
-    private description: string;
-    private mobile: string;
-    private address: string;
-    private image: string;
-    private name: string;
-    private nameurl: string;
-    private email: string;
-    private hourRate: number;
-    private dayRate: number;
+    private model: ProfileModel = <ProfileModel>{};
 
     constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService,
         private m: MessageService, private authService: AuthService) { }
@@ -42,15 +35,8 @@ export class Profile implements OnInit, OnDestroy {
             let id = p["id"];
             this.user.getProfile(id).subscribe(
                 profile => {
-                    this.name = profile.name;
-                    this.nameurl = profile.nameurl;
-                    this.email = profile.email;
-                    this.description = profile.description;
-                    this.mobile = profile.mobile;
-                    this.address = profile.address;
-                    this.hourRate = profile.hourRate;
-                    this.dayRate = profile.dayRate;
-                    this.image = profile.image === "" ? this.defaultImage : profile.image;
+                    this.model = profile;
+                    this.model.image = profile.image === "" ? this.defaultImage : profile.image;
                     if (this.authService.isLoggedIn()) {
                         this.user.getMyProfile().subscribe(
                             my => this.itsMe = profile.email === my.email,
@@ -72,7 +58,7 @@ export class Profile implements OnInit, OnDestroy {
     }
 
     sendMessage(messageText: string) {
-        if (!messageText || !this.email || this.email === "undefined")
+        if (!messageText || !this.model.email || this.model.email === "undefined")
             this.message = "Message not valid to be sent.";
         else if (messageText.length < 4 || messageText.length > 500)
             this.message = "Message not cannot be less that 3 characters or bigger than 500.";
@@ -80,8 +66,8 @@ export class Profile implements OnInit, OnDestroy {
             this.message = "Message profile sent...";
 
             let model = new MessageModel();
-            model.to = this.email;
-            model.nameurl = this.nameurl;
+            model.to = this.model.email;
+            model.nameurl = this.model.nameurl;
             model.text = messageText;
 
             this.m.add(model).subscribe(
