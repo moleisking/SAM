@@ -50,8 +50,8 @@ export class RegisterFormComponent implements OnInit {
         // Add listener to the place changed event
         autocomplete.addListener("place_changed", () => {
             let place = autocomplete.getPlace();
-            let regLat = place.geometry.location.lat();
-            let regLng = place.geometry.location.lng();
+            this.regLat = place.geometry.location.lat();
+            this.regLng = place.geometry.location.lng();
             let address = place.formatted_address;
             this.getAddress(place);
         });
@@ -134,8 +134,8 @@ export class RegisterFormComponent implements OnInit {
     getAddress(place: Object) {
         let address = place["formatted_address"];
         let location = place["geometry"]["location"];
-        this.regLat = location.regLat();
-        this.regLng = location.regLng();
+        this.regLat = location.lat();
+        this.regLng = location.lng();
         console.log("place", address, location, this.regLat, this.regLng);
     }
 
