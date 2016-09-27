@@ -37,7 +37,6 @@ export class Dashboard implements OnInit {
         this.getAllMessages();
         this.user.getMyProfile().subscribe(
             profile => {
-                console.log(profile)
                 this.model = profile;
                 this.title = this.model.name;
             },

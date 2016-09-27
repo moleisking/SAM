@@ -33,7 +33,7 @@ export class ProfileFormComponent implements OnInit {
             dayRate: [this.model.dayRate],
             hourRate: [this.model.hourRate]
         });
-        this.image = this.model.image;
+        this.image = this.model.image ? this.model.image : this.defaultImage;
     }
 
     ngAfterViewChecked() {
