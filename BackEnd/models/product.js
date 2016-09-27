@@ -1,7 +1,7 @@
 var model = require('nodejs-model');
 var bCrypt = require('bcrypt-nodejs');
 
-var transaction = new model("Transaction")
+var transaction = new model("Product")
     .attr('userid', {
         validations: {
             presence: {
@@ -9,14 +9,25 @@ var transaction = new model("Transaction")
             }
         }
     })
-    .attr('name', {
+    .attr('image1')
+    .attr('image2')
+    .attr('image3')
+    .attr('image4')
+    .attr('title', {
         validations: {
             presence: {
-                message: 'Name is required!'
+                message: 'Title is required!'
             }
         }
     })
-    .attr('value', {
+    .attr('description', {
+        validations: {
+            presence: {
+                message: 'Description is required!'
+            }
+        }
+    })
+    .attr('price', {
         validations: {
             presence: {
                 message: 'Value is required!'
@@ -29,8 +40,7 @@ var transaction = new model("Transaction")
                     tooLong: 'password is too long!'
                 }
             }
-        },
-        // tags: ['private'] //this tags the accessibility as _private_ 
+        },        
     })
     .attr('datetimestamp', {
         validations: {
@@ -40,4 +50,4 @@ var transaction = new model("Transaction")
         }
     });    
 
-module.exports = transaction;
+module.exports = product;

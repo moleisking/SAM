@@ -38,30 +38,21 @@ import java.io.ObjectOutputStream;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ResponseAPI {
 
-    NavigationView navigationView;
-
-    View headerLayout;
-    ImageView imgAvatar;
-    TextView txtName;
-    TextView txtDescription;
-    String token = "";
-    User mUser;
+    private NavigationView navigationView;
+    private View headerLayout;
+    private ImageView imgAvatar;
+    private TextView txtName;
+    private TextView txtDescription;
+    private UserAccount mUserAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Set up menu GUI
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -76,10 +67,6 @@ public class MainActivity extends AppCompatActivity
         imgAvatar = (ImageView)headerLayout.findViewById(R.id.nav_head_imgAvatar);
         txtName = (TextView)headerLayout.findViewById(R.id.nav_head_txtName);
         txtDescription = (TextView)headerLayout.findViewById(R.id.nav_head_txtDescription);
-        //get user
-
-        token = getIntent().getStringExtra("token");
-        Log.v("MainActivity:Token",token);
 
         //Set default fragment
         FragmentManager fragmentManager = this.getFragmentManager();//this.getSupportFragmentManager()
@@ -88,6 +75,14 @@ public class MainActivity extends AppCompatActivity
                 .commit();
         setTitle("Search");
         Log.v("onCreate()","nav_search");
+
+        //Load user passed from Login
+        try{
+        mUserAccount = new UserAccount(this);
+        mUserAccount = (UserAccount) getIntent().getSerializableExtra("UserAccount");
+        //mUserAccount.fromString( getIntent().getStringExtra("UserAccount"));
+        Log.v("Main:UserAccount",mUserAccount.toString());}catch (Exception ex){Log.v("onCreate():User",ex.getMessage());}
+
     }
 
 
@@ -158,8 +153,10 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_setting)
         {
             Log.v("NavigationItemSelected","nav_setting");
+            SettingFragment settingFragment = new SettingFragment();
+            settingFragment.setUserAccount(mUserAccount);
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame , new SettingFragment())
+                    .replace(R.id.content_frame , settingFragment)
                     .commit();
             setTitle("Settings");
         }
@@ -188,32 +185,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void processFinish(String output)
     {
-        //Here you will receive the result fired from async class
-        //Example Reply: {
-        //"data": {
-        //  "name": "username",
-        //  "pass": "$2a$10$oCHXQeU4SsMCquduC2E8Y.ehM7vrzKQJmUz0PuZTlvbAjijLam4O6"
-        //  }
-        //}
         Log.w("processFinish", output);
         String name = "",pass="";
         try
         {
             JSONObject myJson = new JSONObject(output);
-            mUser = new User();
-            mUser.setName(myJson.optString("name"));
-            mUser.setDescription(myJson.optString("description"));
-            mUser.setAddress(myJson.optString("address"));
-            mUser.setHourRate(Double.parseDouble(myJson.optString("hour_rate")));
-            mUser.setDayRate(Double.parseDouble(myJson.optString("day_rate")));
-            mUser.setRegisteredLongitude(Double.parseDouble(myJson.optString("registered_longitude")));
-            mUser.setRegisteredLatitude(Double.parseDouble(myJson.optString("registered_latitude")));
-            mUser.setImageAsBase64(myJson.optString("image"));
+            mUserAccount.setName(myJson.optString("name"));
+            mUserAccount.setDescription(myJson.optString("description"));
+            mUserAccount.setAddress(myJson.optString("address"));
+            mUserAccount.setHourRate(Double.parseDouble(myJson.optString("hour_rate")));
+            mUserAccount.setDayRate(Double.parseDouble(myJson.optString("day_rate")));
+            mUserAccount.setRegisteredLongitude(Double.parseDouble(myJson.optString("registered_longitude")));
+            mUserAccount.setRegisteredLatitude(Double.parseDouble(myJson.optString("registered_latitude")));
+            mUserAccount.setImageAsBase64(myJson.optString("image"));
 
             //Set Navigation Profile
-            txtName.setText(mUser.getName());
-            txtDescription.setText(mUser.getDescription());
-            imgAvatar.setImageBitmap(mUser.getImageAsBitmap());
+            txtName.setText(mUserAccount.getName());
+            txtDescription.setText(mUserAccount.getDescription());
+            imgAvatar.setImageBitmap(mUserAccount.getImageAsBitmap());
         }
         catch (Exception ex)
         {
@@ -276,8 +265,8 @@ public class MainActivity extends AppCompatActivity
         {
             //Get file from Post Call
             Log.v("LoadProfile","From Post");
-            String url = getResources().getString(R.string.net_profile_url); //"http://192.168.1.100:3003/api/profile";
-            String parameters = "token="+ token;
+            String url = getResources().getString(R.string.net_login_profile_url); //"http://192.168.1.100:3003/api/profile";
+            String parameters = "token="+ mUserAccount.getToken();
             PostAPI asyncTask =new PostAPI(this);
             asyncTask.delegate = this;
             asyncTask.execute(url,parameters,"");
@@ -285,9 +274,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void SaveProfile()
+    /*private void SaveProfile()
     {
-       /* User user = new User();
+        User user = new User();
         user.setName(txtName.getText());
         user.setMobile();
         user.setEmail();
@@ -298,13 +287,13 @@ public class MainActivity extends AppCompatActivity
         user.setRegisteredLatitude();
         user.setRegisteredLongitude();
         user.setCurrentLatitude();
-        user.setCurrentLongitude();*/
+        user.setCurrentLongitude();
 
         try
         {
-            FileOutputStream fos = openFileOutput("profile.dat" , Context.MODE_PRIVATE);
+            FileOutputStream fos = openFileOutput("user_account.dat" , Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
-            os.writeObject(mUser);
+            os.writeObject(mUserAccount);
             os.close();
             fos.close();
         }
@@ -312,7 +301,7 @@ public class MainActivity extends AppCompatActivity
         {
             Log.v("SaveProfile",e.getMessage());
         }
-    }
+    }*/
 
 
 }
