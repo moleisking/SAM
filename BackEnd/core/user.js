@@ -15,16 +15,8 @@ module.exports = {
         var user = model.create();
         user.update(data);
         user.nameurl(toURLString(data.name));
-        user.pass(data.pass);
-        user.email(data.email);
-        user.regLat(data.regLat);
-        user.regLng(data.regLng);
-        user.curLat(data.curLat);
-        user.curLng(data.curLng);
-        user.category(data.category);
-        user.tags(data.tags);
-        user.address(data.address);
-        user.mobile(data.mobile);
+        user.curLat(data.regLat);
+        user.curLng(data.regLng);
         user.description("");
         user.image("");
         user.dayRate(0);

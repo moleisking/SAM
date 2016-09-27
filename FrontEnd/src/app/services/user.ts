@@ -13,7 +13,7 @@ export class UserService {
 
   register(user: UserModel, regLat: any, regLng: any): Observable<any> {
     let body = "name=" + user.name + "&pass=" + user.pass + "&email=" + user.email
-      + "&regLat=" + regLat + "&regLng=" + regLng  + "&curLat=" + regLat + "&curLng=" + regLng  
+      + "&regLat=" + regLat + "&regLng=" + regLng
       + "&category=" + user.category + "&tags=" + user.tags
       + "&address=" + user.address + "&mobile=" + user.mobile;
     let headers = new Headers();
