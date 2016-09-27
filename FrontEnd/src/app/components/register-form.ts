@@ -24,8 +24,6 @@ export class RegisterFormComponent implements OnInit {
     private message: string;
     private regLat: number;
     private regLng: number;
-    private curLat: number;
-    private curLng: number;
     private cats: Array<CategoryModel>;
     private tags: Array<TagModel>;
     private tagsValue: any = [];
@@ -37,8 +35,6 @@ export class RegisterFormComponent implements OnInit {
         this.message = "Register messages will be here.";
         this.regLat = 0;
         this.regLng = 0;
-        this.curLat = 0;
-        this.curLng = 0;
     }
 
     ngOnInit() {
@@ -56,8 +52,6 @@ export class RegisterFormComponent implements OnInit {
             let place = autocomplete.getPlace();
             let regLat = place.geometry.location.lat();
             let regLng = place.geometry.location.lng();
-            let curLat = regLat;
-            let curLng = regLng;
             let address = place.formatted_address;
             this.getAddress(place);
         });
