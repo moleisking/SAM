@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
 
 import { UserService } from "../services/user";
 import { UserDefaultImage } from "../config/userdefaultimage";
+import { ProfileModel } from "../models/profile";
 
 @Component({
     selector: "profile-form-component",
@@ -13,35 +14,26 @@ import { UserDefaultImage } from "../config/userdefaultimage";
 })
 
 export class ProfileFormComponent implements OnInit {
+    @Input() model: ProfileModel = new ProfileModel();
+    private image: string;
 
     private myForm: FormGroup;
-
     private defaultImage = UserDefaultImage.image;
-
     private message: string;
-    private description: string;
-    private mobile: string;
-    private address: string;
-    private image: string;
-    private dayRate: number;
-    private hourRate: number;
-    private score: number;
-    private credit: number;
 
     constructor(private user: UserService, private formBuilder: FormBuilder) {
         this.message = "Profile form messages will be here.";
     }
 
     ngOnInit() {
-        this.getMyProfile();
         this.myForm = this.formBuilder.group({
-            description: [this.description, Validators.required],
-            address: [this.address, Validators.required],
-            image: [this.image],
-            mobile: [this.mobile],
-            dayRate: [this.dayRate],
-            hourRate: [this.hourRate]
+            description: [this.model.description, Validators.required],
+            address: [this.model.address, Validators.required],
+            mobile: [this.model.mobile],
+            dayRate: [this.model.dayRate],
+            hourRate: [this.model.hourRate]
         });
+        this.image = this.model.image;
     }
 
     ngAfterViewChecked() {
@@ -50,18 +42,14 @@ export class ProfileFormComponent implements OnInit {
                 .addEventListener("change", e => { this.readImage(e); }, false);
     }
 
-    getMyProfile() {
-        this.user.getMyProfile().subscribe(
-            profile => {
-                this.image = profile.image === "" ? this.defaultImage : profile.image;
-                this.description = profile.description;
-                this.mobile = profile.mobile;
-                this.address = profile.address;
-                this.dayRate = profile.dayRate;
-                this.hourRate = profile.hourRate;
-            },
-            error => this.message = <any>error);
-    }
+    // getMyProfile() {
+    //     this.user.getMyProfile().subscribe(
+    //         profile => {
+    //             this.model = profile;
+    //             this.model.image = profile.image === "" ? this.defaultImage : profile.image;
+    //         },
+    //         error => this.message = <any>error);
+    // }
 
     readImage(e: any) {
         let fileName = e.target.files[0];

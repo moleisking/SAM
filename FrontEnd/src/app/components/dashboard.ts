@@ -19,28 +19,29 @@ import { ProfileModel } from "../models/profile";
 
 export class Dashboard implements OnInit {
 
-    private message: string;
-    private messageUsers: string;
-    private messageMessages: string;
+    private title: string;
+    private errorUsers: string;
+    private errorMessages: string;
 
     private usersList: UserModel[];
     private messagesList: MessageModel[];
-    private me: ProfileModel;
+    private model: ProfileModel;
 
     constructor(private authService: AuthService, private user: UserService, private router: Router,
         private messages: MessageService) {
-        this.message = "My Dashboard in SAM";
+        this.title = "My Dashboard in SAM";
     }
 
     ngOnInit() {
         this.getAllUsers();
         this.getAllMessages();
         this.user.getMyProfile().subscribe(
-            p => {
-                this.me = p;
-                this.message = this.me.name;
+            profile => {
+                console.log(profile)
+                this.model = profile;
+                this.title = this.model.name;
             },
-            error => this.messageUsers = <any>error,
+            error => this.errorUsers = <any>error,
             () => console.log("Done get my profile.")
         );
     }
@@ -53,7 +54,7 @@ export class Dashboard implements OnInit {
     getAllUsers() {
         this.user.all().subscribe(
             users => this.usersList = users,
-            error => this.messageUsers = <any>error,
+            error => this.errorUsers = <any>error,
             () => console.log("Done get all users.")
         );
     }
@@ -63,9 +64,9 @@ export class Dashboard implements OnInit {
             ml => {
                 this.messagesList = ml;
                 if (ml.length === 0)
-                    this.messageMessages = "You have no messages yet.";
+                    this.errorMessages = "You have no messages yet.";
             },
-            error => this.messageMessages = <any>error,
+            error => this.errorMessages = <any>error,
             () => console.log("Done get all messages.")
         );
     }
