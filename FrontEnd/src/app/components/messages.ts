@@ -41,7 +41,7 @@ export class Messages implements OnInit, OnDestroy {
         private sanitizer: DomSanitizationService,
         private m: MessageService,
         private authService: AuthService
-        ) { }
+    ) { }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(p => {
@@ -53,23 +53,20 @@ export class Messages implements OnInit, OnDestroy {
                     this.email = profile.email;
                     this.image = profile.image === "" ? this.defaultImage : profile.image;
                     this.message = "Loading your messages...";
-                    // setInterval(() => {
-                        // if (location.pathname.indexOf("/messages/") !== -1)
-                            this.messages$ = this.m.readWith(profile.nameurl).subscribe(
-                                messages => {
-                                    messages.forEach(element => {
-                                        if (element.from === profile.email)
-                                            element.from = profile.name;
-                                        else
-                                            element.from = "Me";
-                                    });
-                                    this.messages = messages;
-                                    this.message = "";
-                                },
-                                error => this.message = <any>error,
-                                () => console.log("Done get messages")
-                            );
-                    // }, 5000);
+                    this.messages$ = this.m.readWith(profile.nameurl).subscribe(
+                        messages => {
+                            messages.forEach(element => {
+                                if (element.from === profile.email)
+                                    element.from = profile.name;
+                                else
+                                    element.from = "Me";
+                            });
+                            this.messages = messages;
+                            this.message = "";
+                        },
+                        error => this.message = <any>error,
+                        () => console.log("Done get messages")
+                    );
                 },
                 error => this.message = <any>error,
                 () => console.log("Done get profile")
