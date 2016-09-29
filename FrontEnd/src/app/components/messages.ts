@@ -81,7 +81,6 @@ export class Messages implements OnInit, OnDestroy {
         this.sub.unsubscribe();
         this.getProfile$.unsubscribe();
         this.messages$.unsubscribe();
-        console.log("all gone")
     }
 
     sendMessage(messageText: string) {
