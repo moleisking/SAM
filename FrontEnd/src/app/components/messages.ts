@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DomSanitizationService } from "@angular/platform-browser";
+import { Observable, Subscription } from "rxjs/Rx";
 
 import { UserService } from "../services/user";
 import { MessageService } from "../services/message";
 import { AuthService } from "../services/auth";
 
 import { MessageModel } from "../models/message";
+import { ProfileModel } from "../models/profile";
 import { UserDefaultImage } from "../config/userdefaultimage";
 
 declare var jQuery: any;
@@ -19,7 +21,10 @@ declare var jQuery: any;
 export class Messages implements OnInit, OnDestroy {
 
     @ViewChild("messagetext") messageText: ElementRef;
-    private sub: any;
+    private sub: Subscription;
+    private getProfile$: Subscription;
+    private messages$: Subscription;
+
     private defaultImage = UserDefaultImage.image;
     private itsMe: boolean;
 
@@ -30,22 +35,27 @@ export class Messages implements OnInit, OnDestroy {
     private email: string;
     private messages: MessageModel[];
 
-    constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService,
-        private m: MessageService, private authService: AuthService) { }
+    constructor(
+        private route: ActivatedRoute,
+        private user: UserService,
+        private sanitizer: DomSanitizationService,
+        private m: MessageService,
+        private authService: AuthService
+        ) { }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(p => {
             let id = p["id"];
-            this.user.getProfile(id).subscribe(
+            this.getProfile$ = this.user.getProfile(id).cache().subscribe(
                 profile => {
                     this.name = profile.name;
                     this.nameurl = profile.nameurl;
                     this.email = profile.email;
                     this.image = profile.image === "" ? this.defaultImage : profile.image;
                     this.message = "Loading your messages...";
-                    setInterval(() => {
-                        if (location.pathname.indexOf("/messages/") !== -1)
-                            this.m.readWith(profile.nameurl).subscribe(
+                    // setInterval(() => {
+                        // if (location.pathname.indexOf("/messages/") !== -1)
+                            this.messages$ = this.m.readWith(profile.nameurl).subscribe(
                                 messages => {
                                     messages.forEach(element => {
                                         if (element.from === profile.email)
@@ -59,7 +69,7 @@ export class Messages implements OnInit, OnDestroy {
                                 error => this.message = <any>error,
                                 () => console.log("Done get messages")
                             );
-                    }, 5000);
+                    // }, 5000);
                 },
                 error => this.message = <any>error,
                 () => console.log("Done get profile")
@@ -69,6 +79,9 @@ export class Messages implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.sub.unsubscribe();
+        this.getProfile$.unsubscribe();
+        this.messages$.unsubscribe();
+        console.log("all gone")
     }
 
     sendMessage(messageText: string) {

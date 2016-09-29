@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
+
 import { Settings } from "../config/settings";
 import { MessageModel } from "../models/message";
 
@@ -36,8 +37,9 @@ export class MessageService {
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(Settings.backend_url + "/messages/read/" + name, options)
-            .map(this.extractData).catch(this.handleError);
+        return Observable.interval(5000)
+            .flatMap(() => this.http.get(Settings.backend_url + "/messages/read/" + name, options)
+            .map(this.extractData).catch(this.handleError));
     }
 
     private extractData(res: Response) {
