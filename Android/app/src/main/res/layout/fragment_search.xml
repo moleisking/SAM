@@ -52,16 +52,15 @@
             android:text="50km" />
 
     </RadioGroup>
-
+    <!--Event handled in content_main.xml and MainActivity:onFragmentViewClick-->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:clickable="true"
         android:background="@color/colorPrimary"
         android:src="@drawable/ic_search_black_24dp"
-        android:onClick="onSearchClick">
+        android:layout_gravity="bottom|end">
     </android.support.design.widget.FloatingActionButton>
 
 </LinearLayout>

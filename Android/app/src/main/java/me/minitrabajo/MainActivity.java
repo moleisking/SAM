@@ -36,7 +36,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ResponseAPI {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private NavigationView navigationView;
     private View headerLayout;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Set up menu GUI
+        //Set up toolbar and drawer menu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -71,18 +71,22 @@ public class MainActivity extends AppCompatActivity
         //Set default fragment
         FragmentManager fragmentManager = this.getFragmentManager();//this.getSupportFragmentManager()
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame , new SearchFragment())
+                .replace(R.id.content_frame , new SettingFragment())
                 .commit();
         setTitle("Search");
         Log.v("onCreate()","nav_search");
 
-        //Load user passed from Login
+        //Load user passed from login via file or token pass
         try{
-        mUserAccount = new UserAccount(this);
-        mUserAccount = (UserAccount) getIntent().getSerializableExtra("UserAccount");
-        //mUserAccount.fromString( getIntent().getStringExtra("UserAccount"));
-        Log.v("Main:UserAccount",mUserAccount.toString());}catch (Exception ex){Log.v("onCreate():User",ex.getMessage());}
+            //Get sent object
+            mUserAccount = new UserAccount(this);
+            mUserAccount = (UserAccount) getIntent().getSerializableExtra("UserAccount");
 
+            //Set View Header Fields
+            imgAvatar.setImageBitmap(mUserAccount.getImageAsBitmap());
+            txtName.setText(mUserAccount.getName());
+            txtDescription.setText(mUserAccount.getDescription());
+        }catch (Exception ex){Log.v("onCreate():User",ex.getMessage());}
     }
 
 
@@ -128,11 +132,17 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_profile)
         {
             Log.v("NavigationItemSelected","nav_profile");// Handle the camera action
+            User user=mUserAccount.getUser();
+            getIntent().putExtra("User",user );
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame , new ProfileFragment())
                     .commit();
             setTitle("Profile");
-
+/*try{
+           User u = (User)mUserAccount;
+u.print();
+    mUserAccount.print();
+} catch (Exception ex){Log.v("PRINT USER",ex.getMessage());}*/
         }
         else if (id == R.id.nav_search)
         {
@@ -153,10 +163,11 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_setting)
         {
             Log.v("NavigationItemSelected","nav_setting");
-            SettingFragment settingFragment = new SettingFragment();
-            settingFragment.setUserAccount(mUserAccount);
+            //SettingFragment settingFragment = new SettingFragment();
+            //settingFragment.setUserAccount(mUserAccount);
+            getIntent().putExtra("UserAccount", mUserAccount);
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame , settingFragment)
+                    .replace(R.id.content_frame , new SettingFragment())
                     .commit();
             setTitle("Settings");
         }
@@ -182,126 +193,27 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void processFinish(String output)
-    {
-        Log.w("processFinish", output);
-        String name = "",pass="";
-        try
-        {
-            JSONObject myJson = new JSONObject(output);
-            mUserAccount.setName(myJson.optString("name"));
-            mUserAccount.setDescription(myJson.optString("description"));
-            mUserAccount.setAddress(myJson.optString("address"));
-            mUserAccount.setHourRate(Double.parseDouble(myJson.optString("hour_rate")));
-            mUserAccount.setDayRate(Double.parseDouble(myJson.optString("day_rate")));
-            mUserAccount.setRegisteredLongitude(Double.parseDouble(myJson.optString("registered_longitude")));
-            mUserAccount.setRegisteredLatitude(Double.parseDouble(myJson.optString("registered_latitude")));
-            mUserAccount.setImageAsBase64(myJson.optString("image"));
-
-            //Set Navigation Profile
-            txtName.setText(mUserAccount.getName());
-            txtDescription.setText(mUserAccount.getDescription());
-            imgAvatar.setImageBitmap(mUserAccount.getImageAsBitmap());
-        }
-        catch (Exception ex)
-        {
-            Log.w("Register:ProFin", ex.getMessage());
-        }
-
-    }
-
     public void onFragmentViewClick(View v) {
+        //Handles onclick events from xml Fragments FloatingActionButton
         Fragment fragment = getFragmentManager().findFragmentById(R.id.content_frame);
         if (fragment != null && fragment.isVisible()) {
             if (fragment instanceof ProfileFragment) {
-                Log.w("MainActivity", "ProfileFragment");
+                Log.w("MainActivity", "ProfileFragmentClick");
                 ((ProfileFragment) fragment).onMessageClick(v);
             }
             else if (fragment instanceof SearchFragment) {
-                Log.w("MainActivity", "SearchFragment");
+                Log.w("MainActivity", "SearchFragmentClick");
                 ((SearchFragment) fragment).onSearchClick(v);
             }
             else if (fragment instanceof SettingFragment) {
-                Log.w("MainActivity", "SettingFragment");
+                Log.w("MainActivity", "SettingFragmentClick");
                 ((SettingFragment) fragment).onSaveClick(v);
             }
             else if (fragment instanceof AboutFragment) {
-                Log.w("MainActivity", "AboutFragment");
+                Log.w("MainActivity", "AboutFragmentClick");
                 ((AboutFragment) fragment).onEmailClick(v);
             }
         }
     }
-
-    private void LoadProfile()
-    {
-        User user;
-
-        File file = new File("profile.dat");
-        if(file.exists())
-        {
-            Log.v("LoadProfile","From File");
-            try
-            {
-                //Get stored file
-                FileInputStream fis = openFileInput("profile.dat");
-                ObjectInputStream is = new ObjectInputStream(fis);
-                user = (User) is.readObject();
-                is.close();
-                fis.close();
-
-                //Set View Header Fields
-                imgAvatar.setImageBitmap(user.getImageAsBitmap());
-                txtName.setText(user.getName());
-                txtDescription.setText(user.getDescription());
-
-            }
-            catch (Exception e)
-            {
-                Log.v("LoadProfile",e.getMessage());
-            }
-        }
-        else
-        {
-            //Get file from Post Call
-            Log.v("LoadProfile","From Post");
-            String url = getResources().getString(R.string.net_login_profile_url); //"http://192.168.1.100:3003/api/profile";
-            String parameters = "token="+ mUserAccount.getToken();
-            PostAPI asyncTask =new PostAPI(this);
-            asyncTask.delegate = this;
-            asyncTask.execute(url,parameters,"");
-        }
-
-    }
-
-    /*private void SaveProfile()
-    {
-        User user = new User();
-        user.setName(txtName.getText());
-        user.setMobile();
-        user.setEmail();
-        user.setAddress();
-        user.setDescription();
-        user.setHourRate();
-        user.setDayRate()
-        user.setRegisteredLatitude();
-        user.setRegisteredLongitude();
-        user.setCurrentLatitude();
-        user.setCurrentLongitude();
-
-        try
-        {
-            FileOutputStream fos = openFileOutput("user_account.dat" , Context.MODE_PRIVATE);
-            ObjectOutputStream os = new ObjectOutputStream(fos);
-            os.writeObject(mUserAccount);
-            os.close();
-            fos.close();
-        }
-        catch (Exception e)
-        {
-            Log.v("SaveProfile",e.getMessage());
-        }
-    }*/
-
 
 }

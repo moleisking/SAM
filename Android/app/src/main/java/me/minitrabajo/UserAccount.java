@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.NotSerializableException;
@@ -21,54 +22,58 @@ import java.io.Serializable;
  */
 public class UserAccount extends User implements Serializable
 {
-    private String mToken ="";
     private static final String PREFERENCE_FILE_NAME = "minitrabajo_shared_preferences";
     private static final String USER_ACCOUNT_FILE_NAME = "user_account.dat";
-    private static final String TOKEN_NAME = "token";
     private transient Context mContext;
     private transient SharedPreferences mSharedPreference;
-
-    /*public UserAccount()
-    {
-        mToken = "";
-        mSharedPreference = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-    }*/
+    private String mToken ="";
 
     public UserAccount(Context context)
     {
-        //super();
+        super(context);
         mToken = "";
         mContext = context;
         mSharedPreference = mContext.getSharedPreferences(PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
     }
 
      /*
-    *   Token Object
+    *   Value Object
+    * */
+
+    public User getUser()
+    {
+        User user = new User(mContext);
+        user.setID(this.getID());
+        user.setType(this.getType());
+        user.setName(this.getName());
+        user.setDescription(this.getDescription());
+        user.setAddress(this.getAddress());
+        user.setMobile(this.getMobile());
+        user.setCategory(this.getCategory());
+        user.setTags(this.getTags());
+        user.setEmail(this.getEmail());
+        user.setCurrentLatitude(this.getCurrentLatitude());
+        user.setCurrentLongitude(this.getCurrentLongitude());
+        user.setRegisteredLatitude(this.getRegisteredLatitude());
+        user.setRegisteredLongitude(this.getRegisteredLongitude());
+        user.setDayRate(this.getDayRate());
+        user.setHourRate(this.getHourRate());
+        user.setImageRaw(this.getImageRaw());
+        return user;
+    }
+
+    /*
+    *   Properties
     * */
 
     public String getToken()
     {
-        if (!hasToken())
-        {
-            //Get previously stored token
-            mToken = mSharedPreference.getString(TOKEN_NAME,"");
-            return mToken;
-        }
-        else
-        {
-            //Return empty string
-            Log.v("UserAccount","No token found");
-            return mToken;
-        }
+        return mToken;
     }
 
     public void setToken(String token)
     {
-        //Store token locally
         this.mToken = token;
-        SharedPreferences.Editor editor = mSharedPreference.edit();
-        editor.putString(TOKEN_NAME, token);
-        editor.commit();
     }
 
     /*
@@ -80,11 +85,20 @@ public class UserAccount extends User implements Serializable
         return mToken != null && !mToken.equals("") ? true : false;
     }
 
-    public void deleteToken()
+    public boolean hasFile()
     {
-        setToken("");
+        File f = new File(USER_ACCOUNT_FILE_NAME);
+        return f.exists();
     }
 
+    public void deleteFile()
+    {
+        setToken("");
+        File f = new File(USER_ACCOUNT_FILE_NAME);
+        f.delete();
+    }
+
+    @Override
     public void setContext(Context context)
     {
         this.mContext = context;
@@ -111,6 +125,7 @@ public class UserAccount extends User implements Serializable
         }
     }
 
+    @Override
     public String saveToString()
     {
         String output = "";
@@ -162,7 +177,7 @@ public class UserAccount extends User implements Serializable
             //this.setDayRate(Double.parseDouble(ua.getDayRate(")));
             //this.setRegisteredLongitude(Double.parseDouble(ua.getRegisteredLongitude()));
             //this.setRegisteredLatitude(Double.parseDouble(ua.getRegisteredLatitude()));
-            this.setImage(ua.getImage());
+            this.setImageRaw(ua.getImageRaw());
 
         }
         catch (Exception e)
@@ -171,6 +186,7 @@ public class UserAccount extends User implements Serializable
         }
     }
 
+    @Override
     public void loadFromString( String str )
     {
         try
@@ -192,7 +208,7 @@ public class UserAccount extends User implements Serializable
             //this.setDayRate(Double.parseDouble(ua.getDayRate(")));
             //this.setRegisteredLongitude(Double.parseDouble(ua.getRegisteredLongitude()));
             //this.setRegisteredLatitude(Double.parseDouble(ua.getRegisteredLatitude()));
-            this.setImage(ua.getImage());
+            this.setImageRaw(ua.getImageRaw());
         }
         catch (Exception ex)
         {
@@ -200,6 +216,7 @@ public class UserAccount extends User implements Serializable
         }
     }
 
+    @Override
     public void loadFromJSON(String json)
     {
         try
@@ -217,11 +234,47 @@ public class UserAccount extends User implements Serializable
             //this.setDayRate(Double.parseDouble(data.getString("day_rate")));
             //this.setRegisteredLongitude(Double.parseDouble(data.getString("reglat")));
             //this.setRegisteredLatitude(Double.parseDouble(data.getString("reglon")));
-            this.setImage(this.getImageFromRawString(data.getString("image")));
+            this.setImageRaw(data.getString("image"));
         }
         catch (Exception ex)
         {
-
+            Log.v("UserAccount:JSON", ex.getMessage());
         }
+    }
+
+    @Override
+    public void print()
+    {
+        Log.v("UserAccount", "Object");
+        Log.v("ID", String.valueOf(this.getID()));
+        Log.v("Name" , this.getName());
+        Log.v("Description" , this.getDescription());
+        Log.v("Address", this.getAddress());
+        Log.v("Mobile", this.getMobile());
+        Log.v("HourRate",String.valueOf(this.getHourRate()));
+        Log.v("DayRate",String.valueOf(this.getDayRate()));
+        Log.v("CurrentLongitude",String.valueOf(this.getCurrentLongitude()));
+        Log.v("CurrentLatitude",String.valueOf(this.getCurrentLatitude()));
+        Log.v("RegisteredLongitude",String.valueOf(this.getRegisteredLongitude()));
+        Log.v("RegisteredLatitude",String.valueOf(this.getRegisteredLatitude()));
+        Log.v("ImageRaw",this.getImageRaw());
+        Log.v("Token",this.getToken());
+    }
+
+    public void test()
+    {
+        //Copy data to this object
+        this.setName("Name");
+        this.setDescription("Description");
+        this.setEmail("email@domain.com");
+        this.setAddress("Address");
+        this.setMobile("555");
+        //this.setCategory(ua.setCategory());
+        //this.setTags(ua.getTags());
+        //this.setHourRate(Double.parseDouble(ua.getHourRate()));
+        //this.setDayRate(Double.parseDouble(ua.getDayRate(")));
+        //this.setRegisteredLongitude(Double.parseDouble(ua.getRegisteredLongitude()));
+        //this.setRegisteredLatitude(Double.parseDouble(ua.getRegisteredLatitude()));
+        this.setImageRaw("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2NjIpLCBxdWFsaXR5ID0gODUK/9sAQwAFAwQEBAMFBAQEBQUFBgcMCAcHBwcPCwsJDBEPEhI");
     }
 }

@@ -1,10 +1,14 @@
 package me.minitrabajo;
 
+/*
+*  private FloatingActionButton btnSearch; not necessary due to events being passed back to MainActivity in onFragmentViewClick
+* */
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.app.Fragment;
 //import android.support.v4.app.Fragment;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,7 +25,6 @@ public class SearchFragment extends Fragment implements ResponseAPI{
 
     private TextView txtSearch;
     private RadioGroup radRadius;
-    private FloatingActionButton btnSearch;
     private Users mUsers;
 
     @Override
@@ -35,7 +38,7 @@ public class SearchFragment extends Fragment implements ResponseAPI{
         //Define Objects
         txtSearch = (TextView)container.findViewById(R.id.txtName);
         radRadius = (RadioGroup) container.findViewById(R.id.radRadius);
-        btnSearch = (FloatingActionButton)container.findViewById(R.id.btnRegister);
+        //btnSearch = (FloatingActionButton)container.findViewById(R.id.btnRegister);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
@@ -76,7 +79,7 @@ public class SearchFragment extends Fragment implements ResponseAPI{
     protected void onSearchClick(View view)
     {
         Log.v("Search:onSearchClick()","Post");
-        String url = getResources().getString(R.string.net_search_url); //"http://192.168.1.100:3003/api/profile";
+        String url = getResources().getString(R.string.url_post_search);
         String parameters = "search="+ txtSearch.getText() + "&radius="+radRadius;
         PostAPI asyncTask =new PostAPI(this.getActivity());
         asyncTask.delegate = this;
