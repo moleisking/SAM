@@ -19,8 +19,8 @@ export class Home implements OnInit {
     private cats: Array<CategoryModel>;
     private message: string;
 
-    private regLat: number;
-    private regLng: number;
+    private lat: number;
+    private lng: number;
     private category: number;
     private radius: number = 5;
 
@@ -29,9 +29,9 @@ export class Home implements OnInit {
     getAddress(place: Object) {
         let address = place["formatted_address"];
         let location = place["geometry"]["location"];
-        this.regLat = location.lat();
-        this.regLng = location.lng();
-        console.log("place", address, location, this.regLat, this.regLng);
+        this.lat = location.lat();
+        this.lng = location.lng();
+        console.log("place", address, location, this.lat, this.lng);
     }
 
     getCategories() {
@@ -65,8 +65,8 @@ export class Home implements OnInit {
         // Add listener to the place changed event
         autocomplete.addListener("place_changed", () => {
             let place = autocomplete.getPlace();
-            this.regLat = place.geometry.location.lat();
-            this.regLng = place.geometry.location.lng();
+            this.lat = place.geometry.location.lat();
+            this.lng = place.geometry.location.lng();
             let address = place.formatted_address;
             this.getAddress(place);
         });
@@ -75,10 +75,10 @@ export class Home implements OnInit {
     }
 
     search() {
-        if (!this.regLat || !this.regLng)
+        if (!this.lat || !this.lng)
             this.message = "Please, select a city.";
         else {
-            this.user.search(this.regLat, this.regLng, this.category, this.radius).subscribe(
+            this.user.search(this.lat, this.lng, this.category, this.radius).subscribe(
                 (users) => {
                     console.log(users);
                     this.users = users;
