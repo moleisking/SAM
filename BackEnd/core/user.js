@@ -192,9 +192,12 @@ module.exports = {
             module.exports.all(function (err, readAll) {
                 if (err)
                     return cb(err, null);
-                var result = readAll.filter(function (item) {
-                    if (item.category === data.category && (dist.CalcDist(item, data) < parseInt(data.radius)))
-                        return item;
+                var result = readAll.filter(function (user) {
+                    if (user.category === data.category &&
+                        ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) || 
+                        (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
+                    )
+                        return user;
                 });
                 myCache.set(cachename, result, function (err, success) {
                     if (err)

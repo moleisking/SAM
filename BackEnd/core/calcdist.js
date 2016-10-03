@@ -1,18 +1,18 @@
 module.exports = {
 
-    CalcDist: function (coords1, coords2) {
+    CalcDist: function (userLat, userLng, placeMap) {
         var m = module.exports;
         var R = 6371; // km
 
-        var dLat = m.toRad(parseFloat(coords2.regLat) - parseFloat(coords1.regLat));
-        var dLon = m.toRad(parseFloat(coords2.regLng) - parseFloat(coords1.regLng));
-        var lat1 = m.toRad(parseFloat(coords1.regLat));
-        var lat2 = m.toRad(parseFloat(coords2.regLat));
+        var dLat = m.toRad(parseFloat(placeMap.regLat) - parseFloat(userLat));
+        var dLon = m.toRad(parseFloat(placeMap.regLng) - parseFloat(userLng));
+        var lat1 = m.toRad(parseFloat(userLat));
+        var lat2 = m.toRad(parseFloat(placeMap.regLat));
 
-        /*var dLat = m.toRad(parseFloat(coords2.lat) - parseFloat(coords1.currentLat));
-        var dLon = m.toRad(parseFloat(coords2.lng) - parseFloat(coords1.currentLng));
-        var lat1 = m.toRad(parseFloat(coords1.currentLat));
-        var lat2 = m.toRad(parseFloat(coords2.lat));*/
+        /*var dLat = m.toRad(parseFloat(placeMap.lat) - parseFloat(user.currentLat));
+        var dLon = m.toRad(parseFloat(placeMap.lng) - parseFloat(user.currentLng));
+        var lat1 = m.toRad(parseFloat(user.currentLat));
+        var lat2 = m.toRad(parseFloat(placeMap.lat));*/
 
         var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
