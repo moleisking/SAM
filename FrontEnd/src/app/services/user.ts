@@ -29,7 +29,7 @@ export class UserService {
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let c = "description=" + profileform.description + "&address=" + profileform.address
       + "&mobile=" + profileform.mobile + "&image=" + image + "&dayRate=" + profileform.dayRate
-      + "&hourRate=" + profileform.hourRate;
+      + "&hourRate=" + profileform.hourRate + "&curLat=" + profileform.curLat + "&curLng=" + profileform.curLng;
 
     return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }

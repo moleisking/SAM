@@ -9,6 +9,10 @@ var profile = new model("Profile")
     .attr('image')
     .attr('hourRate')
     .attr('dayRate')
+    .attr('regLng')
+    .attr('regLat')
+    .attr('curLat')
+    .attr('curLng')
     .attr('mobile');
 
 module.exports = profile;

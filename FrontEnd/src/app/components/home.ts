@@ -62,13 +62,8 @@ export class Home implements OnInit {
 
         let autocomplete = new google.maps.places.Autocomplete(searchBox, options);
 
-        // Add listener to the place changed event
         autocomplete.addListener("place_changed", () => {
-            let place = autocomplete.getPlace();
-            this.lat = place.geometry.location.lat();
-            this.lng = place.geometry.location.lng();
-            let address = place.formatted_address;
-            this.getAddress(place);
+            this.getAddress(autocomplete.getPlace());
         });
 
         this.getCategories();

@@ -101,6 +101,8 @@ module.exports = {
     },
 
     saveProfile: function (email, data, cb) {
+        if (email === null)
+            return cb("Must provide a valid email.", null);
         userDAL.read(email, function (err, userData) {
             if (err)
                 return cb(err, null);
@@ -194,8 +196,8 @@ module.exports = {
                     return cb(err, null);
                 var result = readAll.filter(function (user) {
                     if (user.category === data.category &&
-                        ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) || 
-                        (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
+                        ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) ||
+                            (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
                     )
                         return user;
                 });

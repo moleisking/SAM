@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
+import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { Validators } from "@angular/common";
 
 import { UserService } from "../services/user";
 import { UserDefaultImage } from "../config/userdefaultimage";
 import { ProfileModel } from "../models/profile";
+
+declare let google: any;
 
 @Component({
     selector: "profile-form-component",
@@ -14,6 +16,7 @@ import { ProfileModel } from "../models/profile";
 })
 
 export class ProfileFormComponent implements OnInit {
+
     @Input() model: ProfileModel = new ProfileModel();
     private image: string;
 
@@ -29,11 +32,39 @@ export class ProfileFormComponent implements OnInit {
         this.myForm = this.formBuilder.group({
             description: [this.model.description, Validators.required],
             address: [this.model.address, Validators.required],
-            mobile: [this.model.mobile],
+            mobile: [this.model.mobile, Validators.required],
             dayRate: [this.model.dayRate],
-            hourRate: [this.model.hourRate]
+            hourRate: [this.model.hourRate],
+            curLat: [this.model.curLat],
+            curLng: [this.model.curLng]
         });
         this.image = this.model.image ? this.model.image : this.defaultImage;
+
+        this.googleHook();
+    }
+
+    googleHook() {
+        let searchBox: any = document.getElementById("address");
+        let options = {
+            types: ["geocode"], // return only geocoding results, rather than business results.
+            componentRestrictions: { country: "es" }
+        };
+
+        let autocomplete = new google.maps.places.Autocomplete(searchBox, options);
+
+        // Add listener to the place changed event
+        autocomplete.addListener("place_changed", () => {
+            this.getAddress(autocomplete.getPlace());
+        });
+    }
+
+    getAddress(place: Object) {
+        let address = place["formatted_address"];
+        let location = place["geometry"]["location"];
+        this.myForm.patchValue({curLat: location.lat()});
+        this.myForm.patchValue({curLng: location.lng()});
+        this.myForm.patchValue({address: address});
+        console.log("place", address, location, location.lat(), location.lng());
     }
 
     ngAfterViewChecked() {

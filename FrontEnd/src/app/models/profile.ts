@@ -10,4 +10,6 @@ export class ProfileModel {
     public dayRate: number;
     public credit: number;
     public score: number;
+    public curLat: number;
+    public curLng: number;
 }
