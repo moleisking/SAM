@@ -21,8 +21,6 @@ export class Home implements OnInit {
 
     private regLat: number;
     private regLng: number;
-    private curLat: number;
-    private curLng: number;
     private category: number;
     private radius: number = 5;
 
@@ -33,8 +31,6 @@ export class Home implements OnInit {
         let location = place["geometry"]["location"];
         this.regLat = location.lat();
         this.regLng = location.lng();
-        this.curLat = this.regLat;
-        this.curLng = this.regLng;
         console.log("place", address, location, this.regLat, this.regLng);
     }
 
@@ -71,8 +67,6 @@ export class Home implements OnInit {
             let place = autocomplete.getPlace();
             this.regLat = place.geometry.location.lat();
             this.regLng = place.geometry.location.lng();
-            this.curLat = this.regLat;
-            this.curLng = this.regLng;
             let address = place.formatted_address;
             this.getAddress(place);
         });
