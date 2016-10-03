@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
     <PreferenceCategory
         android:title="Notifications"
         android:key="pref_group_notification"
@@ -26,20 +28,24 @@
         android:layout_height="match_parent">
         <EditTextPreference
             android:key="pref_item_change_password"
-            android:summary="Deletes stored account data. Next time use will require login."
+            android:summary="Change forgotten password via email."
             android:title="Change password"/>
         <Preference
-            android:key="pref_item_delete_stored_account"
-            android:summary="Deletes stored account data. Next time use will require login."
-            android:title="Delete stored account"/>
-        <Preference
-            android:key="pref_item_profile_refresh"
-            android:summary="Refreshes profile from server."
-            android:title="Profile refresh"/>
-        <Preference
-            android:key="pref_item_location"
-            android:summary="Deletes stored account data. Next time use will require login."
+            android:key="pref_item_refresh_registered_location"
+            android:summary="Refreshes stored registered location."
             android:title="Set default location"/>
+        <Preference
+            android:key="pref_item_refresh_stored_account"
+            android:summary="Refreshes stored account data. Next time user will not require login."
+            android:title="Refresh locally stored account"/>
+        <Preference
+            android:key="pref_item_refresh_user_login"
+            android:summary="Refreshes stored user login."
+            android:title="Refresh user login"/>
+        <Preference
+            android:key="pref_item_delete_stored_account"
+            android:summary="Deletes stored account data. Next time user will require login."
+            android:title="Delete locally stored account"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="About"
@@ -58,9 +64,15 @@
             android:key="pref_item_terms_of_user"
             android:summary=""
             android:title="Terms of use"/>
+        <Preference
+            android:key="pref_item_about_us"
+            android:summary=""
+            android:title="About us"/>
 
     </PreferenceCategory>
+
 </PreferenceScreen>
+
 <!--LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/minitrabajo_activity_setting"
     android:orientation="vertical"

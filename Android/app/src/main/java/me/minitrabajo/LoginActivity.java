@@ -66,22 +66,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUserAccount = new UserAccount(this);
-        mUserAccount.getToken();
 
-        if(mUserAccount.hasToken()) //!getTokenCookie().equals("")
+
+        if(mUserAccount.hasFile())
         {
-            //Already logged in go straight to main application
-            // loadMainActivity( getTokenCookie());
-            loadMainActivity( mUserAccount);
+            Log.v("LoginActivity:onCreate","File found");
+            mUserAccount.loadFromFile();
+            if(mUserAccount.hasToken())
+            {
+                //Already logged in go straight to main application
+                Log.v("LoginActivity:onCreate","Token found");
+                loadMainActivity();
+            }
         }
         else
         {
            //No saved account yet
+            Log.v("LoginActivity:onCreate","Start login process");
             setContentView(R.layout.activity_login);
             txtEmail = (AutoCompleteTextView) findViewById(R.id.txtEmail);
             txtPassword = (EditText) findViewById(R.id.txtPassword);
             btnLogin = (Button) findViewById(R.id.btnLogin);
-           // mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
             populateAutoComplete();
 
             txtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -104,6 +109,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             mLoginFormView = findViewById(R.id.login_form);
             mProgressView = findViewById(R.id.login_progress);
+
+            //Test
+            txtEmail.setText("moleisking@gmail.com");
+            txtPassword.setText("12345");
         }
     }
 
@@ -196,12 +205,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            //call authenticate
-            String url = getResources().getString(R.string.net_authenticate_url); //"http://192.168.1.100:3003/api/authenticate";
-            String parameters = "email=" + txtEmail.getText().toString() +"&pass=" + txtPassword.getText().toString();  //"name=scott&pass=12345&email=moleisking%40gmail.com";
-            PostAPI asyncTask =new PostAPI(this);
-            asyncTask.delegate = this;
-            asyncTask.execute(url,parameters,"");
+            postAuthentication();
         }
     }
     protected void onRegisterClick(View view)
@@ -218,9 +222,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void showProgress(final boolean show)
     {
         //Shows the progress UI and hides the login form.
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -232,7 +233,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
-
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
@@ -242,8 +242,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
+            // The ViewPropertyAnimator APIs are not available, so simply show and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
@@ -303,70 +302,72 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    //Scott Added this
     @Override
     public void processFinish(String output)
     {
         showProgress(false);
-        //Here you will receive the result fired from async class
         Log.w("processFinish", output);
-        //Example Reply: {"token":"JWT..."}
-        String token ="";
         try
         {
-            JSONObject myJson = new JSONObject(output);
-            token = myJson.optString("token");
+            String header = (output.length()>=20) ? output.substring(0,19).toLowerCase() : output;
+            if (header.contains("token"))
+            {
+                JSONObject myJson = new JSONObject(output);
+                mUserAccount.setToken( myJson.optString("token"));
+                Log.v("LoginActivity", "Token download success");
+                getUserAccount();
+            }
+            else if (header.contains("name"))
+            {
+                Log.v("LoginActivity", "Profile download success");
+                mUserAccount.loadFromJSON(output);
+                mUserAccount.saveToFile();
+                loadMainActivity();
+            }
+            else if(header.contains("authentication failed"))
+            {
+                Log.v("LoginActivity", "Authentication failed");
+                txtPassword.setError(getString(R.string.error_incorrect_password));
+                txtPassword.requestFocus();
+                Toast.makeText(this,"Login Failed",Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Log.v("LoginActivity", "No Reply");
+            }
         }
         catch (Exception ex)
         {
-            Log.v("Login:ProFin",ex.getMessage());
+            Log.v("LoginActivity:pFinish",ex.getMessage());
         }
 
-        if (!token.equals(""))
-        {
-            //setTokenCookie(token);
-            //loadMainActivity(token);
-            mUserAccount.setToken(token);
-            loadMainActivity(mUserAccount);
-        }
-        else
-        {
-            txtPassword.setError(getString(R.string.error_incorrect_password));
-            txtPassword.requestFocus();
-           //Toast.makeText(this.getContext(),"Login Failed",Toast.LENGTH_SHORT).show();
-        }
     }
 
-    private void loadMainActivity(UserAccount userAccount)
+    private void loadMainActivity()
     {
         //Load Main Activity
         Log.v("loadMainActivity", "intent");
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("UserAccount", userAccount);
+        intent.putExtra("UserAccount", mUserAccount);
         startActivity(intent);
     }
 
-    /*private void setTokenCookie(String token)
+    private void getUserAccount()
     {
-        //Save previous successful login
-        mSharedPreference = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedPreference.edit();
-        editor.putString(ACCOUNT_TOKEN, token);
-        editor.commit();
+        String url = getResources().getString(R.string.url_get_user_account_profile);
+        GetAPI asyncTask =new GetAPI(this);
+        asyncTask.delegate = this;
+        asyncTask.execute(url,"",mUserAccount.getToken());
     }
 
-    private String getTokenCookie()
+    private void postAuthentication()
     {
-        //Get previous successful login
-        mSharedPreference = this.getPreferences(Context.MODE_PRIVATE);
-        //TODO: Check token is valid
-        return mSharedPreference.getString(ACCOUNT_TOKEN,"");
-    }*/
-
-
-
-
-
+        String url = getResources().getString(R.string.url_post_user_account_authenticate); //"http://192.168.1.100:3003/api/authenticate";
+        String parameters = "email=" + txtEmail.getText().toString() +"&pass=" + txtPassword.getText().toString();  //"name=scott&pass=12345&email=moleisking%40gmail.com";
+        PostAPI asyncTask =new PostAPI(this);
+        asyncTask.delegate = this;
+        asyncTask.execute(url,parameters,"");
+    }
 
 }
 

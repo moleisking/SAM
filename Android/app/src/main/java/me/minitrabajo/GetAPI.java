@@ -20,6 +20,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 //import com.google.common.net.*;
 
@@ -50,7 +52,8 @@ public class GetAPI extends AsyncTask <String, String, String>
     @Override
     protected String doInBackground(String... params)
     {
-        Log.w("doInBackground", "Start");
+        //params: url, parameters, header
+        Log.w("GetAPI:doInBackground", "Start");
         if(params.length >=2)
         {
             try {
@@ -101,28 +104,30 @@ public class GetAPI extends AsyncTask <String, String, String>
 
                 //Build Header
                 connection.setDoInput(true);
-                connection.setDoOutput(true);
+               // connection.setDoOutput(true);
                 connection.setUseCaches(false);
                 connection.setReadTimeout(10000);
                 connection.setConnectTimeout(15000);
                 connection.setRequestMethod("GET");
                 //connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                connection.setRequestProperty("charset", "utf-8");
-                connection.setFixedLengthStreamingMode(params[1].getBytes().length);
-                if(params.length == 3)
+                //connection.setRequestProperty("charset", "utf-8");
+                /*if (params[1]!=null && !params[1].equals(""))
                 {
-                    if(!params[2].equals(""))
-                    {
-                        connection.setRequestProperty("Authorization" , params[2]);
-                    }
+                    connection.setFixedLengthStreamingMode(params[1].getBytes().length);
+                }*/
+                if(params.length == 3 && params[2]!= null && !params[2].equals(""))
+                {
+                    connection.setRequestProperty("Authorization" , params[2]);
                 }
                 Log.w("doInBackground:HEAD", "Built");
 
-                //Write Parameters
-                PrintWriter out = new PrintWriter(connection.getOutputStream());
-                out.print(params[1]);
-                out.close();
-                Log.w("doInBackground:PARAM", "Sent");
+                /*//Write Parameters
+                if (params[1]!=null && !params[1].equals("")) {
+                    PrintWriter out = new PrintWriter(connection.getOutputStream());
+                    out.print(params[1]);
+                    out.close();
+                    Log.w("doInBackground:PARAM", "Sent");
+                }*/
 
                 //Get Reply Status 400, 404, 200
                 String http_code = String.valueOf(connection.getResponseCode());
@@ -145,7 +150,7 @@ public class GetAPI extends AsyncTask <String, String, String>
                 if (connection != null) {
                     connection.disconnect();
                 }
-                Log.w("doInBackground", "Connection Closed");
+                Log.w("GetAPI:doInBackground", "Connection Closed");
             }
 
             return reply;

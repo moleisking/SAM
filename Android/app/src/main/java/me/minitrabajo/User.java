@@ -1,5 +1,7 @@
 package me.minitrabajo;
-
+/*
+* Bitmap class is non serializable amd therefore not used
+* */
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,8 +11,11 @@ import java.io.Serializable;
 
 //import com.google.android.maps.GeoPoint;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 
@@ -21,30 +26,29 @@ import org.json.JSONObject;
 public class User implements Serializable {
 		
 	private static final long serialVersionUID = -5964311117196182558L;
-	private int mId;
-	private int mType;
-	private String mName;
-	private String mMobile;
-	private String mEmail;
-	private String mDescription;
-	private String mAddress;
-	private String mCategory;
-	private String mTags;
-	private Double mHourRate;
-	private Double mDayRate;
-	private Double mRegisteredLatitude;
-	private Double mRegisteredLongitude;
-	private Double mCurrentLatitude;
-	private Double mCurrentLongitude;
+	private int mId=0;
+	private int mType=0;
+	private String mName="";
+	private String mMobile="";
+	private String mEmail="";
+	private String mDescription="";
+	private String mAddress="";
+	private String mCategory="";
+	private String mTags="";
+	private Double mHourRate = 0d;
+	private Double mDayRate = 0d;
+	private Double mRegisteredLatitude = 0d;
+	private Double mRegisteredLongitude = 0d;
+	private Double mCurrentLatitude = 0d;
+	private Double mCurrentLongitude = 0d;
 	private Byte[] mImageByteArray = null;
-	private String mImageType = "";
-	private Bitmap mImage = null;
+	private String mImageRaw = "";
+	private transient Context mContext;
 
-	public static final int PROFILE_ACCOUNT = 0, PROFILE_RESULT = 1;
-		
-	public User()
+	public User(Context context)
 	{
 		super();
+		mContext = context;
 	}
 
 	public User(int id, int type, String name,  String description,  String email, String mobile, String address,
@@ -75,11 +79,6 @@ public class User implements Serializable {
 		this.mCurrentLongitude = current_longitude;
 		this.mRegisteredLatitude = registered_latitude;
 		this.mRegisteredLongitude = registered_longitude;
-	}
-
-	public User(String string)
-	{
-		super();
 	}
 
 	public int getID()
@@ -232,14 +231,54 @@ public class User implements Serializable {
 		this.mCurrentLongitude = current_longitude;
 	}
 
-	public Bitmap getImage()
+	public String getImageRaw()
 	{
-		return mImage;
+		return mImageRaw;
 	}
 
-	public void setImage(Bitmap image)
+	public void setImageRaw(String rawImage)
 	{
-		this.mImage = image;
+		String header = rawImage.substring(0,25);
+		if (header.contains("data")&& header.contains("image")&&header.contains("base64")) {
+			this.mImageRaw = rawImage;
+		}
+		else
+		{
+			Log.v("User","Raw image rejected");
+		}
+	}
+
+	public String getImage()
+	{
+		//Extract XXX from "data:image/png;base64,XXX"
+		return mImageRaw.split(",",2)[1];
+	}
+
+	public String getImageType()
+	{
+		String header = mImageRaw.substring(0,20);
+		String type = "";
+		if (header.contains("png"))
+		{
+			type = "png";
+		}
+		else if (header.contains("gif"))
+		{
+			type ="gif";
+		}
+		else if (header.contains("bmp"))
+		{
+			type ="bmp";
+		}
+		else if (header.contains("jpeg"))
+		{
+			type ="jpeg";
+		}
+		else if (header.contains("tiff"))
+		{
+			type ="tiff";
+		}
+		return type;
 	}
 
 	public void setImageByteArray(Byte[] image)
@@ -284,10 +323,22 @@ public class User implements Serializable {
 
 	public Bitmap getImageFromRawString(String str)
 	{
+		Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_person_black_24dp);
+		try {
+			Uri imageUri = Uri.parse(str);
+			bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), imageUri);
+		}
+		catch (Exception ex)
+		{
+			Log.v("User", ex.getMessage());
+		}
+
+		return bitmap;
 		//Extract "data:image/png;base64,"
-		String header = str.substring(0,20);
+		/*String header = str.substring(0,20);
 		if (header.contains("data")&& header.contains("image")&&header.contains("base64"))
 		{
+		String header = str.substring(0,20);
 			if (header.contains("png"))
 			{
 				mImageType = "png";
@@ -320,7 +371,7 @@ public class User implements Serializable {
 		//Convert base64 to array
 		byte[] arr = Base64.decode(str, Base64.DEFAULT);
 
-		return BitmapFactory.decodeByteArray(arr,0,arr.length);
+		return BitmapFactory.decodeByteArray(arr,0,arr.length);*/
 	}
 
 
@@ -337,8 +388,12 @@ public class User implements Serializable {
 		return new Barcode.GeoPoint((int)(lat * 1E6) , (int)(lon * 1E6)) ;
 	}*/
 
+	public void setContext(Context context)
+	{
+		this.mContext = context;
+	}
 
-	public String serializeToString()
+	public String saveToString()
 	{
 		String output = "";
 		try
@@ -356,24 +411,37 @@ public class User implements Serializable {
 		return output;
 	}
 
-	public User deserializeFromString( String str )
+	public void loadFromString( String str )
 	{
 		Object output = null;
 		try
 		{
 			byte [] data = Base64.decode( str,0 );
 			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(  data ) );
-			output  = ois.readObject();
+			User u  = (User)ois.readObject();
 			ois.close();
+
+			//Copy data to this object
+			this.setName(u.getName());
+			this.setDescription(u.getDescription());
+			this.setEmail(u.getEmail());
+			this.setAddress(u.getAddress());
+			this.setMobile(u.getMobile());
+			//this.setCategory(ua.setCategory());
+			//this.setTags(ua.getTags());
+			//this.setHourRate(Double.parseDouble(ua.getHourRate()));
+			//this.setDayRate(Double.parseDouble(ua.getDayRate(")));
+			//this.setRegisteredLongitude(Double.parseDouble(ua.getRegisteredLongitude()));
+			//this.setRegisteredLatitude(Double.parseDouble(ua.getRegisteredLatitude()));
+			this.setImageRaw(u.getImageRaw());
 		}
 		catch (Exception ex)
 		{
 			Log.v("User:fromString()", ex.getMessage());
 		}
-		return (User)output;
 	}
 
-	public void parseJSONtoObject(String json)
+	public void loadFromJSON(String json)
 	{
 		try
 		{
@@ -393,7 +461,7 @@ public class User implements Serializable {
 			//this.mCurrentLongitude = Double.parseDouble(data.getString("curLat"));
 			//this.mCurrentLatitude = Double.parseDouble(data.getString("curLng"));
 			//this.mCredit = Double.parseDouble(data.getString("credit"));
-			//this.setImage(this.getImageFromRawString(data.getString("image")));
+			this.setImageRaw(data.getString("image"));
 		}
 		catch (Exception ex)
 		{
@@ -403,18 +471,19 @@ public class User implements Serializable {
 
 	public void print()
 	{
-		Log.v("User:", "Object");
-		Log.v("ID:", String.valueOf(mId));
-		Log.v("Name:" , this.mName);
-		Log.v("Description:" , this.mDescription);
-		Log.v("Address:", this.mAddress);
-		Log.v("Mobile:", this.mMobile);
-		Log.v("HourRate:",String.valueOf(this.mHourRate));
-		Log.v("DayRate:",String.valueOf(this.mDayRate));
-		Log.v("CurrentLongitude:",String.valueOf(this.mCurrentLongitude));
-		Log.v("CurrentLatitude:",String.valueOf(this.mCurrentLatitude));
-		Log.v("RegisteredLongitude:",String.valueOf(this.mRegisteredLongitude));
-		Log.v("RegisteredLatitude:",String.valueOf(this.mRegisteredLatitude));
+		Log.v("User", "Object");
+		Log.v("ID", String.valueOf(mId));
+		Log.v("Name" , this.mName);
+		Log.v("Description" , this.mDescription);
+		Log.v("Address", this.mAddress);
+		Log.v("Mobile", this.mMobile);
+		Log.v("HourRate",String.valueOf(this.mHourRate));
+		Log.v("DayRate",String.valueOf(this.mDayRate));
+		Log.v("CurrentLongitude",String.valueOf(this.mCurrentLongitude));
+		Log.v("CurrentLatitude",String.valueOf(this.mCurrentLatitude));
+		Log.v("RegisteredLongitude",String.valueOf(this.mRegisteredLongitude));
+		Log.v("RegisteredLatitude",String.valueOf(this.mRegisteredLatitude));
+		Log.v("Image",this.mImageRaw);
 	}
 	
 }

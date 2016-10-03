@@ -6,7 +6,7 @@
     android:layout_height="fill_parent">
 
     <ImageView
-        android:id="@+id/imgItem"
+        android:id="@+id/imgProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="none"
@@ -35,44 +35,55 @@
         android:layout_height="wrap_content">
     </TextView>
 
-    <TextView
+    <EditText
         android:id="@+id/txtDescription"
         android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    </TextView>
+    </EditText>
     <TextView
         android:id="@+id/lblAddress"
         android:text="@string/lbl_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </TextView>
-    <TextView
+    <EditText
         android:id="@+id/txtAddress"
         android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    </TextView>
+    </EditText>
     <TextView
+        android:id="@+id/lblHourRate"
+        android:text="Hour Rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+    <EditText
         android:id="@+id/txtHourRate"
         android:text="20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    </TextView>
+    </EditText>
     <TextView
+        android:id="@+id/lblDayRate"
+        android:text="Day Rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+    <EditText
         android:id="@+id/txtDayRate"
         android:text="200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    </TextView>
+    </EditText>
+    <!--Event handled in content_main.xml and MainActivity:onFragmentViewClick-->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:clickable="true"
         android:background="@color/colorPrimary"
-        android:src="@drawable/ic_email_black_24dp"
-        android:onClick="onMessageClick">
+        android:src="@drawable/ic_email_black_24dp">
     </android.support.design.widget.FloatingActionButton>
 </LinearLayout>

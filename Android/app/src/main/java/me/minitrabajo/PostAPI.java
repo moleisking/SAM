@@ -77,7 +77,8 @@ public class PostAPI extends AsyncTask <String, String, String>
     @Override
     protected String doInBackground(String... params)
     {
-        Log.w("doInBackground", "Start");
+        //params: url, parameters,
+        Log.w("PostAPI:doInBackground", "Start");
         if(params.length >=2)
         {
             try {
@@ -172,7 +173,7 @@ public class PostAPI extends AsyncTask <String, String, String>
                 if (connection != null) {
                     connection.disconnect();
                 }
-                Log.w("doInBackground", "Connection Closed");
+                Log.w("PostAPI:doInBackground", "Connection Closed");
             }
 
             return reply;

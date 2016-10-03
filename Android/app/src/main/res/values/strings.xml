@@ -57,14 +57,13 @@
     <string name="title_activity_maps2">Map</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="net_authenticate_url">http://minitrabajo.me:3003/authenticate</string>
-    <string name="net_register_account_url">http://minitrabajo.me:3003/signup</string>
-    <string name="net_login_profile_url">http://minitrabajo.me:3003/users/getmyprofile</string>
-    <string name="net_register_user_url">http://minitrabajo.me:3003/register</string>
-    <string name="net_search_url">http://minitrabajo.me:3003/search</string>
-    <string name="net_setting_url">http://minitrabajo.me:3003/setting</string>
-    <string name="net_profile_url">http://minitrabajo.me:3003/profile</string>
-    <string name="user_token"></string>
+    <string name="url_post_user_account_authenticate">http://minitrabajo.me:3003/authenticate</string>
+    <string name="url_post_user_account_register">http://minitrabajo.me:3003/signup</string>
+    <string name="url_get_user_account_profile">http://minitrabajo.me:3003/users/getmyprofile</string>
+    <string name="url_get_user_account_password_change">http://minitrabajo.me:3003/forgottenpassword</string>
+    <string name="url_post_search">http://minitrabajo.me:3003/search</string>
+    <string name="url_get_user_account_setting">http://minitrabajo.me:3003/setting</string>
+    <string name="url_get_user_profile">http://minitrabajo.me:3003/profile</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

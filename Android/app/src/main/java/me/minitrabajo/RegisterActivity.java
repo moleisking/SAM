@@ -267,7 +267,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
     {
         //Example: "name=scott&pass=12345&email=moleisking%40gmail.com";
         Log.w("onRegisterClick", "Register button clicked");
-        String url = getResources().getString(R.string.net_register_account_url); //"http://192.168.1.100:3003/api/signup";
+        String url = getResources().getString(R.string.url_post_user_account_register);
         Bitmap bitmap = ((BitmapDrawable)imgProfile.getDrawable()).getBitmap();
         String parameters = "name=" + txtName.getText().toString() +
                             "&pass=" + txtPassword.getText().toString() +
@@ -282,7 +282,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
         asyncTask.execute(url,parameters,"");
     }
 
-    private String base64Encode(Bitmap image)
+    /*private String base64Encode(Bitmap image)
     {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
@@ -294,7 +294,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI ,
     {
         byte[] decodedString = Base64.decode(str, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-    }
+    }*/
 
     @Override
     public void processFinish(String output)
