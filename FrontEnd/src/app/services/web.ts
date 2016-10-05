@@ -9,14 +9,14 @@ export class WebService {
 
   constructor(private http: Http) { }
 
-  about(): Observable<string>  {
+  about(): Observable<string> {
     return this.http.get(Settings.backend_url + "/about")
-      .map(this.extractData).catch(this.handleError);
+      .map((res: Response) => res.json().about).catch(this.handleError);
   }
 
   termsConditions(): Observable<string> {
     return this.http.get(Settings.backend_url + "/termsconditions")
-      .map(this.extractData).catch(this.handleError);
+      .map((res: Response) => res.json().termsconditions).catch(this.handleError);
   }
 
   sendContactForm(form: any): Observable<any> {
@@ -29,7 +29,7 @@ export class WebService {
   }
 
   private extractData(res: Response) {
-    // console.log(res);
+    console.log(res);
     let body = res.json();
     return body.data || {};
   }

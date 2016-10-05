@@ -27,8 +27,12 @@ export class Dashboard implements OnInit {
     private messagesList: MessageModel[];
     private model: ProfileModel;
 
-    constructor(private authService: AuthService, private user: UserService, private router: Router,
-        private messages: MessageService) {
+    constructor(
+        private authService: AuthService,
+        private user: UserService,
+        private router: Router,
+        private messages: MessageService
+    ) {
         this.title = "My Dashboard in SAM";
     }
 

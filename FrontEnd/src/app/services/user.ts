@@ -40,7 +40,7 @@ export class UserService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(Settings.backend_url + "/users", options)
-      .map(this.extractData).catch(this.handleError);
+      .map((res: Response) => res.json().all).catch(this.handleError);
   }
 
   getMyProfile(): Observable<ProfileModel> {
@@ -49,12 +49,12 @@ export class UserService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(Settings.backend_url + "/users/getmyprofile", options)
-      .map(this.extractData).catch(this.handleError);
+      .map((res: Response) => res.json().myprofile).catch(this.handleError);
   }
 
   getProfile(id: string): Observable<ProfileModel> {
     return this.http.get(Settings.backend_url + "/users/getprofile/" + id)
-      .map(this.extractData).catch(this.handleError);
+      .map((res: Response) => res.json().profile).catch(this.handleError);
   }
 
   forgottenpassword(form: any): Observable<any> {
@@ -74,7 +74,7 @@ export class UserService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(Settings.backend_url + "/users/search", body, options)
-      .map(this.extractData).catch(this.handleError);
+      .map((res: Response) => res.json().search).catch(this.handleError);
   }
 
   private extractData(res: Response) {

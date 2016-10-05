@@ -6,21 +6,14 @@ import { ProfileModel } from "../models/profile";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
-
 export class CategoriesService {
 
   constructor(private http: Http) { }
 
   all(): Observable<CategoryModel[]> {
     return this.http.get(Settings.backend_url + "/categories")
-      .map(this.extractData)
+      .map((res: Response) => res.json().categories)
       .catch(this.handleError);
-  }
-
-  private extractData(res: Response) {
-    // console.log(res);
-    let body = res.json();
-    return body.data || {};
   }
 
   private handleError(error: any) {

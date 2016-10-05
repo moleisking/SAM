@@ -27,14 +27,20 @@ export class Profile implements OnInit, OnDestroy {
 
     private model: ProfileModel = <ProfileModel>{};
 
-    constructor(private route: ActivatedRoute, private user: UserService, private sanitizer: DomSanitizationService,
-        private m: MessageService, private authService: AuthService) { }
+    constructor(
+        private route: ActivatedRoute,
+        private user: UserService,
+        private sanitizer: DomSanitizationService,
+        private m: MessageService,
+        private authService: AuthService
+    ) { }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(p => {
             let id = p["id"];
             this.user.getProfile(id).subscribe(
                 profile => {
+            console.log(profile)
                     this.model = profile;
                     this.model.image = profile.image === "" ? this.defaultImage : profile.image;
                     if (this.authService.isLoggedIn()) {

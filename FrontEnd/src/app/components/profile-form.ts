@@ -24,7 +24,10 @@ export class ProfileFormComponent implements OnInit {
     private defaultImage = UserDefaultImage.image;
     private message: string;
 
-    constructor(private user: UserService, private formBuilder: FormBuilder) {
+    constructor(
+        private user: UserService,
+        private formBuilder: FormBuilder
+    ) {
         this.message = "Profile form messages will be here.";
     }
 
@@ -61,9 +64,9 @@ export class ProfileFormComponent implements OnInit {
     getAddress(place: Object) {
         let address = place["formatted_address"];
         let location = place["geometry"]["location"];
-        this.myForm.patchValue({curLat: location.lat()});
-        this.myForm.patchValue({curLng: location.lng()});
-        this.myForm.patchValue({address: address});
+        this.myForm.patchValue({ curLat: location.lat() });
+        this.myForm.patchValue({ curLng: location.lng() });
+        this.myForm.patchValue({ address: address });
         console.log("place", address, location, location.lat(), location.lng());
     }
 

@@ -20,7 +20,7 @@ export class MessageService {
          + "&fromUrl=" + model.nameurl;
 
         return this.http.post(Settings.backend_url + "/messages/add", body, options)
-            .map(this.extractData).catch(this.handleError);
+            .map((res: Response) => res.json().add).catch(this.handleError);
     }
 
     readAllLasts(): Observable<MessageModel[]> {
@@ -29,7 +29,7 @@ export class MessageService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.get(Settings.backend_url + "/messages/readalllasts", options)
-            .map(this.extractData).catch(this.handleError);
+            .map((res: Response) => res.json().readalllasts).catch(this.handleError);
     }
 
     readWith(name: string): Observable<MessageModel[]> {
@@ -39,13 +39,7 @@ export class MessageService {
 
         return Observable.interval(5000)
             .flatMap(() => this.http.get(Settings.backend_url + "/messages/read/" + name, options)
-            .map(this.extractData).catch(this.handleError));
-    }
-
-    private extractData(res: Response) {
-        // console.log(res);
-        let body = res.json();
-        return body.data || {};
+            .map((res: Response) => res.json().read).catch(this.handleError));
     }
 
     private handleError(error: any) {

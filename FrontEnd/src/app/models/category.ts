@@ -4,5 +4,5 @@ export interface CategoryModel {
     id: number;
     name: string;
     description: string;
-    tags: Array<TagModel>
+    tags: Array<TagModel>;
 }
