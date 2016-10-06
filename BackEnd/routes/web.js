@@ -20,6 +20,14 @@ router.get("/termsconditions", function (req, res, next) {
   });
 });
 
+router.get("/cookiepolicy", function (req, res, next) {
+  web.cookiePolicy(function (err, data) {
+    if (err)
+      return res.status(500).json({ err });
+    res.json({ cookiepolicy: data });
+  });
+});
+
 router.post("/sendcontactform", function (req, res, next) {
   if (!req.body.message || !req.body.email)
     return res.status(400).json({ app_err: "Please pass message and email." });
@@ -34,7 +42,7 @@ router.get("/categories", function (req, res, next) {
   cat.all(function (err, data) {
     if (err)
       return res.status(500).json({ err });
-    else if (data.length === 0)
+    if (data.length === 0)
       return res.status(404).json({ "categories": data });
     res.json({ categories: data });
   });

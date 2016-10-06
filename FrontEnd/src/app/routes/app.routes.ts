@@ -5,6 +5,7 @@ import { Home } from "../components/home";
 import { Login } from "../components/login";
 import { Register } from "../components/register";
 import { About } from "../components/about";
+import { CookiePolicy } from "../components/cookiepolicy";
 import { TermsConditions } from "../components/termsconditions";
 import { ContactUs } from "../components/contactus";
 import { Dashboard } from "../components/dashboard";
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: "about", component: About },
   { path: "contactus", component: ContactUs },
   { path: "termsconditions", component: TermsConditions },
+  { path: "cookiepolicy", component: CookiePolicy },
   { path: "forgottenpassword", component: ForgottenPassword, canActivate: [RoutesManager] },
   { path: "messages/:id", component: Messages, canActivate: [RoutesManager] },
   { path: "profile/:id", component: Profile },

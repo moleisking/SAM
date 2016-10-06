@@ -19,6 +19,11 @@ export class WebService {
       .map((res: Response) => res.json().termsconditions).catch(this.handleError);
   }
 
+  cookiePolicy(): Observable<string> {
+    return this.http.get(Settings.backend_url + "/cookiepolicy")
+      .map((res: Response) => res.json().cookiepolicy).catch(this.handleError);
+  }
+
   sendContactForm(form: any): Observable<any> {
     let creds = "email=" + form.email + "&message=" + form.notification;
     let headers = new Headers();
