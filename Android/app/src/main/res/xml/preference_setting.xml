@@ -16,7 +16,7 @@
         <CheckBoxPreference
             android:key="pref_item_screen_notification"
             android:title="Screen Notifications"
-            android:summary="My Summary"
+            android:summary=""
             android:defaultValue="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -46,6 +46,16 @@
             android:key="pref_item_delete_stored_account"
             android:summary="Deletes stored account data. Next time user will require login."
             android:title="Delete locally stored account"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Troubleshoot"
+        android:key="pref_group_troubleshoot"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <Preference
+            android:key="pref_item_refresh_categories"
+            android:summary="Refresh categories and tags"
+            android:title="Refresh categories"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="About"

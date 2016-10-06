@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_user"
+    android:id="@+id/fragment_profile_layout"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
@@ -12,78 +12,99 @@
         android:scrollbars="none"
         android:contentDescription="@string/lbl_description">
     </ImageView>
-    <TextView
+
+    <!--TextView
         android:id="@+id/lblName"
-        android:text="@string/lbl_name"
-        style="@style/AppTheme"
+        android:text="Name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </TextView>
+        android:layout_height="wrap_content"
+        android:textSize="20dp">
+    </TextView-->
 
-    <EditText
+
+    <TextView
         android:id="@+id/txtName"
+        android:text="Name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <requestFocus />
-    </EditText>
-
-    <TextView
-        android:id="@+id/lblDescription"
-        android:text="@string/lbl_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textSize="20dp">
     </TextView>
 
-    <EditText
+    <!--TextView
+       android:id="@+id/lblDescription"
+       android:text="Name"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:textSize="20dp">
+   </TextView-->
+
+    <TextView
         android:id="@+id/txtDescription"
-        android:text=""
+        android:text="Description"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </EditText>
-    <TextView
-        android:id="@+id/lblAddress"
-        android:text="@string/lbl_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textSize="20dp">
     </TextView>
-    <EditText
-        android:id="@+id/txtAddress"
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </EditText>
-    <TextView
-        android:id="@+id/lblHourRate"
+
+    <!--TextView
+        android:id="@+id/lblAddress"
         android:text="Hour Rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    </TextView>
-    <EditText
-        android:id="@+id/txtHourRate"
-        android:text="20"
+    </TextView-->
+
+    <TextView
+        android:id="@+id/txtAddress"
+        android:text="Address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    </EditText>
+    </TextView>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_profile_layout_hourrate"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/lblHourRate"
+            android:text="Hour Rate "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+        <TextView
+            android:id="@+id/txtHourRate"
+            android:text="20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+    </LinearLayout>
     <TextView
         android:id="@+id/lblDayRate"
         android:text="Day Rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </TextView>
-    <EditText
+    <TextView
         android:id="@+id/txtDayRate"
         android:text="200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    </EditText>
+    </TextView>
+
+    <RatingBar
+        android:id="@+id/ratScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </RatingBar>
     <!--Event handled in content_main.xml and MainActivity:onFragmentViewClick-->
-    <android.support.design.widget.FloatingActionButton
+    <!--android.support.design.widget.FloatingActionButton
         android:id="@+id/btnMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@color/colorPrimary"
-        android:src="@drawable/ic_email_black_24dp">
-    </android.support.design.widget.FloatingActionButton>
+        android:src="@drawable/ic_email_black_24dp"
+        android:layout_gravity="bottom|end">
+    </android.support.design.widget.FloatingActionButton-->
+
 </LinearLayout>
