@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Settings } from "../config/settings";
 
 import { CategoriesService } from "../services/categories";
 import { CategoryModel } from "../models/category";
@@ -60,7 +61,7 @@ export class Home implements OnInit {
         let options = {
             // return only geocoding results, rather than business results.
             types: ["geocode"],
-            componentRestrictions: { country: "es" }
+            componentRestrictions: { country: Settings.search_country }
         };
 
         let autocomplete = new google.maps.places.Autocomplete(searchBox, options);

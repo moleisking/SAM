@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { Validators } from "@angular/common";
+import { Settings } from "../config/settings";
 
 import { UserService } from "../services/user";
 import { UserDefaultImage } from "../config/userdefaultimage";
@@ -50,7 +51,7 @@ export class ProfileFormComponent implements OnInit {
         let searchBox: any = document.getElementById("address");
         let options = {
             types: ["geocode"], // return only geocoding results, rather than business results.
-            componentRestrictions: { country: "es" }
+            componentRestrictions: { country: Settings.search_country }
         };
 
         let autocomplete = new google.maps.places.Autocomplete(searchBox, options);
