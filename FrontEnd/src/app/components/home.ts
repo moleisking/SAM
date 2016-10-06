@@ -24,14 +24,17 @@ export class Home implements OnInit {
     private category: number;
     private radius: number = 5;
 
-    constructor(private cat: CategoriesService, private user: UserService) { }
+    constructor(
+        private cat: CategoriesService,
+        private user: UserService
+    ) { }
 
     getAddress(place: Object) {
         let address = place["formatted_address"];
         let location = place["geometry"]["location"];
         this.lat = location.lat();
         this.lng = location.lng();
-        console.log("place", address, location, this.lat, this.lng);
+        // console.log("place", address, location, this.lat, this.lng);
     }
 
     getCategories() {
@@ -75,7 +78,6 @@ export class Home implements OnInit {
         else {
             this.user.search(this.lat, this.lng, this.category, this.radius).subscribe(
                 (users) => {
-                    console.log(users);
                     this.users = users;
                     if (users.length === 0)
                         this.message = "No users found.";

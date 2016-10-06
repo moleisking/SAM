@@ -40,7 +40,6 @@ export class Profile implements OnInit, OnDestroy {
             let id = p["id"];
             this.user.getProfile(id).subscribe(
                 profile => {
-            console.log(profile)
                     this.model = profile;
                     this.model.image = profile.image === "" ? this.defaultImage : profile.image;
                     if (this.authService.isLoggedIn()) {

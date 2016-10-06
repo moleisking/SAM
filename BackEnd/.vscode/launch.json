@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch",
+            "name": "Iniciar",
             "type": "node",
             "request": "launch",
             "program": "${workspaceRoot}/bin/www",
@@ -17,12 +17,12 @@
             "env": {
                 "NODE_ENV": "development"
             },
-            "externalConsole": false,
+            "console": "internalConsole",
             "sourceMaps": false,
             "outDir": null
         },
         {
-            "name": "Attach",
+            "name": "Asociar",
             "type": "node",
             "request": "attach",
             "port": 5858,
@@ -32,6 +32,15 @@
             "outDir": null,
             "localRoot": "${workspaceRoot}",
             "remoteRoot": null
+        },
+        {
+            "name": "Asociar al proceso",
+            "type": "node",
+            "request": "attach",
+            "processId": "${command.PickProcess}",
+            "port": 5858,
+            "sourceMaps": false,
+            "outDir": null
         }
     ]
 }

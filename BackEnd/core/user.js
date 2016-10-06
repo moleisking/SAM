@@ -198,8 +198,10 @@ module.exports = {
                     if (user.category === data.category &&
                         ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) ||
                             (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
-                    )
+                    ) {
+                        delete user.pass;
                         return user;
+                    }
                 });
                 myCache.set(cachename, result, function (err, success) {
                     if (err)
