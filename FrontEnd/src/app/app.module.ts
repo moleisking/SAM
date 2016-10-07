@@ -14,6 +14,7 @@ import { Categories } from "./components/categories";
 import { About } from "./components/about";
 import { ContactUs } from "./components/contactus";
 import { TermsConditions } from "./components/termsconditions";
+import { CookiePolicy } from "./components/cookiepolicy";
 import { ForgottenPassword } from "./components/forgottenpassword";
 import { Profile } from "./components/profile";
 import { Messages } from "./components/messages";
@@ -60,6 +61,7 @@ if (Settings.prod) enableProdMode();
         About,
         ContactUs,
         TermsConditions,
+        CookiePolicy,
         ForgottenPassword,
         Profile,
         Messages,
