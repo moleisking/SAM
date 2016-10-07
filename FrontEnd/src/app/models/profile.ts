@@ -12,4 +12,7 @@ export class ProfileModel {
     public score: number;
     public curLat: number;
     public curLng: number;
+    public category: number;
+    public categoryName: string;
+    public tags: string;
 }

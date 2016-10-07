@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
 
 import { AuthService } from "../services/auth";
@@ -8,6 +8,7 @@ import { UserService } from "../services/user";
 import { CategoriesService } from "../services/categories";
 import { CategoryModel } from "../models/category";
 import { TagModel } from "../models/tag";
+import { SelectComponent } from "ng2-select/ng2-select";
 
 declare let google: any;
 
@@ -18,6 +19,9 @@ declare let google: any;
 })
 
 export class RegisterFormComponent implements OnInit {
+
+    @ViewChild(SelectComponent)
+    private mySelect: SelectComponent;
 
     private myForm: FormGroup;
 
@@ -30,8 +34,13 @@ export class RegisterFormComponent implements OnInit {
     private areTagsAvailable: boolean = false;
     private isGoogleVisible: boolean = false;
 
-    constructor(private auth: AuthService, private user: UserService, private router: Router,
-        private formBuilder: FormBuilder, private cat: CategoriesService) {
+    constructor(
+        private auth: AuthService,
+        private user: UserService,
+        private router: Router,
+        private formBuilder: FormBuilder,
+        private cat: CategoriesService
+    ) {
         this.message = "Register messages will be here.";
         this.regLat = 0;
         this.regLng = 0;
@@ -72,8 +81,9 @@ export class RegisterFormComponent implements OnInit {
         this.getCategories();
     }
 
-    onChangeCategory(value: any) {
+    onChangeCategory(value: number) {
         this.tagsValue = [];
+        this.mySelect.ngOnInit();
         this.tags = this.cats.find(x => x.id === value).tags;
         this.areTagsAvailable = this.tags.length > 0;
     }
@@ -127,7 +137,7 @@ export class RegisterFormComponent implements OnInit {
         }
     }
 
-    refreshValue(value: any): void {
+    refreshValue(value: number): void {
         this.tagsValue = value;
     }
 

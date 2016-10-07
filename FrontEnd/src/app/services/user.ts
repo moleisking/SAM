@@ -23,13 +23,14 @@ export class UserService {
     return this.http.post(Settings.backend_url + "/signup", body, options).catch(this.handleError);
   }
 
-  saveProfile(profileform: any, image: any): Observable<any> {
+  saveProfile(profileform: ProfileModel, image: string): Observable<any> {
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let c = "description=" + profileform.description + "&address=" + profileform.address
       + "&mobile=" + profileform.mobile + "&image=" + image + "&dayRate=" + profileform.dayRate
-      + "&hourRate=" + profileform.hourRate + "&curLat=" + profileform.curLat + "&curLng=" + profileform.curLng;
+      + "&hourRate=" + profileform.hourRate + "&curLat=" + profileform.curLat + "&curLng=" + profileform.curLng
+      + "&category=" + profileform.category + "&tags=" + profileform.tags;
 
     return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }

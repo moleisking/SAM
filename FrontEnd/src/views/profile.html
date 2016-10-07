@@ -35,6 +35,10 @@
         <p>{{ model.dayRate }}</p>
         <p><b>Hour rate:</b></p>
         <p>{{ model.hourRate }}</p>
+        <p><b>Category:</b></p>
+        <p>{{ model.categoryName }}</p>
+        <p><b>Tags:</b></p>
+        <p>{{ model.tags }}</p>
         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#SendMessageModal" *ngIf="!itsMe">
             <span class="glyphicon glyphicon-envelope"></span> Send Message
         </button>

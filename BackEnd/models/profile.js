@@ -13,6 +13,8 @@ var profile = new model("Profile")
     .attr('regLat')
     .attr('curLat')
     .attr('curLng')
-    .attr('mobile');
+    .attr('mobile')
+    .attr('category')
+    .attr('tags');
 
 module.exports = profile;

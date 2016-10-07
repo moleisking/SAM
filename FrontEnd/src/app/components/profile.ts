@@ -5,9 +5,11 @@ import { DomSanitizationService } from "@angular/platform-browser";
 import { UserService } from "../services/user";
 import { MessageService } from "../services/message";
 import { AuthService } from "../services/auth";
+import { CategoriesService } from "../services/categories";
 
 import { ProfileModel } from "../models/profile";
 import { MessageModel } from "../models/message";
+import { CategoryModel } from "../models/category";
 import { UserDefaultImage } from "../config/userdefaultimage";
 
 declare var jQuery: any;
@@ -26,13 +28,15 @@ export class Profile implements OnInit, OnDestroy {
     private message: string;
 
     private model: ProfileModel = <ProfileModel>{};
+    private cats: CategoryModel[];
 
     constructor(
         private route: ActivatedRoute,
         private user: UserService,
         private sanitizer: DomSanitizationService,
         private m: MessageService,
-        private authService: AuthService
+        private authService: AuthService,
+        private cat: CategoriesService
     ) { }
 
     ngOnInit() {
@@ -42,21 +46,36 @@ export class Profile implements OnInit, OnDestroy {
                 profile => {
                     this.model = profile;
                     this.model.image = profile.image === "" ? this.defaultImage : profile.image;
-                    if (this.authService.isLoggedIn()) {
-                        this.user.getMyProfile().subscribe(
-                            my => this.itsMe = profile.email === my.email,
-                            error => this.message = <any>error,
-                            () => console.log("Done get my profile")
-                        );
-                    }
-                    else
-                        this.itsMe = true; // for unlogged we use same logic as it were us.
+                    this.cat.all().subscribe(
+                        c => {
+                            this.cats = c;
+                            this.model.categoryName = this.cats.find(x => x.id === this.model.category).name;
+                            let tags: string = "";
+                            this.model.tags.split(",").forEach(element => {
+                                tags += this.cats.find(e => e.id === this.model.category).tags
+                                    .find(e => e.id === +element).text + ",";
+                            });
+                            this.model.tags = tags.substr(0, tags.length - 1);
+                            if (this.authService.isLoggedIn()) {
+                                this.user.getMyProfile().subscribe(
+                                    my => this.itsMe = profile.email === my.email,
+                                    error => this.message = <any>error,
+                                    () => console.log("Done get my profile")
+                                );
+                            }
+                            else
+                                this.itsMe = true; // for unlogged we use same logic as it were us.
+                        },
+                        error => this.message = <any>error
+                    );
                 },
                 error => this.message = <any>error,
                 () => console.log("Done get profile")
             );
         });
     }
+
+
 
     ngOnDestroy() {
         this.sub.unsubscribe();

@@ -1,12 +1,17 @@
 <h1>Dashboard</h1>
-<div class="well">
-    {{ title }} <button (click)="logout()" class="pull-right">Logout</button>
+<div class="row well">
+    <div class="col-md-10">
+        <h3>{{ title }}</h3>
+    </div>
+    <div class="col-md-2">
+        <button (click)="logout()" class="pull-right">Logout</button>
+    </div>
 </div>
-<!-- regular tabs -->
+
 <tabset>
     <tab title="My Profile">
         <br>
-        <profile-form-component *ngIf="model" [model]="model"></profile-form-component>
+        <profile-form-component *ngIf="modelProfile && catList" [model]="modelProfile" [cats]="catList"></profile-form-component>
     </tab>
     <tab title="List all users">
         <br> {{ errorUsers }}
