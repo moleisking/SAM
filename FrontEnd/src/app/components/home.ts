@@ -44,7 +44,8 @@ export class Home implements OnInit {
                 this.cats = c;
                 this.category = c[0].id;
             },
-            error => this.message = <any>error
+            error => this.message = <any>error,
+            () => console.log("Done get all categories home.")
         );
     }
 
