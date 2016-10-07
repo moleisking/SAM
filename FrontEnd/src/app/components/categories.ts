@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+
 import { CategoryModel } from "../models/category";
 import { CategoriesService } from "../services/categories";
 
@@ -8,6 +9,7 @@ import { CategoriesService } from "../services/categories";
 })
 
 export class Categories implements OnInit {
+
     private cats: CategoryModel[];
     private message: string;
 
@@ -18,7 +20,9 @@ export class Categories implements OnInit {
     getCategories() {
         this.cat.all().subscribe(
             c => this.cats = c,
-            error => this.message = <any>error);
+            error => this.message = <any>error,
+            () => console.log("Done get all categories page.")
+        );
     }
 
     ngOnInit() {
