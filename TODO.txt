@@ -1,4 +1,3 @@
-ISSUE 1: categories modification on profile and show it on them
 ISSUE 2: rating system to all profiles
 ISSUE 3: confirmation email in registration
 ISSUE 4: active inactive looking for job
