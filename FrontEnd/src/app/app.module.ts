@@ -31,6 +31,7 @@ import { WebService } from "./services/web";
 import { MessageService } from "./services/message";
 
 import { SELECT_DIRECTIVES } from "ng2-select";
+import { TabsModule } from "ng2-tabs";
 
 import { HTTP_PROVIDERS } from "@angular/http";
 
@@ -44,6 +45,7 @@ if (Settings.prod) enableProdMode();
         BrowserModule,
         ReactiveFormsModule,
         appRouterProvider,
+        TabsModule,
     ],
     bootstrap: [
         AppComponent,

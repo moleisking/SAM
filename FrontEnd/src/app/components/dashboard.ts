@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { TAB_DIRECTIVES } from "ng2-tabs";
+// import { TAB_DIRECTIVES } from "ng2-tabs";
 
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
@@ -15,8 +15,9 @@ import { CategoryModel } from "../models/category";
 
 @Component({
     selector: "dashboard-component",
-    templateUrl: "../../views/dashboard.html",
-    directives: [TAB_DIRECTIVES]
+    templateUrl: "../../views/dashboard.html"
+    // ,
+    // directives: [TAB_DIRECTIVES]
 })
 
 export class Dashboard implements OnInit {
