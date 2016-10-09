@@ -55,7 +55,7 @@ export class UserService {
 
   getProfile(id: string): Observable<ProfileModel> {
     return this.http.get(Settings.backend_url + "/users/getprofile/" + id)
-      .map((res: Response) => res.json().profile).catch(this.handleError);
+      .map((res: Response) => res.json().profile).catch(this.handleError).cache();
   }
 
   forgottenpassword(form: any): Observable<any> {

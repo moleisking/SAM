@@ -46,7 +46,7 @@ export class Messages implements OnInit, OnDestroy {
     ngOnInit() {
         this.sub = this.route.params.subscribe(p => {
             let id = p["id"];
-            this.getProfile$ = this.user.getProfile(id).cache().subscribe(
+            this.getProfile$ = this.user.getProfile(id).subscribe(
                 profile => {
                     this.name = profile.name;
                     this.nameurl = profile.nameurl;
