@@ -4,7 +4,7 @@ var profile = new model("Profile")
     .attr('name')
     .attr('nameurl')
     .attr('description')
-    .attr('score')
+    .attr('score')// rating 
     .attr('address')
     .attr('email')
     .attr('image')

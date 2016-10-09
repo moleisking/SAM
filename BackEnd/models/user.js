@@ -84,7 +84,7 @@ var user = new model("User")
             }
         }
     })
-    .attr('score')
+    .attr('score')// rating 
     .attr('hourRate')
     .attr('dayRate')
     .attr('credit');

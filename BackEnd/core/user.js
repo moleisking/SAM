@@ -22,6 +22,7 @@ module.exports = {
         user.dayRate(0);
         user.hourRate(0);
         user.credit(0);
+        user.score(0);
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
