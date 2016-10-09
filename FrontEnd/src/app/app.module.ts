@@ -44,6 +44,7 @@ if (Settings.prod) enableProdMode();
 @NgModule({
     imports: [
         BrowserModule,
+        FormsModule,
         ReactiveFormsModule,
         appRouterProvider,
         TabsModule,

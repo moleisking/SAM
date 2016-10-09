@@ -16,7 +16,8 @@ declare var jQuery: any;
 
 @Component({
     selector: "profile-component",
-    templateUrl: "../../views/profile.html"
+    templateUrl: "../../views/profile.html",
+    styleUrls: ["../../styles/profile.css"]
 })
 
 export class Profile implements OnInit, OnDestroy {
@@ -80,6 +81,10 @@ export class Profile implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.sub.unsubscribe();
+    }
+
+    rate(item: any) {
+        console.log(item);
     }
 
     sendMessage(messageText: string) {
