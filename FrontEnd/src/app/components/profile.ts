@@ -77,14 +77,12 @@ export class Profile implements OnInit, OnDestroy {
         });
     }
 
-
-
     ngOnDestroy() {
         this.sub.unsubscribe();
     }
 
-    rate(item: any) {
-        console.log(item);
+    rate() {
+        console.log(this.model.score);
     }
 
     sendMessage(messageText: string) {
