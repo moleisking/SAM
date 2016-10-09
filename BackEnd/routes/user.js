@@ -26,7 +26,7 @@ router.get("/getmyprofile", passport.authenticate("jwt", { session: false }), fu
   user.getMyProfile(user.getEmailFromTokenUser(req.headers), function (err, data) {
     if (err)
       return res.status(500).json({ err });
-    res.json({ myprofile : data });
+    res.json({ myprofile: data });
   });
 });
 
@@ -42,7 +42,7 @@ router.get("/getprofile/:nameUrl", function (req, res, next) {
 
 router.post("/search", function (req, res, next) {
   if (!req.body.regLat || !req.body.regLng || !req.body.category || !req.body.radius)
-    return res.status(400).json({ app_err: "Please pass radius, category, lat and lng."});
+    return res.status(400).json({ app_err: "Please pass radius, category, lat and lng." });
   user.search(req.body, function (err, data) {
     if (err)
       return res.status(500).json({ err });

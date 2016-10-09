@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild  } from "@angular/core";
-import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
+import { FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
 import { Settings } from "../config/settings";
 

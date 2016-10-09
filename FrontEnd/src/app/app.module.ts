@@ -32,6 +32,7 @@ import { MessageService } from "./services/message";
 
 import { SELECT_DIRECTIVES } from "ng2-select";
 import { TabsModule } from "ng2-tabs";
+import { RatingModule } from "ng2-rating";
 
 import { HTTP_PROVIDERS } from "@angular/http";
 
@@ -46,6 +47,7 @@ if (Settings.prod) enableProdMode();
         ReactiveFormsModule,
         appRouterProvider,
         TabsModule,
+        RatingModule,
     ],
     bootstrap: [
         AppComponent,
