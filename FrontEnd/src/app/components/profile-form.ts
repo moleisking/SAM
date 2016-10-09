@@ -59,8 +59,9 @@ export class ProfileFormComponent implements OnInit {
 
         this.tags = this.cats.find(x => x.id === this.model.category).tags;
         this.model.tags.split(",").forEach(element => {
-            this.tagsActive.push(this.cats.find(e => e.id === this.model.category).tags
-                .find(e => e.id === +element));
+            if (element)
+                this.tagsActive.push(this.cats.find(e => e.id === this.model.category).tags
+                    .find(e => e.id === +element));
         });
         this.tagsValue = this.model.tags;
         this.areTagsAvailable = this.tags.length > 0;
@@ -116,9 +117,9 @@ export class ProfileFormComponent implements OnInit {
     onChangeCategory(value: number) {
         this.tagsValue = [];
         this.tagsActive = [];
-        this.mySelect.ngOnInit();
         this.tags = this.cats.find(x => x.id === value).tags;
         this.areTagsAvailable = this.tags.length > 0;
+        this.mySelect.ngOnInit();
     }
 
     refreshValue(value: number): void {

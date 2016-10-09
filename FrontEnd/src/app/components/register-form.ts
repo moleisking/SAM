@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
+import { Router } from "@angular/router";
+import { Settings } from "../config/settings";
 
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
@@ -51,7 +52,7 @@ export class RegisterFormComponent implements OnInit {
         let options = {
             // return only geocoding results, rather than business results.
             types: ["geocode"],
-            componentRestrictions: { country: "es" }
+            componentRestrictions: { country: Settings.search_country }
         };
 
         let autocomplete = new google.maps.places.Autocomplete(searchBox, options);
@@ -77,15 +78,14 @@ export class RegisterFormComponent implements OnInit {
         });
 
         this.getPosition();
-
         this.getCategories();
     }
 
     onChangeCategory(value: number) {
-        this.tagsValue = [];
-        this.mySelect.ngOnInit();
         this.tags = this.cats.find(x => x.id === value).tags;
         this.areTagsAvailable = this.tags.length > 0;
+        if (this.areTagsAvailable && this.tagsValue.length > 0)
+            this.mySelect.ngOnInit();
     }
 
     getCategories() {
