@@ -53,20 +53,25 @@ module.exports = {
                 });
                 var result = [];
                 mines.map(function (item) {
+                    var found = false;
                     var contact = item.to === id ? item.from : item.to;
                     user.getNameByEmail(contact, function (err, data) {
                         item.name = data;
                         item.nameurl = toURLString(data);
                         if (result.length === 0)
                             result.push(item);
-                        else
+                        else {
                             for (var i = 0; i <= result.length - 1; i++)
                                 if (result[i].from === contact || result[i].to === contact)
                                     if (result[i].datestamp < item.datestamp) {
                                         result.splice(i, 1);
                                         result.push(item);
+                                        found = true;
                                         break;
                                     }
+                            if (!found)
+                                result.push(item);
+                        }
                     });
                 });
                 myCache.set(myCacheName + "allLasts" + id, result, function (err, success) {
