@@ -1,6 +1,6 @@
 var model = require("../models/message");
 var user = require("./user");
-var messageDAL = require("../dal/message");
+var dal = require("../dal/message");
 var toURLString = require('speakingurl');
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
@@ -19,7 +19,7 @@ module.exports = {
         message.validate().then(function () {
             if (!message.isValid)
                 return cb(message.errors, null);
-            messageDAL.create(message.toJSON(), function (err, data) {
+            dal.create(message.toJSON(), function (err, data) {
                 if (err)
                     return cb(err, null);
                 myCache.del(myCacheName + "allLasts" + data.from);
@@ -79,7 +79,7 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, result);
-                    return cb('cache internal failure', null);
+                    return cb("cache internal failure", null);
                 });
             });
         });
@@ -106,7 +106,7 @@ module.exports = {
                             return cb(err, null);
                         if (success)
                             return cb(null, result);
-                        return cb('cache internal failure', null);
+                        return cb("cache internal failure", null);
                     });
                 });
             });
@@ -116,7 +116,7 @@ module.exports = {
 
 function _read(cb) {
     try {
-        messageDAL.read(function (err, data) {
+        dal.read(function (err, data) {
             if (err && err.id != 5)
                 return cb(err, null);
             var messages = [];

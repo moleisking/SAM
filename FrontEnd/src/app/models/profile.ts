@@ -9,10 +9,11 @@ export class ProfileModel {
     public hourRate: number;
     public dayRate: number;
     public credit: number;
-    public score: number;
+    public rating: number;
     public curLat: number;
     public curLng: number;
     public category: number;
     public categoryName: string;
     public tags: string;
+    public average: number;
 }

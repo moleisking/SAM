@@ -10,6 +10,7 @@ var web = require("./routes/web");
 var users = require("./routes/user");
 var auth = require("./routes/auth");
 var message = require("./routes/message");
+var rating = require("./routes/rating");
 
 var app = express();
 
@@ -58,6 +59,7 @@ app.use("/", web);
 app.use("/users", users);
 app.use("/", auth);
 app.use("/messages", message);
+app.use("/ratings", rating);
 
 function redirectRouterUnmatched(req, res, next) {
   res.sendFile("/index.html", { root: "./" });
@@ -85,15 +87,15 @@ if (app.get("env") === "development") {
     });
   });
 }
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: {}
+else
+  // production error handler
+  // no stacktraces leaked to user
+  app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.json({
+      message: err.message,
+      error: {}
+    });
   });
-});
 
 module.exports = app;

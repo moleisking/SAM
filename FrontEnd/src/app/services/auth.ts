@@ -6,7 +6,6 @@ import { UserModel } from "../models/user";
 import { Settings } from "../config/settings";
 
 @Injectable()
-
 export class AuthService {
 
   constructor(private http: Http) { }

@@ -4,7 +4,6 @@ import { Settings } from "../config/settings";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
-
 export class WebService {
 
   constructor(private http: Http) { }

@@ -3,42 +3,36 @@ import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 
 import { Settings } from "../config/settings";
-import { MessageModel } from "../models/message";
+import { RatingModel } from "../models/rating";
 
 @Injectable()
-export class MessageService {
+export class RatingService {
 
     constructor(private http: Http) { }
 
-    add(model: MessageModel): Observable<any> {
+    add(model: RatingModel): Observable<any> {
         let headers = new Headers();
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         let options = new RequestOptions({ headers: headers });
-        let body = "to=" + model.to + "&text=" + model.text + "&front=" + Settings.frontend_url
-         + "&fromUrl=" + model.nameurl;
+        let body = "id=" + model.id + "&number=" + model.number;
 
-        return this.http.post(Settings.backend_url + "/messages/add", body, options)
+        return this.http.post(Settings.backend_url + "/ratings/add", body, options)
             .map((res: Response) => res.json().add).catch(this.handleError);
     }
 
-    readAllLasts(): Observable<MessageModel[]> {
+    readProfileAuth(nameUrl: string): Observable<RatingModel> {
         let headers = new Headers();
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(Settings.backend_url + "/messages/readalllasts", options)
-            .map((res: Response) => res.json().readalllasts).catch(this.handleError);
+        return this.http.get(Settings.backend_url + "/ratings/readProfileAuth/" + nameUrl, options)
+            .map((res: Response) => res.json()).catch(this.handleError);
     }
 
-    readWith(name: string): Observable<MessageModel[]> {
-        let headers = new Headers();
-        headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
-        let options = new RequestOptions({ headers: headers });
-
-        return Observable.interval(5000)
-            .flatMap(() => this.http.get(Settings.backend_url + "/messages/read/" + name, options)
-            .map((res: Response) => res.json().read).catch(this.handleError));
+    readProfile(nameUrl: string): Observable<RatingModel> {
+        return this.http.get(Settings.backend_url + "/ratings/readprofile/" + nameUrl)
+            .map((res: Response) => res.json()).catch(this.handleError);
     }
 
     private handleError(error: any) {

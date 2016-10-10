@@ -18,7 +18,7 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, readValue);
-                    return cb('cache internal failure', null);
+                    return cb("cache internal failure", null);
                 });
             });
         });
@@ -38,7 +38,7 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, readValue);
-                    return cb('cache internal failure', null);
+                    return cb("cache internal failure", null);
                 });
             });
         });
@@ -58,7 +58,7 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, readValue);
-                    return cb('cache internal failure', null);
+                    return cb("cache internal failure", null);
                 });
             });
         });

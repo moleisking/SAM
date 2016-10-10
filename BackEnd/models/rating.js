@@ -1,7 +1,14 @@
 var model = require('nodejs-model');
 var bCrypt = require('bcrypt-nodejs');
 
-var message = new model("Message")
+var message = new model("Rating")
+    .attr('id', {
+        validations: {
+            presence: {
+                message: 'Id is required!'
+            }
+        }
+    })
     .attr('from', {
         validations: {
             presence: {
@@ -9,25 +16,10 @@ var message = new model("Message")
             }
         }
     })
-    .attr('to', {
+    .attr('number', {
         validations: {
             presence: {
-                message: 'To is required!'
-            }
-        }
-    })
-    .attr('text', {
-        validations: {
-            presence: {
-                message: 'Text is required!'
-            },
-            length: {
-                minimum: 3,
-                maximum: 500,
-                messages: {
-                    tooShort: 'Text is too short!',
-                    tooLong: 'Text is too long!'
-                }
+                message: 'Number is required!'
             }
         }
     })

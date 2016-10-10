@@ -6,7 +6,6 @@ import { ProfileModel } from "../models/profile";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
-
 export class UserService {
 
   constructor(private http: Http) { }

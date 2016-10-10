@@ -22,7 +22,7 @@ module.exports = {
         user.dayRate(0);
         user.hourRate(0);
         user.credit(0);
-        user.score(0);
+        user.rating(0);
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
@@ -54,7 +54,7 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, readValue);
-                    return cb('cache internal failure', null);
+                    return cb("cache internal failure", null);
                 });
             });
         });
@@ -87,7 +87,7 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, readAll);
-                    return cb('cache internal failure', null);
+                    return cb("cache internal failure", null);
                 });
             });
         });
@@ -152,7 +152,7 @@ module.exports = {
                                     return cb(err, null);
                                 if (success)
                                     return cb(null, readValue);
-                                return cb('cache internal failure', null);
+                                return cb("cache internal failure", null);
                             });
                         });
                     }
@@ -179,7 +179,7 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, readValue);
-                    return cb('cache internal failure', null);
+                    return cb("cache internal failure", null);
                 });
             });
         });
@@ -209,7 +209,7 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, result);
-                    return cb('cache internal failure', null);
+                    return cb("cache internal failure", null);
                 });
             });
         });
@@ -231,7 +231,7 @@ module.exports = {
                         return cb(err, null);
                     if (success)
                         return cb(null, readValue);
-                    return cb('cache internal failure', null);
+                    return cb("cache internal failure", null);
                 });
             });
         });
@@ -254,7 +254,7 @@ module.exports = {
                                 return cb(err, null);
                             if (success)
                                 return cb(null, element.email);
-                            return cb('cache internal failure', null);
+                            return cb("cache internal failure", null);
                         });
                 }, this);
             });

@@ -2,8 +2,8 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 var message = require("../core/message");
-var emailer = require("../core/emailer");
 var user = require("../core/user");
+// var emailer = require("../core/emailer");
 
 router.get("/readalllasts", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   message.readAllLasts(user.getEmailFromTokenUser(req.headers), function (err, data) {
