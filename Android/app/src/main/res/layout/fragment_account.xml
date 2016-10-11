@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_profile_layout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="144dp"
+                android:layout_height="144dp"
+                android:scrollbars="none"
+                android:contentDescription="@string/lbl_description"
+                android:src="@drawable/ic_person_black_24dp"
+                android:clickable="true"
+                android:onClick="onImageUpload">
+            </ImageView>
+            <EditText
+                android:id="@+id/txtName"
+                android:text="Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Firstname and Lastname"
+                android:maxLines="1"
+                android:singleLine="true">
+                <requestFocus />
+            </EditText>
+            <EditText
+                android:id="@+id/txtPassword"
+                android:text="Password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true">
+                <requestFocus />
+            </EditText>
+            <EditText
+                android:id="@+id/txtEmail"
+                android:text="Email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email Address"
+                android:maxLines="1"
+                android:singleLine="true">
+                <requestFocus />
+            </EditText>
+            <EditText
+                android:id="@+id/txtDescription"
+                android:text="Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true">
+            </EditText>
+            <EditText
+                android:id="@+id/txtAddress"
+                android:text="Address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true">
+            </EditText>
+            <EditText
+                android:id="@+id/txtMobile"
+                android:text="Mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true">
+            </EditText>
+            <EditText
+                android:id="@+id/txtHourRate"
+                android:text="Hour Rate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true">
+            </EditText>
+            <EditText
+                android:id="@+id/txtDayRate"
+                android:text="Day Rate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true">
+            </EditText>
+            <AutoCompleteTextView
+                android:id="@+id/txtCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10">
+            </AutoCompleteTextView>
+            <MultiAutoCompleteTextView
+                android:id="@+id/txtTag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10">
+            </MultiAutoCompleteTextView>
+            <!--Event handled in content_main.xml and MainActivity:onFragmentViewClick-->
+            <!--android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:background="@color/colorPrimary"
+                android:src="@drawable/ic_add_black_24dp"
+                android:onClick="onSaveClick">
+            </android.support.design.widget.FloatingActionButton-->
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
