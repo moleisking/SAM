@@ -20,8 +20,8 @@ public class GPS implements  GoogleApiClient.ConnectionCallbacks,
 
 
     //private PendingResult<LocationSettingsResult> mLocationSettingRequestResult;
-    private double currentLatitude;
-    private double currentLongitude;
+    //private double currentLatitude;
+    private LatLng currentLatLng = new LatLng(0.0d,0.0d);
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private Context context;
@@ -30,6 +30,7 @@ public class GPS implements  GoogleApiClient.ConnectionCallbacks,
 
     public GPS(Context context)
     {
+        //currentLatLng = new LatLng(0.0d,0.0d);
         if (googleApiClient == null) {
             Log.w("onCreate", "Create the GoogleApiClient object");
             googleApiClient = new GoogleApiClient.Builder(context)
@@ -47,6 +48,10 @@ public class GPS implements  GoogleApiClient.ConnectionCallbacks,
 
     }
 
+    /*public void setResponseGPSListener(ResponseGPS listener){
+        delegate = listener;
+    }*/
+
     @Override
     public void onConnected(Bundle bundle)
     {
@@ -61,9 +66,12 @@ public class GPS implements  GoogleApiClient.ConnectionCallbacks,
 
             } else {
                 //If everything went fine lets get latitude and longitude
-                this.currentLatitude = location.getLatitude();
-                this.currentLongitude = location.getLongitude();
-                Log.v("GPS:Position",String.valueOf(currentLatitude)+":"+ String.valueOf(currentLongitude));
+                currentLatLng = new LatLng(location.getLatitude(),location.getLongitude());
+                //this.currentLatitude = location.getLatitude();
+                //this.currentLongitude = location.getLongitude();
+                Log.v("GPS:onConnected:S",currentLatLng.toString());
+                delegate.onGPSPositionResult(currentLatLng);
+                Log.v("GPS:onConnected:E",String.valueOf(currentLatLng.latitude)+":"+ String.valueOf(currentLatLng.longitude));
             }
         }
         catch (SecurityException ex)
@@ -94,25 +102,19 @@ public class GPS implements  GoogleApiClient.ConnectionCallbacks,
 
     @Override
     public void onLocationChanged(Location location) {
-        this.currentLatitude = location.getLatitude();
-        this.currentLongitude = location.getLongitude();
-        Log.v("GPS:Location",String.valueOf(currentLatitude)+":"+ String.valueOf(currentLongitude));
+        //this.currentLatitude = location.getLatitude();
+        //this.currentLongitude = location.getLongitude();
+        currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        delegate.onGPSPositionResult(new LatLng(location.getLatitude(),location.getLongitude() ));
+        Log.v("GPS:LocationChange",String.valueOf(currentLatLng.latitude)+":"+ String.valueOf(currentLatLng.longitude));
     }
 
-    public LatLng getLocation()
-    {
-        this.Resume();
-        LatLng p = new LatLng(currentLatitude,currentLongitude);
-        this.Pause();
-        return p;
-    }
-
-    public void Resume() {
+    public void Start() {
         googleApiClient.connect();
         Log.i("GPS:onResume()", "Called");
     }
 
-    public void Pause()
+    public void Stop()
     {
         Log.v("GPS:onPause()", "Called");
         if (googleApiClient.isConnected()) {

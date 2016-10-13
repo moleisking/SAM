@@ -33,11 +33,12 @@
 
             <ImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="144dp"
-                android:layout_height="144dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:scrollbars="none"
-                android:contentDescription="@string/lbl_description"
-                android:src="@drawable/ic_person_black_24dp"
+                android:contentDescription="@string/label_description"
+                android:src="@drawable/default_avatar"
+                android:background="@color/color_background_light"
                 android:clickable="true"
                 android:onClick="onImageUpload">
             </ImageView>
@@ -47,6 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Firstname and Lastname"
+                android:textSize="@dimen/font_content_size"
                 android:maxLines="1"
                 android:singleLine="true">
                 <requestFocus />
@@ -57,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                android:textSize="@dimen/font_content_size"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true">
@@ -67,6 +70,7 @@
                 android:text="Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/font_content_size"
                 android:hint="Email Address"
                 android:maxLines="1"
                 android:singleLine="true">
@@ -75,6 +79,7 @@
             <EditText
                 android:id="@+id/txtDescription"
                 android:text="Description"
+                android:textSize="@dimen/font_content_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -83,6 +88,7 @@
             <EditText
                 android:id="@+id/txtAddress"
                 android:text="Address"
+                android:textSize="@dimen/font_content_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -90,7 +96,8 @@
             </EditText>
             <EditText
                 android:id="@+id/txtMobile"
-                android:text="Mobile"
+                android:text="@string/label_mobile"
+                android:textSize="@dimen/font_content_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -98,7 +105,8 @@
             </EditText>
             <EditText
                 android:id="@+id/txtHourRate"
-                android:text="Hour Rate"
+                android:text="@string/label_rate_hour"
+                android:textSize="@dimen/font_content_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -106,7 +114,8 @@
             </EditText>
             <EditText
                 android:id="@+id/txtDayRate"
-                android:text="Day Rate"
+                android:text="@string/label_rate_day"
+                android:textSize="@dimen/font_content_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"

@@ -3,7 +3,6 @@ package me.minitrabajo.view;
 /*
 *  private FloatingActionButton btnSearch; not necessary due to events being passed back to MainActivity in onFragmentViewClick
 * */
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 //import android.support.v4.app.Fragment;
@@ -16,8 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -32,9 +29,11 @@ import me.minitrabajo.controller.ResponseAPI;
 import me.minitrabajo.controller.ResponseGPS;
 import me.minitrabajo.model.Categories;
 import me.minitrabajo.model.Category;
+import me.minitrabajo.model.UserAccount;
 import me.minitrabajo.model.Users;
 
-public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS {
+public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
+{
 
     private AutoCompleteTextView txtCategory;
     private MultiAutoCompleteTextView txtTag;
@@ -43,6 +42,7 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
     private Users users;
     private GPS gps;
     private LatLng currentLatLng;
+    private UserAccount userAccount;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -54,6 +54,26 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         Log.v("Search:OnCreate","Started");
+
+        //Define UserAccount Objects
+        userAccount = new UserAccount(getActivity());
+        try
+        {
+            //Try load from passed object
+            Log.v("Account","Try load from passed object");
+            userAccount = (UserAccount)getActivity().getIntent().getSerializableExtra("UserAccount");
+        }
+        catch (Exception uaex)
+        {
+            Log.v("Account","Failed to load user account from intent");
+            if (userAccount.isEmpty())
+            {
+                userAccount.loadFromFile();
+                Log.v("Account","Load user account from file");
+            }
+        }
+        userAccount.print();
+
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.fragment_search, container, false);
         //Define Objects
         //txtSearch = (TextView)container.findViewById(R.id.txtName);
@@ -69,8 +89,13 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
         });
         txtTag= (MultiAutoCompleteTextView) ll.findViewById(R.id.txtTag);
         //btnSearch = (FloatingActionButton)container.findViewById(R.id.btnRegister);
+
+        //Start GPS
+        currentLatLng = new LatLng(0.0d,0.0d);
         gps = new GPS(this.getActivity());
-        currentLatLng = gps.getLocation();
+        gps.delegate = this;
+        gps.Start();
+
         fillCategory();
         Log.v("Search:Latitude",String.valueOf(currentLatLng.latitude));
         Log.v("Search:Longitude",String.valueOf(currentLatLng.longitude));
@@ -90,15 +115,25 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
             users = new Users(this.getActivity());
             users.loadFromJSON( myJson.toString());
 
-            //Pass users to list, then load list
-            Log.w("onSearchClick", "Search button clicked");
-            Intent intent = new Intent(this.getActivity(), ListFragment.class);
-            intent.putExtra("users", users);
-            startActivity(intent);
+
+            if(users.size() == 0)
+            {
+                Toast.makeText(this.getActivity(),"No results",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                //Pass users to list, then load list
+                users.saveToFile();
+
+                //Move to list fragment
+                ((MainActivity)getActivity()).showListFragment();
+            }
+            Log.w("Search:Process:Users", "Print");
+            users.print();
         }
         catch (Exception ex)
         {
-            Log.w("Register:ProFin", ex.getMessage());
+            Log.w("Search:Process:Err", ex.getMessage());
         }
     }
 
@@ -116,13 +151,21 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
         Toast.makeText(this.getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onGPSPositionResult(LatLng position)
+    {
+        this.currentLatLng = position;
+        gps.Stop();
+        Log.v("Search:GPSPosRes",position.toString());
+    }
+
     protected void fillCategory()
     {
         categories = new Categories(this.getActivity());
         if(categories.hasFile())
         {
             categories.loadFromFile();
-            ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_dropdown, R.id.txtItem, categories.getCategoryStringArray());
+            ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_category, R.id.txtItemCategory, categories.getCategoryStringArray());
             txtCategory.setAdapter(adapter);
             txtCategory.setThreshold(2);
             Log.w("Account:onCreate", "Categories load from file");
@@ -136,7 +179,7 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
     protected void fillTag(String category)
     {
         Category c = categories.findCategory(category);
-        ArrayAdapter adapter = new ArrayAdapter(this.getActivity(), R.layout.row_dropdown, R.id.txtItem, c.getTagStringArray() );
+        ArrayAdapter adapter = new ArrayAdapter(this.getActivity(), R.layout.row_tag, R.id.txtItemTag, c.getTagStringArray() );
         txtTag.setText("");
         txtTag.setAdapter(adapter);
         txtTag.setThreshold(2);
@@ -145,16 +188,15 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
 
     protected void onSearchClick(View view)
     {
-        LatLng p = gps.getLocation();
+        currentLatLng = new LatLng( 40.4100743,-3.7054997);
+
         Log.v("Search:onSearchClick()","Post");
-
-
         String url = getResources().getString(R.string.url_post_search);
-        String parameters = "category="+ txtCategory.getText() + "&radius="+ 5 + "&regLat=" + p.latitude + "&regLng=" + p.longitude;
+        String parameters = "category="+ categories.findCategory(txtCategory.getText().toString()).getID() + "&radius="+ 5 + "&regLat=" + currentLatLng.latitude + "&regLng=" + currentLatLng.longitude;
         Log.v("Search:Parameters ",parameters );
         PostAPI asyncTask =new PostAPI(this.getActivity());
         asyncTask.delegate = this;
-        asyncTask.execute(url,parameters,"");
+        asyncTask.execute(url,parameters,userAccount.getToken());
     }
 
 }

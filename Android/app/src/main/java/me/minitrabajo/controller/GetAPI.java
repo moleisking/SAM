@@ -33,12 +33,12 @@ public class GetAPI extends AsyncTask <String, String, String>
 {
     //Call back interface
     public ResponseAPI delegate = null;
-    private Context mContext;
+    private Context context;
     //private String parameters = "name=scott&pass=12345&email=moleisking%40gmail.com";
 
 	public GetAPI(Context context)
 	{
-		mContext = context;
+		this.context = context;
 	}
 
 

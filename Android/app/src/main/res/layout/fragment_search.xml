@@ -13,17 +13,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <!--TextView
                 android:id="@+id/lblSearch"
                 android:text="Search"
-                android:textSize="@dimen/text_view"
+                android:textSize="@dimen/font_content_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Search tags"
                 android:maxLines="1"
                 android:singleLine="true">
                 <requestFocus />
-            </TextView>
+            </TextView-->
 
             <!--RadioGroup
                 android:id="@+id/radRadius"
@@ -59,7 +59,7 @@
             <TextView
                 android:id="@+id/lblCategory"
                 android:text="Category"
-                android:textSize="@dimen/text_view"
+                android:textSize="@dimen/font_content_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Search category"
@@ -75,7 +75,7 @@
             <TextView
                 android:id="@+id/lblTag"
                 android:text="Tag"
-                android:textSize="@dimen/text_view"
+                android:textSize="@dimen/font_content_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Search tag"

@@ -9,17 +9,19 @@
         android:id="@+id/imgLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="centerInside"
         android:scrollbars="none"
-        android:background="@drawable/ic_thumb_up_black_24dp"
-        android:contentDescription="@string/lbl_description">
+        android:background="@drawable/ic_minitrabajo"
+
+        android:contentDescription="@string/label_description">
     </ImageView>
 
     <TextView
-        android:id="@+id/lblTitle"
+        android:id="@+id/lblName"
         android:text="@string/app_name"
         style="@style/AppTheme"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
     </TextView>
 
     <TextView
@@ -35,15 +37,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </TextView>
-
-    <android.support.design.widget.FloatingActionButton
+    <TextView
+        android:id="@+id/lblAuthor"
+        android:text="@string/app_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+    <TextView
+        android:id="@+id/lblContact"
+        android:text="@string/app_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+    <!--Event handled in content_main.xml and MainActivity:onFragmentViewClick-->
+    <!--android.support.design.widget.FloatingActionButton
         android:id="@+id/btnEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:background="@color/colorPrimary"
+        android:background="@color/color_secondary_dark"
         android:src="@drawable/ic_email_black_24dp"
         android:onClick="onEmailClick">
-    </android.support.design.widget.FloatingActionButton>
+    </android.support.design.widget.FloatingActionButton-->
 </LinearLayout>

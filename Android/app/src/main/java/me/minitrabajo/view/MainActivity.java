@@ -3,6 +3,7 @@ package me.minitrabajo.view;
 import android.app.Fragment;
 import android.app.FragmentManager;
 //import android.support.v4.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_profile)
         {
             Log.v("NavigationItemSelected","nav_profile");// Handle the camera action
-            showProfileFragment();
+            showMyProfileFragment();
         }
         else if (id == R.id.nav_search)
         {
@@ -130,7 +133,7 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_result)
         {
             Log.v("NavigationItemSelected","nav_result");
-            showResultFragment();
+            showListFragment();
         }
         else if (id == R.id.nav_setting)
         {
@@ -169,15 +172,19 @@ public class MainActivity extends AppCompatActivity
             }
             else if (fragment instanceof AboutFragment) {
                 Log.w("MainActivity", "AboutFragmentClick");
-                ((AboutFragment) fragment).onEmailClick(v);
+                ((AboutFragment) fragment).onMessageClick(v);
             }
             else if (fragment instanceof AccountFragment) {
-                Log.w("AccountActivity", "SaveClick");
+                Log.w("MainActivity", "SaveClick");
                 ((AccountFragment) fragment).onSaveClick(v);
             }
             else if (fragment instanceof WordFragment) {
-                Log.w("AccountActivity", "SaveClick");
+                Log.w("MainActivity", "SaveClick");
                 ((WordFragment) fragment).onWordClick(v);
+            }
+            else if (fragment instanceof MessageFragment) {
+                Log.w("MainActivity", "MessageClick");
+                ((MessageFragment) fragment).onMessageClick(v);
             }
         }
     }
@@ -191,24 +198,17 @@ public class MainActivity extends AppCompatActivity
                 .commit();
         setTitle("Search");
 
+        //Hide keyboard
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
         fab.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_black_24dp, this.getTheme()));
         } else {
             fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_black_24dp));
         }
-    }
-
-    public void showResultFragment()
-    {
-        //Load search results fragment
-        FragmentManager fragmentManager = this.getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame , new ListFragment())
-                .commit();
-        setTitle("Results");
-
-        fab.setVisibility(View.INVISIBLE);
     }
 
     public void showSettingFragment()
@@ -238,6 +238,11 @@ public class MainActivity extends AppCompatActivity
                 .commit();
         setTitle("Account");
 
+        //Hide keyboard
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
         fab.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp, this.getTheme()));
@@ -263,7 +268,32 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void showProfileFragment()
+    public void showMessageFragment()
+    {
+        //Pass user account object to message fragment
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("UserAccount", userAccount);
+
+        //Get user receiver the message
+        User user = (User)getIntent().getSerializableExtra("User");
+        getIntent().putExtra("User", user );
+
+        //Load word fragment
+        FragmentManager fragmentManager = this.getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame , new MessageFragment())
+                .commit();
+        setTitle("Message");
+
+        fab.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp, this.getTheme()));
+        } else {
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp));
+        }
+    }
+
+    public void showMyProfileFragment()
     {
         //Pass user object to profile fragment
         User user=userAccount.getUser();
@@ -275,6 +305,35 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_frame , new ProfileFragment())
                 .commit();
         setTitle("Profile");
+
+        //Hide keyboard
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
+        fab.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp, this.getTheme()));
+        } else {
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp));
+        }
+    }
+
+    public void showProfileFragment()
+    {
+        //User object sent by list fragment
+
+        //Load profile fragment
+        FragmentManager fragmentManager = this.getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame , new ProfileFragment())
+                .commit();
+        setTitle("Profile");
+
+        //Hide keyboard
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
         fab.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -292,6 +351,33 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_frame , new AboutFragment())
                 .commit();
         setTitle("About");
+
+        //Hide keyboard
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
+        fab.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp, this.getTheme()));
+        } else {
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp));
+        }
+    }
+
+    protected void showListFragment()
+    {
+        //Load list fragment
+        FragmentManager fragmentManager = this.getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame , new ListFragment())
+                .commit();
+        setTitle("List");
+
+        //Hide keyboard
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
         fab.setVisibility(View.INVISIBLE);
     }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_message"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1">
+
+    <TextView
+        android:id="@+id/txtHistory"
+        android:text="My message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_weight="0.9">
+    </TextView>
+
+    <EditText
+        android:id="@+id/txtMessage"
+        android:text="My message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_weight="0.1">
+    </EditText>
+
+    <!--Event handled in content_main.xml and MainActivity:onFragmentViewClick-->
+    <!--android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_email_black_24dp"
+        android:layout_gravity="bottom|end">
+    </android.support.design.widget.FloatingActionButton-->
+
+</LinearLayout>

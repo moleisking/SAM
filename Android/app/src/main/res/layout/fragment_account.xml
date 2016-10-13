@@ -18,7 +18,7 @@
                 android:layout_width="144dp"
                 android:layout_height="144dp"
                 android:scrollbars="none"
-                android:contentDescription="@string/lbl_description"
+                android:contentDescription="@string/label_description"
                 android:src="@drawable/ic_person_black_24dp"
                 android:clickable="true"
                 android:onClick="onImageUpload">

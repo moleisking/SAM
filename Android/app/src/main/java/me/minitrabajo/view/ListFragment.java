@@ -19,15 +19,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import me.minitrabajo.R;
+import me.minitrabajo.controller.UsersAdapter;
+import me.minitrabajo.model.User;
 import me.minitrabajo.model.Users;
 
 public class ListFragment extends Fragment {
 
     private ListView listView;
-
-    private ArrayList<String> userList;
-    private ArrayAdapter<String> userAdapter;
-    String[] items = {"Apple","Banana","Grape"};
     private Users users;
 
     @Override
@@ -45,24 +43,32 @@ public class ListFragment extends Fragment {
         listView.setOnItemClickListener(new ItemList());
 
         //Get List Data
-        users = (Users)getActivity().getIntent().getSerializableExtra("users");
+        users = new Users(this.getActivity());
+        users.loadFromFile();
+        users.print();
 
         //Fill ListView with Data
-        userAdapter = new ArrayAdapter<String>(container.getContext(), R.layout.row_list, R.id.txtItem,items);
-        listView.setAdapter(userAdapter);
-        Log.w("ListView", "List loaded with data");
+        UsersAdapter usersAdapter = new UsersAdapter(this.getActivity(), (ArrayList<User>) users.getUserList());
+        listView.setAdapter(usersAdapter);
+        Log.w("ListFragment:onCreateV", "List loaded with data");
 
         return view;
     }
-
 
     protected class ItemList implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
             ViewGroup vg = (ViewGroup)view;
-            TextView tv = (TextView)vg.findViewById(R.id.txtItem);
-            Toast.makeText(getContext(),tv.getText().toString(),Toast.LENGTH_SHORT).show();
-            Log.w("ItemClick", "List Item Clicked");
+            TextView txtName = (TextView)vg.findViewById(R.id.txtName);
+            User user = users.findUser(txtName.getText().toString());
+            getActivity().getIntent().putExtra("User", user );
+            ((MainActivity)getActivity()).showProfileFragment();
+
+            Log.w("List:onItemClick", txtName.getText().toString());
+            //Toast.makeText(getContext(),tv.getText().toString(),Toast.LENGTH_SHORT).show();
+
+
         }
     }
+
 }

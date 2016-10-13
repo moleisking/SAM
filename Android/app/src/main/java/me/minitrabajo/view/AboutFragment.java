@@ -11,14 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import me.minitrabajo.R;
+import me.minitrabajo.model.User;
 
 //import android.app.Fragment;
 
 public class AboutFragment extends Fragment {
 
-    private  FloatingActionButton btnEmail;
     private TextView txtName, txtDescription, txtAddress;
     private ImageView imgItem;
 
@@ -34,16 +35,18 @@ public class AboutFragment extends Fragment {
         txtName = (TextView)container.findViewById(R.id.txtName);
         txtDescription = (TextView)container.findViewById(R.id.txtDescription);
         txtAddress = (TextView)container.findViewById(R.id.txtAddress);
-        imgItem = (ImageView)container.findViewById(R.id.imgItem);
-        btnEmail = (FloatingActionButton)container.findViewById(R.id.btnEmail);
+        imgItem = (ImageView)container.findViewById(R.id.imgLogo);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_about, container, false);
     }
 
-    public void onEmailClick(View view)
+    public void onMessageClick(View view)
     {
-        Snackbar.make(view, "Email", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        User user = new User(0,"Administrator");
+        this.getActivity().getIntent().putExtra("User", user );
+        ((MainActivity)getActivity()).showMessageFragment();
+        Toast.makeText(this.getActivity(), "Message", Toast.LENGTH_LONG).show();
     }
 
 }

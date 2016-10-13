@@ -1,6 +1,7 @@
 package me.minitrabajo.controller;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by Scott on 05/10/2016.
@@ -15,5 +16,5 @@ public interface ResponseGPS {
 
     void onGPSConnectionResolutionRequest(ConnectionResult connectionResult );
     void onGPSWarning(String string);
-    //void onGPSPositionResult();
+    void onGPSPositionResult(LatLng position);
 }

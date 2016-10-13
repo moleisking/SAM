@@ -29,16 +29,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.maps.model.LatLng;
 
 import me.minitrabajo.R;
 import me.minitrabajo.controller.GPS;
 import me.minitrabajo.controller.GetAPI;
 import me.minitrabajo.controller.ResponseAPI;
+import me.minitrabajo.controller.ResponseGPS;
 import me.minitrabajo.model.Categories;
 import me.minitrabajo.model.UserAccount;
 
-public class SettingFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener ,ResponseAPI
+public class SettingFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener ,ResponseAPI, ResponseGPS
 {
 
     private RadioButton radNotification;
@@ -47,6 +49,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
     private UserAccount userAccount;
     private Categories categories;
     private Context parentContext;
+    private LatLng currentLatLng;
     private GPS gps;
 
     @Override
@@ -62,6 +65,12 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         //Note* User account set in MainActivity
         userAccount = new UserAccount(this.getActivity());
         userAccount = (UserAccount) getActivity().getIntent().getSerializableExtra("UserAccount");
+
+        //Start GPS sensor
+        currentLatLng = new LatLng(0.0d,0.0d);
+        gps = new GPS(getActivity());
+        gps.delegate = this;
+        gps.Start();
 
         //Set build version value
         try
@@ -131,10 +140,10 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
             }
         });
 
-        Preference prefSetDefaultLocation = findPreference(" pref_item_refresh_registered_location");
+        Preference prefSetDefaultLocation = findPreference("pref_item_refresh_registered_location");
         prefSetDefaultLocation.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Log.v("SettingFragment","onChangePassword()");
+                Log.v("SettingFragment","onSetRegisteredLocation()");
                 onSetRegisteredLocation();
                 return true;
             }
@@ -200,6 +209,38 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         catch (Exception ex)
         {
             Log.w("Register:ProFin", ex.getMessage());
+        }
+    }
+
+    @Override
+    public void onGPSConnectionResolutionRequest(ConnectionResult connectionResult )
+    {
+        try
+        {
+            connectionResult.startResolutionForResult(this.getActivity(), ResponseGPS.CONNECTION_FAILURE_RESOLUTION_REQUEST);
+        }
+        catch (Exception ex)
+        {
+            Log.v("Account:onGPSConFail",ex.getMessage());
+        }
+    }
+
+    @Override
+    public void onGPSWarning(String message)
+    {
+        Toast.makeText(this.getActivity(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onGPSPositionResult(LatLng position) {
+        try{
+            this.currentLatLng = position;
+            Log.v("Search:GPSPosRes", position.toString());
+            gps.Stop();
+        }
+        catch (Exception ex)
+        {
+            Log.v("Search:GPSPosRes:Err", ex.getMessage());
         }
     }
 
@@ -305,9 +346,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
 
     protected void onSetRegisteredLocation()
     {
-        gps = new GPS(this.getActivity());
-        LatLng p = gps.getLocation();
-        Log.v("Setting:Position",p.toString());
+        Log.v("Setting:Position",currentLatLng.toString());
     }
 
     protected void onChangePassword()

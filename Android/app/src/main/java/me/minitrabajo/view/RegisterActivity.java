@@ -57,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
     private FloatingActionButton btnRegister;
     private TextView txtName, txtPassword, txtAddress, txtEmail, txtDayRate, txtHourRate;
     private ImageView imgProfile;
+    private LatLng currentLatLng;
 
     private User mUser;
    // private long id;
@@ -99,8 +100,12 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
             }
         });
 
-        //Define Objects
+        //Start GPS
         gps = new GPS (this);
+        gps.delegate = this;
+        gps.Start();
+
+        //Define Objects
         txtName = (TextView)findViewById(R.id.txtName);
         txtPassword = (TextView)findViewById(R.id.txtPassword);
         txtEmail = (TextView)findViewById(R.id.txtEmail);
@@ -265,9 +270,6 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
 
     public void onRegisterClick(View view)
     {
-        LatLng temp =gps.getLocation();
-        Log.v("Position",temp.latitude + ":"+ temp.longitude);
-
         UserAccount userAccount  = new UserAccount(this);
         userAccount.setName(txtName.getText().toString());
         userAccount.setPassword(txtPassword.getText().toString());
@@ -275,7 +277,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
         userAccount.setAddress(txtAddress.getText().toString());
         userAccount.setHourRate(Double.parseDouble(txtHourRate.getText().toString()));
         userAccount.setDayRate(Double.parseDouble(txtDayRate.getText().toString()));
-        userAccount.setRegisteredLatLng(gps.getLocation());
+        userAccount.setRegisteredLatLng(currentLatLng);
         userAccount.setImageRaw(((BitmapDrawable) imgProfile.getDrawable()).getBitmap());
 
         //Example: "name=scott&pass=12345&email=moleisking%40gmail.com";
@@ -315,6 +317,14 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
     }
 
     @Override
+    public void onGPSPositionResult(LatLng position)
+    {
+        this.currentLatLng = position;
+        gps.Stop();
+        Log.v("Register:GPSPosRes",position.toString());
+    }
+
+    @Override
     public void processFinish(String output)
     {
         //Here you will receive the result fired from async class
@@ -345,21 +355,6 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
         }
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        gps.Resume();
-        Log.i("onResume()", "Called");
-    }
-
-    @Override
-    protected void onPause()
-    {
-        Log.v("onPause()", "Called");
-        super.onPause();
-        gps.Pause();
-    }
 
     /* * * Load Image into ImageView * * */
 

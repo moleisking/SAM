@@ -59,7 +59,7 @@
 
         <activity
             android:name=".view.MapActivity"
-            android:label="@string/act_map" />
+            android:label="@string/title_map" />
         <activity
             android:name=".view.LoginActivity"
             android:label="MiniTrabajo:Login"
@@ -72,7 +72,7 @@
         </activity>
         <activity
             android:name=".view.RegisterActivity"
-            android:label="@string/act_register"
+            android:label="@string/title_register"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
 

@@ -3,14 +3,18 @@
     android:id="@+id/fragment_profile_layout"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:layout_weight="1">
 
     <ImageView
         android:id="@+id/imgProfile"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:contentDescription="@string/lbl_description">
+        android:contentDescription="@string/label_description"
+        android:src="@drawable/default_avatar"
+        android:background="@color/color_background_light"
+        android:layout_weight="0.3">
     </ImageView>
 
     <!--TextView
@@ -27,7 +31,9 @@
         android:text="Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp">
+        android:textSize="@dimen/font_content_size"
+        android:paddingTop="15dp"
+        android:layout_weight="0.1">
     </TextView>
 
     <!--TextView
@@ -41,9 +47,10 @@
     <TextView
         android:id="@+id/txtDescription"
         android:text="Description"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp">
+        android:textSize="@dimen/font_content_size"
+        android:layout_weight="0.1">
     </TextView>
 
     <!--TextView
@@ -56,45 +63,61 @@
     <TextView
         android:id="@+id/txtAddress"
         android:text="Address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_content_size"
+        android:layout_weight="0.1">
     </TextView>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fragment_profile_layout_hourrate"
+        android:id="@+id/layout_profile_hour_rate"
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_content_size"
+        android:layout_weight="0.1">
         <TextView
             android:id="@+id/lblHourRate"
             android:text="Hour Rate "
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_content_size">
         </TextView>
         <TextView
             android:id="@+id/txtHourRate"
-            android:text="20"
+            android:text="€20"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_content_size">
         </TextView>
     </LinearLayout>
-    <TextView
-        android:id="@+id/lblDayRate"
-        android:text="Day Rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </TextView>
-    <TextView
-        android:id="@+id/txtDayRate"
-        android:text="200"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </TextView>
-
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_profile_day_rate"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1">
+        <TextView
+            android:id="@+id/lblDayRate"
+            android:text="Day Rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_content_size">
+        </TextView>
+        <TextView
+            android:id="@+id/txtDayRate"
+            android:text=" €200"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_content_size">
+        </TextView>
+    </LinearLayout>
     <RatingBar
         android:id="@+id/ratScore"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:layout_weight="0.1">
     </RatingBar>
     <!--Event handled in content_main.xml and MainActivity:onFragmentViewClick-->
     <!--android.support.design.widget.FloatingActionButton

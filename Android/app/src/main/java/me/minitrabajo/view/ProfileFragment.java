@@ -23,7 +23,7 @@ public class ProfileFragment extends Fragment {
     private TextView txtName, txtDescription, txtAddress, txtDayRate, txtHourRate;
     private ImageView imgProfile;
     private RatingBar ratScore;
-    private User mUser;
+    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -34,14 +34,14 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Log.v("ProfileFra:onCreate","Started");
+        Log.v("Profile:onCreate","Started");
         // Inflate the layout for this fragment
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.fragment_profile, container, false);
 
         //Define Objects
-        mUser = new User(getActivity());
-        mUser = (User)getActivity().getIntent().getSerializableExtra("User");
-        mUser.print();
+        user = new User(getActivity());
+        user = (User)getActivity().getIntent().getSerializableExtra("User");
+        user.print();
 
         imgProfile = (ImageView)ll.findViewById(R.id.imgProfile);
         txtName = (TextView) ll.findViewById(R.id.txtName);
@@ -55,12 +55,12 @@ public class ProfileFragment extends Fragment {
         try {
             Log.v("ProfileFragment","Start try");
             //Fill Objects
-            txtName.setText(mUser.getName());
-            txtDescription.setText(mUser.getDescription());
-            txtAddress.setText(mUser.getAddress());
-            txtHourRate.setText(Double.toString(mUser.getHourRate()));
-            txtDayRate.setText(Double.toString(mUser.getDayRate()));
-            imgProfile.setImageBitmap(mUser.getImageAsBitmap());
+            txtName.setText(user.getName());
+            txtDescription.setText(user.getDescription());
+            txtAddress.setText(user.getAddress());
+            txtHourRate.setText(Double.toString(user.getHourRate()));
+            txtDayRate.setText(Double.toString(user.getDayRate()));
+            imgProfile.setImageBitmap(user.getImageAsBitmap());
         }
         catch (Exception ex)
         {
@@ -73,14 +73,14 @@ public class ProfileFragment extends Fragment {
 
     public void onMessageClick(View view)
     {
-        try {
-            imgProfile.setImageBitmap(mUser.getImageAsBitmap());
+        try
+        {
+            ((MainActivity)getActivity()).showMessageFragment();
         }
         catch (Exception ex)
         {
-            Log.v("User", ex.getMessage());
+            Log.v("Profile:onMessage:Err", ex.getMessage());
         }
-
 
         Toast.makeText(this.getActivity(), "Message sent", Toast.LENGTH_LONG).show();
     }

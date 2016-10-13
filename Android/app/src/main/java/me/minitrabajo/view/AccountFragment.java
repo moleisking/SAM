@@ -51,10 +51,10 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
     private MultiAutoCompleteTextView txtTag;
 
     private static final int SELECT_PICTURE = 1;
-    private String selectedImagePath;
+    //private String selectedImagePath;
     private Categories categories;
-    private GPS gps;
     private LatLng currentLatLng;
+    private GPS gps;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -87,11 +87,13 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
                     Log.v("Account","Load user account from file");
                 }
             }
-
-
             userAccount.print();
+
+            //Start GPS
+            currentLatLng = new LatLng(0.0d,0.0d);
             gps = new GPS(getActivity());
-            currentLatLng = gps.getLocation();
+            gps.delegate = this;
+            gps.Start();
             Log.v("Search:Latitude",String.valueOf(currentLatLng.latitude));
             Log.v("Search:Longitude",String.valueOf(currentLatLng.longitude));
 
@@ -141,7 +143,7 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
         if(categories.hasFile())
         {
             categories.loadFromFile();
-            ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_dropdown, R.id.txtItem, categories.getCategoryStringArray());
+            ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_category, R.id.txtItemCategory, categories.getCategoryStringArray());
             txtCategory.setAdapter(adapter);
             txtCategory.setThreshold(2);
             Log.w("Account:onCreate", "Categories load from file");
@@ -155,7 +157,7 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
     protected void fillTag(String category)
     {
         Category c = categories.findCategory(category);
-        ArrayAdapter adapter = new ArrayAdapter(this.getActivity(), R.layout.row_dropdown, R.id.txtItem, c.getTagStringArray() );
+        ArrayAdapter adapter = new ArrayAdapter(this.getActivity(), R.layout.row_tag, R.id.txtItemTag, c.getTagStringArray() );
         txtTag.setText("");
         txtTag.setAdapter(adapter);
         txtTag.setThreshold(2);
@@ -165,9 +167,14 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
     @Override
     public void onGPSConnectionResolutionRequest(ConnectionResult connectionResult )
     {
-        try {
+        try
+        {
             connectionResult.startResolutionForResult(this.getActivity(), ResponseGPS.CONNECTION_FAILURE_RESOLUTION_REQUEST);
-        }catch (Exception ex){Log.v("Account:onGPSConFail",ex.getMessage());}
+        }
+        catch (Exception ex)
+        {
+            Log.v("Account:onGPSConFail",ex.getMessage());
+        }
     }
 
     @Override
@@ -177,8 +184,22 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
     }
 
     @Override
+    public void onGPSPositionResult(LatLng position) {
+        try{
+            this.currentLatLng = position;
+            Log.v("Search:GPSPosRes", position.toString());
+            gps.Stop();
+        }
+        catch (Exception ex)
+        {
+            Log.v("Search:GPSPosRes:Err", ex.getMessage());
+        }
+    }
+
+    @Override
     public void processFinish(String output)
     {
+        //Get Response from save
         Log.w("Account:processFinish", output);
 
         try
@@ -192,7 +213,7 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
     }
 
 
-    @Override
+   /* @Override
     public void onResume() {
         super.onResume();
         gps.Resume();
@@ -205,7 +226,7 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
         super.onPause();
         gps.Pause();
         Log.v("Account:onPause()", "Called");
-    }
+    }*/
 
 
     /**
@@ -303,7 +324,7 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
             userAccount.setAddress(txtAddress.getText().toString());
             userAccount.setHourRate(Double.parseDouble(txtHourRate.getText().toString()));
             userAccount.setDayRate(Double.parseDouble(txtDayRate.getText().toString()));
-            userAccount.setRegisteredLatLng(gps.getLocation());
+            userAccount.setRegisteredLatLng(currentLatLng);
             userAccount.setImageRaw(((BitmapDrawable) imgProfile.getDrawable()).getBitmap());
 
             String url = getResources().getString(R.string.url_post_user_account_register);

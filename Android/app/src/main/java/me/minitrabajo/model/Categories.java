@@ -197,11 +197,11 @@ public class Categories extends ArrayList implements Serializable
             this.setCategoryList(cc.getCategoryList());
             //this.addAll(cc);
 
-            Log.v("Categories:Loadfile","Load from file success");
+            Log.v("Categories:loadFromFile","Load from file success");
         }
         catch (Exception e)
         {
-            Log.v("Categories:Loadfile:Err",e.getMessage());
+            Log.v("Categories:loadFromFile",e.getMessage());
         }
     }
 

@@ -50,10 +50,33 @@ public class User implements Serializable {
 		context = context;
 	}
 
+	public User(int id, String name)
+	{
+		this.id= id;
+		this.name = name;
+	}
+
 	public User(int id, String name,  String description,  String email, String mobile, String address,
 				Double hourRate, Double dayRate, Double currentLatitude,  Double currentLongitude, Double registeredLatitude , Double registeredLongitude )
 	{
 		this.id= id;
+		this.name = name;
+		this.mobile = mobile;
+		this.email = email;
+		this.description = description;
+		this.hourRate = hourRate;
+		this.dayRate = dayRate;
+		this.currentLatitude =  currentLatitude;
+		this.currentLongitude = currentLongitude;
+		this.registeredLatitude = registeredLatitude;
+		this.registeredLongitude = registeredLongitude;
+	}
+
+	public User(int id, String imageRaw , String name,  String description,  String email, String mobile, String address,
+				Double hourRate, Double dayRate, Double currentLatitude,  Double currentLongitude, Double registeredLatitude , Double registeredLongitude )
+	{
+		this.id= id;
+		this.imageRaw = imageRaw;
 		this.name = name;
 		this.mobile = mobile;
 		this.email = email;
@@ -76,11 +99,11 @@ public class User implements Serializable {
 	}
 	public int getScore()
 	{
-		return id;
+		return score;
 	}
 	public void setScore(int id)
 	{
-		this.id = id;
+		this.score = score;
 	}
 	public int getCredit()
 	{
@@ -316,6 +339,7 @@ public class User implements Serializable {
 		{
 			JSONObject data = new JSONObject(json).getJSONObject("data");
 
+			//this.id= data.getString("id");
 			this.name = data.getString("name");
 			this.description = data.getString("description");
 			this.email = data.getString("email");
