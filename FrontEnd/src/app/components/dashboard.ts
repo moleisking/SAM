@@ -82,4 +82,8 @@ export class Dashboard implements OnInit {
             () => console.log("Done get all messages.")
         );
     }
+
+    addCredit() {
+        console.log(this.model.credit)
+    }
 }
