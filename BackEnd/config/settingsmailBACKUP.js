@@ -3,5 +3,6 @@
 module.exports = {
     "admin": "goodbytes23@yahoo.es",
     "from": "sam@sam.com",
+    "fromText": "SAM Email",
     "sendgrid": ""
 };

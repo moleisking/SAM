@@ -9,6 +9,7 @@ export class ProfileModel {
     public hourRate: number;
     public dayRate: number;
     public credit: number;
+    public addCredit: number;
     public rating: number;
     public curLat: number;
     public curLng: number;

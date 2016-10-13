@@ -30,6 +30,7 @@ import { UserService } from "./services/user";
 import { WebService } from "./services/web";
 import { MessageService } from "./services/message";
 import { RatingService } from "./services/rating";
+import { PaymentService } from "./services/payment";
 
 import { SELECT_DIRECTIVES } from "ng2-select";
 import { TabsModule } from "ng2-tabs";
@@ -86,6 +87,7 @@ if (Settings.prod) enableProdMode();
         WebService,
         MessageService,
         RatingService,
+        PaymentService,
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA

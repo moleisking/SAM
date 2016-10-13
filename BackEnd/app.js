@@ -11,6 +11,7 @@ var users = require("./routes/user");
 var auth = require("./routes/auth");
 var message = require("./routes/message");
 var rating = require("./routes/rating");
+var payment = require("./routes/payment");
 
 var app = express();
 
@@ -60,6 +61,7 @@ app.use("/users", users);
 app.use("/", auth);
 app.use("/messages", message);
 app.use("/ratings", rating);
+app.use("/payment", payment);
 
 function redirectRouterUnmatched(req, res, next) {
   res.sendFile("/index.html", { root: "./" });

@@ -5,6 +5,7 @@ import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
 import { MessageService } from "../services/message";
 import { CategoriesService } from "../services/categories";
+import { PaymentService } from "../services/payment";
 
 import { UserModel } from "../models/user";
 import { MessageModel } from "../models/message";
@@ -21,6 +22,7 @@ export class Dashboard implements OnInit {
     private error: string;
     private errorUsers: string;
     private errorMessages: string;
+    private messageCredit: string;
 
     private usersList: UserModel[];
     private catList: CategoryModel[];
@@ -33,6 +35,7 @@ export class Dashboard implements OnInit {
         private user: UserService,
         private router: Router,
         private messages: MessageService,
+        private payment: PaymentService,
         private cat: CategoriesService
     ) { }
 
@@ -84,6 +87,19 @@ export class Dashboard implements OnInit {
     }
 
     addCredit() {
-        console.log(this.model.credit)
+        if (this.model.addCredit < 1)
+            this.messageCredit = "Credit must be more than zero to be added.";
+        else {
+            this.messageCredit = "Credit sent...";
+            this.payment.addCredit(this.model.addCredit).subscribe(
+                added => {
+                    this.model.credit = added;
+                    this.messageCredit = "Credit of " + this.model.addCredit + " euros added.";
+                    this.model.addCredit = 0;
+                },
+                error => this.messageCredit = <any>error,
+                () => console.log("Done adding credit.")
+            );
+        }
     }
 }

@@ -5,9 +5,11 @@ var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var jwt = require('jwt-simple');
 var config = require('../config/settings');
+var configMail = require('../config/settingsmail');
 var dist = require('./calcdist');
 var toURLString = require('speakingurl');
 var myCacheName = "user";
+var emailer = require("./emailer");
 
 module.exports = {
 
@@ -145,6 +147,7 @@ module.exports = {
                         _read(item.email, function (err, readValue) {
                             if (err)
                                 return cb(err, null);
+                            delete readValue.pass;
                             var profile = modelProfile.create();
                             profile.update(readValue);
                             myCache.set(myCacheName + "readUserProfile" + nameurl, profile.toJSON(), function (err, success) {
@@ -257,6 +260,41 @@ module.exports = {
                             return cb("cache internal failure", null);
                         });
                 }, this);
+            });
+        });
+    },
+
+    addCredit: function (email, credit, cb) {
+        if (email === null || email === undefined || credit === null || credit === undefined || credit < 0)
+            return cb("Must provide a value and an email.", null);
+        userDAL.read(email, function (err, userData) {
+            if (err)
+                return cb(err, null);
+            var user = model.create();
+            user.update(userData);
+            user.credit(parseFloat(user.credit()) + parseFloat(credit));
+            user.validate().then(function () {
+                if (!user.isValid)
+                    return cb(user.errors, null);
+                userDAL.create(email, user.toJSON(), function (err, data) {
+                    if (err)
+                        return cb(err, null);
+                    myCache.del(myCacheName + "readMyProfile" + email);
+                    myCache.del(myCacheName + "readUserProfile" + data.nameurl);
+                    myCache.del(myCacheName + "all");
+                    emailer.email(configMail.fromText, configMail.from, email,
+                        "Congrats, you have added " + credit + " euros to your credit. " +
+                        "Now you final credit balance is: " + (parseFloat(user.credit()) + parseFloat(credit)) +
+                        " euros.",
+                        "You have added new credit!",
+                        function (err, status, body, headers) {
+                            if (err)
+                                return cb(err, null);
+                            return cb(null, data);
+                        });
+                });
+            }).catch(function (err) {
+                return cb(err, null);
             });
         });
     }
