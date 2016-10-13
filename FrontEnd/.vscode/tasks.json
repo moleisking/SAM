@@ -9,13 +9,19 @@
             // Server task, Ctrl+Shift+T
             "taskName": "serve",
             "isTestCommand": true,
-            "args": ["run", "serve"]
+            "args": [
+                "run",
+                "serve"
+            ]
         },
         {
             // Build command, Ctrl+Shift+B
             "taskName": "build",
             "isBuildCommand": true,
-            "args": ["run", "build"]
+            "args": [
+                "run",
+                "build"
+            ]
         }
     ]
 }
