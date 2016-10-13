@@ -20,7 +20,7 @@ declare let google: any;
 
 export class ProfileFormComponent implements OnInit {
 
-    @Input() model: ProfileModel = new ProfileModel();
+    @Input() model: ProfileModel;
     @Input() cats: CategoryModel[];
     @ViewChild(SelectComponent)
     private mySelect: SelectComponent;
@@ -38,9 +38,7 @@ export class ProfileFormComponent implements OnInit {
     constructor(
         private user: UserService,
         private formBuilder: FormBuilder
-    ) {
-        this.message = "Profile form messages will be here.";
-    }
+    ) { this.message = "Profile form messages will be here."; }
 
     ngOnInit() {
         let regexPatterns = { numbers: "^[0-9]*$" };

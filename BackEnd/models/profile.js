@@ -15,6 +15,7 @@ var profile = new model("Profile")
     .attr('curLat')
     .attr('curLng')
     .attr('mobile')
+    .attr('credit')
     .attr('category')
     .attr('tags');
 

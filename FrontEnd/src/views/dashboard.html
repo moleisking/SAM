@@ -1,34 +1,40 @@
 <h1>Dashboard</h1>
 <div class="row well">
-    <div class="col-md-10">
-        <h3>{{ title }}</h3>
-    </div>
-    <div class="col-md-2">
-        <button (click)="logout()" class="pull-right">Logout</button>
-    </div>
+	<div class="col-md-10">
+		<h3>{{ model.name }}</h3>
+		{{ error }}
+	</div>
+	<div class="col-md-2">
+		<button (click)="logout()" class="pull-right">Logout</button>
+	</div>
 </div>
 
 <tabset>
-    <tab title="My Profile">
-        <br>
-        <profile-form-component *ngIf="modelProfile && catList" [model]="modelProfile" [cats]="catList"></profile-form-component>
-    </tab>
-    <tab title="List all users">
-        <br> {{ errorUsers }}
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let user of usersList">
-                <a [routerLink]="['/profile', user.nameurl]">{{ user.name }}</a>
-            </li>
-        </ul>
-    </tab>
-    <tab title="My messages">
-        <br> {{ errorMessages }}
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let message of messagesList">
-                <a [routerLink]="['/messages', message.nameurl]">{{ message.name }}</a> - {{ message.text }}
-            </li>
-        </ul>
-    </tab>
+	<tab title="My Profile">
+		<br>
+		<profile-form-component *ngIf="modelProfileForm && catList" [model]="modelProfileForm" [cats]="catList"></profile-form-component>
+	</tab>
+	<tab title="List all users">
+		<br> {{ errorUsers }}
+		<ul class="list-group">
+			<li class="list-group-item" *ngFor="let user of usersList">
+				<a [routerLink]="['/profile', user.nameurl]">{{ user.name }}</a>
+			</li>
+		</ul>
+	</tab>
+	<tab title="My messages">
+		<br> {{ errorMessages }}
+		<ul class="list-group">
+			<li class="list-group-item" *ngFor="let message of messagesList">
+				<a [routerLink]="['/messages', message.nameurl]">{{ message.name }}</a> - {{ message.text }}
+			</li>
+		</ul>
+	</tab>
+	<tab title="Credit">
+		<br>
+		<h4>Credit</h4>
+		{{ model.credit }}
+	</tab>
 </tabset>
 
 <!--<div class="container">
