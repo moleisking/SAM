@@ -1,0 +1,6 @@
+// Coloque su configuración en este archivo para sobrescribir la configuración predeterminada y de usuario.
+{
+    "workbench.editor.showIcons": true,
+    "editor.formatOnType": true,
+    "editor.formatOnSave": true
+}
