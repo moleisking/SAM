@@ -26,26 +26,30 @@
         android:key="pref_group_account"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
+        <Preference
+            android:key="pref_item_edit_profile"
+            android:title="Edit user profile"
+            android:summary="Edit your user profile." />
         <EditTextPreference
             android:key="pref_item_change_password"
-            android:summary="Change forgotten password via email."
-            android:title="Change password"/>
+            android:title="Change password"
+            android:summary="Change forgotten password via email." />
         <Preference
             android:key="pref_item_refresh_registered_location"
-            android:summary="Refreshes stored registered location."
-            android:title="Set default location"/>
+            android:title="Set default location"
+            android:summary="Refreshes stored registered location." />
         <Preference
             android:key="pref_item_refresh_stored_account"
-            android:summary="Refreshes stored account data. Next time user will not require login."
-            android:title="Refresh locally stored account"/>
+            android:title="Refresh locally stored account"
+            android:summary="Refreshes stored account data. Next time user will not require login." />
         <Preference
             android:key="pref_item_refresh_user_login"
-            android:summary="Refreshes stored user login."
-            android:title="Refresh user login"/>
+            android:title="Refresh user login"
+            android:summary="Refreshes stored user login." />
         <Preference
             android:key="pref_item_delete_stored_account"
-            android:summary="Deletes stored account data. Next time user will require login."
-            android:title="Delete locally stored account"/>
+            android:title="Delete locally stored account"
+            android:summary="Deletes stored account data. Next time user will require login." />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="Troubleshoot"
@@ -54,8 +58,8 @@
         android:layout_height="match_parent">
         <Preference
             android:key="pref_item_refresh_categories"
-            android:summary="Refresh categories and tags"
-            android:title="Refresh categories"/>
+            android:title="Refresh categories"
+            android:summary="Refresh categories and tags" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="About"
@@ -64,21 +68,20 @@
         android:layout_height="match_parent">
         <Preference
             android:key="pref_item_build_version"
-            android:summary=""
-            android:title="Build version"/>
+            android:title="Build version"
+            android:summary="" />
         <Preference
             android:key="pref_item_privacy_policy"
-            android:summary=""
-            android:title="Privacy policy"/>
+            android:title="Privacy policy"
+            android:summary="" />
         <Preference
             android:key="pref_item_terms_of_user"
-            android:summary=""
-            android:title="Terms of use"/>
+            android:title="Terms of use"
+            android:summary="" />
         <Preference
             android:key="pref_item_about_us"
-            android:summary=""
-            android:title="About us"/>
-
+            android:title="About us"
+            android:summary="" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -63,7 +63,7 @@
     <string name="url_post_user_account_register">http://minitrabajo.me:3003/signup</string>
     <string name="url_get_user_account_profile">http://minitrabajo.me:3003/users/getmyprofile</string>
     <string name="url_get_user_account_password_change">http://minitrabajo.me:3003/forgottenpassword</string>
-    <string name="url_post_search">http://minitrabajo.me:3003/search</string>
+    <string name="url_post_search">http://minitrabajo.me:3003/users/search</string>
     <string name="url_get_user_account_setting">http://minitrabajo.me:3003/setting</string>
     <string name="url_get_user_profile">http://minitrabajo.me:3003/profile</string>
     <string name="url_get_categories">http://minitrabajo.me:3003/categories</string>
