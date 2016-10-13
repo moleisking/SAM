@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
-import { Settings } from "../config/settings";
 import { Observable } from "rxjs/Rx";
+
+import { Settings } from "../config/settings";
 
 @Injectable()
 export class WebService {

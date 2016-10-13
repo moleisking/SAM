@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response, RequestOptions } from "@angular/http";
+import { Observable } from "rxjs/Rx";
+
 import { Settings } from "../config/settings";
 import { UserModel } from "../models/user";
 import { ProfileModel } from "../models/profile";
-import { Observable } from "rxjs/Rx";
 
 @Injectable()
 export class UserService {

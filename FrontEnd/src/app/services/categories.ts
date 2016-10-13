@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
+import { Observable } from "rxjs/Rx";
+
 import { Settings } from "../config/settings";
 import { CategoryModel } from "../models/category";
 import { ProfileModel } from "../models/profile";
-import { Observable } from "rxjs/Rx";
 
 @Injectable()
 export class CategoriesService {
