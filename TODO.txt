@@ -2,6 +2,5 @@ ISSUE 3: confirmation email in registration
 ISSUE 4: active inactive looking for job
 ISSUE 5: language select basic example JSON 
 ISSUE 6: backend call to add credit and subtract credit
-ISSUE 7: user searchable when paid
 ISSUE 9: Move profile pics to its own database
 ISSUE 10: mongodb to CRUD with setting configuration There should be a parameter in the settings config file we can change to swith this on and off. There should be a base CRUD class / model /extended that now will have two derived classes now one nodejs and mongodb. 

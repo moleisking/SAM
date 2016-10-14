@@ -199,7 +199,7 @@ module.exports = {
                 if (err)
                     return cb(err, null);
                 var result = readAll.filter(function (user) {
-                    if (user.category === data.category &&
+                    if (user.category === data.category && parseFloat(user.credit) > 0 &&
                         ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) ||
                             (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
                     ) {
