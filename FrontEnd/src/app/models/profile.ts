@@ -17,4 +17,5 @@ export class ProfileModel {
     public categoryName: string;
     public tags: string;
     public average: number;
+    public looking: boolean;
 }

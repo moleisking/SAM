@@ -51,6 +51,12 @@
 				<label for="tags">Tags</label>
 				<ng-select [data]="tagsValue" [multiple]="true" [items]="tags" [initData]="tagsActive" (data)="refreshValue($event)" placeholder="No tags selected yet"></ng-select>
 			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" formControlName="looking" name="looking" [(ngModel)]="model.looking" />
+					Actively looking for a work
+				</label>
+			</div>
 			<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Save</button>
 			<p>{{ message }}</p>
 			<input type="hidden" formControlName="curLat" name="curLat" [(ngModel)]="model.curLat" #lat>

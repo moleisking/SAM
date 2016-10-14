@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild  } from "@angular/core";
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/common";
 import { Settings } from "../config/settings";
@@ -51,8 +51,9 @@ export class ProfileFormComponent implements OnInit {
             curLat: [this.model.curLat],
             curLng: [this.model.curLng],
             category: [this.model.category,
-                Validators.compose([Validators.pattern(regexPatterns.numbers), Validators.required])],
-            tags: [this.model.tags]
+            Validators.compose([Validators.pattern(regexPatterns.numbers), Validators.required])],
+            tags: [this.model.tags],
+            looking: [this.model.looking]
         });
 
         this.tags = this.cats.find(x => x.id === this.model.category).tags;

@@ -1,5 +1,4 @@
 ISSUE 3: confirmation email in registration
-ISSUE 4: active inactive looking for job
 ISSUE 5: language select basic example JSON 
 ISSUE 6: backend call to add credit and subtract credit
 ISSUE 9: Move profile pics to its own database

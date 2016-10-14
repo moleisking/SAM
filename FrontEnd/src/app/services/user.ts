@@ -30,7 +30,7 @@ export class UserService {
     let c = "description=" + profileform.description + "&address=" + profileform.address
       + "&mobile=" + profileform.mobile + "&image=" + image + "&dayRate=" + profileform.dayRate
       + "&hourRate=" + profileform.hourRate + "&curLat=" + profileform.curLat + "&curLng=" + profileform.curLng
-      + "&category=" + profileform.category + "&tags=" + profileform.tags;
+      + "&category=" + profileform.category + "&tags=" + profileform.tags + "&looking=" + profileform.looking;
 
     return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
   }

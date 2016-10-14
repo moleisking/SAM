@@ -25,6 +25,7 @@ module.exports = {
         user.hourRate(0);
         user.credit(0);
         user.rating(0);
+        user.looking(true);
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
@@ -111,6 +112,10 @@ module.exports = {
                 return cb(err, null);
             var user = model.create();
             user.update(userData);
+            if (data.looking === "true")
+                data.looking = true;
+            else
+                data.looking = false;
             user.update(data);
             user.validate().then(function () {
                 if (!user.isValid)
@@ -177,6 +182,10 @@ module.exports = {
             _readProfile(email, function (err, readValue) {
                 if (err)
                     return cb(err, null);
+                if (readValue.looking === "true" || readValue.looking === true)
+                    readValue.looking === true
+                else
+                    readValue.looking === false
                 myCache.set(myCacheName + "readMyProfile" + email, readValue, function (err, success) {
                     if (err)
                         return cb(err, null);
@@ -199,7 +208,7 @@ module.exports = {
                 if (err)
                     return cb(err, null);
                 var result = readAll.filter(function (user) {
-                    if (user.category === data.category && parseFloat(user.credit) > 0 &&
+                    if (user.category === data.category && parseFloat(user.credit) > 0 && user.looking &&
                         ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) ||
                             (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
                     ) {
