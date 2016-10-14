@@ -66,7 +66,7 @@ public class WordFragment  extends Fragment implements ResponseAPI {
         }
     }
 
-    protected void onWordClick(View view)
+    protected void onSaveClick(View view)
     {
         Log.v("Search:onSearchClick()","Post");
         String url = getResources().getString(R.string.url_post_search);

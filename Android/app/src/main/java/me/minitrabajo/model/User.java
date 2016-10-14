@@ -41,13 +41,14 @@ public class User implements Serializable {
 	private Double registeredLongitude = -3.702203;
 	private Double currentLatitude = 40.431075;
 	private Double currentLongitude = -3.702203;
+	private Double distance = 0.0d;
 	private String imageRaw = "";
 	private transient Context context;
 
 	public User(Context context)
 	{
 		super();
-		context = context;
+		this.context = context;
 	}
 
 	public User(int id, String name)
@@ -93,134 +94,198 @@ public class User implements Serializable {
 	{
 		return id;
 	}
+
 	public void setID(int id)
 	{
 		this.id = id;
 	}
+
 	public int getScore()
 	{
 		return score;
 	}
-	public void setScore(int id)
+
+	public void setScore(int score)
 	{
 		this.score = score;
 	}
+
 	public int getCredit()
 	{
 		return credit;
 	}
+
 	public void setCredit(int credit)
 	{
 		this.credit = credit;
 	}
+
 	public String getName()
 	{
 		return name;
 	}
+
 	public void setName(String name)
 	{
 		this.name = name;
 	}
+
 	public String getEmail()
 	{
 		return email;
 	}
+
 	public void setEmail(String email)
 	{
 		this.email = email;
 	}
+
 	public double getHourRate()
 	{
 		return hourRate;
 	}
+
 	public void setHourRate(Double hour_rate)
 	{
 		this.hourRate = hour_rate;
 	}
+
 	public double getDayRate()
 	{
 		return dayRate;
 	}
+
 	public void setDayRate(Double day_rate)
 	{
 		this.dayRate = day_rate;
 	}
+
 	public String getDescription()
 	{
 		return description;
 	}
+
 	public void setDescription(String description)
 	{
 		this.description = description;
 	}
+
 	public String getAddress()
 	{
 		return address;
 	}
+
 	public void setAddress(String address)
 	{
 		this.address = address;
 	}
+
 	public String getMobile()
 	{
 		return mobile;
 	}
+
 	public void setMobile(String mobile)
 	{
 		this.mobile = mobile;
 	}
+
 	public String getCategory()
 	{
 		return category;
 	}
+
 	public void setCategory(String category)
 	{
 		this.category = category;
 	}
+
 	public String getTags()
 	{
 		return tags;
 	}
+
 	public void setTags(String tags)
 	{
 		this.tags = tags;
 	}
+
 	public LatLng getRegisteredLatLng()
 	{
 		return new LatLng(registeredLatitude, registeredLatitude);
 	}
+
 	public void setRegisteredLatLng(LatLng latLng)
 	{
 		this.registeredLongitude = latLng.longitude;
 		this.registeredLatitude = latLng.latitude;
 	}
+
 	public void setRegisteredLatLng(Double registeredLatitude, Double registeredLongitude)
 	{
 		this.registeredLongitude = registeredLongitude;
 		this.registeredLatitude = registeredLatitude;
 	}
+
 	public LatLng  getCurrentLatLng()
 	{
 		return new LatLng(currentLatitude, currentLatitude);
 	}
+
 	public void setCurrentLatLng(LatLng latLng )
 	{
 		this.currentLongitude = latLng.longitude;
 		this.currentLatitude = latLng.latitude;
 	}
+
 	public void setCurrentLatLng(Double currentLatitude, Double currentLongitude )
 	{
 		this.currentLongitude = currentLongitude;
 		this.currentLatitude = currentLatitude;
 	}
+
+	public double getDistance()
+	{
+		return distance;
+	}
+
+	public String getDistanceKilometers()
+	{
+		return String.valueOf(distance) + "km";
+	}
+
+	public String getDistanceMiles()
+	{
+		return (distance* 0.621371) + "mi";
+	}
+
+
+	public void setDistance(LatLng searchLocation)
+	{
+		//This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+		// var R = 6.371; // km
+		double R = 6371000;
+		double pirad = Math.PI / 180;
+		double dLat = (currentLatitude-searchLocation.latitude)* pirad;
+		double dLon = (currentLongitude-searchLocation.longitude)* pirad;
+		double lat1 = (searchLocation.latitude)* pirad;
+		double lat2 = (currentLatitude)* pirad;
+
+		double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		distance = R * c;
+	}
+
 	public void setContext(Context context)
 	{
 		this.context = context;
 	}
+
 	public String getImageRaw()
 	{
 		return imageRaw;
 	}
+
 	public void setImageRaw(String rawImage)
 	{
 		String header = rawImage.substring(0,25);
@@ -232,6 +297,7 @@ public class User implements Serializable {
 			Log.v("User","Raw image reprocessed");
 		}
 	}
+
 	public void setImageRaw(Bitmap bitmap)
 	{
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -240,11 +306,13 @@ public class User implements Serializable {
 		String imageString = Base64.encodeToString(byteArray, Base64.DEFAULT);
 		this.imageRaw = "data:image/png;base64," + imageString;
 	}
+
 	public String getImageEncoded()
 	{
 		//Extract XXX from "data:image/png;base64,XXX"
 		return imageRaw.split(",",2)[1];
 	}
+
 	public String getImageType()
 	{
 		String header = imageRaw.substring(0,20);
@@ -278,6 +346,19 @@ public class User implements Serializable {
 		byte[] arr = Base64.decode(this.getImageEncoded(), Base64.DEFAULT);
 		ByteArrayInputStream inputStream = new ByteArrayInputStream (arr);
 		return BitmapFactory.decodeByteArray(arr,0,arr.length);
+	}
+
+	public Bitmap ResizeImage(Bitmap bitmap, int width, int height)
+	{
+		Bitmap bMapScaled = Bitmap.createScaledBitmap(bitmap, width, height, true);
+		return bMapScaled;
+	}
+
+	public RoundImage getImageAsRoundedBitmapSmall()
+	{
+		Bitmap temp = ResizeImage(getImageAsBitmap(),100,100);
+		RoundImage roundedImage = new RoundImage(temp);
+		return roundedImage;
 	}
 
 	public RoundImage getImageAsRoundedBitmap()

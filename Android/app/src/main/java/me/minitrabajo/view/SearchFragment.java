@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -22,13 +23,20 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import me.minitrabajo.R;
+import me.minitrabajo.controller.CategoriesAdapter;
 import me.minitrabajo.controller.GPS;
 import me.minitrabajo.controller.PostAPI;
 import me.minitrabajo.controller.ResponseAPI;
 import me.minitrabajo.controller.ResponseGPS;
+import me.minitrabajo.controller.TagsAdapter;
+import me.minitrabajo.controller.UsersAdapter;
 import me.minitrabajo.model.Categories;
 import me.minitrabajo.model.Category;
+import me.minitrabajo.model.Tag;
+import me.minitrabajo.model.User;
 import me.minitrabajo.model.UserAccount;
 import me.minitrabajo.model.Users;
 
@@ -84,6 +92,10 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
                 Log.v("SELECTED", id +":" + adapterView.getItemAtPosition(position).toString());
                 fillTag(adapterView.getItemAtPosition(position).toString());
+                /*TextView tv = ((TextView)adapterView.getItemAtPosition(position));
+                Category c = new Category();
+                c.loadFromString(tv.getHint().toString());
+                fillTag(c);*/
 
             }
         });
@@ -122,6 +134,12 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
             }
             else
             {
+                //Set distance field for each user
+                for(int i = 0; i < users.size(); i++)
+                {
+                    users.get(i).setDistance(currentLatLng);
+                }
+
                 //Pass users to list, then load list
                 users.saveToFile();
 
@@ -165,7 +183,8 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
         if(categories.hasFile())
         {
             categories.loadFromFile();
-            ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_category, R.id.txtItemCategory, categories.getCategoryStringArray());
+            CategoriesAdapter adapter = new CategoriesAdapter(getActivity(), (ArrayList<Category>) categories.getCategoryList());
+            //ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_category, R.id.txtItemCategory, categories.getCategoryStringArray());
             txtCategory.setAdapter(adapter);
             txtCategory.setThreshold(2);
             Log.w("Account:onCreate", "Categories load from file");
@@ -179,6 +198,7 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
     protected void fillTag(String category)
     {
         Category c = categories.findCategory(category);
+        //TagsAdapter adapter = new TagsAdapter(getActivity(), (ArrayList<Tag>) category.getTagList());
         ArrayAdapter adapter = new ArrayAdapter(this.getActivity(), R.layout.row_tag, R.id.txtItemTag, c.getTagStringArray() );
         txtTag.setText("");
         txtTag.setAdapter(adapter);
@@ -188,7 +208,7 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
 
     protected void onSearchClick(View view)
     {
-        currentLatLng = new LatLng( 40.4100743,-3.7054997);
+        currentLatLng = new LatLng( 40.4100743,-3.7054997);//change later
 
         Log.v("Search:onSearchClick()","Post");
         String url = getResources().getString(R.string.url_post_search);

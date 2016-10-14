@@ -20,6 +20,13 @@
             android:defaultValue="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        <CheckBoxPreference
+            android:key="pref_item_distance_unit"
+            android:title="Kilometers or Miles"
+            android:summary="For kilometers set to. For miles set to false."
+            android:defaultValue="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="Account"
@@ -71,12 +78,12 @@
             android:title="Build version"
             android:summary="" />
         <Preference
-            android:key="pref_item_privacy_policy"
-            android:title="Privacy policy"
+            android:key="pref_item_privacy_policy_and_data_protection"
+            android:title="Privacy policy and data protection"
             android:summary="" />
         <Preference
-            android:key="pref_item_terms_of_user"
-            android:title="Terms of use"
+            android:key="pref_item_terms_and_conditions"
+            android:title="Terms and conditions"
             android:summary="" />
         <Preference
             android:key="pref_item_about_us"

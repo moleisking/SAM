@@ -1,5 +1,13 @@
 package me.minitrabajo.model;
 
+import android.util.Base64;
+import android.util.Log;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.NotSerializableException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +59,12 @@ public class Category implements Serializable
         tags.add(t);
     }
 
-    protected List<Tag> getArrayList()
+    public List<Tag> getTagList()
     {
         return tags;
     }
 
-    protected void setArrayList(List<Tag> arr)
+    protected void setTagList(List<Tag> arr)
     {
         this.tags = arr;
     }
@@ -101,11 +109,6 @@ public class Category implements Serializable
         return names;
     }
 
-    public List getTagList()
-    {
-        return tags;
-    }
-
     public int findTagID(String name)
     {
         int result = 0;
@@ -125,5 +128,49 @@ public class Category implements Serializable
     public String toString()
     {
         return name;
+    }
+
+    public String saveToString()
+    {
+        String output = "";
+        try
+        {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+            oos.close();
+            output = Base64.encodeToString(baos.toByteArray(),0);
+        }
+        catch (NotSerializableException nosex)
+        {
+            System.out.print(nosex.getMessage());
+            System.out.print(nosex.getStackTrace().toString());
+            Log.v("Categories:saveToString", nosex.getMessage());
+        }
+        catch (Exception ex)
+        {
+            Log.v("Categories:saveToString", ex.getMessage());
+        }
+        return output;
+    }
+
+    public void loadFromString( String str )
+    {
+        try
+        {
+            byte [] data = Base64.decode( str,0 );
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(  data ) );
+            Category c  = (Category)ois.readObject();
+            ois.close();
+
+            this.setID(c.getID());
+            this.setName(c.getName());
+            this.setDescription(c.getDescription());
+            this.setTagList(c.getTagList());
+        }
+        catch (Exception ex)
+        {
+            Log.v("Categories:deserialize", ex.getMessage());
+        }
     }
 }

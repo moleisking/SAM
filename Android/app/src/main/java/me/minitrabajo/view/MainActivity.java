@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import me.minitrabajo.R;
 import me.minitrabajo.model.User;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         }catch (Exception ex){Log.v("onCreate():UserAccount",ex.getMessage());}
 
         //Set default fragment
-        showSearchFragment();
+        showListFragment();
     }
 
     @Override
@@ -143,14 +144,15 @@ public class MainActivity extends AppCompatActivity
         {
             Log.v("NavigationItemSelected","nav_share");
         }
-        else if (id == R.id.nav_send)
-        {
-
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    protected UserAccount getUserAccount()
+    {
+        return this.userAccount;
     }
 
     public void onFragmentViewClick(View v)
@@ -180,12 +182,25 @@ public class MainActivity extends AppCompatActivity
             }
             else if (fragment instanceof WordFragment) {
                 Log.w("MainActivity", "SaveClick");
-                ((WordFragment) fragment).onWordClick(v);
+                ((WordFragment) fragment).onSaveClick(v);
             }
             else if (fragment instanceof MessageFragment) {
                 Log.w("MainActivity", "MessageClick");
                 ((MessageFragment) fragment).onMessageClick(v);
             }
+        }
+    }
+
+    private void shareWhatsApp()
+    {
+        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+        whatsappIntent.setType("text/plain");
+        whatsappIntent.setPackage("com.whatsapp");
+        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+        try {
+            this.startActivity(whatsappIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this,"Whatsapp have not been installed.",Toast.LENGTH_SHORT);
         }
     }
 
@@ -196,7 +211,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new SearchFragment())
                 .commit();
-        setTitle("Search");
+        setTitle(getResources().getString(R.string.title_search));
 
         //Hide keyboard
         getWindow().setSoftInputMode(
@@ -219,7 +234,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new SettingFragment())
                 .commit();
-        setTitle("Settings");
+        setTitle(getResources().getString(R.string.title_setting));
 
         fab.setVisibility(View.INVISIBLE);
     }
@@ -236,7 +251,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new AccountFragment())
                 .commit();
-        setTitle("Account");
+        setTitle(getResources().getString(R.string.title_account));
 
         //Hide keyboard
         getWindow().setSoftInputMode(
@@ -258,7 +273,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new AccountFragment())
                 .commit();
-        setTitle("Account");
+        setTitle(getResources().getString(R.string.title_word));
 
         fab.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -270,12 +285,9 @@ public class MainActivity extends AppCompatActivity
 
     public void showMessageFragment()
     {
-        //Pass user account object to message fragment
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("UserAccount", userAccount);
-
-        //Get user receiver the message
+        //Pass user account and user to message fragment
         User user = (User)getIntent().getSerializableExtra("User");
+        getIntent().putExtra("UserAccount", userAccount);
         getIntent().putExtra("User", user );
 
         //Load word fragment
@@ -283,7 +295,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new MessageFragment())
                 .commit();
-        setTitle("Message");
+        setTitle(getResources().getString(R.string.title_message));
 
         fab.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -304,7 +316,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new ProfileFragment())
                 .commit();
-        setTitle("Profile");
+        setTitle(getResources().getString(R.string.title_account));
 
         //Hide keyboard
         getWindow().setSoftInputMode(
@@ -328,7 +340,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new ProfileFragment())
                 .commit();
-        setTitle("Profile");
+        setTitle(getResources().getString(R.string.title_profile));
 
         //Hide keyboard
         getWindow().setSoftInputMode(

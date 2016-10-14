@@ -32,6 +32,9 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import me.minitrabajo.R;
 import me.minitrabajo.controller.GPS;
 import me.minitrabajo.controller.GetAPI;
@@ -89,7 +92,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
        Preference prefDeleteStoredAccount = findPreference("pref_item_delete_stored_account");
         prefDeleteStoredAccount.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Log.v("SettingFragment","onDeleteStoredAccount()");
+                Log.v("Setting:onCreate","onDeleteStoredAccount()");
                 onDeleteStoredAccount();
                 return true;
             }
@@ -98,7 +101,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         Preference prefRefreshStoredAccount = findPreference("pref_item_refresh_stored_account");
         prefRefreshStoredAccount.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Log.v("SettingFragment","onRefreshStoredAccount()");
+                Log.v("Setting:onCreate","onRefreshStoredAccount()");
                 onRefreshStoredAccount();
                 return true;
             }
@@ -107,7 +110,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         Preference prefRefreshCategories = findPreference("pref_item_refresh_categories");
         prefRefreshCategories.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Log.v("SettingFragment","onRefreshCategories()");
+                Log.v("Setting:onCreate","onRefreshCategories()");
                 onRefreshCategories();
                 return true;
             }
@@ -116,7 +119,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         Preference prefEditProfile = findPreference("pref_item_edit_profile");
         prefEditProfile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Log.v("SettingFragment","onRefreshCategories()");
+                Log.v("Setting:onCreate","onRefreshCategories()");
                 onShowAccountFragment();
                 return true;
             }
@@ -125,7 +128,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         Preference prefChangePassword = findPreference("pref_item_change_password");
         prefChangePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Log.v("SettingFragment","onChangePassword()");
+                Log.v("Setting:onCreate","onChangePassword()");
                 onChangePassword();
                 return true;
             }
@@ -134,7 +137,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         Preference prefAboutUs = findPreference("pref_item_about_us");
         prefAboutUs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Log.v("SettingFragment","onShowAboutFragment()");
+                Log.v("Setting:onCreate","onShowAboutFragment()");
                 onShowAboutFragment();
                 return true;
             }
@@ -143,12 +146,38 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         Preference prefSetDefaultLocation = findPreference("pref_item_refresh_registered_location");
         prefSetDefaultLocation.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Log.v("SettingFragment","onSetRegisteredLocation()");
+                Log.v("Setting:onCreate","onSetRegisteredLocation()");
                 onSetRegisteredLocation();
                 return true;
             }
         });
 
+        Preference prefSetDistanceUnit = findPreference("pref_item_distance_unit");
+        prefSetDistanceUnit.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Log.v("Setting:onCreate","onSetDistanceUnit()");
+                onSetDistanceUnit();
+                return true;
+            }
+        });
+
+        Preference prefTermsAndConditions = findPreference("pref_item_terms_and_conditions");
+        prefTermsAndConditions.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Log.v("Setting:onCreate"," onTermsAndConditions()");
+                onTermsAndConditions();
+                return true;
+            }
+        });
+
+        Preference prefPrivacyPolicyAndDataProtection = findPreference("pref_item_privacy_policy_and_data_protection");
+        prefPrivacyPolicyAndDataProtection.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Log.v("Setting:onCreate"," onPrivacyPolicyAndDataProtection()");
+                onPrivacyPolicyAndDataProtection();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -304,7 +333,41 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
 
     protected void onSaveClick(View view)
     {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Are you sure you want to delete your stored account?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Delete local file
+                        Toast.makeText(parentContext , "Yes clicked", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        Toast.makeText(parentContext , "No clicked", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .show();
+    }
 
+    protected void onTestClick()
+    {
+        Log.v("Setting:onTestClick","Clicked");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Run my test?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Delete local file
+                        Toast.makeText(parentContext , "Yes clicked", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        Toast.makeText(parentContext , "No clicked", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .show();
     }
 
     protected void onDeleteStoredAccount()
@@ -322,7 +385,8 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                     }
-                });
+                })
+                .show();
     }
 
     protected void onRefreshStoredAccount()
@@ -333,6 +397,13 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         GetAPI asyncTask =new GetAPI(this.getActivity()); //Could be problem in the future with SSL here
         asyncTask.delegate = this;
         asyncTask.execute(url,"",userAccount.getToken());
+    }
+
+    protected void onSetDistanceUnit()
+    {
+        Log.v("SettingFragment","onSetDistanceUnit()");
+        sharedPreferences.edit().putString("distance_unit", "Elena");
+        sharedPreferences.edit().commit();
     }
 
     protected void onRefreshCategories()
@@ -383,6 +454,76 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                     break;
         }
     }*/
+
+    protected void onPrivacyPolicyAndDataProtection()
+    {
+        Log.v("Setting:onTerm&Con","Started");
+        String text = "";
+        try {
+            String fileName = getResources().getString(R.string.file_privacy_policy_and_data_protection);
+            InputStream is = this.getActivity().getAssets().open(fileName);
+
+            // Read the entire asset into a local byte buffer.
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            // Convert the buffer into a string.
+            text = new String(buffer);
+            Log.v("Setting:onPriv&Pol",text);
+        }
+        catch (IOException e)
+        {
+            // Should never happen!
+            Log.v("Setting:onPriv&Pol","File not found");
+            throw new RuntimeException(e);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(text)
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Toast.makeText(parentContext , "Stored Account Deleted", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .show();
+    }
+
+    protected void  onTermsAndConditions()
+    {
+        Log.v("Setting:onTerm&Con","Started");
+        String text = "";
+        try {
+            String fileName = getResources().getString(R.string.file_terms_and_conditions);
+            InputStream is = this.getActivity().getAssets().open(fileName);
+
+            // Read the entire asset into a local byte buffer.
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            // Convert the buffer into a string.
+            text = new String(buffer);
+            Log.v("Setting:onTerm&Con",text);
+        }
+        catch (IOException e)
+        {
+            // Should never happen!
+            Log.v("Setting:onTerm&Con","File not found");
+            throw new RuntimeException(e);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(text)
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Toast.makeText(parentContext , "Stored Account Deleted", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .show();
+    }
 
     public void setNavigationProfile()
     {

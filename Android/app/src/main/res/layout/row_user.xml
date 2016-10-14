@@ -2,15 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rowUser"
 	    android:layout_height="wrap_content"
-	    android:gravity="start|center"
-	    android:layout_width="wrap_content">
+	    android:layout_width="fill_parent"
+        android:gravity="start|center">
     <ImageView
         android:id="@+id/imgAvatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/image_small_size"
+        android:layout_height="@dimen/image_small_size"
         android:scrollbars="none"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_person_black_24dp">
+        android:src="@drawable/default_avatar"
+        android:maxWidth="@dimen/image_small_size"
+        android:maxHeight="@dimen/image_small_size"
+        android:paddingLeft="@dimen/row_user_padding_left">
     </ImageView>
     <TextView
         android:id="@+id/txtName"
@@ -19,7 +22,7 @@
         android:textStyle="normal"
         android:text="My Name"
         android:textColor="#7f0000"
-        android:textSize="28dip"
+        android:textSize="@dimen/font_content_size"
         android:gravity="left"
         android:layout_marginLeft="10dip">
     </TextView>
@@ -30,7 +33,19 @@
         android:textStyle="normal"
         android:text="Hello World"
         android:textColor="#7f0000"
-        android:textSize="28dip"
+        android:textSize="@dimen/font_content_size"
+        android:gravity="left"
+        android:layout_marginLeft="10dip">
+    </TextView>
+
+    <TextView
+        android:id="@+id/txtDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:text="0km"
+        android:textColor="#7f0000"
+        android:textSize="@dimen/font_content_size"
         android:gravity="left"
         android:layout_marginLeft="10dip">
     </TextView>

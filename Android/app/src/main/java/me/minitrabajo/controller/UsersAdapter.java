@@ -1,6 +1,7 @@
 package me.minitrabajo.controller;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +37,14 @@ public class UsersAdapter extends ArrayAdapter<User>
         // Lookup view for data population
         TextView txtName = (TextView) convertView.findViewById(R.id.txtName);
         TextView txtDescription = (TextView) convertView.findViewById(R.id.txtDescription);
+        TextView txtDistance = (TextView) convertView.findViewById(R.id.txtDistance);
         ImageView img = (ImageView) convertView.findViewById(R.id.imgAvatar);
         // Populate the data into the template view using the data object
         txtName.setText(user.getName());
         txtDescription.setText(user.getDescription());
-        img.setImageBitmap(user.getImageAsBitmap());
+        txtDistance.setText(user.getDistanceKilometers());
+        img.setImageDrawable(user.getImageAsRoundedBitmapSmall());
+        //img.setImageBitmap(user.getImageAsBitmap());
         // Return the completed view to render on screen
         return convertView;
     }
