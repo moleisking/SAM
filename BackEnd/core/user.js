@@ -34,7 +34,14 @@ module.exports = {
                 if (err)
                     return cb(err, null);
                 myCache.del(myCacheName + "all");
-                return cb(null, data);
+                emailer.email(configMail.fromText, configMail.from, data.email,
+                    data.name + ", welcome to SAM.",
+                    "Welcome to SAM.",
+                    function (err, status, body, headers) {
+                        if (err)
+                            return cb(err, null);
+                        return cb(null, data);
+                    });
             });
         }).catch(function (err) {
             return cb(err, null);
