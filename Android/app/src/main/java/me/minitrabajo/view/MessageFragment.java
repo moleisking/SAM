@@ -13,14 +13,19 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import me.minitrabajo.R;
+import me.minitrabajo.controller.PostAPI;
+import me.minitrabajo.controller.ResponseAPI;
 import me.minitrabajo.model.User;
 import me.minitrabajo.model.UserAccount;
+import me.minitrabajo.model.Users;
 
 /**
  * Created by Scott on 13/10/2016.
  */
-public class MessageFragment extends Fragment
+public class MessageFragment extends Fragment implements ResponseAPI
 {
     private TextView txtMessage, txtHistory;
     private UserAccount userAccount;
@@ -55,11 +60,9 @@ public class MessageFragment extends Fragment
 
             txtHistory = (TextView) ll.findViewById(R.id.txtHistory);
             txtMessage = (TextView) ll.findViewById(R.id.txtMessage);
-            //btnMessage = (FloatingActionButton) container.findViewById(R.id.btnMessage);
 
             //Fill Objects
             txtHistory.setText("My chat history");
-
         }
         catch (Exception ex)
         {
@@ -69,11 +72,51 @@ public class MessageFragment extends Fragment
         return ll;
     }
 
+    @Override
+    public void processFinish(String output)
+    {
+        Log.w("Search:processFinish", output);
+
+        try
+        {
+            //Get JSON and add to object
+          /*  JSONObject myJson = new JSONObject(output);
+            users = new Users(this.getActivity());
+            users.loadFromJSON( myJson.toString());
+
+
+            if(users.size() == 0)
+            {
+                Toast.makeText(this.getActivity(),"No results",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                //Pass users to list, then load list
+                users.saveToFile();
+
+                //Move to list fragment
+                ((MainActivity)getActivity()).showListFragment();
+            }
+            Log.w("Search:Process:Users", "Print");
+            users.print();*/
+        }
+        catch (Exception ex)
+        {
+            Log.w("Search:Process:Err", ex.getMessage());
+        }
+    }
+
     public void onMessageClick(View view)
     {
         try
         {
-
+            Log.v("Search:onSearchClick()","Post");
+            String url = getResources().getString(R.string.url_post_search);
+            String parameters = "category=";
+            Log.v("Search:Parameters ",parameters );
+            PostAPI asyncTask =new PostAPI(this.getActivity());
+            asyncTask.delegate = this;
+            asyncTask.execute(url,parameters,userAccount.getToken());
         }
         catch (Exception ex)
         {

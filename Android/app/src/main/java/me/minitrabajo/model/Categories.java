@@ -266,7 +266,7 @@ public class Categories extends ArrayList implements Serializable
             for(int i = 0; i < categories.size(); i++)
             {
                 Log.v("Category" ,  categories.get(i).getID() +":"+ categories.get(i).getName());
-                List<Tag> tags = categories.get(i).getArrayList();
+                List<Tag> tags = categories.get(i).getTagList();
                 Log.v("Tag Size" , String.valueOf(tags.size()));
                 if (i==3){break;}
                 for(int j = 0; j < tags.size(); j++)
