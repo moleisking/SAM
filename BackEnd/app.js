@@ -1,9 +1,9 @@
 var express = require("express");
 var path = require("path");
 var logger = require("morgan");
-var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var passport = require("passport");
+var swagger = require('swagger-express');
 
 var home = require("./routes/home");
 var web = require("./routes/web");
@@ -21,6 +21,7 @@ var allowCrossDomain = function (req, res, next) {
     "http://127.0.0.1",
     "http://127.0.0.1:80",
     "http://localhost:3000",
+    "http://localhost:3003",
     "http://localhost",
     "http://localhost:80",
     "http://localhost:63592",
@@ -49,7 +50,6 @@ var allowCrossDomain = function (req, res, next) {
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(passport.initialize());
@@ -62,6 +62,16 @@ app.use("/", auth);
 app.use("/messages", message);
 app.use("/ratings", rating);
 app.use("/payment", payment);
+
+app.use(swagger.init(app, {
+  apiVersion: '1.0',
+  swaggerVersion: '1.0',
+  basePath: 'http://localhost:3003',
+  swaggerURL: '/swagger',
+  swaggerJSON: '/api.json',
+  swaggerUI: './public/swagger/',
+  apis: ['./apis.js']
+}));
 
 function redirectRouterUnmatched(req, res, next) {
   res.sendFile("/index.html", { root: "./" });
