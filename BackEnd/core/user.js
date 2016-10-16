@@ -26,6 +26,8 @@ module.exports = {
         user.credit(0);
         user.rating(0);
         user.looking(true);
+        user.guid(getGuid());
+        user.timeStamp(new Date().getTime());
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
@@ -382,4 +384,14 @@ function _delete(id, cb) {
     } catch (err) {
         return cb(err, null);
     };
+}
+
+function getGuid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
 }

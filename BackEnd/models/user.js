@@ -88,7 +88,9 @@ var user = new model("User")
     .attr('rating')
     .attr('hourRate')
     .attr('dayRate')
-    .attr('credit');
+    .attr('credit')
+    .attr('guid')
+    .attr('timeStamp');
 
 module.exports = user;
 
