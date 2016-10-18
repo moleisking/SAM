@@ -29,7 +29,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import me.minitrabajo.R;
+import me.minitrabajo.controller.CategoriesAdapter;
 import me.minitrabajo.controller.GPS;
 import me.minitrabajo.controller.GetAPI;
 import me.minitrabajo.controller.PostAPI;
@@ -40,7 +43,7 @@ import me.minitrabajo.model.Category;
 import me.minitrabajo.model.UserAccount;
 //import android.support.v4.app.Fragment;
 
-/*Note: No calls to server through ResponseAPI. User object passed from ListFragment*/
+/*Note: No calls to server through ResponseAPI. User object passed from ResultsFragment*/
 public class AccountFragment extends Fragment implements ResponseAPI, ResponseGPS
 {
 
@@ -52,6 +55,7 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
 
     private static final int SELECT_PICTURE = 1;
     //private String selectedImagePath;
+    private CategoriesAdapter categoryAdapter;
     private Categories categories;
     private LatLng currentLatLng;
     private GPS gps;
@@ -65,29 +69,17 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Log.v("AccountFra:onCreate","Started");
+        Log.v("Account:onCreate","Started");
         // Inflate the layout for this fragment
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.fragment_account, container, false);
 
         try {
             //Define Objects
             userAccount = new UserAccount(getActivity());
-            try
-            {
-                //Try load from passed object
-                Log.v("Account","Try load from passed object");
-                userAccount = (UserAccount)getActivity().getIntent().getSerializableExtra("UserAccount");
-            }
-            catch (Exception uaex)
-            {
-                Log.v("Account","Failed to load user account from intent");
-                if (userAccount.isEmpty())
-                {
-                    userAccount.loadFromFile();
-                    Log.v("Account","Load user account from file");
-                }
-            }
-            userAccount.print();
+            userAccount = ((MainActivity)getActivity()).getUserAccount();
+
+            categories = new Categories(this.getActivity());
+            categories.loadFromFile();
 
             //Start GPS
             currentLatLng = new LatLng(0.0d,0.0d);
@@ -97,6 +89,7 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
             Log.v("Search:Latitude",String.valueOf(currentLatLng.latitude));
             Log.v("Search:Longitude",String.valueOf(currentLatLng.longitude));
 
+            //Define view
             imgProfile = (ImageView)ll.findViewById(R.id.imgProfile);
             txtName = (EditText) ll.findViewById(R.id.txtName);
             txtEmail = (EditText) ll.findViewById(R.id.txtEmail);
@@ -107,18 +100,14 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
             txtDayRate = (EditText)ll.findViewById(R.id.txtDayRate);
             txtCategory= (AutoCompleteTextView)ll.findViewById(R.id.txtCategory);
             txtCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
                     Log.v("SELECTED", id +":" + adapterView.getItemAtPosition(position).toString());
                     fillTag(adapterView.getItemAtPosition(position).toString());
-
                 }
             });
             txtTag= (MultiAutoCompleteTextView) ll.findViewById(R.id.txtTag);
-            //btnSave = (FloatingActionButton) container.findViewById(R.id.btnSave);
 
-            Log.v("AccountFragment","Start try");
             //Fill Objects
             txtName.setText(userAccount.getName());
             txtDescription.setText(userAccount.getDescription());
@@ -127,31 +116,18 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
             txtDayRate.setText(Double.toString(userAccount.getDayRate()));
             imgProfile.setImageBitmap(userAccount.getImageAsBitmap());
 
-            fillCategory();
+            //Fill Category
+            categoryAdapter = new CategoriesAdapter(getActivity(), (ArrayList<Category>) categories.getCategoryList());
+            txtCategory.setAdapter(categoryAdapter);
+            txtCategory.setThreshold(2);
+            Log.v("Account:onCreate","Finished");
         }
         catch (Exception ex)
         {
-            Log.v("AccountFragment",ex.getMessage());
+            Log.v("Account:onCreate:Err",ex.getMessage());
         }
 
         return ll;
-    }
-
-    protected void fillCategory()
-    {
-        categories = new Categories(this.getActivity());
-        if(categories.hasFile())
-        {
-            categories.loadFromFile();
-            ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_category, R.id.txtItemCategory, categories.getCategoryStringArray());
-            txtCategory.setAdapter(adapter);
-            txtCategory.setThreshold(2);
-            Log.w("Account:onCreate", "Categories load from file");
-        }
-        else
-        {
-            Log.w("Account:onCreate", "Categories not found");
-        }
     }
 
     protected void fillTag(String category)
@@ -211,23 +187,6 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
             Log.w("Account:pFinish", ex.getMessage());
         }
     }
-
-
-   /* @Override
-    public void onResume() {
-        super.onResume();
-        gps.Resume();
-        Log.i("Account:onResume()", "Called");
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-        gps.Pause();
-        Log.v("Account:onPause()", "Called");
-    }*/
-
 
     /**
      *  Load Image into ImageView

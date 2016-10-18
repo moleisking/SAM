@@ -63,11 +63,10 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         //Initialize objects
         parentContext = this.getActivity();
         sharedPreferences = getPreferenceScreen().getSharedPreferences();
-        categories = new Categories(parentContext);
+        //categories = new Categories(parentContext);
 
         //Note* User account set in MainActivity
-        userAccount = new UserAccount(this.getActivity());
-        userAccount = (UserAccount) getActivity().getIntent().getSerializableExtra("UserAccount");
+        userAccount = ((MainActivity)getActivity()).getUserAccount();
 
         //Start GPS sensor
         currentLatLng = new LatLng(0.0d,0.0d);
@@ -75,109 +74,110 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         gps.delegate = this;
         gps.Start();
 
-        //Set build version value
+
         try
         {
-        PackageInfo packageInfo = this.getActivity().getPackageManager().getPackageInfo(this.getActivity().getPackageName(), 0);
-        String version = packageInfo.versionName;
-        Preference pref = findPreference("pref_item_build_version");
-        pref.setSummary(version);
+            //Set build version value
+            PackageInfo packageInfo = this.getActivity().getPackageManager().getPackageInfo(this.getActivity().getPackageName(), 0);
+            String version = packageInfo.versionName;
+            Preference pref = findPreference("pref_item_build_version");
+            pref.setSummary(version);
+
+            //Set action listeners
+            Preference prefDeleteStoredAccount = findPreference("pref_item_delete_stored_account");
+            prefDeleteStoredAccount.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onDeleteStoredAccount()");
+                    onDeleteStoredAccount();
+                    return true;
+                }
+            });
+
+            Preference prefRefreshStoredAccount = findPreference("pref_item_refresh_stored_account");
+            prefRefreshStoredAccount.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onRefreshStoredAccount()");
+                    onRefreshStoredAccount();
+                    return true;
+                }
+            });
+
+            Preference prefRefreshCategories = findPreference("pref_item_refresh_categories");
+            prefRefreshCategories.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onRefreshCategories()");
+                    onCategoriesRefresh();
+                    return true;
+                }
+            });
+
+            Preference prefEditProfile = findPreference("pref_item_edit_profile");
+            prefEditProfile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onRefreshCategories()");
+                    onShowAccountFragment();
+                    return true;
+                }
+            });
+
+            Preference prefChangePassword = findPreference("pref_item_change_password");
+            prefChangePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onChangePassword()");
+                    onChangePassword();
+                    return true;
+                }
+            });
+
+            Preference prefAboutUs = findPreference("pref_item_about_us");
+            prefAboutUs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onShowAboutFragment()");
+                    onShowAboutFragment();
+                    return true;
+                }
+            });
+
+            Preference prefSetDefaultLocation = findPreference("pref_item_refresh_registered_location");
+            prefSetDefaultLocation.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onSetRegisteredLocation()");
+                    onSetRegisteredLocation();
+                    return true;
+                }
+            });
+
+            Preference prefSetDistanceUnit = findPreference("pref_item_distance_unit");
+            prefSetDistanceUnit.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onSetDistanceUnit()");
+                    onSetDistanceUnit();
+                    return true;
+                }
+            });
+
+            Preference prefTermsAndConditions = findPreference("pref_item_terms_and_conditions");
+            prefTermsAndConditions.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate"," onTermsAndConditions()");
+                    onTermsAndConditions();
+                    return true;
+                }
+            });
+
+            Preference prefPrivacyPolicyAndDataProtection = findPreference("pref_item_privacy_policy_and_data_protection");
+            prefPrivacyPolicyAndDataProtection.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate"," onPrivacyPolicyAndDataProtection()");
+                    onPrivacyPolicyAndDataProtection();
+                    return true;
+                }
+            });
         }
         catch (Exception ex)
         {
-            Log.v("onCreate:PackInfo",ex.getMessage());
+            Log.v("Setting:onCreate:Err",ex.getMessage());
         }
-
-        //Set action listeners
-       Preference prefDeleteStoredAccount = findPreference("pref_item_delete_stored_account");
-        prefDeleteStoredAccount.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate","onDeleteStoredAccount()");
-                onDeleteStoredAccount();
-                return true;
-            }
-        });
-
-        Preference prefRefreshStoredAccount = findPreference("pref_item_refresh_stored_account");
-        prefRefreshStoredAccount.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate","onRefreshStoredAccount()");
-                onRefreshStoredAccount();
-                return true;
-            }
-        });
-
-        Preference prefRefreshCategories = findPreference("pref_item_refresh_categories");
-        prefRefreshCategories.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate","onRefreshCategories()");
-                onRefreshCategories();
-                return true;
-            }
-        });
-
-        Preference prefEditProfile = findPreference("pref_item_edit_profile");
-        prefEditProfile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate","onRefreshCategories()");
-                onShowAccountFragment();
-                return true;
-            }
-        });
-
-        Preference prefChangePassword = findPreference("pref_item_change_password");
-        prefChangePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate","onChangePassword()");
-                onChangePassword();
-                return true;
-            }
-        });
-
-        Preference prefAboutUs = findPreference("pref_item_about_us");
-        prefAboutUs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate","onShowAboutFragment()");
-                onShowAboutFragment();
-                return true;
-            }
-        });
-
-        Preference prefSetDefaultLocation = findPreference("pref_item_refresh_registered_location");
-        prefSetDefaultLocation.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate","onSetRegisteredLocation()");
-                onSetRegisteredLocation();
-                return true;
-            }
-        });
-
-        Preference prefSetDistanceUnit = findPreference("pref_item_distance_unit");
-        prefSetDistanceUnit.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate","onSetDistanceUnit()");
-                onSetDistanceUnit();
-                return true;
-            }
-        });
-
-        Preference prefTermsAndConditions = findPreference("pref_item_terms_and_conditions");
-        prefTermsAndConditions.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate"," onTermsAndConditions()");
-                onTermsAndConditions();
-                return true;
-            }
-        });
-
-        Preference prefPrivacyPolicyAndDataProtection = findPreference("pref_item_privacy_policy_and_data_protection");
-        prefPrivacyPolicyAndDataProtection.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Log.v("Setting:onCreate"," onPrivacyPolicyAndDataProtection()");
-                onPrivacyPolicyAndDataProtection();
-                return true;
-            }
-        });
     }
 
     @Override
@@ -377,7 +377,9 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //Delete local file
-                        userAccount.deleteFile();
+                        //userAccount.deleteFile();
+                        ((MainActivity)getActivity()).getUserAccount().deleteFile();
+                        System.exit(0);
                         Toast.makeText(parentContext , "Stored Account Deleted", Toast.LENGTH_LONG).show();
                     }
                 })
@@ -406,7 +408,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         sharedPreferences.edit().commit();
     }
 
-    protected void onRefreshCategories()
+    protected void onCategoriesRefresh()
     {
         Log.v("SettingFragment","onRefreshCategories()");
         String url = this.getActivity().getString(R.string.url_get_categories);

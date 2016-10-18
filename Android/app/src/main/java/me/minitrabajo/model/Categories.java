@@ -80,6 +80,12 @@ public class Categories extends ArrayList implements Serializable
         return names;
     }
 
+    public boolean isEmpty()
+    {
+        return this.size() == 0 ? true : false;
+    }
+
+
     public boolean hasFile()
     {
         boolean result = false;

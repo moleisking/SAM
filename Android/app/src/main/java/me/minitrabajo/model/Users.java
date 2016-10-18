@@ -23,9 +23,25 @@ public class Users implements Serializable  {
         this.context= context;
     }
 	
-	public User get(int index)
+	public User getUser(int index)
 	{
 		return users.get(index);
+	}
+
+	public User getUser(String name, String email)
+	{
+		User result = null;
+
+		for (int i =0; i < users.size();i++)
+		{
+			if (users.get(i).getName().equals(name)|| users.get(i).getName().equals(email))
+			{
+				result = users.get(i);
+				break;
+			}
+		}
+
+		return result;
 	}
 	
 	public void add(User q)
@@ -93,16 +109,7 @@ public class Users implements Serializable  {
 
 	public boolean isEmpty()
 	{
-		boolean result = true;
-		if (this.size() == 0)
-		{
-			result = true;
-		}
-		else
-		{
-			result = false;
-		}
-		return result;
+		return this.size() == 0 ? true : false;
 	}
 
 	public String toString()
@@ -123,30 +130,23 @@ public class Users implements Serializable  {
 		return output;
 	}
 
-    public User findUser(String name)
-    {
-        User result = null;
 
-        for (int i =0; i < users.size();i++)
-        {
-            if (users.get(i).getName().equals(name))
-            {
-                result = users.get(i);
-                break;
-            }
-        }
 
-       /*for (int i =0; i < this.size();i++)
-        {
-            if (((Category)this.get(i)).getName().equals(name))
-            {
-                result = (Category)this.get(i);
-                break;
-            }
-        }*/
+	public User getOtherUser(User currentUser)
+	{
+		User result = null;
 
-        return result;
-    }
+		for (int i =0; i < users.size();i++)
+		{
+			if (!users.get(i).equals(currentUser))
+			{
+				result = users.get(i);
+				break;
+			}
+		}
+
+		return result;
+	}
 
 	public void loadFromString( String str )
 	{

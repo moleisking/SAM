@@ -91,8 +91,18 @@ public class UserAccount extends User implements Serializable
 
     public void deleteFile()
     {
-        setToken("");
-        context.deleteFile(USER_ACCOUNT_FILE_NAME);
+        //ERROR: Need to test delete. Activity probably needed not context.
+        try
+        {
+            setToken("");
+            context.deleteFile(USER_ACCOUNT_FILE_NAME);
+            Log.v("UserAccount:deleteFile","File deleted");
+        }
+        catch (Exception ex)
+        {
+            Log.v("UserAccount:deleteFile","File not found");
+            Log.v("UserAccount:deleteFile",ex.getMessage());
+        }
     }
 
     public boolean isEmpty()

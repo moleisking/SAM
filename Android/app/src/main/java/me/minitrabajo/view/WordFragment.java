@@ -68,7 +68,7 @@ public class WordFragment  extends Fragment implements ResponseAPI {
 
     protected void onSaveClick(View view)
     {
-        Log.v("Search:onSearchClick()","Post");
+        Log.v("Word:onSearchClick()","Post");
         String url = getResources().getString(R.string.url_post_search);
         String parameters = "word="+ txtWord.getText();
         PostAPI asyncTask =new PostAPI(this.getActivity());

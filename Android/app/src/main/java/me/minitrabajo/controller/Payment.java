@@ -22,6 +22,8 @@ public class Payment implements ResponseAPI
     private transient Context context;
     private UserAccount userAccount;
 
+    public ResponsePay delegate = null;
+
     public Payment(Context context, UserAccount userAccount)
     {
         super();
@@ -38,7 +40,8 @@ public class Payment implements ResponseAPI
         {
             //Get JSON and add to object
             JSONObject myJson = new JSONObject(output);
-
+            Double creditReply = myJson.getDouble("addcredit");
+            delegate.paymentSuccess(creditReply);
             //Add code to show what happens after payment.
         }
         catch (Exception ex)
@@ -47,7 +50,7 @@ public class Payment implements ResponseAPI
         }
     }
 
-    protected void onPayment(int value)
+    protected void onPayment(Double value)
     {
         Log.v("Payment:onPayment()","Post");
         String url = context.getResources().getString(R.string.url_post_payment);

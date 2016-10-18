@@ -44,7 +44,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> , ResponseAPI
+/*, LoaderCallbacks<Cursor> ,*/
+public class LoginActivity extends AppCompatActivity implements  ResponseAPI
 {
     private static final int REQUEST_READ_CONTACTS = 0;
     private AutoCompleteTextView txtEmail;
@@ -52,75 +53,67 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private Button btnLogin;
     private View mProgressView;
     private View mLoginFormView;
-    private UserAccount mUserAccount;
+    private UserAccount userAccount;
+    private Categories categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserAccount = new UserAccount(this);
+        setContentView(R.layout.activity_login);
 
-        if(mUserAccount.hasFile())
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+        txtEmail = (AutoCompleteTextView) findViewById(R.id.txtEmail);
+        txtPassword = (EditText) findViewById(R.id.txtPassword);
+        /*txtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                    onLoginClick(txtPassword);
+                    return true;
+                }
+                return false;
+            }
+        });*/
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+
+        userAccount = new UserAccount(this);
+        categories = new Categories(this);
+
+        if(!categories.hasFile())
+        {
+            Log.v("LoginActivity:onCreate","No category file found");
+            getCategories();
+        }
+
+        if(userAccount.hasFile())
         {
             Log.v("LoginActivity:onCreate","File found");
-            mUserAccount.loadFromFile();
-            mUserAccount.print();
-            if(mUserAccount.hasToken())
+            userAccount.loadFromFile();
+            userAccount.print();
+            if(userAccount.hasToken())
             {
                 //Already logged in go straight to main application
                 Log.v("LoginActivity:onCreate","Token found");
                 loadMainActivity();
             }
-            if (mUserAccount !=  null && mUserAccount.getToken().equals("") && mUserAccount.getEmail().equals(""))
+            if (userAccount !=  null && userAccount.getToken().equals("") && userAccount.getEmail().equals(""))
             {
                 //Check for corrupt file
                 Log.v("LoginActivity:onCreate","Found corrupt file");
-                mUserAccount.deleteFile();
+                userAccount.deleteFile();
             }
-        }
-        else
-        {
-           //No saved account yet
-            Log.v("LoginActivity:onCreate","Start login process");
-            setContentView(R.layout.activity_login);
-            txtEmail = (AutoCompleteTextView) findViewById(R.id.txtEmail);
-            txtPassword = (EditText) findViewById(R.id.txtPassword);
-            btnLogin = (Button) findViewById(R.id.btnLogin);
-            populateAutoComplete();
-
-            //txtEmail.setText("moleisking@gmail.com");
-            //txtPassword.setText("12345");
-
-            txtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                    if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                        onLoginClick(txtPassword);
-                        return true;
-                    }
-                    return false;
-                }
-            });
-
-           /* mEmailSignInButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    attemptLogin();
-                }
-            });*/
-
-            mLoginFormView = findViewById(R.id.login_form);
-            mProgressView = findViewById(R.id.login_progress);
         }
     }
 
-    private void populateAutoComplete()
+    /*private void populateAutoComplete()
     {
         if (!mayRequestContacts())
         {
             return;
         }
         getLoaderManager().initLoader(0, null, this);
-    }
+    }*/
 
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -152,19 +145,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     {
         if (requestCode == REQUEST_READ_CONTACTS) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
+               // populateAutoComplete();
             }
         }
     }
 
     protected void onLoginClick(View view)
     {
-        /*if (mAuthTask != null) {
-            return;
-        }*/
-
-        // Reset errors.
-        //mEmailView.setError(null);
+        // Reset errors text
         txtEmail.setError(null);
         txtPassword.setError(null);
 
@@ -172,31 +160,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String email = txtEmail.getText().toString();
         String password = txtPassword.getText().toString();
 
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (password == null || !password.trim().equals("") || (password.length() < 4))
+        {
+            // Check for a valid password, if the user entered one.
             txtPassword.setError(getString(R.string.error_invalid_password));
-            focusView = txtPassword;
-            cancel = true;
+            txtPassword.requestFocus();
         }
-
-        // Check for a valid email address.
-       /* if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }*/
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first form field with an error.
-            focusView.requestFocus();
-        } else {
+        else if (email == null || email.trim().equals(""))
+        {
+            // Error email is empty
+            txtEmail.setError(getString(R.string.error_field_required));
+            txtEmail.requestFocus();
+        }
+        else if (email.contains("@") )
+        {
+            // Error text is not email
+            txtEmail.setError(getString(R.string.error_invalid_email));
+            txtEmail.requestFocus();
+        }
+        else
+        {
             // Show a progress spinner, and kick off a background task to perform the user login attempt.
             showProgress(true);
             postAuthentication();
@@ -207,10 +190,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
-
-    private boolean isEmailValid(String email) { return email.contains("@"); }
-
-    private boolean isPasswordValid(String password) { return password.length() > 4; }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show)
@@ -242,7 +221,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    @Override
+   /* @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
                 // Retrieve data rows for the device user's 'profile' contact.
@@ -253,9 +232,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE},
                 // Show primary email addresses first. Note that there won't be a primary email address if the user hasn't specified one.
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         List<String> emails = new ArrayList<>();
         cursor.moveToFirst();
@@ -265,30 +244,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         addEmailsToAutoComplete(emails);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
-    }
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-       /* ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-        mEmailView.setAdapter(adapter);*/
-    }
+    }*/
 
 
-    private interface ProfileQuery {
+
+   /* private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
     };
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
+    }*/
 
     @Override
     public void processFinish(String output)
@@ -301,15 +273,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (header.contains("token"))
             {
                 JSONObject myJson = new JSONObject(output);
-                mUserAccount.setToken( myJson.optString("token"));
+                userAccount.setToken( myJson.optString("token"));
                 Log.v("LoginActivity", "Token download success");
                 getUserAccount();
             }
             else if (header.contains("name"))
             {
                 Log.v("LoginActivity", "Profile download success");
-                mUserAccount.loadFromJSON(output);
-                mUserAccount.saveToFile();
+                userAccount.loadFromJSON(output);
+                userAccount.saveToFile();
                 loadMainActivity();
             }
             else if(header.contains("authentication failed"))
@@ -318,6 +290,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 txtPassword.setError(getString(R.string.error_incorrect_password));
                 txtPassword.requestFocus();
                 Toast.makeText(this,"Login Failed",Toast.LENGTH_SHORT).show();
+            }
+            else if(header.contains("categories"))
+            {
+                Log.v("LoginActivity", "Saving categories.");
+                Categories categories = new Categories(this);
+                categories.loadFromJSON(output);
+                categories.saveToFile();
             }
             else
             {
@@ -335,7 +314,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //Load Main Activity
         Log.v("loadMainActivity", "intent");
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("UserAccount", mUserAccount);
+        intent.putExtra("UserAccount", userAccount);
         startActivity(intent);
     }
 
@@ -344,7 +323,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String url = getResources().getString(R.string.url_get_user_account_profile);
         GetAPI asyncTask =new GetAPI(this);
         asyncTask.delegate = this;
-        asyncTask.execute(url,"",mUserAccount.getToken());
+        asyncTask.execute(url,"",userAccount.getToken());
+    }
+
+    protected void getCategories()
+    {
+        Log.v("LoginActivity","getCategories started file download");
+        String url = this.getString(R.string.url_get_categories);
+        GetAPI asyncTask =new GetAPI(this);
+        asyncTask.delegate = this;
+        asyncTask.execute(url,"","");
     }
 
     private void postAuthentication()

@@ -45,7 +45,7 @@ public class AboutFragment extends Fragment {
     {
         User user = new User(0,"Administrator");
         this.getActivity().getIntent().putExtra("User", user );
-        ((MainActivity)getActivity()).showMessageFragment();
+        ((MainActivity)getActivity()).showMessagesFragment();
         Toast.makeText(this.getActivity(), "Message", Toast.LENGTH_LONG).show();
     }
 

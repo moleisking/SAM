@@ -11,16 +11,24 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import me.minitrabajo.R;
+import me.minitrabajo.model.Categories;
 import me.minitrabajo.model.Category;
 import me.minitrabajo.model.User;
 
 /**
  * Created by Scott on 13/10/2016.
  */
-public class CategoriesAdapter extends ArrayAdapter<Category> {
+public class CategoriesAdapter extends ArrayAdapter<Category>
+{
 
-    public CategoriesAdapter(Context context, ArrayList<Category> categories) {
+    public CategoriesAdapter(Context context, ArrayList<Category> categories)
+    {
         super(context, 0, categories);
+    }
+
+    public CategoriesAdapter(Context context, Categories categories )
+    {
+        super(context, 0, categories.getCategoryList());
     }
 
     @Override
@@ -36,7 +44,7 @@ public class CategoriesAdapter extends ArrayAdapter<Category> {
         TextView txtName = (TextView) convertView.findViewById(R.id.txtItemCategory);
         // Populate the data into the template view using the data object
         txtName.setText(category.getName());
-        txtName.setHint(category.saveToString());
+        //txtName.setHint(category.saveToString());
         // Return the completed view to render on screen
         return convertView;
     }

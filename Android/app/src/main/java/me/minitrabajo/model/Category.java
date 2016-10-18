@@ -143,13 +143,11 @@ public class Category implements Serializable
         }
         catch (NotSerializableException nosex)
         {
-            System.out.print(nosex.getMessage());
-            System.out.print(nosex.getStackTrace().toString());
-            Log.v("Categories:saveToString", nosex.getMessage());
+            Log.v("Category:saveToString", nosex.getMessage());
         }
         catch (Exception ex)
         {
-            Log.v("Categories:saveToString", ex.getMessage());
+            Log.v("Category:saveToString", ex.getMessage());
         }
         return output;
     }
@@ -170,7 +168,7 @@ public class Category implements Serializable
         }
         catch (Exception ex)
         {
-            Log.v("Categories:deserialize", ex.getMessage());
+            Log.v("Category:deserialize", ex.getMessage());
         }
     }
 }

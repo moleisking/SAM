@@ -5,6 +5,6 @@ package me.minitrabajo.controller;
  */
 public interface ResponsePay
 {
-    void paymentSuccess();
+    void paymentSuccess(Double value);
     void paymentFail();
 }

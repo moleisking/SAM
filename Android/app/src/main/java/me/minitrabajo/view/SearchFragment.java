@@ -63,27 +63,12 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
     {
         Log.v("Search:OnCreate","Started");
 
-        //Define UserAccount Objects
+        //Define account
         userAccount = new UserAccount(getActivity());
-        try
-        {
-            //Try load from passed object
-            Log.v("Account","Try load from passed object");
-            userAccount = (UserAccount)getActivity().getIntent().getSerializableExtra("UserAccount");
-        }
-        catch (Exception uaex)
-        {
-            Log.v("Account","Failed to load user account from intent");
-            if (userAccount.isEmpty())
-            {
-                userAccount.loadFromFile();
-                Log.v("Account","Load user account from file");
-            }
-        }
-        userAccount.print();
+        userAccount = ((MainActivity)getActivity()).getUserAccount();
 
+        //Define view
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.fragment_search, container, false);
-        //Define Objects
         //txtSearch = (TextView)container.findViewById(R.id.txtName);
         //radRadius = (RadioGroup) container.findViewById(R.id.radRadius);
         txtCategory= (AutoCompleteTextView)ll.findViewById(R.id.txtCategory);
@@ -100,7 +85,6 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
             }
         });
         txtTag= (MultiAutoCompleteTextView) ll.findViewById(R.id.txtTag);
-        //btnSearch = (FloatingActionButton)container.findViewById(R.id.btnRegister);
 
         //Start GPS
         currentLatLng = new LatLng(0.0d,0.0d);
@@ -111,8 +95,8 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
         fillCategory();
         Log.v("Search:Latitude",String.valueOf(currentLatLng.latitude));
         Log.v("Search:Longitude",String.valueOf(currentLatLng.longitude));
-        // Inflate the layout for this fragment
-        return ll; //;inflater.inflate(R.layout.fragment_search, container, false);
+
+        return ll;
     }
 
     @Override
@@ -137,14 +121,14 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
                 //Set distance field for each user
                 for(int i = 0; i < users.size(); i++)
                 {
-                    users.get(i).setDistance(currentLatLng);
+                    users.getUser(i).setDistance(currentLatLng);
                 }
 
                 //Pass users to list, then load list
                 users.saveToFile();
 
                 //Move to list fragment
-                ((MainActivity)getActivity()).showListFragment();
+                ((MainActivity)getActivity()).showResultsFragment();
             }
             Log.w("Search:Process:Users", "Print");
             users.print();
@@ -160,7 +144,7 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
     {
         try {
             connectionResult.startResolutionForResult(this.getActivity(), ResponseGPS.CONNECTION_FAILURE_RESOLUTION_REQUEST);
-        }catch (Exception ex){Log.v("Account:onGPSConFail",ex.getMessage());}
+        }catch (Exception ex){Log.v("Search:onGPSConFail",ex.getMessage());}
     }
 
     @Override
@@ -179,19 +163,21 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
 
     protected void fillCategory()
     {
+        Log.w("Search:fillCategory", "Started");
         categories = new Categories(this.getActivity());
         if(categories.hasFile())
         {
             categories.loadFromFile();
+            categories.print();
             CategoriesAdapter adapter = new CategoriesAdapter(getActivity(), (ArrayList<Category>) categories.getCategoryList());
             //ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_category, R.id.txtItemCategory, categories.getCategoryStringArray());
             txtCategory.setAdapter(adapter);
             txtCategory.setThreshold(2);
-            Log.w("Account:onCreate", "Categories load from file");
+            Log.w("Search:fillCategory", "Categories load from file");
         }
         else
         {
-            Log.w("Account:onCreate", "Categories not found");
+            Log.w("Search:fillCategory", "Categories not found");
         }
     }
 

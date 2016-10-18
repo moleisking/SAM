@@ -46,29 +46,30 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Set up toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        try
+        {
+            Log.v("Main:onCreate()","Started");
+            //Set up toolbar
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
 
-        //Set drawer menu
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+            //Set drawer menu
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
 
-        //Set navigation profile
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        headerLayout = navigationView.getHeaderView(0);
-        imgAvatar = (ImageView)headerLayout.findViewById(R.id.nav_head_imgAvatar);
-        txtName = (TextView)headerLayout.findViewById(R.id.nav_head_txtName);
-        txtDescription = (TextView)headerLayout.findViewById(R.id.nav_head_txtDescription);
-        fab = (FloatingActionButton)findViewById(R.id.fab);
+            //Set navigation profile
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+            headerLayout = navigationView.getHeaderView(0);
+            imgAvatar = (ImageView)headerLayout.findViewById(R.id.nav_head_imgAvatar);
+            txtName = (TextView)headerLayout.findViewById(R.id.nav_head_txtName);
+            txtDescription = (TextView)headerLayout.findViewById(R.id.nav_head_txtDescription);
+            fab = (FloatingActionButton)findViewById(R.id.fab);
 
-        //Load user passed from login via file or token pass
-        try{
-            //Get sent object
+            //Load user passed from login via file or token pass
             userAccount = new UserAccount(this);
             userAccount = (UserAccount) getIntent().getSerializableExtra("UserAccount");
 
@@ -77,14 +78,20 @@ public class MainActivity extends AppCompatActivity
             imgAvatar.setImageDrawable(userAccount.getImageAsRoundedBitmap());
             txtName.setText(userAccount.getName());
             txtDescription.setText(userAccount.getDescription());
-        }catch (Exception ex){Log.v("onCreate():UserAccount",ex.getMessage());}
 
-        //Set default fragment
-        showListFragment();
+            //Set default fragment
+            showResultsFragment();
+            Log.v("Main:onCreate","Finished");
+        }
+        catch (Exception ex)
+        {
+            Log.v("Main:onCreate:Err",ex.getMessage());
+        }
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -95,14 +102,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will automatically handle clicks on the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -134,11 +143,17 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_result)
         {
             Log.v("NavigationItemSelected","nav_result");
-            showListFragment();
+            showResultsFragment();
         }
         else if (id == R.id.nav_setting)
         {
+            Log.v("NavigationItemSelected","nav_setting");
             showSettingFragment();
+        }
+        else if (id == R.id.nav_message)
+        {
+            Log.v("NavigationItemSelected","nav_share");
+            showConversationsFragment();
         }
         else if (id == R.id.nav_share)
         {
@@ -184,9 +199,13 @@ public class MainActivity extends AppCompatActivity
                 Log.w("MainActivity", "SaveClick");
                 ((WordFragment) fragment).onSaveClick(v);
             }
-            else if (fragment instanceof MessageFragment) {
+            else if (fragment instanceof MessagesFragment) {
                 Log.w("MainActivity", "MessageClick");
-                ((MessageFragment) fragment).onMessageClick(v);
+                ((MessagesFragment) fragment).onMessageClick(v);
+            }
+            else if (fragment instanceof MessagesFragment) {
+                Log.w("MainActivity", "ConversationsClick");
+                //((MessagesFragment) fragment).onMessageClick(v);
             }
         }
     }
@@ -230,7 +249,7 @@ public class MainActivity extends AppCompatActivity
     {
         //Load setting fragment
         FragmentManager fragmentManager = this.getFragmentManager();
-        getIntent().putExtra("UserAccount", userAccount);
+        //getIntent().putExtra("UserAccount", userAccount);
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new SettingFragment())
                 .commit();
@@ -242,12 +261,12 @@ public class MainActivity extends AppCompatActivity
     public void showAccountFragment()
     {
         //Pass user account object to account fragment
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("UserAccount", userAccount);
+        //Intent intent = new Intent(this, MainActivity.class);
+        //intent.putExtra("UserAccount", userAccount);
 
         //Load account fragment
         FragmentManager fragmentManager = this.getFragmentManager();
-        getIntent().putExtra("UserAccount", userAccount);
+        //getIntent().putExtra("UserAccount", userAccount);
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new AccountFragment())
                 .commit();
@@ -283,17 +302,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void showMessageFragment()
+    public void showMessagesFragment()
     {
         //Pass user account and user to message fragment
         User user = (User)getIntent().getSerializableExtra("User");
-        getIntent().putExtra("UserAccount", userAccount);
+        //getIntent().putExtra("UserAccount", userAccount);
         getIntent().putExtra("User", user );
 
         //Load word fragment
         FragmentManager fragmentManager = this.getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame , new MessageFragment())
+                .replace(R.id.content_frame , new MessagesFragment())
                 .commit();
         setTitle(getResources().getString(R.string.title_message));
 
@@ -303,6 +322,21 @@ public class MainActivity extends AppCompatActivity
         } else {
             fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp));
         }
+    }
+
+    public void showConversationsFragment()
+    {
+        //Pass user account and user to message fragment
+        //getIntent().putExtra("UserAccount", userAccount);
+
+        //Load word fragment
+        FragmentManager fragmentManager = this.getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame , new ConversationsFragment())
+                .commit();
+        setTitle(getResources().getString(R.string.title_conversation));
+
+        fab.setVisibility(View.INVISIBLE);
     }
 
     public void showMyProfileFragment()
@@ -362,7 +396,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame , new AboutFragment())
                 .commit();
-        setTitle("About");
+        setTitle(getResources().getString(R.string.title_about));
 
         //Hide keyboard
         getWindow().setSoftInputMode(
@@ -377,14 +411,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    protected void showListFragment()
+    protected void showResultsFragment()
     {
         //Load list fragment
         FragmentManager fragmentManager = this.getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame , new ListFragment())
+                .replace(R.id.content_frame , new ResultsFragment())
                 .commit();
-        setTitle("List");
+        setTitle(getResources().getString(R.string.title_results));
 
         //Hide keyboard
         getWindow().setSoftInputMode(

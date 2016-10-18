@@ -310,7 +310,16 @@ public class User implements Serializable {
 	public String getImageEncoded()
 	{
 		//Extract XXX from "data:image/png;base64,XXX"
-		return imageRaw.split(",",2)[1];
+		String reply="";
+		try{
+			reply = imageRaw.split(",",2)[1];
+		}catch (Exception ex){
+
+			Log.v("User:getImgEncoded:Err",ex.getMessage());
+			this.print();
+		}
+
+		return reply;
 	}
 
 	public String getImageType()
@@ -365,6 +374,19 @@ public class User implements Serializable {
 	{
 		RoundImage roundedImage = new RoundImage(getImageAsBitmap());
 		return roundedImage;
+	}
+
+	public boolean equals(User user)
+	{
+		if (user.getEmail().equals(this.getEmail())
+				&& user.getName().equals(this.getName()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public String saveToString()

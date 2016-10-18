@@ -22,7 +22,7 @@ import me.minitrabajo.controller.PostAPI;
 import me.minitrabajo.controller.ResponseAPI;
 import me.minitrabajo.model.User;
 
-/*Note: No calls to server through ResponseAPI for profile. User object passed from ListFragment. UserAccount userd to post rating though.*/
+/*Note: No calls to server through ResponseAPI for profile. User object passed from ResultsFragment. UserAccount userd to post rating though.*/
 public class ProfileFragment extends Fragment implements ResponseAPI
 {
 
@@ -121,14 +121,12 @@ public class ProfileFragment extends Fragment implements ResponseAPI
         {
             //Send user and user account to main
             this.getActivity().getIntent().putExtra("User", user );
-            ((MainActivity)getActivity()).showMessageFragment();
+            ((MainActivity)getActivity()).showMessagesFragment();
         }
         catch (Exception ex)
         {
             Log.v("Profile:onMessage:Err", ex.getMessage());
         }
-
-        Toast.makeText(this.getActivity(), "Message sent", Toast.LENGTH_LONG).show();
     }
 
     public void onSendRating(int id, int number)
