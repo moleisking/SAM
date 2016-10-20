@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { DomSanitizationService } from "@angular/platform-browser";
+import { DomSanitizer } from "@angular/platform-browser";
 import { Observable, Subscription } from "rxjs/Rx";
 
 import { UserService } from "../services/user";
@@ -38,7 +38,7 @@ export class Messages implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private user: UserService,
-        private sanitizer: DomSanitizationService,
+        private sanitizer: DomSanitizer,
         private m: MessageService,
         private authService: AuthService
     ) { }

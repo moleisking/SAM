@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
-import { FormGroup, FormBuilder } from "@angular/forms";
-import { Validators } from "@angular/common";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Settings } from "../config/settings";
 
 import { UserService } from "../services/user";
@@ -118,7 +117,7 @@ export class ProfileFormComponent implements OnInit {
         this.tagsActive = [];
         this.tags = this.cats.find(x => x.id === value).tags;
         this.areTagsAvailable = this.tags.length > 0;
-        this.mySelect.ngOnInit();
+        this.mySelect.active = [];
     }
 
     refreshValue(value: number): void {

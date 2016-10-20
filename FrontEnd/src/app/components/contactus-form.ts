@@ -1,14 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
-import { Validators } from "@angular/common";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { WebService } from "../services/web";
 
 @Component({
     selector: "contactus-form-component",
     providers: [WebService],
     templateUrl: "../../views/contactus-form.html",
-    styleUrls: ["../../styles/form.css"],
-    directives: [REACTIVE_FORM_DIRECTIVES]
+    styleUrls: ["../../styles/form.css"]
 })
 
 export class ContactUsFormComponent implements OnInit {

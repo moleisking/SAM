@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormGroup, FormBuilder } from "@angular/forms";
-import { Validators } from "@angular/common";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Settings } from "../config/settings";
 
@@ -85,7 +84,7 @@ export class RegisterFormComponent implements OnInit {
         this.tags = this.cats.find(x => x.id === value).tags;
         this.areTagsAvailable = this.tags.length > 0;
         if (this.areTagsAvailable && this.tagsValue.length > 0)
-            this.mySelect.ngOnInit();
+            this.mySelect.active = [];
     }
 
     getCategories() {

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { DomSanitizationService } from "@angular/platform-browser";
+import { DomSanitizer } from "@angular/platform-browser";
 
 import { UserService } from "../services/user";
 import { MessageService } from "../services/message";
@@ -36,7 +36,7 @@ export class Profile implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private user: UserService,
-        private sanitizer: DomSanitizationService,
+        private sanitizer: DomSanitizer,
         private m: MessageService,
         private r: RatingService,
         private authService: AuthService,

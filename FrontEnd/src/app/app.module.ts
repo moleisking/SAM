@@ -32,11 +32,13 @@ import { MessageService } from "./services/message";
 import { RatingService } from "./services/rating";
 import { PaymentService } from "./services/payment";
 
-import { SELECT_DIRECTIVES } from "ng2-select";
+import { SelectComponent } from "ng2-select";
+import { OffClickDirective } from "ng2-select/components/select/off-click";
+import { HighlightPipe } from "ng2-select/components/select/select-pipes";
 import { TabsModule } from "ng2-tabs";
 import { RatingModule } from "ng2-rating";
 
-import { HTTP_PROVIDERS } from "@angular/http";
+import { HttpModule } from "@angular/http";
 
 import { Settings } from "./config/settings";
 import { enableProdMode } from "@angular/core";
@@ -47,6 +49,7 @@ if (Settings.prod) enableProdMode();
     imports: [
         BrowserModule,
         FormsModule,
+        HttpModule,
         ReactiveFormsModule,
         appRouterProvider,
         TabsModule,
@@ -58,7 +61,9 @@ if (Settings.prod) enableProdMode();
     declarations: [
         AppComponent,
 
-        SELECT_DIRECTIVES,
+        SelectComponent,
+        OffClickDirective,
+        HighlightPipe,
 
         Home,
         Login,
@@ -79,7 +84,6 @@ if (Settings.prod) enableProdMode();
         RegisterFormComponent,
     ],
     providers: [
-        HTTP_PROVIDERS,
         RoutesManager,
         AuthService,
         CategoriesService,

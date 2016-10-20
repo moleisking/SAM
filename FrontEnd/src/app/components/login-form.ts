@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-// import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder } from "@angular/forms";
-import { FormGroup, FormBuilder } from "@angular/forms";
-import { Validators } from "@angular/common";
+// import { REACTIVE_FORM_DIRECTIVES } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
@@ -30,8 +29,8 @@ export class LoginFormComponent implements OnInit {
         this.myForm = this.formBuilder.group({
             email: ["", Validators.required],
             pass: ["", [Validators.required,
-                Validators.minLength(5),
-                Validators.maxLength(20)]]
+            Validators.minLength(5),
+            Validators.maxLength(20)]]
         });
         // this.subcribeToFormChanges();
     }

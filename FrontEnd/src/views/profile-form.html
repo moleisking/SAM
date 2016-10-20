@@ -49,7 +49,7 @@
 			</div>
 			<div class="form-group" *ngIf="areTagsAvailable">
 				<label for="tags">Tags</label>
-				<ng-select [data]="tagsValue" [multiple]="true" [items]="tags" [initData]="tagsActive" (data)="refreshValue($event)" placeholder="No tags selected yet"></ng-select>
+				<ng-select [data]="tagsValue" [multiple]="true" [items]="tags" [active]="tagsActive" (data)="refreshValue($event)" placeholder="No tags selected yet"></ng-select>
 			</div>
 			<div class="checkbox">
 				<label>
