@@ -7,7 +7,7 @@ import { UserDefaultImage } from "../config/userdefaultimage";
 import { ProfileModel } from "../models/profile";
 import { CategoryModel } from "../models/category";
 import { TagModel } from "../models/tag";
-import { SelectComponent } from "ng2-select/ng2-select";
+import { SelectComponent } from "ng2-select";
 
 declare let google: any;
 

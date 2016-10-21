@@ -8,7 +8,7 @@ import { UserService } from "../services/user";
 import { CategoriesService } from "../services/categories";
 import { CategoryModel } from "../models/category";
 import { TagModel } from "../models/tag";
-import { SelectComponent } from "ng2-select/ng2-select";
+import { SelectComponent } from "ng2-select";
 
 declare let google: any;
 
@@ -68,7 +68,10 @@ export class RegisterFormComponent implements OnInit {
         let regexPatterns = { numbers: "^[0-9]*$" };
         this.myForm = this.formBuilder.group({
             name: ["", Validators.required],
-            pass: ["", [Validators.required, Validators.minLength(5)]],
+            passwords: this.formBuilder.group({
+                pass: ["", [Validators.required, Validators.minLength(5)]],
+                repeat: ["", [Validators.required, Validators.minLength(5)]]
+            }, { validator: this.PasssAreEqual }),
             email: ["", Validators.required],
             category: ["", Validators.compose([Validators.pattern(regexPatterns.numbers), Validators.required])],
             tags: [""],
@@ -78,6 +81,13 @@ export class RegisterFormComponent implements OnInit {
 
         this.getPosition();
         this.getCategories();
+    }
+
+    PasssAreEqual(group: FormGroup) {
+        let valid = group.controls["pass"].value === group.controls["repeat"].value;
+        if (valid)
+            return null;
+        return { areEqual: true };
     }
 
     onChangeCategory(value: number) {
