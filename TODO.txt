@@ -2,7 +2,6 @@ ISSUE 5: language select basic example JSON
 ISSUE 9: Move profile pics to its own database
 ISSUE 10: mongodb to CRUD with setting configuration. 
 ISSUE 11: add category to predictive text 
-ISSUE 14: force activation of email
 ISSUE 15: add google analytics
 ISSUE 16: No confirmation email of registration received 
 ISSUE 19: Register should have “name and “surname” and email box before password box
