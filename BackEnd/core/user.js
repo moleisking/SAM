@@ -16,7 +16,7 @@ module.exports = {
     create: function (data, cb) {
         var user = model.create();
         user.update(data);
-        user.nameurl(toURLString(data.name));
+        user.nameurl(toURLString(data.username));
         user.curLat(data.regLat);
         user.curLng(data.regLng);
         user.description("");
@@ -78,7 +78,7 @@ module.exports = {
         _delete(email, function (err, value) {
             if (err)
                 return cb(err, null);
-            myCache.del(myCacheName + "getNameByEmail" + email);
+            myCache.del(myCacheName + "getUsernameByEmail" + email);
             myCache.del(myCacheName + "readUser" + email);
             myCache.del(myCacheName + "all");
             return cb(null, value);
@@ -236,8 +236,8 @@ module.exports = {
         });
     },
 
-    getNameByEmail: function (email, cb) {
-        var cachename = myCacheName + "getNameByEmail" + email;
+    getUsernameByEmail: function (email, cb) {
+        var cachename = myCacheName + "getUsernameByEmail" + email;
         myCache.get(cachename, function (err, value) {
             if (err)
                 return cb(err, null);
@@ -246,8 +246,8 @@ module.exports = {
             _read(email, function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                readValue = readValue.name;
-                myCache.set(myCacheName + "getNameByEmail" + email, readValue, function (err, success) {
+                readValue = readValue.username;
+                myCache.set(myCacheName + "getUsernameByEmail" + email, readValue, function (err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)

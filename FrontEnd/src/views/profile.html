@@ -1,60 +1,60 @@
 <div class="row">
-    <div class="col-md-4">
-        <div class="modal fade" id="SendMessageModal" tabindex="-1" role="dialog" aria-labelledby="title">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="title"><b>New message</b></h4>
-                    </div>
-                    <div class="modal-body">
-                        <textarea name="text" id="text" cols="30" rows="10" minlength="3" maxlength="500" style="width: 100%" #messagetext></textarea>
-                        <p>{{ message }}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" (click)="sendMessage(messagetext.value)">Send message</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <img [src]="sanitizer.bypassSecurityTrustUrl(model.image)" alt="user name" class="img-rounded img-responsive" />
-        </div>
-        <div>
-            <p><b>Rating:</b></p>
-            <p>
-                <rating [(ngModel)]="model.average" [max]="5" [readonly]="true"></rating>
-            </p>
-        </div>
-        <div *ngIf="!itsMe">
-            <p><b>My Rating:</b></p>
-            <p>
-                <rating [(ngModel)]="model.rating" [max]="5" (click)="rate()"></rating>
-            </p>
-        </div>
-    </div>
-    <div class="col-md-8">
-        <h1>Profile of {{ model.name }}</h1>
-        <p><b>Description:</b></p>
-        <p>{{ model.description }}</p>
-        <p><b>Address:</b></p>
-        <p>{{ model.address }}</p>
-        <p><b>Email:</b></p>
-        <p>{{ model.email }}</p>
-        <p><b>Mobile:</b></p>
-        <p>{{ model.mobile }}</p>
-        <p><b>Day rate:</b></p>
-        <p>{{ model.dayRate }}</p>
-        <p><b>Hour rate:</b></p>
-        <p>{{ model.hourRate }}</p>
-        <p><b>Category:</b></p>
-        <p>{{ model.categoryName }}</p>
-        <p><b>Tags:</b></p>
-        <p>{{ model.tags }}</p>
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#SendMessageModal" *ngIf="!itsMe">
+	<div class="col-md-4">
+		<div class="modal fade" id="SendMessageModal" tabindex="-1" role="dialog" aria-labelledby="title">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="title"><b>New message</b></h4>
+					</div>
+					<div class="modal-body">
+						<textarea name="text" id="text" cols="30" rows="10" minlength="3" maxlength="500" style="width: 100%" #messagetext></textarea>
+						<p>{{ message }}</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" (click)="sendMessage(messagetext.value)">Send message</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<img [src]="sanitizer.bypassSecurityTrustUrl(model.image)" alt="user name" class="img-rounded img-responsive" />
+		</div>
+		<div>
+			<p><b>Rating:</b></p>
+			<p>
+				<rating [(ngModel)]="model.average" [max]="5" [readonly]="true"></rating>
+			</p>
+		</div>
+		<div *ngIf="!itsMe">
+			<p><b>My Rating:</b></p>
+			<p>
+				<rating [(ngModel)]="model.rating" [max]="5" (click)="rate()"></rating>
+			</p>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<h1>Profile of {{ model.name }} {{ model.surname }}</h1>
+		<p><b>Description:</b></p>
+		<p>{{ model.description }}</p>
+		<p><b>Address:</b></p>
+		<p>{{ model.address }}</p>
+		<p><b>Email:</b></p>
+		<p>{{ model.email }}</p>
+		<p><b>Mobile:</b></p>
+		<p>{{ model.mobile }}</p>
+		<p><b>Day rate:</b></p>
+		<p>{{ model.dayRate }}</p>
+		<p><b>Hour rate:</b></p>
+		<p>{{ model.hourRate }}</p>
+		<p><b>Category:</b></p>
+		<p>{{ model.categoryName }}</p>
+		<p><b>Tags:</b></p>
+		<p>{{ model.tags }}</p>
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#SendMessageModal" *ngIf="!itsMe">
             <span class="glyphicon glyphicon-envelope"></span> Send Message
         </button>
-        <p>{{ message }}</p>
-    </div>
+		<p>{{ message }}</p>
+	</div>
 </div>

@@ -50,8 +50,7 @@ export class RegisterFormComponent implements OnInit {
         let searchBox: any = document.getElementById("location");
         let options = {
             // return only geocoding results, rather than business results.
-            types: ["geocode"],
-            componentRestrictions: { country: Settings.search_country }
+            types: ["geocode"], componentRestrictions: { country: Settings.search_country }
         };
 
         let autocomplete = new google.maps.places.Autocomplete(searchBox, options);
@@ -67,7 +66,9 @@ export class RegisterFormComponent implements OnInit {
 
         let regexPatterns = { numbers: "^[0-9]*$" };
         this.myForm = this.formBuilder.group({
+            username: ["", Validators.required],
             name: ["", Validators.required],
+            surname: ["", Validators.required],
             passwords: this.formBuilder.group({
                 pass: ["", [Validators.required, Validators.minLength(5)]],
                 repeat: ["", [Validators.required, Validators.minLength(5)]]

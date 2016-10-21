@@ -11,11 +11,11 @@ export class UserService {
 
   constructor(private http: Http) { }
 
-  register(user: UserModel, regLat: any, regLng: any): Observable<any> {
-    let body = "name=" + user.name + "&pass=" + user.pass + "&email=" + user.email
-      + "&regLat=" + regLat + "&regLng=" + regLng
-      + "&category=" + user.category + "&tags=" + user.tags
-      + "&address=" + user.address + "&mobile=" + user.mobile;
+  register(user: UserModel, regLat: number, regLng: number): Observable<any> {
+    let body = "name=" + user.name + "&surname=" + user.surname + "&pass=" + user.passwords.pass
+      + "&email=" + user.email + "&regLat=" + regLat + "&regLng=" + regLng + "&category=" + user.category
+      + "&tags=" + user.tags + "&address=" + user.address + "&mobile=" + user.mobile + "&username=" + user.username;
+
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
@@ -24,15 +24,17 @@ export class UserService {
   }
 
   saveProfile(profileform: ProfileModel, image: string): Observable<any> {
-    let headers = new Headers();
-    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
-    let c = "description=" + profileform.description + "&address=" + profileform.address
+    let body = "description=" + profileform.description + "&address=" + profileform.address
       + "&mobile=" + profileform.mobile + "&image=" + image + "&dayRate=" + profileform.dayRate
       + "&hourRate=" + profileform.hourRate + "&curLat=" + profileform.curLat + "&curLng=" + profileform.curLng
       + "&category=" + profileform.category + "&tags=" + profileform.tags + "&looking=" + profileform.looking;
 
-    return this.http.post(Settings.backend_url + "/users/saveprofile", c, { headers: headers }).catch(this.handleError);
+    let headers = new Headers();
+    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+    return this.http.post(Settings.backend_url + "/users/saveprofile", body,
+      { headers: headers }).catch(this.handleError);
   }
 
   all(): Observable<UserModel[]> {

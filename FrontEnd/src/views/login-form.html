@@ -1,32 +1,20 @@
 <div class="container">
-    <form [formGroup]="myForm" novalidate (submit)="login()">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="email" autofocus />
-            <small [hidden]="myForm.controls.email.valid || (myForm.controls.email.pristine)" class="text-danger">
+	<form [formGroup]="myForm" novalidate (submit)="login()">
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="email" autofocus />
+			<small [hidden]="myForm.controls.email.valid || myForm.controls.email.pristine" class="text-danger">
                 Email is required.
             </small>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="text" class="form-control" formControlName="pass" name="password" [(ngModel)]="password" />
-            <small [hidden]="myForm.controls.pass.valid || (myForm.controls.pass.pristine)" class="text-danger">
-                Password is required. Min 5 chars and max 20 chars.
+		</div>
+		<div class="form-group" formGroupName="passwords">
+			<label for="password">Password</label>
+			<input type="text" class="form-control" formControlName="pass" name="password" [(ngModel)]="password" minlength="5" />
+			<small [hidden]="myForm.controls.passwords.controls.pass.valid || myForm.controls.passwords.controls.pass.pristine" class="text-danger">
+                Password is required. Min 5 chars.
             </small>
-        </div>
-        <button type="submit" class="btn btn-default" [disabled]="!myForm.valid">Login</button>
-        <!--<pre>{{ myForm.controls.name.errors | json }}</pre>
-        <pre>{{ myForm.controls.pass.errors | json }}</pre>
-        <div *ngIf="submitted">
-            <div>myForm details:</div>
-            <pre>Is myForm valid?: <br>{{myForm.valid | json}}</pre>
-            <pre>Is myForm submitted?: <br>{{submitted | json}}</pre>
-            <pre>submitted value: <br>{{myForm.value | json}}</pre>
-        </div>-->
-        <p>{{ message }}</p>
-    </form>
+		</div>
+		<button type="submit" class="btn btn-default" [disabled]="!myForm.valid">Login</button>
+		<p>{{ message }}</p>
+	</form>
 </div>
-<!--Form changes:
-<div *ngFor="let event of events">
-   <pre> {{ event | json }} </pre>
-</div>-->

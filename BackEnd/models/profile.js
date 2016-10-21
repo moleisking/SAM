@@ -1,10 +1,24 @@
 var model = require('nodejs-model');
 
 var profile = new model("Profile")
+    .attr('username', {
+        validations: {
+            presence: {
+                message: 'Username is required!'
+            }
+        }
+    })
     .attr('name', {
         validations: {
             presence: {
                 message: 'Name is required!'
+            }
+        }
+    })
+    .attr('surname', {
+        validations: {
+            presence: {
+                message: 'Surname is required!'
             }
         }
     })

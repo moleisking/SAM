@@ -10,8 +10,9 @@ var router = express.Router();
 require("../config/passport")(passport);
 
 router.post("/signup", function (req, res) {
-  if (!req.body.name || !req.body.email || !req.body.pass || !req.body.regLat || !req.body.regLng || !req.body.category)
-    return res.status(400).json({ app_err: "Please provide name, email, password, coordenades and category." });
+  if (!req.body.username || !req.body.name || !req.body.surname || !req.body.email || !req.body.pass || !req.body.regLat ||
+    !req.body.regLng || !req.body.category)
+    return res.status(400).json({ app_err: "Please provide username, name, surname, email, password, coordenades and category." });
   user.read(req.body.email, function (err, data) {
     if (err && err.id != 5)
       return res.status(500).json({ err });

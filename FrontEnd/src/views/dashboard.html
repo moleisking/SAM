@@ -18,7 +18,7 @@
 		<br> {{ errorUsers }}
 		<ul class="list-group">
 			<li class="list-group-item" *ngFor="let user of usersList">
-				<a [routerLink]="['/profile', user.nameurl]">{{ user.name }}</a>
+				<a [routerLink]="['/profile', user.nameurl]">{{ user.nameurl + ":" }}</a> {{ user.name + " " + user.surname }}
 			</li>
 		</ul>
 	</tab>

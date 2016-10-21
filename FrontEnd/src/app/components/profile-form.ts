@@ -128,7 +128,10 @@ export class ProfileFormComponent implements OnInit {
         if (!this.myForm.dirty && !this.myForm.valid)
             this.message = "Form not valid to be sent.";
         else {
-            this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
+            if (this.tagsValue instanceof Array)
+                this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
+            else
+                this.myForm.controls["tags"].setValue(this.tagsValue);
             this.message = "User profile sent...";
             this.user.saveProfile(this.myForm.value, this.image).subscribe(
                 () => {

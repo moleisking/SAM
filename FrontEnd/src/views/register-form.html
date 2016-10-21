@@ -1,32 +1,11 @@
 <div class="container">
 	<form [formGroup]="myForm" novalidate (submit)="register()">
 		<div class="form-group">
-			<label for="name">Name</label>
-			<input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" autofocus />
-			<small [hidden]="myForm.controls.name.valid || myForm.controls.name.pristine" class="text-danger">
-                Name is required.
+			<label for="username">Username</label>
+			<input type="text" class="form-control" formControlName="username" name="username" [(ngModel)]="username" />
+			<small [hidden]="myForm.controls.username.valid || myForm.controls.username.pristine" class="text-danger">
+                Username is required.
             </small>
-		</div>
-		<div formGroupName="passwords">
-			<div class="form-group">
-				<label for="password">Password</label>
-				<input type="text" class="form-control" formControlName="pass" name="password" [(ngModel)]="password" minlength="5" />
-				<small [hidden]="myForm.controls.passwords.controls.pass.valid || myForm.controls.passwords.controls.pass.pristine" class="text-danger">
-                    Password is required. Min 5 chars.
-                </small>
-			</div>
-			<div class="form-group">
-				<label for="password">Confirm Password</label>
-				<input type="text" class="form-control" formControlName="repeat" onpaste="return false" name="repeat" [(ngModel)]="repeat"
-					minlength="5" />
-				<small [hidden]="myForm.controls.passwords.controls.repeat.valid || myForm.controls.passwords.controls.repeat.pristine" class="text-danger">
-                    Confirmed password is required. Min 5 chars.
-                </small>
-				<span>{{myForm.passwords}}</span>
-				<small [hidden]="!myForm.controls.passwords?.errors?.areEqual" class="text-danger">
-                    Password and confirmed password must be the same.
-                </small>
-			</div>
 		</div>
 		<div class="form-group">
 			<label for="email">Email</label>
@@ -34,6 +13,44 @@
 			<small [hidden]="myForm.controls.email.valid || myForm.controls.email.pristine" class="text-danger">
                 Email is required.
             </small>
+		</div>
+		<div class="form-group">
+			<div class="col-md-6">
+				<label for="name">Name</label>
+				<input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" autofocus />
+				<small [hidden]="myForm.controls.name.valid || myForm.controls.name.pristine" class="text-danger">
+                Name is required.
+            </small>
+			</div>
+			<div class="col-md-6">
+				<label for="surname">Surname</label>
+				<input type="text" class="form-control" formControlName="surname" name="surname" [(ngModel)]="surname" />
+				<small [hidden]="myForm.controls.surname.valid || myForm.controls.surname.pristine" class="text-danger">
+                Surname is required.
+            </small>
+			</div>
+		</div>
+		<div formGroupName="passwords">
+			<div class="form-group">
+				<div class="col-md-6">
+					<label for="password">Password</label>
+					<input type="text" class="form-control" formControlName="pass" name="password" [(ngModel)]="password" minlength="5" />
+					<small [hidden]="myForm.controls.passwords.controls.pass.valid || myForm.controls.passwords.controls.pass.pristine" class="text-danger">
+						Password is required. Min 5 chars.
+					</small>
+				</div>
+				<div class="col-md-6">
+					<label for="password">Confirm Password</label>
+					<input type="text" class="form-control" formControlName="repeat" onpaste="return false" name="repeat" [(ngModel)]="repeat"
+						minlength="5" />
+					<small [hidden]="myForm.controls.passwords.controls.repeat.valid || myForm.controls.passwords.controls.repeat.pristine" class="text-danger">
+						Confirmed password is required. Min 5 chars.
+					</small>
+					<small [hidden]="!myForm.controls.passwords?.errors?.areEqual" class="text-danger">
+						Password and confirmed password must be the same.
+					</small>
+				</div>
+			</div>
 		</div>
 		<div class="form-group" [class.GoogleInvisible]="!isGoogleVisible">
 			<label for="location">Location</label>

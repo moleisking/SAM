@@ -3,7 +3,7 @@
 		<img [src]="image" alt="" class="img-rounded img-responsive" />
 	</div>
 	<div class="col-md-8">
-		<form [formGroup]="myForm" novalidate (submit)="save()">
+		<form [formGroup]="myForm" novalidate>
 			<div class="form-group">
 				<label for="image">Image</label>
 				<input type="file" class="form-control" id="image" name="image" />
@@ -54,10 +54,10 @@
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" formControlName="looking" name="looking" [(ngModel)]="model.looking" />
-					Actively looking for a work
+					Actively looking for work
 				</label>
 			</div>
-			<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Save</button>
+			<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="save()">Save</button>
 			<p>{{ message }}</p>
 			<input type="hidden" formControlName="curLat" name="curLat" [(ngModel)]="model.curLat" #lat>
 			<input type="hidden" formControlName="curLng" name="curLng" [(ngModel)]="model.curLng" #lng>

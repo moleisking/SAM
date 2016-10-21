@@ -55,7 +55,7 @@ module.exports = {
                 mines.map(function (item) {
                     var found = false;
                     var contact = item.to === id ? item.from : item.to;
-                    user.getNameByEmail(contact, function (err, data) {
+                    user.getUsernameByEmail(contact, function (err, data) {
                         item.name = data;
                         item.nameurl = toURLString(data);
                         if (result.length === 0)
