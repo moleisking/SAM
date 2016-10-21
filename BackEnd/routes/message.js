@@ -9,7 +9,7 @@ router.get("/readalllasts", passport.authenticate("jwt", { session: false }), fu
   message.readAllLasts(user.getEmailFromTokenUser(req.headers), function (err, data) {
     if (err)
       return res.status(500).json({ err });
-    res.json({ readalllasts: data });
+    res.json({ messages: data });
   });
 });
 
@@ -19,7 +19,7 @@ router.get("/read/:nameUrl", passport.authenticate("jwt", { session: false }), f
   message.readWith(user.getEmailFromTokenUser(req.headers), req.params.nameUrl, function (err, data) {
     if (err)
       return res.status(500).json({ err });
-    res.json({ read: data });
+    res.json({ messages: data });
   });
 });
 
@@ -29,7 +29,7 @@ router.post("/add", passport.authenticate("jwt", { session: false }), function (
   message.create(user.getEmailFromTokenUser(req.headers), req.body, function (err, data) {
     if (err)
       return res.status(500).json({ err });
-    res.json({ add: data });
+    res.json({ message: data });
   });
 });
 

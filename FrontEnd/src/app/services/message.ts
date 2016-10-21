@@ -16,10 +16,10 @@ export class MessageService {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         let options = new RequestOptions({ headers: headers });
         let body = "to=" + model.to + "&text=" + model.text + "&front=" + Settings.frontend_url
-         + "&fromUrl=" + model.nameurl;
+            + "&fromUrl=" + model.nameurl;
 
         return this.http.post(Settings.backend_url + "/messages/add", body, options)
-            .map((res: Response) => res.json().add).catch(this.handleError);
+            .map((res: Response) => res.json().message).catch(this.handleError);
     }
 
     readAllLasts(): Observable<MessageModel[]> {
@@ -28,7 +28,7 @@ export class MessageService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.get(Settings.backend_url + "/messages/readalllasts", options)
-            .map((res: Response) => res.json().readalllasts).catch(this.handleError);
+            .map((res: Response) => res.json().messages).catch(this.handleError);
     }
 
     readWith(name: string): Observable<MessageModel[]> {
@@ -38,7 +38,7 @@ export class MessageService {
 
         return Observable.interval(5000)
             .flatMap(() => this.http.get(Settings.backend_url + "/messages/read/" + name, options)
-            .map((res: Response) => res.json().read).catch(this.handleError));
+                .map((res: Response) => res.json().messages).catch(this.handleError));
     }
 
     private handleError(error: any) {

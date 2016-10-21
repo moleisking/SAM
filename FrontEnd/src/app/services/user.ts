@@ -50,7 +50,7 @@ export class UserService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(Settings.backend_url + "/users/getmyprofile", options)
-      .map((res: Response) => res.json().myprofile).catch(this.handleError);
+      .map((res: Response) => res.json().myuser).catch(this.handleError);
   }
 
   getProfile(id: string): Observable<ProfileModel> {
@@ -75,7 +75,7 @@ export class UserService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(Settings.backend_url + "/users/search", body, options)
-      .map((res: Response) => res.json().search).catch(this.handleError);
+      .map((res: Response) => res.json().users).catch(this.handleError);
   }
 
   private extractData(res: Response) {

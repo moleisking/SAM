@@ -1,4 +1,12 @@
 ISSUE 5: language select basic example JSON 
-ISSUE 6: backend call to add credit and subtract credit
 ISSUE 9: Move profile pics to its own database
-ISSUE 10: mongodb to CRUD with setting configuration There should be a parameter in the settings config file we can change to swith this on and off. There should be a base CRUD class / model /extended that now will have two derived classes now one nodejs and mongodb. 
+ISSUE 10: mongodb to CRUD with setting configuration. 
+ISSUE 11: add category to predictive text 
+ISSUE 12: change range 1,2,5,10
+ISSUE 13: changes to post and get names (sample on email)
+ISSUE 14: force activation of email
+ISSUE 15: add google analytics
+ISSUE 16: No confirmation email of registration received 
+ISSUE 17: When you register you need to add a box “confirm password”
+ISSUE 18: Contact us tab: Add name and surname and object of the email
+ISSUE 19: Register should have “name and “surname” and email box before password box

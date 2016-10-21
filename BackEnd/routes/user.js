@@ -26,7 +26,7 @@ router.get("/getmyprofile", passport.authenticate("jwt", { session: false }), fu
   user.getMyProfile(user.getEmailFromTokenUser(req.headers), function (err, data) {
     if (err)
       return res.status(500).json({ err });
-    res.json({ myprofile: data });
+    res.json({ myuser: data });
   });
 });
 
@@ -46,7 +46,7 @@ router.post("/search", function (req, res, next) {
   user.search(req.body, function (err, data) {
     if (err)
       return res.status(500).json({ err });
-    res.json({ search: data });
+    res.json({ users: data });
   });
 });
 

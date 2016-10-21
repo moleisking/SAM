@@ -9,7 +9,7 @@ router.post("/addcredit", passport.authenticate("jwt", { session: false }), func
     user.addCredit(user.getEmailFromTokenUser(req.headers), req.body.value, function (err, data) {
         if (err)
             return res.status(500).json({ err });
-        res.json({ addcredit: data.credit });
+        res.json({ transaction: data.credit });
     });
 });
 

@@ -17,7 +17,7 @@ export class PaymentService {
         let body = "value=" + value;
 
         return this.http.post(Settings.backend_url + "/payment/addcredit", body, options)
-            .map((res: Response) => res.json().addcredit).catch(this.handleError);
+            .map((res: Response) => res.json().transaction).catch(this.handleError);
     }
 
     private handleError(error: any) {
