@@ -40,32 +40,29 @@ public class ProfileFragment extends Fragment implements ResponseAPI
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Log.v("Profile:onCreate","Started");
         // Inflate the layout for this fragment
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.fragment_profile, container, false);
 
-        //Define Objects
-        user = new User(getActivity());
-        user = (User)getActivity().getIntent().getSerializableExtra("User");
-        user.print();
+        try
+        {
+            Log.v("Profile:onCreate","Started");
+            //Define Objects
+            user = new User(getActivity());
+            user = (User)getActivity().getIntent().getSerializableExtra("User");
 
-        imgProfile = (ImageView)ll.findViewById(R.id.imgProfile);
-        txtName = (TextView) ll.findViewById(R.id.txtName);
-        txtDescription = (TextView)ll.findViewById(R.id.txtDescription);
-        txtAddress = (TextView)ll.findViewById(R.id.txtAddress);
-        txtHourRate = (TextView)ll.findViewById(R.id.txtHourRate);
-        txtDayRate = (TextView)ll.findViewById(R.id.txtDayRate);
-        ratScore = (RatingBar)ll.findViewById(R.id.ratScore);
-        ratScore.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                ratScore.getNumStars();
+            imgProfile = (ImageView)ll.findViewById(R.id.imgProfile);
+            txtName = (TextView) ll.findViewById(R.id.txtName);
+            txtDescription = (TextView)ll.findViewById(R.id.txtDescription);
+            txtAddress = (TextView)ll.findViewById(R.id.txtAddress);
+            txtHourRate = (TextView)ll.findViewById(R.id.txtHourRate);
+            txtDayRate = (TextView)ll.findViewById(R.id.txtDayRate);
+            ratScore = (RatingBar)ll.findViewById(R.id.ratScore);
+            ratScore.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    ratScore.getNumStars();
+                }
+            });
 
-            }
-        });
-        //btnMessage = (FloatingActionButton) container.findViewById(R.id.btnMessage);
-
-        try {
-            Log.v("ProfileFragment","Start try");
             //Fill Objects
             txtName.setText(user.getName());
             txtDescription.setText(user.getDescription());
@@ -73,16 +70,16 @@ public class ProfileFragment extends Fragment implements ResponseAPI
             txtHourRate.setText(Double.toString(user.getHourRate()));
             txtDayRate.setText(Double.toString(user.getDayRate()));
             imgProfile.setImageBitmap(user.getImageAsBitmap());
+
+            //Hide keyboard
+            this.getActivity().getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            );
         }
         catch (Exception ex)
         {
             Log.v("ProfileFragment",ex.getMessage());
         }
-
-        //Hide keyboard
-        this.getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
 
         return ll;
     }
@@ -90,6 +87,7 @@ public class ProfileFragment extends Fragment implements ResponseAPI
     @Override
     public void processFinish(String output)
     {
+        //Used for rating
         Log.w("Payment:processFinish", output);
 
         try
@@ -119,7 +117,7 @@ public class ProfileFragment extends Fragment implements ResponseAPI
     {
         try
         {
-            //Send user and user account to main
+            //Send user to main then to message fragment
             this.getActivity().getIntent().putExtra("User", user );
             ((MainActivity)getActivity()).showMessagesFragment();
         }

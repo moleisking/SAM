@@ -10,13 +10,14 @@
         <CheckBoxPreference
             android:key="pref_item_email_notification"
             android:title="Email Notifications"
+            android:summary="Disable or enable email notifications."
             android:defaultValue="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <CheckBoxPreference
             android:key="pref_item_screen_notification"
             android:title="Screen Notifications"
-            android:summary=""
+            android:summary="Disable or enable screen notifications."
             android:defaultValue="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -34,35 +35,35 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
         <Preference
-            android:key="pref_item_edit_profile"
+            android:key="pref_item_edit_user_account"
             android:title="Edit user profile"
             android:summary="Edit your user profile." />
         <EditTextPreference
-            android:key="pref_item_change_password"
+            android:key="pref_item_edit_password"
             android:title="Change password"
             android:summary="Change forgotten password via email." />
-        <Preference
-            android:key="pref_item_refresh_registered_location"
-            android:title="Set default location"
-            android:summary="Refreshes stored registered location." />
-        <Preference
-            android:key="pref_item_refresh_stored_account"
-            android:title="Refresh locally stored account"
-            android:summary="Refreshes stored account data. Next time user will not require login." />
-        <Preference
-            android:key="pref_item_refresh_user_login"
-            android:title="Refresh user login"
-            android:summary="Refreshes stored user login." />
         <Preference
             android:key="pref_item_delete_stored_account"
             android:title="Delete locally stored account"
             android:summary="Deletes stored account data. Next time user will require login." />
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="Troubleshoot"
+        android:title="Synchronize"
         android:key="pref_group_troubleshoot"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
+        <Preference
+            android:key="pref_item_refresh_user_account"
+            android:title="Refresh locally stored user account"
+            android:summary="Refreshes stored account data. Next time user will not require login." />
+        <Preference
+            android:key="pref_item_refresh_registered_location"
+            android:title="Set default location"
+            android:summary="Refreshes stored registered location." />
+        <Preference
+            android:key="pref_item_refresh_current_location"
+            android:title="Set the current location"
+            android:summary="Refreshes stored current location." />
         <Preference
             android:key="pref_item_refresh_categories"
             android:title="Refresh categories"

@@ -15,13 +15,22 @@ public class Users implements Serializable  {
 
 	private static final String USERS_FILE_NAME = "users.dat";
 	private static final long serialVersionUID = 8653566573642203221L;
-	private List<User> users = new  ArrayList<User>(0);
+	private List<User> users;
 	private transient Context context;
 	
 	public Users(Context context)
 	{
         this.context= context;
+		users = new  ArrayList<User>(0);
     }
+
+	public Users(Context context, User user1, User user2)
+	{
+		this.context= context;
+		users = new  ArrayList<User>(2);
+		users.add(user1);
+		users.add(user2);
+	}
 	
 	public User getUser(int index)
 	{

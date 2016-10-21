@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
         android:ellipsize="marquee"
-        android:text="Hello world">
+        android:text="Hello world"
+        android:textSize="@dimen/font_content_size">
     </TextView>
 
 </LinearLayout>

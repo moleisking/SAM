@@ -84,6 +84,14 @@
             android:windowSoftInputMode="adjustResize">
 
         </activity>
+
+        <service
+            android:name=".controller.MessageService"
+            android:exported="false"/>
+
+        <!--service
+            android:name=".controller.LocalService"
+            android:exported="false"/-->
     </application>
 
 </manifest><!--
