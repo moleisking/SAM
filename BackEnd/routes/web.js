@@ -29,8 +29,8 @@ router.get("/cookiepolicy", function (req, res, next) {
 });
 
 router.post("/sendcontactform", function (req, res, next) {
-  if (!req.body.message || !req.body.email)
-    return res.status(400).json({ app_err: "Please pass message and email." });
+  if (!req.body.name || !req.body.surname || !req.body.message || !req.body.email)
+    return res.status(400).json({ app_err: "Please pass name, surname, message and email." });
   emailer.sendContactForm(req.body, function (err, status, body, headers) {
     if (err)
       return res.status(500).json({ err });
