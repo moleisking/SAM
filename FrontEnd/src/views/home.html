@@ -1,64 +1,61 @@
 <div class="row">
-    <div class="col-md-offset-1 col-md-10">
-        <h1>Search</h1>
-    </div>
+	<div class="col-md-offset-1 col-md-10">
+		<h1>Search</h1>
+	</div>
 </div>
 <div class="row">
-    <div class="col-md-offset-1 col-md-10">
-        <div class="form-group">
-            <input type="text" class="form-control" id="location" placeholder="Where?" autofocus />
-        </div>
-    </div>
+	<div class="col-md-offset-1 col-md-10">
+		<div class="form-group">
+			<input type="text" class="form-control" id="location" placeholder="Where?" autofocus />
+		</div>
+	</div>
 </div>
 <div class="row">
-    <div class="col-md-offset-1 col-md-7">
-        <div class="form-group">
-            <select class="form-control" (change)="onChangeCategory($event.target.value)">
+	<div class="col-md-offset-1 col-md-7">
+		<div class="form-group">
+			<select class="form-control" (change)="onChangeCategory($event.target.value)">
                 <option *ngFor="let cat of cats" value={{cat.id}}>
                     {{ cat.name[0].toUpperCase() + cat.name.substr(1) }}
                 </option>
             </select>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <select class="form-control" (change)="onChangeRadius($event.target.value)">
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<select class="form-control" (change)="onChangeRadius($event.target.value)">
+                <option value=1>1 km</option>
+                <option value=2>2 km</option>
                 <option value=5>5 km</option>
                 <option value=10>10 km</option>
-                <option value=20>20 km</option>
-                <option value=50>50 km</option>
-                <option value=100>100 km</option>
-                <option value=200>200 km</option>
-                <option value=300>300 km</option>
             </select>
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
 <div class="row">
-    <div class="col-md-offset-1 col-md-10">
-        <div class="form-group">
-            <button id="search" class="btn btn-outline-primary btn-lg btn-block" (click)="search()">Search</button>
-        </div>
-    </div>
+	<div class="col-md-offset-1 col-md-10">
+		<div class="form-group">
+			<button id="search" class="btn btn-outline-primary btn-lg btn-block" (click)="search()">Search</button>
+		</div>
+	</div>
 </div>
 <div class="row">
-    <div class="col-md-offset-1 col-md-10">
-        <div class="form-group">
-            <p>{{ message }}</p>
-        </div>
-    </div>
+	<div class="col-md-offset-1 col-md-10">
+		<div class="form-group">
+			<p>{{ message }}</p>
+		</div>
+	</div>
 </div>
 <div class="row">
-    <div class="col-md-offset-1 col-md-10">
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let user of users">
-                <a [routerLink]="['/profile', user.nameurl]">{{ user.name }}</a>
-            </li>
-        </ul>
-    </div>
+	<div class="col-md-offset-1 col-md-10">
+		<ul class="list-group">
+			<li class="list-group-item" *ngFor="let user of users">
+				<a [routerLink]="['/profile', user.nameurl]">{{ user.name }}</a>
+			</li>
+		</ul>
+	</div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <img src="/images/minitrabajo.png" alt="minitrabajo" class="homepic img-responsive">
-    </div>
+	<div class="col-md-12">
+		<img src="/images/minitrabajo.png" alt="minitrabajo" class="homepic img-responsive">
+	</div>
 </div>

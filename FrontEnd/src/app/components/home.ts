@@ -49,11 +49,11 @@ export class Home implements OnInit {
         );
     }
 
-    onChangeCategory(value: any) {
+    onChangeCategory(value: number) {
         this.category = value;
     }
 
-    onChangeRadius(value: any) {
+    onChangeRadius(value: number) {
         this.radius = value;
     }
 
