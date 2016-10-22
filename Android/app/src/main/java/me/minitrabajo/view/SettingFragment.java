@@ -55,6 +55,19 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
     private LatLng currentLatLng;
     private GPS gps;
 
+    private Preference prefEmailNotification;
+    private Preference prefScreenNotification;
+    private Preference prefDistanceUnit;
+
+    private Preference prefUserAccountEdit;
+    private Preference prefUserAccountDelete;
+    private Preference prefUserAccountRefresh;
+    private Preference prefPasswordEdit;
+
+    private Preference prefCategoriesRefresh;
+    private Preference prefRegisteredLatLngRefresh;
+    private Preference prefCurrentLatLngRefresh;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,35 +97,37 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
             pref.setSummary(version);
 
             //Set action listeners
-            Preference prefDeleteStoredAccount = findPreference("pref_item_delete_stored_account");
-            prefDeleteStoredAccount.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            prefEmailNotification = findPreference("pref_item_email_notification");
+            prefEmailNotification.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    Log.v("Setting:onCreate","onDeleteStoredAccount()");
-                    onDeleteStoredAccount();
+                    Log.v("Setting:onCreate","onSetDistanceUnit()");
+                    onEmailNotificationChange();
                     return true;
                 }
             });
 
-            Preference prefRefreshStoredAccount = findPreference("pref_item_refresh_stored_account");
-            prefRefreshStoredAccount.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            prefScreenNotification = findPreference("pref_item_screen_notification");
+            prefScreenNotification.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    Log.v("Setting:onCreate","onRefreshStoredAccount()");
-                    onRefreshStoredAccount();
+                    Log.v("Setting:onCreate","onSetDistanceUnit()");
+                    onScreenNotificationChange();
                     return true;
                 }
             });
 
-            Preference prefRefreshCategories = findPreference("pref_item_refresh_categories");
-            prefRefreshCategories.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            prefDistanceUnit = findPreference("pref_item_distance_unit");
+            prefDistanceUnit.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    Log.v("Setting:onCreate","onRefreshCategories()");
-                    onCategoriesRefresh();
+                    Log.v("Setting:onCreate","onSetDistanceUnit()");
+                    onDistanceUnitChange();
                     return true;
                 }
             });
 
-            Preference prefEditProfile = findPreference("pref_item_edit_profile");
-            prefEditProfile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            //Account
+
+            prefUserAccountEdit = findPreference("pref_item_edit_user_account");
+            prefUserAccountEdit.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     Log.v("Setting:onCreate","onRefreshCategories()");
                     onShowAccountFragment();
@@ -120,41 +135,63 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 }
             });
 
-            Preference prefChangePassword = findPreference("pref_item_change_password");
-            prefChangePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            prefPasswordEdit = findPreference("pref_item_edit_password");
+            prefPasswordEdit.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     Log.v("Setting:onCreate","onChangePassword()");
-                    onChangePassword();
+                    onPasswordChange();
                     return true;
                 }
             });
 
-            Preference prefAboutUs = findPreference("pref_item_about_us");
-            prefAboutUs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            prefUserAccountDelete = findPreference("pref_item_delete_stored_account");
+            prefUserAccountDelete.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    Log.v("Setting:onCreate","onShowAboutFragment()");
-                    onShowAboutFragment();
+                    Log.v("Setting:onCreate","onDeleteStoredAccount()");
+                    onUserAccountDelete();
                     return true;
                 }
             });
 
-            Preference prefSetDefaultLocation = findPreference("pref_item_refresh_registered_location");
-            prefSetDefaultLocation.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            //Synchronize section
+
+            prefUserAccountRefresh = findPreference("pref_item_refresh_user_account");
+            prefUserAccountRefresh.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onRefreshStoredAccount()");
+                    onUserAccountRefresh();
+                    return true;
+                }
+            });
+
+            prefCategoriesRefresh = findPreference("pref_item_refresh_categories");
+            prefCategoriesRefresh.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onRefreshCategories()");
+                    onCategoriesRefresh();
+                    return true;
+                }
+            });
+
+            prefRegisteredLatLngRefresh = findPreference("pref_item_refresh_registered_location");
+            prefRegisteredLatLngRefresh.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     Log.v("Setting:onCreate","onSetRegisteredLocation()");
-                    onSetRegisteredLocation();
+                    onRegisteredLatLngRefresh();
                     return true;
                 }
             });
 
-            Preference prefSetDistanceUnit = findPreference("pref_item_distance_unit");
-            prefSetDistanceUnit.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            prefCurrentLatLngRefresh = findPreference("pref_item_refresh_registered_location");
+            prefCurrentLatLngRefresh.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    Log.v("Setting:onCreate","onSetDistanceUnit()");
-                    onSetDistanceUnit();
+                    Log.v("Setting:onCreate","onSetRegisteredLocation()");
+                    onCurrentLatLngRefresh();
                     return true;
                 }
             });
+
+            //About section
 
             Preference prefTermsAndConditions = findPreference("pref_item_terms_and_conditions");
             prefTermsAndConditions.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -170,6 +207,15 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 public boolean onPreferenceClick(Preference preference) {
                     Log.v("Setting:onCreate"," onPrivacyPolicyAndDataProtection()");
                     onPrivacyPolicyAndDataProtection();
+                    return true;
+                }
+            });
+
+            Preference prefAboutUs = findPreference("pref_item_about_us");
+            prefAboutUs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onShowAboutFragment()");
+                    onShowAboutFragment();
                     return true;
                 }
             });
@@ -285,33 +331,37 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
     {
         //Fired when actual value changes
-        if (key.equals("pref_item_privacy_policy"))
+        if (key.equals("pref_item_privacy_policy_and_data_protection"))
         {
-            //Show your AlertDialog here!
+            Log.v("onSharedPrefChange","pref_item_privacy_policy_and_data_protection");
         }
-        else if (key.equals("pref_item_terms_of_user"))
+        else if (key.equals("pref_item_terms_and_conditions"))
         {
-
+            Log.v("onSharedPrefChange","pref_item_terms_and_conditions");
         }
-        else if (key.equals("pref_item_delete_stored_account"))
+        else if (key.equals("pref_item_email_notification"))
         {
-
+            Log.v("onSharedPrefChange","pref_item_terms_and_conditions");
         }
-        else if (key.equals("pref_item_delete_stored_account"))
+        else if (key.equals("pref_item_screen_notification"))
         {
-            //onDeleteStoredAccount();
+            Log.v("onSharedPrefChange","pref_item_screen_notification");
+        }
+        else if (key.equals("pref_item_distance_unit"))
+        {
+            Log.v("onSharedPrefChange","pref_item_distance_unit");
         }
 
-
-        Log.v("PreferenceChanged",key);
+       /* Log.v("PreferenceChanged",key);
         Preference pref = findPreference(key);
         if (pref instanceof EditTextPreference) {
             EditTextPreference etp = (EditTextPreference) pref;
             pref.setSummary(etp.getText());
-        }
+        }*/
     }
 
     /*private void onDefaultResultClick(View v)
@@ -350,7 +400,37 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 .show();
     }
 
-    protected void onTestClick()
+    protected void onEmailNotificationChange()
+    {
+        Log.v("SettingFragment","onEmailNotificationChange");
+        if (prefEmailNotification.isEnabled())
+        {
+            sharedPreferences.edit().putString("pref_item_email_notification", "true");
+            sharedPreferences.edit().apply();
+        }
+        else
+        {
+            sharedPreferences.edit().putString("pref_item_email_notificationt", "false");
+            sharedPreferences.edit().apply();
+        }
+    }
+
+    protected void onScreenNotificationChange()
+    {
+        Log.v("SettingFragment","onScreenNotificationChange");
+        if (prefScreenNotification.isEnabled())
+        {
+            sharedPreferences.edit().putString("pref_item_screen_notification", "true");
+            sharedPreferences.edit().apply();
+        }
+        else
+        {
+            sharedPreferences.edit().putString("pref_item_screen_notification", "false");
+            sharedPreferences.edit().apply();
+        }
+    }
+
+   /* protected void onTestClick()
     {
         Log.v("Setting:onTestClick","Clicked");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -368,9 +448,9 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                     }
                 })
                 .show();
-    }
+    }*/
 
-    protected void onDeleteStoredAccount()
+    protected void onUserAccountDelete()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Are you sure you want to delete your stored account?")
@@ -391,7 +471,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 .show();
     }
 
-    protected void onRefreshStoredAccount()
+    protected void onUserAccountRefresh()
     {
         //Get file from Post Call
         Log.v("SettingFragment","onRefreshStoredAccount()");
@@ -401,9 +481,9 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         asyncTask.execute(url,"",userAccount.getToken());
     }
 
-    protected void onSetDistanceUnit()
+    protected void onDistanceUnitChange()
     {
-        Log.v("SettingFragment","onSetDistanceUnit()");
+        Log.v("SettingFragment","oonDistanceUnitChange");
         sharedPreferences.edit().putString("distance_unit", "Elena");
         sharedPreferences.edit().commit();
     }
@@ -417,12 +497,17 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         asyncTask.execute(url,"","");
     }
 
-    protected void onSetRegisteredLocation()
+    protected void onRegisteredLatLngRefresh()
     {
         Log.v("Setting:Position",currentLatLng.toString());
     }
 
-    protected void onChangePassword()
+    protected void onCurrentLatLngRefresh()
+    {
+        Log.v("Setting:Position",currentLatLng.toString());
+    }
+
+    protected void onPasswordChange()
     {
         //Get file from Post Call
         Log.v("SettingFragment","onChangePassword()");
@@ -492,7 +577,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 .show();
     }
 
-    protected void  onTermsAndConditions()
+    protected void onTermsAndConditions()
     {
         Log.v("Setting:onTerm&Con","Started");
         String text = "";
@@ -539,10 +624,10 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         txtDescription.setText(userAccount.getDescription());
     }
 
-    public void setUserAccount(UserAccount user_account)
+    /*public void setUserAccount(UserAccount user_account)
     {
         userAccount = user_account;
         Log.v("UserAccount",userAccount.toString());
-    }
+    }*/
 
 }

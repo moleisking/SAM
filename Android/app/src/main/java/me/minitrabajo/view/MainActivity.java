@@ -3,14 +3,18 @@ package me.minitrabajo.view;
 import android.app.Fragment;
 import android.app.FragmentManager;
 //import android.support.v4.app.FragmentManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 //import android.support.v4.app.Fragment;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,11 +31,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import me.minitrabajo.R;
+import me.minitrabajo.controller.LocalService;
+import me.minitrabajo.controller.MessageService;
+import me.minitrabajo.controller.ResponseMSG;
+import me.minitrabajo.model.Conversations;
 import me.minitrabajo.model.User;
 import me.minitrabajo.model.UserAccount;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener , ResponseMSG {
 
     private FloatingActionButton fab;
     private NavigationView navigationView;
@@ -40,6 +48,9 @@ public class MainActivity extends AppCompatActivity
     private TextView txtName;
     private TextView txtDescription;
     private UserAccount userAccount;
+    MessageService messageService;
+    boolean messageServiceBound = false;
+    Intent intentMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +92,10 @@ public class MainActivity extends AppCompatActivity
 
             //Set default fragment
             showResultsFragment();
+
+            //Intent serviceIntent = new Intent(this, MessageService.class);
+            //startService(new Intent(getBaseContext(), MessageService.class));
+            //startService(serviceIntent);
             Log.v("Main:onCreate","Finished");
         }
         catch (Exception ex)
@@ -88,6 +103,105 @@ public class MainActivity extends AppCompatActivity
             Log.v("Main:onCreate:Err",ex.getMessage());
         }
     }
+
+    // Method to start the service
+    public void startService() {
+
+        //int num = mService.getRandomNumber();
+        messageService.startMessageService();
+       // mService.startMessageService();
+        //Toast.makeText(this, "number: " + num, Toast.LENGTH_SHORT).show();
+
+        //startService(new Intent(getBaseContext(), MessageService.class));
+    }
+
+    // Method to stop the service
+    public void stopService() {
+        stopService(new Intent(getBaseContext(), MessageService.class));
+    }
+
+    /*LocalService mService;
+    boolean mBound = false;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Bind to LocalService
+        Intent intent = new Intent(this, LocalService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Unbind from the service
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
+    }
+
+    // Defines callbacks for service binding, passed to bindService()
+    public ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            LocalService.LocalBinder binder = (LocalService.LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };*/
+
+    public void updateConversations(Conversations conversations)
+    {
+        Log.v("MainActivity","updateConversations");
+        conversations.print();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.v("Main","onStart()");
+        // Bind to LocalService
+        intentMessages = new Intent(this, MessageService.class);
+        bindService(intentMessages, messageServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.v("Main","onStop()");
+        // Unbind from the service
+        if (messageServiceBound) {
+            unbindService(messageServiceConnection);
+            messageServiceBound = false;
+        }
+    }
+
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection messageServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            MessageService.MessageBinder binder = (MessageService.MessageBinder) service;
+            messageService = binder.getService();
+            messageServiceBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            messageServiceBound = false;
+        }
+    };
 
     @Override
     public void onBackPressed()
@@ -98,8 +212,22 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-        showProfileFragment();
+        showResultsFragment();
     }
+
+    /*@Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.v("MAIN","KEYPRESSED");
+        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                (keyCode == KeyEvent.KEYCODE_ENTER))
+        {
+            Log.v("MAIN","ENTER");
+        }
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            Log.v("MAIN","MENU");
+        }
+        return super.onKeyDown(keyCode, event);
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -158,6 +286,9 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_share)
         {
             Log.v("NavigationItemSelected","nav_share");
+            startService();
+            //int num = mService.getRandomNumber();
+            //Toast.makeText(this, "number: " + num, Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -174,38 +305,52 @@ public class MainActivity extends AppCompatActivity
     {
         //Handles onclick events from app_bar_main to get active Fragment + FloatingActionButton
         Fragment fragment = getFragmentManager().findFragmentById(R.id.content_frame);
-        if (fragment != null && fragment.isVisible()) {
-            if (fragment instanceof ProfileFragment) {
+        if (fragment != null && fragment.isVisible())
+        {
+            if (fragment instanceof ProfileFragment)
+            {
                 Log.w("MainActivity", "ProfileFragmentClick");
                 ((ProfileFragment) fragment).onMessageClick(v);
             }
-            else if (fragment instanceof SearchFragment) {
+            else if (fragment instanceof MyProfileFragment)
+            {
+                Log.w("MainActivity", "MyProfileFragmentClick");
+                ((MyProfileFragment) fragment).onEditClick(v);
+            }
+            else if (fragment instanceof SearchFragment)
+            {
                 Log.w("MainActivity", "SearchFragmentClick");
                 ((SearchFragment) fragment).onSearchClick(v);
             }
-            else if (fragment instanceof SettingFragment) {
+            else if (fragment instanceof SettingFragment)
+            {
                 Log.w("MainActivity", "SettingFragmentClick");
                 ((SettingFragment) fragment).onSaveClick(v);
             }
-            else if (fragment instanceof AboutFragment) {
+            else if (fragment instanceof AboutFragment)
+            {
                 Log.w("MainActivity", "AboutFragmentClick");
                 ((AboutFragment) fragment).onMessageClick(v);
             }
-            else if (fragment instanceof AccountFragment) {
+            else if (fragment instanceof AccountFragment)
+            {
                 Log.w("MainActivity", "SaveClick");
                 ((AccountFragment) fragment).onSaveClick(v);
             }
-            else if (fragment instanceof WordFragment) {
+            else if (fragment instanceof WordFragment)
+            {
                 Log.w("MainActivity", "SaveClick");
                 ((WordFragment) fragment).onSaveClick(v);
             }
-            else if (fragment instanceof MessagesFragment) {
-                Log.w("MainActivity", "MessageClick");
+            else if (fragment instanceof MessagesFragment)
+            {
+                Log.w("MainActivity", "MessagesClick");
                 ((MessagesFragment) fragment).onMessageClick(v);
             }
-            else if (fragment instanceof MessagesFragment) {
+            else if (fragment instanceof ConversationsFragment)
+            {
                 Log.w("MainActivity", "ConversationsClick");
-                //((MessagesFragment) fragment).onMessageClick(v);
+                //((ConversationsFragment) fragment).onMessageClick(v);
             }
         }
     }
@@ -260,10 +405,6 @@ public class MainActivity extends AppCompatActivity
 
     public void showAccountFragment()
     {
-        //Pass user account object to account fragment
-        //Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("UserAccount", userAccount);
-
         //Load account fragment
         FragmentManager fragmentManager = this.getFragmentManager();
         //getIntent().putExtra("UserAccount", userAccount);
@@ -306,7 +447,6 @@ public class MainActivity extends AppCompatActivity
     {
         //Pass user account and user to message fragment
         User user = (User)getIntent().getSerializableExtra("User");
-        //getIntent().putExtra("UserAccount", userAccount);
         getIntent().putExtra("User", user );
 
         //Load word fragment
@@ -316,19 +456,11 @@ public class MainActivity extends AppCompatActivity
                 .commit();
         setTitle(getResources().getString(R.string.title_message));
 
-        fab.setVisibility(View.VISIBLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp, this.getTheme()));
-        } else {
-            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp));
-        }
+        fab.setVisibility(View.INVISIBLE);
     }
 
     public void showConversationsFragment()
     {
-        //Pass user account and user to message fragment
-        //getIntent().putExtra("UserAccount", userAccount);
-
         //Load word fragment
         FragmentManager fragmentManager = this.getFragmentManager();
         fragmentManager.beginTransaction()
@@ -348,7 +480,7 @@ public class MainActivity extends AppCompatActivity
         //Load profile fragment
         FragmentManager fragmentManager = this.getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame , new ProfileFragment())
+                .replace(R.id.content_frame , new MyProfileFragment())
                 .commit();
         setTitle(getResources().getString(R.string.title_account));
 
@@ -359,9 +491,9 @@ public class MainActivity extends AppCompatActivity
 
         fab.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp, this.getTheme()));
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp, this.getTheme()));
         } else {
-            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_email_black_24dp));
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
         }
     }
 
