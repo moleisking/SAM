@@ -13,6 +13,7 @@ export class PaymentService {
         let headers = new Headers();
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         headers.append("Content-Type", "application/x-www-form-urlencoded");
+
         let options = new RequestOptions({ headers: headers });
         let body = "value=" + value;
 

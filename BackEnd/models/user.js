@@ -104,6 +104,7 @@ var user = new model("User")
     .attr('dayRate')
     .attr('credit')
     .attr('guid')
+    .attr('activated')
     .attr('timeStamp');
 
 module.exports = user;

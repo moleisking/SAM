@@ -86,6 +86,7 @@ var profile = new model("Profile")
             }
         }
     })
-    .attr('tags');
+    .attr('tags')
+    .attr('activated');
 
 module.exports = profile;

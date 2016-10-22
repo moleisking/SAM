@@ -50,4 +50,22 @@ router.post("/search", function (req, res, next) {
   });
 });
 
+router.post("/activate", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+  if (!req.body.code)
+    return res.status(400).json({ app_err: "Please pass code." });
+  user.activate(user.getEmailFromTokenUser(req.headers), req.body.code, function (err, data) {
+    if (err)
+      return res.status(500).json({ err });
+    res.json({ activate: data });
+  });
+});
+
+router.get("/resendcode", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+  user.resendCode(user.getEmailFromTokenUser(req.headers), function (err, data) {
+    if (err)
+      return res.status(500).json({ err });
+    res.json({ resendcode: data });
+  });
+});
+
 module.exports = router;

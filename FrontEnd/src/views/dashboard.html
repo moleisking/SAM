@@ -54,6 +54,27 @@
 			</div>
 		</div>
 	</tab>
+	<tab title="Activate account" *ngIf="!model.activated">
+		<div class="row">
+			<h4>
+				Code:
+			</h4>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+				<input type="text" class="form-control" placeholder="Add your activation code here." [(ngModel)]="code" />
+			</div>
+			<div class="col-md-4">
+				<button type="button" (click)="addCode(code)" class="btn btn-primary">Activate it</button>
+				<button type="button" (click)="addCodeResend()" class="btn btn-primary">Resend</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				{{ messageCode }}
+			</div>
+		</div>
+	</tab>
 </tabset>
 
 <!--<div class="container">

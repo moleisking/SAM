@@ -23,7 +23,7 @@ module.exports = {
         user.image("");
         user.dayRate(0);
         user.hourRate(0);
-        user.credit(0);
+        user.credit(100);
         user.rating(0);
         user.looking(true);
         user.guid(getGuid());
@@ -37,7 +37,9 @@ module.exports = {
                     return cb(err, null);
                 myCache.del(myCacheName + "all");
                 emailer.email(configMail.fromText, configMail.from, data.email,
-                    data.name + ", welcome to SAM.",
+                    data.name + " " + data.surname + ", welcome to SAM.<br />" +
+                    "To activate your email, " +
+                    "please enter this code in the activation area in your dashboard: " + user.guid(),
                     "Welcome to SAM.",
                     function (err, status, body, headers) {
                         if (err)
@@ -314,6 +316,58 @@ module.exports = {
             }).catch(function (err) {
                 return cb(err, null);
             });
+        });
+    },
+
+    activate: function (email, code, cb) {
+        if (email === null || email === undefined || code === null || code === undefined)
+            return cb("Must provide a code and an email.", null);
+        userDAL.read(email, function (err, userData) {
+            if (err)
+                return cb(err, null);
+            var user = model.create();
+            user.update(userData);
+            if (user.guid() !== code)
+                return cb("Code is not correct.", null);
+            user.activated(true);
+            user.validate().then(function () {
+                if (!user.isValid)
+                    return cb(user.errors, null);
+                userDAL.create(email, user.toJSON(), function (err, data) {
+                    if (err)
+                        return cb(err, null);
+                    myCache.del(myCacheName + "readMyProfile" + email);
+                    myCache.del(myCacheName + "readUserProfile" + data.nameurl);
+                    myCache.del(myCacheName + "all");
+                    emailer.email(configMail.fromText, configMail.from, email,
+                        "Congrats, your account is been activated. ",
+                        "Your account is activated!",
+                        function (err, status, body, headers) {
+                            if (err)
+                                return cb(err, null);
+                            return cb(null, data);
+                        });
+                });
+            }).catch(function (err) {
+                return cb(err, null);
+            });
+        });
+    },
+
+    resendCode: function (email, cb) {
+        userDAL.read(email, function (err, data) {
+            if (err)
+                return cb(err, null);
+            emailer.email(configMail.fromText, configMail.from, data.email,
+                data.name + " " + data.surname + ", welcome to SAM.<br />" +
+                "To activate your email, " +
+                "please enter this code in the activation area in your dashboard: " + data.guid,
+                "Welcome to SAM.",
+                function (err, status, body, headers) {
+                    if (err)
+                        return cb(err, null);
+                    return cb(null, data);
+                });
         });
     }
 }

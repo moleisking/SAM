@@ -23,6 +23,8 @@ export class Dashboard implements OnInit {
     private errorUsers: string;
     private errorMessages: string;
     private messageCredit: string;
+    private messageCode: string;
+    private code: string;
 
     private usersList: UserModel[];
     private catList: CategoryModel[];
@@ -45,6 +47,9 @@ export class Dashboard implements OnInit {
         this.getAllMessages();
         this.user.getMyProfile().subscribe(
             profile => {
+                // console.log(this.model.activated)
+                // if (this.model.activated === undefined)
+                //     this.model.activated === false;
                 this.model = profile;
                 this.modelProfileForm = profile;
             },
@@ -101,5 +106,27 @@ export class Dashboard implements OnInit {
                 () => console.log("Done adding credit.")
             );
         }
+    }
+
+    addCode(code: string) {
+        if (code.length === 0)
+            this.messageCode = "Code can't be empty.";
+        else {
+            this.messageCode = "Code sent...";
+            this.user.addCode(code).subscribe(
+                x => this.messageCode = "Code added. Now your account is validated. Enjoy :)",
+                error => this.messageCode = <any>error,
+                () => console.log("Done adding code.")
+            );
+        }
+    }
+
+    addCodeResend() {
+        this.messageCode = "Code resent...";
+        this.user.resendCode().subscribe(
+            x => this.messageCode = "Code resent. Now you can activate it.",
+            error => this.messageCode = <any>error,
+            () => console.log("Done resending code.")
+        );
     }
 }

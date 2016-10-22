@@ -19,4 +19,5 @@ export class ProfileModel {
     tags: string;
     average: number;
     looking: boolean;
+    activated: boolean;
 }

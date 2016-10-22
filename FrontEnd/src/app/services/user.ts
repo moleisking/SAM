@@ -80,6 +80,29 @@ export class UserService {
       .map((res: Response) => res.json().users).catch(this.handleError);
   }
 
+  addCode(code: string): Observable<any> {
+    let headers = new Headers();
+    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+    let options = new RequestOptions({ headers: headers });
+    let body = "code=" + code.trim();
+
+    return this.http.post(Settings.backend_url + "/users/activate", body, options)
+      .map((res: Response) => res.json().activate).catch(this.handleError);
+  }
+
+  resendCode(): Observable<any> {
+    let headers = new Headers();
+    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(Settings.backend_url + "/users/resendcode", options)
+      .map((res: Response) => res.json().resendcode).catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     // console.log(res);
     let body = res.json();
