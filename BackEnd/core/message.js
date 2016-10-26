@@ -6,6 +6,9 @@ var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "message";
 var emailer = require("./emailer");
+var util = require('./util');
+var Localize = require("localize");
+var myLocals = new Localize("localizations/message");
 
 module.exports = {
 
@@ -36,9 +39,10 @@ module.exports = {
         });
     },
 
-    readAllLasts: function (id, cb) {
+    readAllLasts: function (id, locale, cb) {
+        util.translate(myLocals, locale);
         if (id === null || id === undefined)
-            return cb("Must provide a valid id.", null);
+            return cb(myLocals.translate("Must provide a valid id."), null);
         myCache.get(myCacheName + "allLasts" + id, function (err, value) {
             if (err)
                 return cb(err, null);
@@ -85,9 +89,10 @@ module.exports = {
         });
     },
 
-    readWith: function (id, to, cb) {
+    readWith: function (id, to, locale, cb) {
+        util.translate(myLocals, locale);
         if (id === null || id === undefined || to === null || to === undefined)
-            return cb("Must provide a valid id and to.", null);
+            return cb(myLocals.translate("Must provide a valid id and to."), null);
         user.getEmailByNameUrl(to, function (err, emailTo) {
             myCache.get(myCacheName + "allWith" + id + emailTo, function (err, value) {
                 if (err)

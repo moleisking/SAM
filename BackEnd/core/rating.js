@@ -4,6 +4,9 @@ var dal = require("../dal/rating");
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "rating";
+var util = require('./util');
+var Localize = require("localize");
+var myLocals = new Localize("localizations/rating");
 
 module.exports = {
 
@@ -27,9 +30,10 @@ module.exports = {
         });
     },
 
-    readProfileAuth: function (from, id, cb) {
+    readProfileAuth: function (from, id, locale, cb) {
+        util.translate(myLocals, locale);
         if (from === null || from === undefined || id === null || id === undefined)
-            return cb("Must provide a valid id and from.", null);
+            return cb(myLocals.translate("Must provide a valid id and from."), null);
         user.getEmailByNameUrl(id, function (err, email) {
             if (err || !email)
                 return cb(err, null);
@@ -62,9 +66,10 @@ module.exports = {
         });
     },
 
-    readProfile: function (id, cb) {
+    readProfile: function (id, locale, cb) {
+        util.translate(myLocals, locale);
         if (id === null || id === undefined)
-            return cb("Must provide a valid id and from.", null);
+            return cb(myLocals.translate("Must provide a valid id and from."), null);
         user.getEmailByNameUrl(id, function (err, email) {
             if (err || !email)
                 return cb(err, null);
@@ -112,22 +117,3 @@ function _readAll(id, cb) {
         return cb(err, null);
     };
 }
-
-// function _read(id, from, cb) {
-//     try {
-//         dal.read(id, function (err, data) {
-//             if (err)
-//                 return cb(err, null);
-//             data.forEach(function (element) {
-//                 if (element.from === from) {
-//                     var m = modelProfile.create();
-//                     m.update(data);
-//                     return cb(null, m.toJSON());
-//                 }
-//             }, this);
-//             return cb(from + " not found", null);
-//         });
-//     } catch (err) {
-//         return cb(err, null);
-//     };
-// }

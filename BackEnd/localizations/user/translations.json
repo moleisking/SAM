@@ -1,0 +1,74 @@
+{
+    "Please, provide username, name, surname, email, password, coordenades and category.": {
+        "es": "Por favor, provee nombre de usuario, nombre, apellido, email, contraseña, coordenadas y categoría."
+    },
+    "Please provide description, category, mobile and address.": {
+        "es": "Por favor, provee descripción, categoría, movil y dirección."
+    },
+    "User already exists": {
+        "es": "Ese usuario ya existe."
+    },
+    "Please provide email and password.": {
+        "es": "Por favor provee email y contraseña."
+    },
+    "Authentication failed.": {
+        "es": "Autenticación falló."
+    },
+    "Please provide email.": {
+        "es": "Por favor provee email."
+    },
+    "The user don't exist.": {
+        "es": "El usuario no existe."
+    },
+    "Please provide name url.": {
+        "es": "Por favor, provee nombre url."
+    },
+    "Please provide radius, category, lat and lng.": {
+        "es": "Por favor, provee radio, categoría, longitud y latitud."
+    },
+    "Please provide code.": {
+        "es": "Por favor, provee código."
+    },
+    "welcome to SAM": {
+        "es": "bienvenido a SAM"
+    },
+    "To activate your email, please enter this code in the activation area in your dashboard: ": {
+        "es": "Para activar tu email, por favor, entra este código en la area de activación en tu panel de control."
+    },
+    "Welcome to SAM.": {
+        "es": "Bienvenido a SAM."
+    },
+    "Must provide a valid email.": {
+        "es": "Debe proveer un email válido."
+    },
+    "Must provide a valid name.": {
+        "es": "Debe proveer un nombre válido."
+    },
+    "Profile not found": {
+        "es": "Perfil no encontrado."
+    },
+    "Must provide a value and an email.": {
+        "es": "Debe proveer un valor y un email."
+    },
+    "Congrats, you have added $[1] euros to your credit. ": {
+        "es": "Felicidades, has añadido $[1] euros a tu crédito. "
+    },
+    "Now you final credit balance is: $[1] euros.": {
+        "es": "Ahora tu crédito final es: $[1] euros. "
+    },
+    "You have added new credit!": {
+        "es": "¡Has añadido nuevo crédito!"
+    },
+    "Must provide a code and an email.": {
+        "es": "Debe proveer un código y un email."
+    },
+    "Code is not correct.": {
+        "es": "El código no es correcto."
+    },
+    "Congrats, your account is been activated. ": {
+        "es": "Felicidades, tu cuenta ha sido activada."
+    },
+    "Your account is activated!": {
+        "es": "¡Tu cuenta está activada!."
+    },
+}

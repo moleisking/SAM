@@ -1,12 +1,15 @@
+// var emailer = require("../core/emailer");
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 var message = require("../core/message");
 var user = require("../core/user");
-// var emailer = require("../core/emailer");
+var util = require("../core/util");
+var Localize = require("localize");
+var myLocals = new Localize("localizations/message");
 
 router.get("/readalllasts", passport.authenticate("jwt", { session: false }), function (req, res, next) {
-  message.readAllLasts(user.getEmailFromTokenUser(req.headers), function (err, data) {
+  message.readAllLasts(user.getEmailFromTokenUser(req.headers), req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
     res.json({ messages: data });
@@ -14,9 +17,10 @@ router.get("/readalllasts", passport.authenticate("jwt", { session: false }), fu
 });
 
 router.get("/read/:nameUrl", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+  util.translate(myLocals, req.query.locale);
   if (!req.params.nameUrl)
-    return res.status(400).json({ app_err: "Please pass name url." });
-  message.readWith(user.getEmailFromTokenUser(req.headers), req.params.nameUrl, function (err, data) {
+    return res.status(400).json({ app_err: myLocals.translate("Please provide name url.") });
+  message.readWith(user.getEmailFromTokenUser(req.headers), req.params.nameUrl, req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
     res.json({ messages: data });
@@ -24,8 +28,12 @@ router.get("/read/:nameUrl", passport.authenticate("jwt", { session: false }), f
 });
 
 router.post("/add", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+  util.translate(myLocals, req.query.locale);
   if (!req.body.to || !req.body.text || !req.body.front || !req.body.fromUrl)
-    return res.status(400).json({ app_err: "Please pass front name, url from name, to and text." });
+    return res.status(400).json({
+      app_err:
+      myLocals.translate("Please provide front name to show on the email, url from name, to and text.")
+    });
   message.create(user.getEmailFromTokenUser(req.headers), req.body, function (err, data) {
     if (err)
       return res.status(500).json({ err });

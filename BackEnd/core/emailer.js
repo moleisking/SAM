@@ -1,4 +1,7 @@
 var config = require("../config/settingsmail");
+var util = require('./util');
+var Localize = require("localize");
+var myLocals = new Localize("localizations/emailer");
 
 module.exports = {
 
@@ -24,18 +27,23 @@ module.exports = {
         });
     },
 
-    forgottenpassword: function (to, pass, cb) {
-        module.exports.email("SAM forgotten password", config.from, to, "<b>forgotten password ✔</b> " + pass, "SAM forgotten password", cb);
+    forgottenpassword: function (to, pass, locale, cb) {
+        util.translate(myLocals, locale);
+        module.exports.email(myLocals.translate("SAM forgotten password"),
+            config.from, to, "<b>" + myLocals.translate("forgotten password") + " ✔</b> " + pass,
+            myLocals.translate("SAM forgotten password"), cb);
     },
 
     sendContactForm: function (form, cb) {
         form.message = form.name + " " + form.surname + "<br />" + form.message;
-        module.exports.email("SAM Contact From", form.email, config.admin, form.message, "SAM new Contact Us Form", cb);
+        module.exports.email("SAM Contact From", form.email, config.admin, form.message,
+            myLocals.translate("SAM new Contact Us Form"), cb);
     },
 
     newMessage: function (front, fromUrl, to, cb) {
-        module.exports.email("SAM Messages", "sam@sam.com", to,
-            "<b>New message ✔</b> <a href='" + front + "/messages/" + fromUrl + "'>Click here to see it</a>.",
-            "You got a new message", cb);
-    },
+        module.exports.email(myLocals.translate("SAM Messages"), config.from, to,
+            "<b>" + myLocals.translate("New message") + "  ✔</b> <a href='" + front + "/messages/" +
+            fromUrl + "'>" + myLocals.translate("Click here to see it") + "</a>.",
+            myLocals.translate("You got a new message"), cb);
+    }
 }

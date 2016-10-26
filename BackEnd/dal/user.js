@@ -31,14 +31,14 @@ module.exports = {
         }
     },
 
-    delete: function (usernameurl, cb) {
-        try {
-            var data = db.delete(_path + "/" + usernameurl);
-            return cb(null, true);
-        } catch (err) {
-            return cb(err, null);
-        }
-    },
+    // delete: function (usernameurl, cb) {
+    //     try {
+    //         var data = db.delete(_path + "/" + usernameurl);
+    //         return cb(null, true);
+    //     } catch (err) {
+    //         return cb(err, null);
+    //     }
+    // },
 
 }
 

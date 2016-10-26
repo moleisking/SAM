@@ -22,6 +22,11 @@ module.exports = {
 
     toRad: function (value) {
         return value * Math.PI / 180;
-    }
+    },
 
+    translate: function (locals, lang) {
+        if (lang !== undefined || lang !== "" || lang.length > 2)
+            lang = "en";
+        locals.setLocale(lang);
+    }
 }
