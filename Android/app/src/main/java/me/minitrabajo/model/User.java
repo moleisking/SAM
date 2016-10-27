@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.UUID;
 
 //import com.google.android.maps.GeoPoint;
 
@@ -25,7 +26,7 @@ import me.minitrabajo.view.RoundImage;
 public class User implements Serializable {
 		
 	private static final long serialVersionUID = -5964317817196182551L;
-	private int id=0;
+	private String id = UUID.randomUUID().toString();
 	private int score = 0;
 	private int credit = 0;
 	private String name="";
@@ -51,19 +52,26 @@ public class User implements Serializable {
 		this.context = context;
 	}
 
-	public User(int id, String name)
+	public User( String email)
+	{
+		this.email = email;
+	}
+
+	public User(String id, String name, String email)
 	{
 		this.id= id;
 		this.name = name;
+		this.email = email;
 	}
 
-	public User(int id, String name,  String description,  String email, String mobile, String address,
+	public User(String id, String name,  String description,  String email, String mobile, String address,
 				Double hourRate, Double dayRate, Double currentLatitude,  Double currentLongitude, Double registeredLatitude , Double registeredLongitude )
 	{
 		this.id= id;
 		this.name = name;
 		this.mobile = mobile;
 		this.email = email;
+		this.address = address;
 		this.description = description;
 		this.hourRate = hourRate;
 		this.dayRate = dayRate;
@@ -73,7 +81,7 @@ public class User implements Serializable {
 		this.registeredLongitude = registeredLongitude;
 	}
 
-	public User(int id, String imageRaw , String name,  String description,  String email, String mobile, String address,
+	public User(String id, String imageRaw , String name,  String description,  String email, String mobile, String address,
 				Double hourRate, Double dayRate, Double currentLatitude,  Double currentLongitude, Double registeredLatitude , Double registeredLongitude )
 	{
 		this.id= id;
@@ -81,6 +89,7 @@ public class User implements Serializable {
 		this.name = name;
 		this.mobile = mobile;
 		this.email = email;
+		this.address = address;
 		this.description = description;
 		this.hourRate = hourRate;
 		this.dayRate = dayRate;
@@ -90,12 +99,12 @@ public class User implements Serializable {
 		this.registeredLongitude = registeredLongitude;
 	}
 
-	public int getID()
+	public String getId()
 	{
 		return id;
 	}
 
-	public void setID(int id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
