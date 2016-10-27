@@ -37,13 +37,74 @@ public class Users implements Serializable  {
 		return users.get(index);
 	}
 
+	public boolean contains(User user)
+	{
+		boolean result = false;
+
+		for (int i =0; i < users.size();i++)
+		{
+			if (this.users.get(i).getId().equals(user.getId())
+					|| this.users.get(i).getName().equals(user.getName())
+					|| this.users.get(i).getEmail().equals(user.getEmail()))
+			{
+				result = true;
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	public boolean contains(Users users)
+	{
+		boolean result = false;
+		int counter = 0;
+		for (int i =0; i < this.users.size();i++)
+		{
+			for (int j =0; j < users.size();j++)
+			{
+				if (this.users.get(i).getId().equals(users.getUser(j).getId())
+						|| this.users.get(i).getName().equals(users.getUser(j).getName())
+						|| this.users.get(i).getEmail().equals(users.getUser(j).getEmail()))
+				{
+					counter++;
+					if (counter == users.size())
+					{
+						result = true;
+						break;
+					}
+				}
+			}
+		}
+
+		return result;
+	}
+
+	public User find(User user)
+	{
+		User result = null;
+
+		for (int i =0; i < this.users.size();i++)
+		{
+			if ( this.users.get(i).getId().equals(user.getId())
+					||this.users.get(i).getName().equals(user.getName())
+					|| this.users.get(i).getEmail().equals(user.getEmail()))
+			{
+				result = this.users.get(i);
+				break;
+			}
+		}
+
+		return result;
+	}
+
 	public User getUser(String name, String email)
 	{
 		User result = null;
 
 		for (int i =0; i < users.size();i++)
 		{
-			if (users.get(i).getName().equals(name)|| users.get(i).getName().equals(email))
+			if (users.get(i).getName().equals(name)|| users.get(i).getEmail().equals(email))
 			{
 				result = users.get(i);
 				break;
@@ -183,7 +244,7 @@ public class Users implements Serializable  {
 			for(int i =0;i < users.length();i++)
 			{
 				JSONObject userJSON = users.getJSONObject(i);
-				User user = new User(0,
+				User user = new User(userJSON.getString("id"),
                         userJSON.getString("image"),
 						userJSON.getString("name"),
 						userJSON.getString("description"),
@@ -251,7 +312,7 @@ public class Users implements Serializable  {
 			Log.v("Users Size", String.valueOf(this.size()));
 			for(int i = 0; i < users.size(); i++)
 			{
-				Log.v("User" ,  users.get(i).getID() +":"+ users.get(i).getName());
+				Log.v("User" ,  users.get(i).getId() +":"+ users.get(i).getName());
 				if (i==3){break;}
 			}
 		} catch (Exception ex){Log.v("Users:print:Err", ex.getMessage());}
