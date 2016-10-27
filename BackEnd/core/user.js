@@ -403,7 +403,7 @@ function _read(email, cb) {
     } catch (err) {
         return cb(err, null);
     };
-}
+};
 
 function _readProfile(email, cb) {
     try {
@@ -417,7 +417,7 @@ function _readProfile(email, cb) {
     } catch (err) {
         return cb(err, null);
     };
-}
+};
 
 function _all(cb) {
     try {
@@ -435,7 +435,7 @@ function _all(cb) {
     } catch (err) {
         return cb(err, null);
     };
-}
+};
 
 // function _delete(id, cb) {
 //     try {
@@ -457,4 +457,4 @@ function getGuid() {
     }
     return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
         s4() + "-" + s4() + s4() + s4();
-}
+};
