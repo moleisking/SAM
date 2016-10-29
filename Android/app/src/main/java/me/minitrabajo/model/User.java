@@ -34,8 +34,9 @@ public class User implements Serializable {
 	private String email="";
 	private String description="";
 	private String address="";
-	private String category="";
+	private String categoryId="";
 	private String tags="";
+	private String url="";
 	private Double hourRate = 10d;
 	private Double dayRate = 200d;
 	private Double registeredLatitude = 40.431075;
@@ -45,6 +46,7 @@ public class User implements Serializable {
 	private Double distance = 0.0d;
 	private String imageRaw = "";
 	private transient Context context;
+	private boolean accountStatus = false;
 
 	public User(Context context)
 	{
@@ -64,11 +66,12 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public User(String id, String name,  String description,  String email, String mobile, String address,
+	public User(String id, String name, String url,  String description,  String email, String mobile, String address,
 				Double hourRate, Double dayRate, Double currentLatitude,  Double currentLongitude, Double registeredLatitude , Double registeredLongitude )
 	{
 		this.id= id;
 		this.name = name;
+		this.url = url;
 		this.mobile = mobile;
 		this.email = email;
 		this.address = address;
@@ -81,12 +84,13 @@ public class User implements Serializable {
 		this.registeredLongitude = registeredLongitude;
 	}
 
-	public User(String id, String imageRaw , String name,  String description,  String email, String mobile, String address,
+	public User(String id, String imageRaw , String name, String url,  String description,  String email, String mobile, String address,
 				Double hourRate, Double dayRate, Double currentLatitude,  Double currentLongitude, Double registeredLatitude , Double registeredLongitude )
 	{
 		this.id= id;
 		this.imageRaw = imageRaw;
 		this.name = name;
+		this.url = url;
 		this.mobile = mobile;
 		this.email = email;
 		this.address = address;
@@ -107,6 +111,16 @@ public class User implements Serializable {
 	public void setId(String id)
 	{
 		this.id = id;
+	}
+
+	public boolean getAccountStatus()
+	{
+		return accountStatus;
+	}
+
+	public void setAccountStatus(boolean accountStatus)
+	{
+		this.accountStatus = accountStatus;
 	}
 
 	public int getScore()
@@ -137,6 +151,16 @@ public class User implements Serializable {
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public String getUrl()
+	{
+		return url;
+	}
+
+	public void setUrl(String url)
+	{
+		this.url = url;
 	}
 
 	public String getEmail()
@@ -199,14 +223,14 @@ public class User implements Serializable {
 		this.mobile = mobile;
 	}
 
-	public String getCategory()
+	public String getCategoryId()
 	{
-		return category;
+		return categoryId;
 	}
 
-	public void setCategory(String category)
+	public void setCategoryId(String categoryId)
 	{
-		this.category = category;
+		this.categoryId = categoryId;
 	}
 
 	public String getTags()
@@ -432,7 +456,7 @@ public class User implements Serializable {
 			this.setEmail(u.getEmail());
 			this.setAddress(u.getAddress());
 			this.setMobile(u.getMobile());
-			this.setCategory(u.getCategory());
+			this.setCategoryId(u.getCategoryId());
 			this.setTags(u.getTags());
 			this.setHourRate(u.getHourRate());
 			this.setDayRate(u.getDayRate());
@@ -453,11 +477,12 @@ public class User implements Serializable {
 
 			//this.id= data.getString("id");
 			this.name = data.getString("name");
+			this.url = data.getString("nameurl");
 			this.description = data.getString("description");
 			this.email = data.getString("email");
 			this.address = data.getString("address");
 			this.mobile = data.getString("mobile");
-			this.category = data.getString("category");
+			this.categoryId = data.getString("category");
 			this.tags = data.getString("tags");
 			this.hourRate = Double.parseDouble(data.getString("hourRate"));
 			this.dayRate = Double.parseDouble(data.getString("dayRate"));
@@ -471,7 +496,7 @@ public class User implements Serializable {
 		}
 		catch (Exception ex)
 		{
-
+			Log.v("User:loadFromJSON:err", ex.getMessage());
 		}
 	}
 
@@ -480,6 +505,7 @@ public class User implements Serializable {
 		Log.v("User", "Object");
 		Log.v("ID", String.valueOf(id));
 		Log.v("Name" , this.name);
+		Log.v("Url" , this.url);
 		Log.v("Description" , this.description);
 		Log.v("Address", this.address);
 		Log.v("Mobile", this.mobile);
@@ -492,6 +518,7 @@ public class User implements Serializable {
 		Log.v("Credit",String.valueOf(this.credit));
 		Log.v("Score",String.valueOf(this.score));
 		Log.v("Image",this.imageRaw);
+		Log.v("CategoryId",String.valueOf(this.categoryId));
 	}
 	
 }

@@ -24,14 +24,25 @@ public class Users implements Serializable  {
 		users = new  ArrayList<User>(0);
     }
 
-	public Users(Context context, User user1, User user2)
+	public Users(Context context, User[] user)
 	{
 		this.context= context;
-		users = new  ArrayList<User>(2);
-		users.add(user1);
-		users.add(user2);
+		this.users = new  ArrayList<User>(2);
+		for (int i =0; i < user.length;i++) {
+			this.users.add(user[i]);
+		}
 	}
-	
+
+	public Users (Context context, Users users)
+	{
+		this.context = context;
+		this.users = new  ArrayList<User>();
+		for (int i =0; i < users.size();i++)
+		{
+			this.users.add(users.getUser(i));
+		}
+	}
+
 	public User getUser(int index)
 	{
 		return users.get(index);
@@ -39,20 +50,9 @@ public class Users implements Serializable  {
 
 	public boolean contains(User user)
 	{
-		boolean result = false;
-
-		for (int i =0; i < users.size();i++)
-		{
-			if (this.users.get(i).getId().equals(user.getId())
-					|| this.users.get(i).getName().equals(user.getName())
-					|| this.users.get(i).getEmail().equals(user.getEmail()))
-			{
-				result = true;
-				break;
-			}
-		}
-
-		return result;
+		Users users = new Users(context);
+		users.add(user);
+		return contains(users);
 	}
 
 	public boolean contains(Users users)
@@ -172,10 +172,10 @@ public class Users implements Serializable  {
 		}
 	}
 
-	public void deleteFile()
+	/*public void deleteFile()
 	{
 		context.deleteFile(USERS_FILE_NAME);
-	}
+	}*/
 
 	public boolean isEmpty()
 	{
@@ -202,13 +202,13 @@ public class Users implements Serializable  {
 
 
 
-	public User getOtherUser(User currentUser)
+	public User getAccountUser()
 	{
 		User result = null;
 
 		for (int i =0; i < users.size();i++)
 		{
-			if (!users.get(i).equals(currentUser))
+			if (users.get(i).getAccountStatus())
 			{
 				result = users.get(i);
 				break;
@@ -216,6 +216,43 @@ public class Users implements Serializable  {
 		}
 
 		return result;
+	}
+
+	public Users getNonAccountUsers()
+	{
+		Users result = new Users(context);
+
+		for (int i =0; i < users.size();i++)
+		{
+			if (!users.get(i).getAccountStatus())
+			{
+				result.add(users.get(i));
+			}
+		}
+
+		return result;
+	}
+
+	public String getNonAccountUserNames()
+	{
+		String result = "";
+
+		for (int i =0; i < users.size();i++)
+		{
+			if (!users.get(i).getAccountStatus())
+			{
+				result.concat(users.get(i).getName() + ",");
+			}
+		}
+
+		if (result.length() >= 2)
+		{
+			return result.substring(0,result.length() -2);
+		}
+		else
+		{
+			return result;
+		}
 	}
 
 	public void loadFromString( String str )
@@ -240,7 +277,7 @@ public class Users implements Serializable  {
 	{
 		try
 		{
-			JSONArray users = new JSONObject(json).getJSONArray("search");
+			JSONArray users = new JSONObject(json).getJSONArray("users");
 			for(int i =0;i < users.length();i++)
 			{
 				JSONObject userJSON = users.getJSONObject(i);

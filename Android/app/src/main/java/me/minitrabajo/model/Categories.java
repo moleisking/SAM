@@ -25,7 +25,7 @@ import java.util.List;
 public class Categories extends ArrayList implements Serializable
 {
     private static final long serialVersionUID = 8653566573642203224L;
-    private static final String CATEGORY_FILE_NAME = "categories.dat";
+    public static final String CATEGORY_FILE_NAME = "categories.dat";
     private transient Context context;
     private List<Category> categories;
 
@@ -111,10 +111,10 @@ public class Categories extends ArrayList implements Serializable
         }
     }
 
-    public void deleteFile()
+   /* public void deleteFile()
     {
         context.deleteFile(CATEGORY_FILE_NAME);
-    }
+    }*/
 
     public Category findCategory(String name)
     {

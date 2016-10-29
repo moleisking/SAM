@@ -68,6 +68,8 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
     private Preference prefRegisteredLatLngRefresh;
     private Preference prefCurrentLatLngRefresh;
 
+    private Preference prefExit;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,6 +193,15 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 }
             });
 
+            Preference prefExit = findPreference("pref_item_exit");
+            prefExit.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onCreate","onExit()");
+                    onExit();
+                    return true;
+                }
+            });
+
             //About section
 
             Preference prefTermsAndConditions = findPreference("pref_item_terms_and_conditions");
@@ -247,7 +258,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                     Log.v("SettingFragment", "Token found");
                     Toast.makeText(this.getActivity(), "Authentication success", Toast.LENGTH_LONG).show();
                 }
-                else if (header.contains("myprofile"))
+                else if (header.contains("myuser"))
                 {
                     //Found profile
                     userAccount.loadFromJSON(output);
@@ -383,6 +394,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
 
     protected void onSaveClick(View view)
     {
+        Log.v("SettingFragment","onSaveClick");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Are you sure you want to delete your stored account?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -452,14 +464,14 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
 
     protected void onUserAccountDelete()
     {
+        Log.v("SettingFragment","onUserAccountDelete()");
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Are you sure you want to delete your stored account?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //Delete local file
-                        //userAccount.deleteFile();
-                        ((MainActivity)getActivity()).getUserAccount().deleteFile();
-                        System.exit(0);
+                        ((MainActivity)getActivity()).deleteFile(userAccount.USER_ACCOUNT_FILE_NAME);
                         Toast.makeText(parentContext , "Stored Account Deleted", Toast.LENGTH_LONG).show();
                     }
                 })
@@ -483,7 +495,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
 
     protected void onDistanceUnitChange()
     {
-        Log.v("SettingFragment","oonDistanceUnitChange");
+        Log.v("SettingFragment","onDistanceUnitChange");
         sharedPreferences.edit().putString("distance_unit", "Elena");
         sharedPreferences.edit().commit();
     }
@@ -624,10 +636,10 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         txtDescription.setText(userAccount.getDescription());
     }
 
-    /*public void setUserAccount(UserAccount user_account)
+    public void onExit()
     {
-        userAccount = user_account;
-        Log.v("UserAccount",userAccount.toString());
-    }*/
+        Log.v("SettingFragment","Exit");
+        ((MainActivity)getActivity()).exit();
+    }
 
 }
