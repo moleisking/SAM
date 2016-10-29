@@ -2,13 +2,18 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 
+import { TranslateService } from "ng2-translate";
+
 import { UserModel } from "../models/user";
 import { Settings } from "../config/settings";
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    private trans: TranslateService
+  ) { }
 
   login(usercreds: UserModel): Observable<any> {
     let body = "email=" + usercreds.email + "&pass=" + usercreds.passwords.pass;
@@ -17,7 +22,7 @@ export class AuthService {
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(Settings.backend_url + "/authenticate", body, options)
+    return this.http.post(Settings.backend_url + "/authenticate?locale=" + this.trans.currentLang, body, options)
       .map(this.extractData).catch(this.handleError);
   }
 

@@ -25,7 +25,7 @@ module.exports = {
     },
 
     translate: function (locals, lang) {
-        if (lang !== undefined || lang !== "" || lang.length > 2)
+        if (lang === undefined || lang === "" || lang.length > 2)
             lang = "en";
         locals.setLocale(lang);
     }

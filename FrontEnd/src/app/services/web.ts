@@ -2,25 +2,30 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 
+import { TranslateService } from "ng2-translate";
+
 import { Settings } from "../config/settings";
 
 @Injectable()
 export class WebService {
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    private trans: TranslateService
+  ) { }
 
   about(): Observable<string> {
-    return this.http.get(Settings.backend_url + "/about")
+    return this.http.get(Settings.backend_url + "/about?locale=" + this.trans.currentLang)
       .map((res: Response) => res.json().about).catch(this.handleError);
   }
 
   termsConditions(): Observable<string> {
-    return this.http.get(Settings.backend_url + "/termsconditions")
+    return this.http.get(Settings.backend_url + "/termsconditions?locale=" + this.trans.currentLang)
       .map((res: Response) => res.json().termsconditions).catch(this.handleError);
   }
 
   cookiePolicy(): Observable<string> {
-    return this.http.get(Settings.backend_url + "/cookiepolicy")
+    return this.http.get(Settings.backend_url + "/cookiepolicy?locale=" + this.trans.currentLang)
       .map((res: Response) => res.json().cookiepolicy).catch(this.handleError);
   }
 
@@ -30,8 +35,8 @@ export class WebService {
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-    return this.http.post(Settings.backend_url + "/sendcontactform", creds, { headers: headers })
-      .map(this.extractData).catch(this.handleError);
+    return this.http.post(Settings.backend_url + "/sendcontactform?locale=" + this.trans.currentLang,
+      creds, { headers: headers }).map(this.extractData).catch(this.handleError);
   }
 
   private extractData(res: Response) {

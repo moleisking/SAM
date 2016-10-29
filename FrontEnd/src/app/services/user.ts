@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 
+import { TranslateService } from "ng2-translate";
+
 import { Settings } from "../config/settings";
 import { UserModel } from "../models/user";
 import { ProfileModel } from "../models/profile";
@@ -9,7 +11,10 @@ import { ProfileModel } from "../models/profile";
 @Injectable()
 export class UserService {
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    private trans: TranslateService
+  ) { }
 
   register(user: UserModel, regLat: number, regLng: number): Observable<any> {
     let body = "name=" + user.name + "&surname=" + user.surname + "&pass=" + user.passwords.pass
@@ -20,7 +25,8 @@ export class UserService {
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(Settings.backend_url + "/signup", body, options).catch(this.handleError);
+    return this.http.post(Settings.backend_url + "/signup?locale=" + this.trans.currentLang,
+      body, options).catch(this.handleError);
   }
 
   saveProfile(profileform: ProfileModel, image: string): Observable<any> {
@@ -33,7 +39,7 @@ export class UserService {
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
     headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-    return this.http.post(Settings.backend_url + "/users/saveprofile", body,
+    return this.http.post(Settings.backend_url + "/users/saveprofile?locale=" + this.trans.currentLang, body,
       { headers: headers }).catch(this.handleError);
   }
 
@@ -42,7 +48,7 @@ export class UserService {
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(Settings.backend_url + "/users", options)
+    return this.http.get(Settings.backend_url + "/users?locale=" + this.trans.currentLang, options)
       .map((res: Response) => res.json().all).catch(this.handleError);
   }
 
@@ -51,12 +57,12 @@ export class UserService {
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(Settings.backend_url + "/users/getmyprofile", options)
+    return this.http.get(Settings.backend_url + "/users/getmyprofile?locale=" + this.trans.currentLang, options)
       .map((res: Response) => res.json().myuser).catch(this.handleError);
   }
 
   getProfile(id: string): Observable<ProfileModel> {
-    return this.http.get(Settings.backend_url + "/users/getprofile/" + id)
+    return this.http.get(Settings.backend_url + "/users/getprofile/" + id + "?locale=" + this.trans.currentLang)
       .map((res: Response) => res.json().profile).catch(this.handleError).cache();
   }
 
@@ -66,7 +72,7 @@ export class UserService {
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(Settings.backend_url + "/forgottenpassword", creds, options)
+    return this.http.post(Settings.backend_url + "/forgottenpassword?locale=" + this.trans.currentLang, creds, options)
       .map(this.extractData).catch(this.handleError);
   }
 
@@ -76,7 +82,7 @@ export class UserService {
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(Settings.backend_url + "/users/search", body, options)
+    return this.http.post(Settings.backend_url + "/users/search?locale=" + this.trans.currentLang, body, options)
       .map((res: Response) => res.json().users).catch(this.handleError);
   }
 
@@ -88,7 +94,7 @@ export class UserService {
     let options = new RequestOptions({ headers: headers });
     let body = "code=" + code.trim();
 
-    return this.http.post(Settings.backend_url + "/users/activate", body, options)
+    return this.http.post(Settings.backend_url + "/users/activate?locale=" + this.trans.currentLang, body, options)
       .map((res: Response) => res.json().activate).catch(this.handleError);
   }
 
@@ -99,7 +105,7 @@ export class UserService {
 
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(Settings.backend_url + "/users/resendcode", options)
+    return this.http.get(Settings.backend_url + "/users/resendcode?locale=" + this.trans.currentLang, options)
       .map((res: Response) => res.json().resendcode).catch(this.handleError);
   }
 
