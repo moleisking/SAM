@@ -288,7 +288,7 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
 
             String url = getResources().getString(R.string.url_post_user_account_register);
             Bitmap bitmap = ((BitmapDrawable)imgProfile.getDrawable()).getBitmap();
-            String parameters = userAccount.getUserAsParameters();
+            String parameters = userAccount.getUserParameters();
             PostAPI asyncTask =new PostAPI(this.getActivity());
             asyncTask.delegate = this;
             asyncTask.execute(url,parameters,"");

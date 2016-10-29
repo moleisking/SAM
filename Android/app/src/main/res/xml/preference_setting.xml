@@ -68,6 +68,10 @@
             android:key="pref_item_refresh_categories"
             android:title="Refresh categories"
             android:summary="Refresh categories and tags" />
+        <Preference
+            android:key="pref_item_exit"
+            android:title="Exit application"
+            android:summary="End application process and threads" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="About"

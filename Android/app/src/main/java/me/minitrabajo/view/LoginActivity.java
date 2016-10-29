@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity implements  ResponseAPI
             {
                 //Check for corrupt file
                 Log.v("LoginActivity:onCreate","Found corrupt file");
-                userAccount.deleteFile();
+               deleteFile(userAccount.USER_ACCOUNT_FILE_NAME);
             }
         }
     }
@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements  ResponseAPI
         String email = txtEmail.getText().toString();
         String password = txtPassword.getText().toString();
 
-        if (password == null || !password.trim().equals("") || (password.length() < 4))
+        if (password == null || password.trim().equals("") || (password.length() < 4))
         {
             // Check for a valid password, if the user entered one.
             txtPassword.setError(getString(R.string.error_invalid_password));
@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity implements  ResponseAPI
             txtEmail.setError(getString(R.string.error_field_required));
             txtEmail.requestFocus();
         }
-        else if (email.contains("@") )
+        else if (!email.contains("@") && !email.contains("."))
         {
             // Error text is not email
             txtEmail.setError(getString(R.string.error_invalid_email));
@@ -316,6 +316,7 @@ public class LoginActivity extends AppCompatActivity implements  ResponseAPI
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("UserAccount", userAccount);
         startActivity(intent);
+        this.finish();
     }
 
     private void getUserAccount()
@@ -342,6 +343,12 @@ public class LoginActivity extends AppCompatActivity implements  ResponseAPI
         PostAPI asyncTask =new PostAPI(this);
         asyncTask.delegate = this;
         asyncTask.execute(url,parameters,"");
+    }
+
+    protected void exit()
+    {
+        this.finish();
+        System.exit(0);
     }
 
 }

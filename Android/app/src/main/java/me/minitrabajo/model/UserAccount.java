@@ -23,7 +23,7 @@ import java.io.Serializable;
 public class UserAccount extends User implements Serializable
 {
     private static final long serialVersionUID = 8653566573642203222L;
-    private static final String USER_ACCOUNT_FILE_NAME = "user_account.dat";
+    public static final String USER_ACCOUNT_FILE_NAME = "user_account.dat";
     private transient Context context;
     private String token ="";
     private String password="";
@@ -89,21 +89,40 @@ public class UserAccount extends User implements Serializable
         }
     }
 
-    public void deleteFile()
+    /*public void deleteFile()
     {
         //ERROR: Need to test delete. Activity probably needed not context.
         try
         {
-            setToken("");
-            context.deleteFile(USER_ACCOUNT_FILE_NAME);
-            Log.v("UserAccount:deleteFile","File deleted");
+            try {
+                File file = new File(USER_ACCOUNT_FILE_NAME);
+                if(file.exists())
+                {
+
+                    file.delete();
+                    Log.v("UserA:deleteFile:f1","File deleted");
+                }
+                else
+                {
+                    Log.v("UserA:deleteFile:f1","File does not exist");
+                }
+            }catch (Exception e)
+            {Log.v("UserA:deleteFile:f1:err", e.getMessage());}
+
+
+            //setToken("");
+            try {
+                context.deleteFile(USER_ACCOUNT_FILE_NAME);
+                Log.v("UserAccount:deleteFile","File deleted");
+            }catch (Exception e)
+            {Log.v("UserA:deleteFile:c:err", e.getMessage());}
         }
         catch (Exception ex)
         {
             Log.v("UserAccount:deleteFile","File not found");
             Log.v("UserAccount:deleteFile",ex.getMessage());
         }
-    }
+    }*/
 
     public boolean isEmpty()
     {
@@ -128,12 +147,13 @@ public class UserAccount extends User implements Serializable
     public User getUser()
     {
         User user = new User(context);
-        user.setID(this.getID());
+        user.setId(this.getId());
         user.setName(this.getName());
+        user.setUrl(this.getUrl());
         user.setDescription(this.getDescription());
         user.setAddress(this.getAddress());
         user.setMobile(this.getMobile());
-        user.setCategory(this.getCategory());
+        user.setCategoryId(this.getCategoryId());
         user.setTags(this.getTags());
         user.setEmail(this.getEmail());
         user.setCurrentLatLng(this.getCurrentLatLng());
@@ -141,16 +161,18 @@ public class UserAccount extends User implements Serializable
         user.setDayRate(this.getDayRate());
         user.setHourRate(this.getHourRate());
         user.setImageRaw(this.getImageRaw());
+        //Tags user source as from AccountUser
+        user.setAccountStatus(true);
         return user;
     }
 
-    public String getUserAsParameters()
+    public String getUserParameters()
     {
         return "name=" + this.getName() +
                 "&pass=" + this.getPassword() +
                 "&email=" + this.getEmail().replace("@","%40")  +
                 "&address=" + this.getAddress() +
-                "&category=" + this.getCategory() +
+                "&category=" + this.getCategoryId() +
                 "&dayRate=" + this.getDayRate() +
                 "&hourRate=" + this.getHourRate() +
                 "&regLat=" + this.getRegisteredLatLng().latitude +
@@ -274,24 +296,24 @@ public class UserAccount extends User implements Serializable
     {
         try
         {
-            JSONObject data = new JSONObject(json).getJSONObject("myprofile");
+            JSONObject data = new JSONObject(json).getJSONObject("myuser");
 
-            this.setName(data.getString("name"));
-            this.setDescription(data.getString("description"));
-            this.setEmail(data.getString("email"));
-            this.setAddress(data.getString("address"));
-            this.setMobile(data.getString("mobile"));
-            //this.setCategory(data.getString("category"));
-            //this.setTags(data.getString("tags"));
-            //this.setHourRate(Double.parseDouble(data.getString("hour_rate")));
-            //this.setDayRate(Double.parseDouble(data.getString("day_rate")));
-            //this.setRegisteredLongitude(Double.parseDouble(data.getString("reglat")));
-            //this.setRegisteredLatitude(Double.parseDouble(data.getString("reglon")));
-            this.setImageRaw(data.getString("image"));
+            try{this.setName(data.getString("name"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setUrl(data.getString("nameurl"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setDescription(data.getString("description"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setEmail(data.getString("email"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setAddress(data.getString("address"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setMobile(data.getString("mobile"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setCategoryId(data.getString("category"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setTags(data.getString("tags"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setHourRate(Double.parseDouble(data.getString("hourRate")));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setDayRate(Double.parseDouble(data.getString("dayRate")));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setRegisteredLatLng(Double.parseDouble(data.getString("regLat")), Double.parseDouble(data.getString("regLng")));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setImageRaw(data.getString("image"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
         }
         catch (Exception ex)
         {
-            Log.v("UserAccount:JSON", ex.getMessage());
+            Log.v("UserAccount:JSON:err", ex.getMessage());
         }
     }
 
@@ -299,8 +321,9 @@ public class UserAccount extends User implements Serializable
     public void print()
     {
         Log.v("UserAccount", "Object");
-        Log.v("ID", String.valueOf(this.getID()));
+        Log.v("ID", String.valueOf(this.getId()));
         Log.v("Name" , this.getName());
+        Log.v("Url" , this.getUrl());
         Log.v("Description" , this.getDescription());
         Log.v("Address", this.getAddress());
         Log.v("Mobile", this.getMobile());

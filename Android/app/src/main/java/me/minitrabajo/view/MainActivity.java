@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity
             //Intent serviceIntent = new Intent(this, MessageService.class);
             //startService(new Intent(getBaseContext(), MessageService.class));
             //startService(serviceIntent);
+            showSavedFiles();
             Log.v("Main:onCreate","Finished");
         }
         catch (Exception ex)
@@ -558,6 +560,35 @@ public class MainActivity extends AppCompatActivity
         );
 
         fab.setVisibility(View.INVISIBLE);
+    }
+
+    protected void showSavedFiles()
+    {
+        String [] savedFiles = getApplicationContext().fileList();
+        Log.v ("Shared Files","Print");
+        for (int i =0;i < savedFiles.length; i++)
+        {
+            Log.v ("File",savedFiles[i]);
+        }
+    }
+
+    /*protected void deleteUserAccount()
+    {
+        try
+        {
+            userAccount.setToken("");
+            deleteFile(userAccount.USER_ACCOUNT_FILE_NAME);
+        }
+        catch (Exception ex)
+        {
+            Log.v("Main:deleteFile",ex.getMessage());
+        }
+    }    */
+
+    protected void exit()
+    {
+        this.finish();
+        System.exit(0);
     }
 
 }

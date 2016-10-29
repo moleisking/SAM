@@ -59,18 +59,6 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
     private ImageView imgProfile;
     private LatLng currentLatLng;
 
-    private User mUser;
-   // private long id;
-
-    //Define a request code to send to Google Play services
-   /* private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private static final int SELECT_PICTURE = 1;
-    private static final int SELECT_FILE = 1;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;//was 0
-    private static final int REQUEST_LOCATION = 2;
-    private final static int REQUEST_LOCATION_SETTING = 199;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;*/
     //private PendingResult<LocationSettingsResult> mLocationSettingRequestResult;
     private double currentLatitude;
     private double currentLongitude;
@@ -283,7 +271,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
         //Example: "name=scott&pass=12345&email=moleisking%40gmail.com";
         Log.w("onRegisterClick", "Register button clicked");
         String url = getResources().getString(R.string.url_post_user_account_register);
-        String parameters = userAccount.getUserAsParameters();
+        String parameters = userAccount.getUserParameters();
         PostAPI asyncTask =new PostAPI(this);
         asyncTask.delegate = this;
         asyncTask.execute(url,parameters,"");
@@ -327,13 +315,6 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
     @Override
     public void processFinish(String output)
     {
-        //Here you will receive the result fired from async class
-        //Example Reply: {
-        //"data": {
-        //  "name": "username",
-        //  "pass": "$2a$10$oCHXQeU4SsMCquduC2E8Y.ehM7vrzKQJmUz0PuZTlvbAjijLam4O6"
-        //  }
-        //}
         Log.w("processFinish", output);
         String name = "",pass="";
         try
@@ -352,6 +333,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
             //on successful register go to Login
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            this.finish();
         }
     }
 

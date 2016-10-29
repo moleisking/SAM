@@ -43,7 +43,7 @@ public class AboutFragment extends Fragment {
 
     public void onMessageClick(View view)
     {
-        User user = new User(0,"Administrator");
+        User user = new User("0","Administrator", "moleisking@gmail.com");
         this.getActivity().getIntent().putExtra("User", user );
         ((MainActivity)getActivity()).showMessagesFragment();
         Toast.makeText(this.getActivity(), "Message", Toast.LENGTH_LONG).show();
