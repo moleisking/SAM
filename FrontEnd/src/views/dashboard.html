@@ -1,20 +1,20 @@
-<h1>Dashboard</h1>
+<h1>{{ 'Dashboard' | translate }}</h1>
 <div class="row well">
 	<div class="col-md-10">
 		<h3>{{ model.name }}</h3>
 		{{ error }}
 	</div>
 	<div class="col-md-2">
-		<button (click)="logout()" class="pull-right">Logout</button>
+		<button (click)="logout()" class="pull-right">{{ 'Logout' | translate }}</button>
 	</div>
 </div>
 
 <tabset>
-	<tab title="My Profile">
+	<tab title="{{ 'MyProfile' | translate }}">
 		<br>
 		<profile-form-component *ngIf="modelProfileForm && catList" [model]="modelProfileForm" [cats]="catList"></profile-form-component>
 	</tab>
-	<tab title="List all users">
+	<tab title="{{ 'ListAllUsers' | translate }}">
 		<br> {{ errorUsers }}
 		<ul class="list-group">
 			<li class="list-group-item" *ngFor="let user of usersList">
@@ -22,7 +22,7 @@
 			</li>
 		</ul>
 	</tab>
-	<tab title="My messages">
+	<tab title="{{ 'MyMessages' | translate }}">
 		<br> {{ errorMessages }}
 		<ul class="list-group">
 			<li class="list-group-item" *ngFor="let message of messagesList">
@@ -30,22 +30,22 @@
 			</li>
 		</ul>
 	</tab>
-	<tab title="Credit">
+	<tab title="{{ 'Credit' | translate }}">
 		<div class="row">
 			<h4>
-				Credit: &euro; {{ model.credit }}
+				{{ 'Credit' | translate }}: &euro; {{ model.credit }}
 			</h4>
 		</div>
 		<div class="row">
 			<div class="col-md-8">
 				<div class="input-group">
 					<span class="input-group-addon">&euro;</span>
-					<input type="number" min="0" class="form-control" placeholder="Add your new credit to top up here." [(ngModel)]="model.addCredit"
+					<input type="number" min="0" class="form-control" placeholder="{{ 'AddNewCreditHere' | translate }}" [(ngModel)]="model.addCredit"
 					/>
 				</div>
 			</div>
 			<div class="col-md-4">
-				<button type="button" (click)="addCredit()" class="btn btn-primary">Add</button>
+				<button type="button" (click)="addCredit()" class="btn btn-primary">{{ 'Add' | translate }}</button>
 			</div>
 		</div>
 		<div class="row">
@@ -54,19 +54,19 @@
 			</div>
 		</div>
 	</tab>
-	<tab title="Activate account" *ngIf="!model.activated">
+	<tab title="{{ 'ActivateAccount' | translate }}" *ngIf="!model.activated">
 		<div class="row">
 			<h4>
-				Code:
+				{{ 'Code' | translate }}:
 			</h4>
 		</div>
 		<div class="row">
 			<div class="col-md-8">
-				<input type="text" class="form-control" placeholder="Add your activation code here." [(ngModel)]="code" />
+				<input type="text" class="form-control" placeholder="{{ 'AddActivationCodeHere' | translate }}" [(ngModel)]="code" />
 			</div>
 			<div class="col-md-4">
-				<button type="button" (click)="addCode(code)" class="btn btn-primary">Activate it</button>
-				<button type="button" (click)="addCodeResend()" class="btn btn-primary">Resend</button>
+				<button type="button" (click)="addCode(code)" class="btn btn-primary">{{ 'ActivateIt' | translate }}</button>
+				<button type="button" (click)="addCodeResend()" class="btn btn-primary">{{ 'Resend' | translate }}</button>
 			</div>
 		</div>
 		<div class="row">

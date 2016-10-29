@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+
 import { WebService } from "../services/web";
+import { TranslateService } from "ng2-translate";
 
 @Component({
     selector: "contactus-form-component",
@@ -16,8 +18,12 @@ export class ContactUsFormComponent implements OnInit {
     private message: string;
     private description: string;
 
-    constructor(private web: WebService, private formBuilder: FormBuilder) {
-        this.message = "Contact Us form messages will be here.";
+    constructor(
+        private web: WebService,
+        private formBuilder: FormBuilder,
+        private trans: TranslateService
+    ) {
+        this.message = ""; // Contact Us form messages will be here.
     }
 
     ngOnInit() {
@@ -31,18 +37,13 @@ export class ContactUsFormComponent implements OnInit {
 
     sendContactForm() {
         if (!this.myForm.dirty && !this.myForm.valid)
-            this.message = "Form not valid to be sent.";
+            this.trans.get("FormNotValid").subscribe((res: string) => this.message = res);
         else {
-
-            this.message = "Contact Us message sending...";
+            this.trans.get("MessagesContactUsSending").subscribe((res: string) => this.message = res);
             this.web.sendContactForm(this.myForm.value).subscribe(
-                data => {
-                    this.message = "Message sent.";
-                },
-                error => {
-                    this.message = "Error sending Contact Us form.";
-                },
-                () => console.log("Done Contact Us")
+                data => this.trans.get("MessagesSent").subscribe((res: string) => this.message = res),
+                error => this.trans.get("MessagesSentContactUsError").subscribe((res: string) => this.message = res),
+                () => this.trans.get("DoneContactUs").subscribe((res: string) => console.log(res))
             );
         }
     }

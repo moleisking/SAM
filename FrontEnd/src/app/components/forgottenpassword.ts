@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+
 import { UserService } from "../services/user";
+import { TranslateService } from "ng2-translate";
 
 @Component({
     selector: "forgottenpassword-form-component",
@@ -14,8 +16,12 @@ export class ForgottenPassword implements OnInit {
     private message: string;
 
 
-    constructor(private builder: FormBuilder, private user: UserService) {
-        this.message = "Forgotten Password Text";
+    constructor(
+        private builder: FormBuilder,
+        private user: UserService,
+        private trans: TranslateService
+    ) {
+        this.message = ""; // Forgotten Password Text
     }
 
     ngOnInit() {
@@ -26,17 +32,12 @@ export class ForgottenPassword implements OnInit {
 
     send() {
         if (!this.myForm.dirty && !this.myForm.valid)
-            this.message = "Form not valid to be sent.";
+            this.trans.get("FormNotValid").subscribe((res: string) => this.message = res);
         else {
-
             this.user.forgottenpassword(this.myForm.value).subscribe(
-                data => {
-                    this.message = "Petition send.";
-                },
-                error => {
-                    this.message = "Error sending email.";
-                },
-                () => console.log("Done forgotten password")
+                data => this.trans.get("PetitionSend").subscribe((res: string) => this.message = res),
+                error => this.trans.get("ErrorSendingEmail").subscribe((res: string) => this.message = res),
+                () => this.trans.get("DoneForgottenPassword").subscribe((res: string) => console.log(res))
             );
         }
     }

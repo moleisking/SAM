@@ -6,6 +6,7 @@ import { Observable, Subscription } from "rxjs/Rx";
 import { UserService } from "../services/user";
 import { MessageService } from "../services/message";
 import { AuthService } from "../services/auth";
+import { TranslateService } from "ng2-translate";
 
 import { MessageModel } from "../models/message";
 import { ProfileModel } from "../models/profile";
@@ -40,7 +41,8 @@ export class Messages implements OnInit, OnDestroy {
         private user: UserService,
         private sanitizer: DomSanitizer,
         private m: MessageService,
-        private authService: AuthService
+        private authService: AuthService,
+        private trans: TranslateService
     ) { }
 
     ngOnInit() {
@@ -52,24 +54,24 @@ export class Messages implements OnInit, OnDestroy {
                     this.nameurl = profile.nameurl;
                     this.email = profile.email;
                     this.image = profile.image === "" ? this.defaultImage : profile.image;
-                    this.message = "Loading your messages...";
+                    this.trans.get("LoadingMessages").subscribe((res: string) => this.message = res);
                     this.messages$ = this.m.readWith(profile.nameurl).subscribe(
                         messages => {
                             messages.forEach(element => {
                                 if (element.from === profile.email)
                                     element.from = profile.name;
                                 else
-                                    element.from = "Me";
+                                    this.trans.get("Me").subscribe((res: string) => element.from = res);
                             });
                             this.messages = messages;
                             this.message = "";
                         },
                         error => this.message = <any>error,
-                        () => console.log("Done get messages")
+                        () => this.trans.get("DoneGetMessages").subscribe((res: string) => console.log(res))
                     );
                 },
                 error => this.message = <any>error,
-                () => console.log("Done get profile")
+                () => this.trans.get("DoneGetProfile").subscribe((res: string) => console.log(res))
             );
         });
     }
@@ -82,11 +84,11 @@ export class Messages implements OnInit, OnDestroy {
 
     sendMessage(messageText: string) {
         if (!messageText || !this.email || this.email === "undefined" || !this.nameurl || this.nameurl === "undefined")
-            this.message = "Message not valid to be sent.";
+            this.trans.get("MessageNotValid").subscribe((res: string) => this.message = res);
         else if (messageText.length < 4 || messageText.length > 500)
-            this.message = "Message not cannot be less that 3 characters or bigger than 500.";
+            this.trans.get("MessageNoCharacters").subscribe((res: string) => this.message = res);
         else {
-            this.message = "Message profile sent...";
+            this.trans.get("MessageProfileSent").subscribe((res: string) => this.message = res);
 
             let model = new MessageModel();
             model.to = this.email;
@@ -94,16 +96,19 @@ export class Messages implements OnInit, OnDestroy {
             model.text = messageText;
 
             this.m.add(model).subscribe(
-                (m) => {
-                    this.message = "Message sent.";
-                    m.from = "Me";
+                m => {
+                    this.trans.get("MessageSent").subscribe((res: string) => this.message = res);
+                    this.trans.get("Me").subscribe((res: string) => m.from = res);
                     this.messages.push(m);
                     // clean the new message form
                     this.message = "";
                     this.messageText.nativeElement.value = "";
                 },
-                (res) => this.message = res,
-                () => jQuery("#SendMessageModal").modal("hide")
+                res => this.message = res,
+                () => {
+                    jQuery("#SendMessageModal").modal("hide");
+                    this.trans.get("DoneSendMessage").subscribe((res: string) => console.log(res));
+                }
             );
         }
     }

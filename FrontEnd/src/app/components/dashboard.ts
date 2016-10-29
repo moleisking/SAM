@@ -6,6 +6,7 @@ import { UserService } from "../services/user";
 import { MessageService } from "../services/message";
 import { CategoriesService } from "../services/categories";
 import { PaymentService } from "../services/payment";
+import { TranslateService } from "ng2-translate";
 
 import { UserModel } from "../models/user";
 import { MessageModel } from "../models/message";
@@ -38,7 +39,8 @@ export class Dashboard implements OnInit {
         private router: Router,
         private messages: MessageService,
         private payment: PaymentService,
-        private cat: CategoriesService
+        private cat: CategoriesService,
+        private trans: TranslateService
     ) { }
 
     ngOnInit() {
@@ -47,14 +49,11 @@ export class Dashboard implements OnInit {
         this.getAllMessages();
         this.user.getMyProfile().subscribe(
             profile => {
-                // console.log(this.model.activated)
-                // if (this.model.activated === undefined)
-                //     this.model.activated === false;
                 this.model = profile;
                 this.modelProfileForm = profile;
             },
             error => this.errorUsers = <any>error,
-            () => console.log("Done get my profile.")
+            () => this.trans.get("DoneGetMyProfile").subscribe((res: string) => console.log(res))
         );
     }
 
@@ -67,7 +66,7 @@ export class Dashboard implements OnInit {
         this.user.all().subscribe(
             users => this.usersList = users,
             error => this.errorUsers = <any>error,
-            () => console.log("Done get all users.")
+            () => this.trans.get("DoneGetAllUsers").subscribe((res: string) => console.log(res))
         );
     }
 
@@ -75,7 +74,7 @@ export class Dashboard implements OnInit {
         this.cat.all().subscribe(
             c => this.catList = c,
             error => this.error = <any>error,
-            () => console.log("Done get all categories dashboard.")
+            () => this.trans.get("DoneGetCategoriesDashboard").subscribe((res: string) => console.log(res))
         );
     }
 
@@ -84,49 +83,50 @@ export class Dashboard implements OnInit {
             ml => {
                 this.messagesList = ml;
                 if (ml.length === 0)
-                    this.errorMessages = "You have no messages yet.";
+                    this.trans.get("YouNoMessagesYet").subscribe((res: string) => this.errorMessages = res);
             },
             error => this.errorMessages = <any>error,
-            () => console.log("Done get all messages.")
+            () => this.trans.get("DoneGetAllMessages").subscribe((res: string) => console.log(res))
         );
     }
 
     addCredit() {
         if (this.model.addCredit < 1)
-            this.messageCredit = "Credit must be more than zero to be added.";
+            this.trans.get("CreditMoreThanZero").subscribe((res: string) => this.messageCredit = res);
         else {
-            this.messageCredit = "Credit sent...";
+            this.trans.get("CreditSent").subscribe((res: string) => this.messageCredit = res);
             this.payment.addCredit(this.model.addCredit).subscribe(
                 added => {
                     this.model.credit = added;
-                    this.messageCredit = "Credit of " + this.model.addCredit + " euros added.";
+                    this.trans.get("CreditOfAdded", { value: this.model.addCredit })
+                        .subscribe((res: string) => this.messageCredit = res);
                     this.model.addCredit = 0;
                 },
                 error => this.messageCredit = <any>error,
-                () => console.log("Done adding credit.")
+                () => this.trans.get("DoneAddingCredit").subscribe((res: string) => console.log(res))
             );
         }
     }
 
     addCode(code: string) {
         if (code.length === 0)
-            this.messageCode = "Code can't be empty.";
+            this.trans.get("CodeNoEmpty").subscribe((res: string) => this.messageCode = res);
         else {
-            this.messageCode = "Code sent...";
+            this.trans.get("CodeSent").subscribe((res: string) => this.messageCode = res);
             this.user.addCode(code).subscribe(
-                x => this.messageCode = "Code added. Now your account is validated. Enjoy :)",
+                x => this.trans.get("CodeAdded").subscribe((res: string) => this.messageCode = res),
                 error => this.messageCode = <any>error,
-                () => console.log("Done adding code.")
+                () => this.trans.get("DoneAddingCode").subscribe((res: string) => console.log(res))
             );
         }
     }
 
     addCodeResend() {
-        this.messageCode = "Code resent...";
+        this.trans.get("CodeReSent").subscribe((res: string) => this.messageCode = res);
         this.user.resendCode().subscribe(
-            x => this.messageCode = "Code resent. Now you can activate it.",
+            x => this.trans.get("CodeReSentActivate").subscribe((res: string) => this.messageCode = res),
             error => this.messageCode = <any>error,
-            () => console.log("Done resending code.")
+            () => this.trans.get("DoneResendingCode").subscribe((res: string) => console.log(res))
         );
     }
 }

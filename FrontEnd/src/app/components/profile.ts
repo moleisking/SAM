@@ -7,6 +7,7 @@ import { MessageService } from "../services/message";
 import { RatingService } from "../services/rating";
 import { AuthService } from "../services/auth";
 import { CategoriesService } from "../services/categories";
+import { TranslateService } from "ng2-translate";
 
 import { ProfileModel } from "../models/profile";
 import { MessageModel } from "../models/message";
@@ -40,7 +41,8 @@ export class Profile implements OnInit, OnDestroy {
         private m: MessageService,
         private r: RatingService,
         private authService: AuthService,
-        private cat: CategoriesService
+        private cat: CategoriesService,
+        private trans: TranslateService
     ) { }
 
     ngOnInit() {
@@ -65,7 +67,8 @@ export class Profile implements OnInit, OnDestroy {
                                 this.user.getMyProfile().subscribe(
                                     my => this.itsMe = profile.email === my.email,
                                     error => this.message = <any>error,
-                                    () => console.log("Done get my profile")
+                                    () => this.trans.get("DoneGetMyProfile")
+                                        .subscribe((res: string) => console.log(res))
                                 );
                                 this.r.readProfileAuth(profile.nameurl).subscribe(
                                     prof => {
@@ -73,7 +76,8 @@ export class Profile implements OnInit, OnDestroy {
                                         this.model.average = prof.average;
                                     },
                                     error => this.message = <any>error,
-                                    () => console.log("Done get rating profile")
+                                    () => this.trans.get("DoneGetRatingProfile")
+                                        .subscribe((res: string) => console.log(res))
                                 );
                             }
                             else {
@@ -81,7 +85,8 @@ export class Profile implements OnInit, OnDestroy {
                                 this.r.readProfile(profile.nameurl).subscribe(
                                     prof => this.model.average = prof.average,
                                     error => this.message = <any>error,
-                                    () => console.log("Done get rating profile")
+                                    () => this.trans.get("DoneGetRatingProfile")
+                                        .subscribe((res: string) => console.log(res))
                                 );
                             }
                         },
@@ -89,7 +94,7 @@ export class Profile implements OnInit, OnDestroy {
                     );
                 },
                 error => this.message = <any>error,
-                () => console.log("Done get profile")
+                () => this.trans.get("DoneGetProfile").subscribe((res: string) => console.log(res))
             );
         });
     }
@@ -100,29 +105,29 @@ export class Profile implements OnInit, OnDestroy {
 
     rate() {
         if (this.model.rating < 0 || this.model.rating > 5)
-            this.message = "Rating cant be more than 0 and less or equal to 5.";
+            this.trans.get("RatingCantBeMore").subscribe((res: string) => this.message = res);
         else {
-            this.message = "Rating profile sent...";
+            this.trans.get("RatingProfileSent").subscribe((res: string) => this.message = res);
 
             let model = new RatingModel();
             model.id = this.model.email;
             model.number = this.model.rating;
 
             this.r.add(model).subscribe(
-                () => this.message = "Rating sent.",
+                () => this.trans.get("RatingSent").subscribe((res: string) => this.message = res),
                 (res) => this.message = res,
-                () => console.log("Done send rating")
+                () => this.trans.get("DoneSendRating").subscribe((res: string) => console.log(res))
             );
         }
     }
 
     sendMessage(messageText: string) {
         if (!messageText || !this.model.email || this.model.email === "undefined")
-            this.message = "Message not valid to be sent.";
+            this.trans.get("MessageNotValid").subscribe((res: string) => this.message = res);
         else if (messageText.length < 4 || messageText.length > 500)
-            this.message = "Message not cannot be less that 3 characters or bigger than 500.";
+            this.trans.get("MessageNoCharacters").subscribe((res: string) => this.message = res);
         else {
-            this.message = "Message profile sent...";
+            this.trans.get("MessageProfileSent").subscribe((res: string) => this.message = res);
 
             let model = new MessageModel();
             model.to = this.model.email;
@@ -130,11 +135,11 @@ export class Profile implements OnInit, OnDestroy {
             model.text = messageText;
 
             this.m.add(model).subscribe(
-                () => this.message = "Message sent.",
+                () => this.trans.get("MessageSent").subscribe((res: string) => this.message = res),
                 (res) => this.message = res,
                 () => {
                     jQuery("#SendMessageModal").modal("hide");
-                    console.log("Done send message");
+                    this.trans.get("DoneSendMessage").subscribe((res: string) => console.log(res));
                 }
             );
         }

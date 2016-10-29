@@ -38,12 +38,14 @@ import { HighlightPipe } from "ng2-select/components/select/select-pipes";
 import { TabsModule } from "ng2-tabs";
 import { RatingModule } from "ng2-rating";
 
-import { HttpModule } from "@angular/http";
+import { HttpModule, Http } from "@angular/http";
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from "ng2-translate";
 
 import { Settings } from "./config/settings";
 import { enableProdMode } from "@angular/core";
 
-if (Settings.prod) enableProdMode();
+if (Settings.prod)
+    enableProdMode();
 
 @NgModule({
     imports: [
@@ -54,6 +56,11 @@ if (Settings.prod) enableProdMode();
         appRouterProvider,
         TabsModule,
         RatingModule,
+        TranslateModule.forRoot({
+            provide: TranslateLoader,
+            useFactory: (http: Http) => new TranslateStaticLoader(http, "/localization", ".json"),
+            deps: [Http]
+        })
     ],
     bootstrap: [
         AppComponent,

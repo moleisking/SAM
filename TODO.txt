@@ -3,3 +3,4 @@ ISSUE 9: Move profile pics to its own database
 ISSUE 10: mongodb to CRUD with setting configuration. 
 ISSUE 11: add category to predictive text 
 ISSUE 15: add google analytics
+ISSUE 16: Change password

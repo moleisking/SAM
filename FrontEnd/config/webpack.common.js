@@ -23,6 +23,10 @@ module.exports = {
       from: 'src/images',
       to: 'images'
     }]),
+    new CopyWebpackPlugin([{
+      from: 'localization',
+      to: 'localization'
+    }]),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       chunksSortMode: 'dependency'

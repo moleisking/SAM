@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import { AuthService } from "../services/auth";
+import { TranslateService } from "ng2-translate";
 
 @Component({
     selector: "login-form-component",
@@ -18,9 +19,10 @@ export class LoginFormComponent implements OnInit {
     constructor(
         private auth: AuthService,
         private router: Router,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private trans: TranslateService
     ) {
-        this.message = "Login messages will come here.";
+        this.message = ""; // Login messages will come here.
     }
 
     ngOnInit() {
@@ -34,13 +36,13 @@ export class LoginFormComponent implements OnInit {
 
     login() {
         if (!this.myForm.dirty && !this.myForm.valid)
-            this.message = "Form not valid to be sent.";
+            this.trans.get("FormNotValid").subscribe((res: string) => this.message = res);
         else {
-            this.message = "User sent to be logged in. Wait...";
+            this.trans.get("UserSentLoggedIn").subscribe((res: string) => this.message = res);
             this.auth.login(this.myForm.value).subscribe(
                 () => this.router.navigate(["/dashboard"]),
-                error => this.message = "Login not possible." + error,
-                () => console.log("Done login call.")
+                error => this.trans.get("LoginNotPossible").subscribe((res: string) => this.message = res + error),
+                () => this.trans.get("DoneContactUs").subscribe((res: string) => console.log(res))
             );
         }
     }

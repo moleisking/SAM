@@ -1,12 +1,12 @@
 <div class="row">
 	<div class="col-md-offset-1 col-md-10">
-		<h1>Search</h1>
+		<h1>{{ 'Search' | translate }}</h1>
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-offset-1 col-md-10">
 		<div class="form-group">
-			<input type="text" class="form-control" id="location" placeholder="Where?" autofocus />
+			<input type="text" class="form-control" id="location" placeholder="{{ 'Where' | translate }}" autofocus />
 		</div>
 	</div>
 </div>
@@ -34,7 +34,9 @@
 <div class="row">
 	<div class="col-md-offset-1 col-md-10">
 		<div class="form-group">
-			<button id="search" class="btn btn-outline-primary btn-lg btn-block" (click)="search()">Search</button>
+			<button id="search" class="btn btn-outline-primary btn-lg btn-block" (click)="search()">
+				{{ 'Search' | translate }}
+			</button>
 		</div>
 	</div>
 </div>

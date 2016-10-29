@@ -2,12 +2,14 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Settings } from "../config/settings";
 
+import { SelectComponent } from "ng2-select";
 import { UserService } from "../services/user";
+import { TranslateService } from "ng2-translate";
+
 import { UserDefaultImage } from "../config/userdefaultimage";
 import { ProfileModel } from "../models/profile";
 import { CategoryModel } from "../models/category";
 import { TagModel } from "../models/tag";
-import { SelectComponent } from "ng2-select";
 
 declare let google: any;
 
@@ -36,8 +38,9 @@ export class ProfileFormComponent implements OnInit {
 
     constructor(
         private user: UserService,
-        private formBuilder: FormBuilder
-    ) { this.message = "Profile form messages will be here."; }
+        private formBuilder: FormBuilder,
+        private trans: TranslateService
+    ) { this.message = ""; } // Profile form messages will be here.
 
     ngOnInit() {
         let regexPatterns = { numbers: "^[0-9]*$" };
@@ -90,7 +93,7 @@ export class ProfileFormComponent implements OnInit {
         this.myForm.patchValue({ curLat: location.lat() });
         this.myForm.patchValue({ curLng: location.lng() });
         this.myForm.patchValue({ address: address });
-        console.log("place", address, location, location.lat(), location.lng());
+        // console.log("place", address, location, location.lat(), location.lng());
     }
 
     ngAfterViewChecked() {
@@ -126,20 +129,16 @@ export class ProfileFormComponent implements OnInit {
 
     save() {
         if (!this.myForm.dirty && !this.myForm.valid)
-            this.message = "Form not valid to be sent.";
+            this.trans.get("FormNotValid").subscribe((res: string) => this.message = res);
         else {
             if (this.tagsValue instanceof Array)
                 this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
             else
                 this.myForm.controls["tags"].setValue(this.tagsValue);
-            this.message = "User profile sent...";
+            this.trans.get("UserProfileSent").subscribe((res: string) => this.message = res);
             this.user.saveProfile(this.myForm.value, this.image).subscribe(
-                () => {
-                    this.message = "User profile saved.";
-                },
-                (res) => {
-                    this.message = res;
-                }
+                () => this.trans.get("UserProfileSaved").subscribe((res: string) => this.message = res),
+                (res) => this.message = res
             );
         }
     }

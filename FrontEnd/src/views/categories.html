@@ -1,7 +1,7 @@
-<h1>Categories</h1>
+<h1>{{ 'Categories' | translate }}</h1>
 <p>{{ message }}</p>
 <div class="list-group">
-  <a href="#" class="list-group-item" *ngFor="let c of cats">
+	<a href="#" class="list-group-item" *ngFor="let c of cats">
     {{ c.name[0].toUpperCase() + c.name.substr(1) }}
     -
     {{ c.description[0].toUpperCase() + c.description.substr(1) }}

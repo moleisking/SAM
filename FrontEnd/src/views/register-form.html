@@ -1,77 +1,77 @@
 <div class="container">
 	<form [formGroup]="myForm" novalidate (submit)="register()">
 		<div class="form-group">
-			<label for="username">Username</label>
-			<input type="text" class="form-control" formControlName="username" name="username" [(ngModel)]="username" />
+			<label for="username">{{ 'Username' | translate }}</label>
+			<input type="text" class="form-control" formControlName="username" name="username" [(ngModel)]="username" autofocus />
 			<small [hidden]="myForm.controls.username.valid || myForm.controls.username.pristine" class="text-danger">
-                Username is required.
+                {{ 'UsernameRequired' | translate }}
             </small>
 		</div>
 		<div class="form-group">
-			<label for="email">Email</label>
+			<label for="email">{{ 'Email' | translate }}</label>
 			<input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="email" />
 			<small [hidden]="myForm.controls.email.valid || myForm.controls.email.pristine" class="text-danger">
-                Email is required.
+                {{ 'EmailRequired' | translate }}
             </small>
 		</div>
 		<div class="form-group">
 			<div class="col-md-6">
-				<label for="name">Name</label>
-				<input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" autofocus />
+				<label for="name">{{ 'Name' | translate }}</label>
+				<input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" />
 				<small [hidden]="myForm.controls.name.valid || myForm.controls.name.pristine" class="text-danger">
-                Name is required.
+                {{ 'Where' | translate }}
             </small>
 			</div>
 			<div class="col-md-6">
-				<label for="surname">Surname</label>
+				<label for="surname">{{ 'Surname' | translate }}</label>
 				<input type="text" class="form-control" formControlName="surname" name="surname" [(ngModel)]="surname" />
 				<small [hidden]="myForm.controls.surname.valid || myForm.controls.surname.pristine" class="text-danger">
-                Surname is required.
+                {{ 'SurnameRequired' | translate }}
             </small>
 			</div>
 		</div>
 		<div formGroupName="passwords">
 			<div class="form-group">
 				<div class="col-md-6">
-					<label for="password">Password</label>
+					<label for="password">{{ 'Password' | translate }}</label>
 					<input type="text" class="form-control" formControlName="pass" name="password" [(ngModel)]="password" minlength="5" />
 					<small [hidden]="myForm.controls.passwords.controls.pass.valid || myForm.controls.passwords.controls.pass.pristine" class="text-danger">
-						Password is required. Min 5 chars.
+						{{ 'PasswordRequired' | translate }}
 					</small>
 				</div>
 				<div class="col-md-6">
-					<label for="password">Confirm Password</label>
+					<label for="password">{{ 'ConfirmPassword' | translate }}</label>
 					<input type="text" class="form-control" formControlName="repeat" onpaste="return false" name="repeat" [(ngModel)]="repeat"
 						minlength="5" />
 					<small [hidden]="myForm.controls.passwords.controls.repeat.valid || myForm.controls.passwords.controls.repeat.pristine" class="text-danger">
-						Confirmed password is required. Min 5 chars.
+						{{ 'ConfirmPasswordRequired' | translate }}
 					</small>
 					<small [hidden]="!myForm.controls.passwords?.errors?.areEqual" class="text-danger">
-						Password and confirmed password must be the same.
+						{{ 'ConfirmPasswordSame' | translate }}
 					</small>
 				</div>
 			</div>
 		</div>
 		<div class="form-group" [class.GoogleInvisible]="!isGoogleVisible">
-			<label for="location">Location</label>
-			<input type="text" class="form-control" id="location" placeholder="Where do you live?" />
+			<label for="location">{{ 'Location' | translate }}</label>
+			<input type="text" class="form-control" id="location" placeholder="{{ 'WhereYouLive' | translate }}" />
 		</div>
 		<div class="form-group">
-			<label for="address">Address</label>
+			<label for="address">{{ 'Address' | translate }}</label>
 			<input type="text" class="form-control" formControlName="address" name="address" [(ngModel)]="address" />
 			<small [hidden]="myForm.controls.address.valid || myForm.controls.address.pristine" class="text-danger">
-                Address is required.
+                {{ 'AddressRequired' | translate }}
             </small>
 		</div>
 		<div class="form-group">
-			<label for="mobile">Mobile</label>
+			<label for="mobile">{{ 'Mobile' | translate }}</label>
 			<input type="text" class="form-control" formControlName="mobile" name="mobile" [(ngModel)]="mobile" />
 			<small [hidden]="myForm.controls.mobile.valid || myForm.controls.mobile.pristine" class="text-danger">
-                Mobile is required.
+                {{ 'MobileRequired' | translate }}
             </small>
 		</div>
 		<div class="form-group">
-			<label for="category">Categories</label>
+			<label for="category">{{ 'Categories' | translate }}</label>
 			<select class="form-control" formControlName="category" name="category" [(ngModel)]="category" (change)="onChangeCategory($event.target.value)">
                 <option *ngFor="let cat of cats" value={{cat.id}}>
                     {{ cat.name[0].toUpperCase() + cat.name.substr(1) }}
@@ -79,12 +79,12 @@
             </select>
 		</div>
 		<div class="form-group" *ngIf="areTagsAvailable">
-			<label for="tags">Tags</label>
-			<ng-select [data]="tagsValue" [multiple]="true" [items]="tags" (data)="refreshValue($event)" placeholder="No tags selected yet"></ng-select>
+			<label for="tags">{{ 'Tags' | translate }}</label>
+			<ng-select [data]="tagsValue" [multiple]="true" [items]="tags" (data)="refreshValue($event)" placeholder="{{ 'NoTagsYet' | translate }}"></ng-select>
 			<!--(typed)="typed($event)" (removed)="removed($event)" [disabled]="disabled" (selected)="selected($event)"-->
 			<!--<pre>{{itemsToString(tagsValue)}}</pre>-->
 		</div>
-		<button type="submit" class="btn btn-default" [disabled]="!myForm.valid">Register</button>
+		<button type="submit" class="btn btn-default" [disabled]="!myForm.valid">{{ 'Register' | translate }}</button>
 		<p>{{ message }}</p>
 	</form>
 </div>

@@ -3,7 +3,7 @@ import { WebService } from "../services/web";
 
 @Component({
     selector: "cookiepolicy-component",
-    templateUrl: "../../views/termsconditions.html"
+    templateUrl: "../../views/cookiepolicy.html"
 })
 
 export class CookiePolicy implements OnInit {
@@ -11,7 +11,7 @@ export class CookiePolicy implements OnInit {
     private message: string;
 
     constructor(private web: WebService) {
-        this.message = "Here will come Cookie Policy Text from backend.";
+        this.message = ""; // Here will come Cookie Policy Text from backend.
     }
 
     getCookiePolicyText() {

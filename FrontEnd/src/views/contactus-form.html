@@ -1,34 +1,34 @@
 <div class="container">
 	<form [formGroup]="myForm" novalidate (submit)="sendContactForm()">
 		<div class="form-group">
-			<label for="email">Name</label>
+			<label for="email">{{ 'Name' | translate }}</label>
 			<input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" autofocus />
 			<small [hidden]="myForm.controls.name.valid || myForm.controls.name.pristine" class="text-danger">
-                Name is required.
+                {{ 'NameRequired' | translate }}
             </small>
 		</div>
 		<div class="form-group">
-			<label for="email">Surname</label>
+			<label for="email">{{ 'Surname' | translate }}</label>
 			<input type="text" class="form-control" formControlName="surname" name="surname" [(ngModel)]="surname" />
 			<small [hidden]="myForm.controls.surname.valid || myForm.controls.surname.pristine" class="text-danger">
-                Surname is required.
+                {{ 'SurnameRequired' | translate }}
             </small>
 		</div>
 		<div class="form-group">
-			<label for="email">Email</label>
+			<label for="email">{{ 'Email' | translate }}</label>
 			<input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="email" />
 			<small [hidden]="myForm.controls.email.valid || myForm.controls.email.pristine" class="text-danger">
-                Email is required.
+                {{ 'EmailRequired' | translate }}
             </small>
 		</div>
 		<div class="form-group">
-			<label for="notification">Message</label>
+			<label for="notification">{{ 'Message' | translate }}</label>
 			<input type="text" class="form-control" formControlName="notification" name="notification" [(ngModel)]="notification" />
 			<small [hidden]="myForm.controls.notification.valid || myForm.controls.notification.pristine" class="text-danger">
-                Message is required.
+                {{ 'MessageRequired' | translate }}
             </small>
 		</div>
-		<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Send</button>
+		<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">{{ 'Send' | translate }}</button>
 		<p>{{ message }}</p>
 	</form>
 </div>

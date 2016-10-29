@@ -5,42 +5,42 @@
 	<div class="col-md-8">
 		<form [formGroup]="myForm" novalidate>
 			<div class="form-group">
-				<label for="image">Image</label>
+				<label for="image">{{ 'Image' | translate }}</label>
 				<input type="file" class="form-control" id="image" name="image" />
 			</div>
 			<div class="form-group">
-				<label for="description">Description</label>
+				<label for="description">{{ 'Description' | translate }}</label>
 				<input type="text" class="form-control" formControlName="description" name="description" [(ngModel)]="model.description"
 				/>
 				<small [hidden]="myForm.controls.description.valid || (myForm.controls.description.pristine)" class="text-danger">
-                    Description is required.
+                    {{ 'DescriptionRequired' | translate }}
                 </small>
 			</div>
 			<div class="form-group">
-				<label for="address">Address</label>
+				<label for="address">{{ 'Address' | translate }}</label>
 				<input type="text" class="form-control" formControlName="address" id="address" name="address" [(ngModel)]="model.address"
 				/>
 				<small [hidden]="myForm.controls.address.valid || (myForm.controls.address.pristine)" class="text-danger">
-                    Address is required.
+                    {{ 'AddressRequired' | translate }}
                 </small>
 			</div>
 			<div class="form-group">
-				<label for="mobile">Mobile</label>
+				<label for="mobile">{{ 'Mobile' | translate }}</label>
 				<input type="text" class="form-control" formControlName="mobile" name="mobile" [(ngModel)]="model.mobile" />
 				<small [hidden]="myForm.controls.mobile.valid || (myForm.controls.mobile.pristine)" class="text-danger">
-                    Mobile is required.
+                    {{ 'MobileRequired' | translate }}
                 </small>
 			</div>
 			<div class="form-group">
-				<label for="hourRate">Hour Rate</label>
+				<label for="hourRate">{{ 'HourRate' | translate }}</label>
 				<input type="number" class="form-control" formControlName="hourRate" name="hourRate" [(ngModel)]="model.hourRate" />
 			</div>
 			<div class="form-group">
-				<label for="dayRate">Day Rate</label>
+				<label for="dayRate">{{ 'DayRate' | translate }}</label>
 				<input type="number" class="form-control" formControlName="dayRate" name="dayRate" [(ngModel)]="model.dayRate" />
 			</div>
 			<div class="form-group">
-				<label for="category">Category</label>
+				<label for="category">{{ 'Category' | translate }}</label>
 				<select class="form-control" formControlName="category" name="category" [(ngModel)]="model.category" (change)="onChangeCategory($event.target.value)">
                     <option *ngFor="let cat of cats" value={{cat.id}}>
                         {{ cat.name[0].toUpperCase() + cat.name.substr(1) }}
@@ -48,16 +48,16 @@
                 </select>
 			</div>
 			<div class="form-group" *ngIf="areTagsAvailable">
-				<label for="tags">Tags</label>
-				<ng-select [data]="tagsValue" [multiple]="true" [items]="tags" [active]="tagsActive" (data)="refreshValue($event)" placeholder="No tags selected yet"></ng-select>
+				<label for="tags">{{ 'Tags' | translate }}</label>
+				<ng-select [data]="tagsValue" [multiple]="true" [items]="tags" [active]="tagsActive" (data)="refreshValue($event)" placeholder="{{ 'NoTagsYet' | translate }}"></ng-select>
 			</div>
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" formControlName="looking" name="looking" [(ngModel)]="model.looking" />
-					Actively looking for work
+					{{ 'ActivelyLookingWork' | translate }}
 				</label>
 			</div>
-			<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="save()">Save</button>
+			<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="save()">{{ 'Save' | translate }}</button>
 			<p>{{ message }}</p>
 			<input type="hidden" formControlName="curLat" name="curLat" [(ngModel)]="model.curLat" #lat>
 			<input type="hidden" formControlName="curLng" name="curLng" [(ngModel)]="model.curLng" #lng>

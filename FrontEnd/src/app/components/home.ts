@@ -5,6 +5,7 @@ import { CategoriesService } from "../services/categories";
 import { CategoryModel } from "../models/category";
 import { UserModel } from "../models/user";
 import { UserService } from "../services/user";
+import { TranslateService } from "ng2-translate";
 
 declare let google: any;
 
@@ -27,7 +28,8 @@ export class Home implements OnInit {
 
     constructor(
         private cat: CategoriesService,
-        private user: UserService
+        private user: UserService,
+        private trans: TranslateService
     ) { }
 
     getAddress(place: Object) {
@@ -35,7 +37,6 @@ export class Home implements OnInit {
         let location = place["geometry"]["location"];
         this.lat = location.lat();
         this.lng = location.lng();
-        // console.log("place", address, location, this.lat, this.lng);
     }
 
     getCategories() {
@@ -45,7 +46,7 @@ export class Home implements OnInit {
                 this.category = c[0].id;
             },
             error => this.message = <any>error,
-            () => console.log("Done get all categories home.")
+            () => this.trans.get("DoneCat").subscribe((res: string) => console.log(res))
         );
     }
 
@@ -61,33 +62,31 @@ export class Home implements OnInit {
         let searchBox: any = document.getElementById("location");
         let options = {
             // return only geocoding results, rather than business results.
-            types: ["geocode"],
-            componentRestrictions: { country: Settings.search_country }
+            types: ["geocode"], componentRestrictions: { country: Settings.search_country }
         };
 
         let autocomplete = new google.maps.places.Autocomplete(searchBox, options);
-
         autocomplete.addListener("place_changed", () => {
             this.getAddress(autocomplete.getPlace());
         });
-
         this.getCategories();
     }
 
     search() {
         if (!this.lat || !this.lng)
-            this.message = "Please, select a city.";
+            this.trans.get("PleaseSelectCity").subscribe((res: string) => this.message = res);
         else {
             this.user.search(this.lat, this.lng, this.category, this.radius).subscribe(
                 (users) => {
                     this.users = users;
                     if (users.length === 0)
-                        this.message = "No users found.";
+                        this.trans.get("UsersNotFound")
+                            .subscribe((res: string) => this.message = res);
                     else
                         this.message = "";
                 },
                 error => this.message = <any>error,
-                () => console.log("Done search call.")
+                () => this.trans.get("DoneSearchCall").subscribe((res: string) => console.log(res))
             );
         }
     }
