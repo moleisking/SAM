@@ -27,7 +27,7 @@ export const routes: Routes = [
   { path: "forgottenpassword", component: ForgottenPassword, canActivate: [RoutesManager] },
   { path: "messages/:id", component: Messages, canActivate: [RoutesManager] },
   { path: "profile/:id", component: Profile },
-  { path: "", redirectTo: "home", pathMatch: "full" }
+  { path: "", redirectTo: "/home", pathMatch: "full" }
 ];
 
 export const appRouterProvider = RouterModule.forRoot(routes);
