@@ -58,7 +58,7 @@ if (Settings.prod)
         RatingModule,
         TranslateModule.forRoot({
             provide: TranslateLoader,
-            useFactory: (http: Http) => new TranslateStaticLoader(http, "/localization", ".json"),
+            useFactory: (http: Http) => new TranslateStaticLoader(http, "./localization", ".json"),
             deps: [Http]
         })
     ],

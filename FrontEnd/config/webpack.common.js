@@ -24,7 +24,7 @@ module.exports = {
       to: 'images'
     }]),
     new CopyWebpackPlugin([{
-      from: 'localization',
+      from: helpers.root('localization'),
       to: 'localization'
     }]),
     new HtmlWebpackPlugin({
