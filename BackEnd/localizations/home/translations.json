@@ -1,5 +1,8 @@
 {
     "Welcome to SAM.": {
-        "es": "Bienvenido a SAM."
+        "es": "Bienvenido a SAM.",
+        "en": "Welcome to SAM.",
+        "it": "Benvenuti a SAM.",
+        "de": "Willkommen bei SAM."
     }
 }

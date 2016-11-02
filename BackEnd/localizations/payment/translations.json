@@ -1,5 +1,8 @@
 {
     "Please provide value.": {
-        "es": "Por favor, provee un valor."
+        "es": "Por favor, provee un valor.",
+        "en": "Please provide a value.",
+        "it": "Por favor, provee un valor.",
+        "de": "Bitte geben Sie einen Wert an."
     }
 }
