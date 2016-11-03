@@ -17,7 +17,7 @@
     "DoneAllCategoriesPage": "Done get all categories page.",
     "GeoNotAllowed": "Geolocation is not supported or allowed by this browser. You must choose a city manually.",
     "WillAskGoogle": "we will ask google.",
-    "NoCoordenades": "Coordenades not specified. Can't register an user then.",
+    "NoCoordenades": "Coordinates not specified. Can't register an user then.",
     "FormNotValid": "Form not valid to be sent.",
     "NewUserSent": "New user sent to be registered. Wait...",
     "DoneRegisterCall": "Done register call.",
