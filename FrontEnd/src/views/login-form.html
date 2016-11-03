@@ -6,11 +6,11 @@
 			<small [hidden]="myForm.controls.email.valid || myForm.controls.email.pristine" class="text-danger">
                 {{ 'EmailRequired' | translate }}
             </small>
-		</div>
-		<div class="form-group" formGroupName="passwords">
+		</div>		
+		<div class="form-group">
 			<label for="password">{{ 'Password' | translate }}</label>
-			<input type="text" class="form-control" formControlName="pass" name="password" [(ngModel)]="password" minlength="5" />
-			<small [hidden]="myForm.controls.passwords.controls.pass.valid || myForm.controls.passwords.controls.pass.pristine" class="text-danger">
+			<input type="text" class="form-control" formControlName="password" name="password" [(ngModel)]="password" minlength="5" />			
+			<small [hidden]="myForm.controls.password.valid || myForm.controls.password.pristine" class="text-danger">
                 {{ 'PasswordRequired' | translate }}
             </small>
 		</div>

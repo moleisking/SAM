@@ -1,7 +1,7 @@
 export class ProfileModel {
     name: string;
-    surname: string;
-    nameurl: string;
+    //surname: string;
+    url: string;//was nameurl
     email: string;
     description: string;
     mobile: string;
@@ -18,6 +18,8 @@ export class ProfileModel {
     categoryName: string;
     tags: string;
     average: number;
-    looking: boolean;
-    activated: boolean;
+    //looking: boolean;
+
+    active: boolean;//was activated
+    authenticated: boolean;
 }

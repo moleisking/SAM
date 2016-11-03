@@ -70,7 +70,8 @@ export class Profile implements OnInit, OnDestroy {
                                     () => this.trans.get("DoneGetMyProfile")
                                         .subscribe((res: string) => console.log(res))
                                 );
-                                this.r.readProfileAuth(profile.nameurl).subscribe(
+                                //this.r.readProfileAuth(profile.nameurl).subscribe(
+                                this.r.readProfileAuth(profile.url).subscribe(
                                     prof => {
                                         this.model.rating = prof.myrating;
                                         this.model.average = prof.average;
@@ -82,7 +83,8 @@ export class Profile implements OnInit, OnDestroy {
                             }
                             else {
                                 this.itsMe = true; // for unlogged we use same logic as it were us.
-                                this.r.readProfile(profile.nameurl).subscribe(
+                                //this.r.readProfile(profile.nameurl).subscribe(
+                                this.r.readProfile(profile.url).subscribe(
                                     prof => this.model.average = prof.average,
                                     error => this.message = <any>error,
                                     () => this.trans.get("DoneGetRatingProfile")
@@ -131,7 +133,8 @@ export class Profile implements OnInit, OnDestroy {
 
             let model = new MessageModel();
             model.to = this.model.email;
-            model.nameurl = this.model.nameurl;
+            model.url = this.model.url;
+            //  model.nameurl = this.model.nameurl;
             model.text = messageText;
 
             this.m.add(model).subscribe(

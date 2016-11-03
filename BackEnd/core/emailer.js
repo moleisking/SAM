@@ -35,7 +35,7 @@ module.exports = {
     },
 
     sendContactForm: function (form, cb) {
-        form.message = form.name + " " + form.surname + "<br />" + form.message;
+        form.message = form.name /*+ " " + form.surname */+ "<br />" + form.message;
         module.exports.email("SAM Contact From", form.email, config.admin, form.message,
             myLocals.translate("SAM new Contact Us Form"), cb);
     },

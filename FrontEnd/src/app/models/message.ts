@@ -3,5 +3,6 @@ export class MessageModel {
     public to: string;
     public text: string;
     public datestamp: string;
-    public nameurl: string;
+    public url: string;
+    // public nameurl: string;
 }

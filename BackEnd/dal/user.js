@@ -2,9 +2,15 @@ var JsonDB = require('node-json-db');
 var db = new JsonDB("SAM", true, false);
 var _path = "/user";
 
+var mongo = require('mongodb');
+
 module.exports = {
 
     create: function (email, data, cb) {
+        //console.log("Create Function");
+        //console.log(email);
+        //console.log(data);
+        //console.log(cb);
         try {
             db.push(_path + "/" + email, data);
             return cb(null, data);
@@ -15,9 +21,13 @@ module.exports = {
 
     read: function (email, cb) {
         try {
+            //console.log("read email " + email);
+             //console.log("read cb " + cb);
             var data = db.getData(_path + "/" + email);
             return cb(null, data);
         } catch (err) {
+            //console.log("user read catch error");
+            //console.log(err);
             return cb(err, null);
         }
     },

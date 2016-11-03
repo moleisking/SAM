@@ -20,7 +20,7 @@ module.exports = {
         util.translate(myLocals, locale);
         var user = model.create();
         user.update(data);
-        user.nameurl(toURLString(data.username));
+        user.url(toURLString(data.username));
         user.curLat(data.regLat);
         user.curLng(data.regLng);
         user.description("");
@@ -29,19 +29,19 @@ module.exports = {
         user.hourRate(0);
         user.credit(100);
         user.rating(0);
-        user.looking(true);
+        user.active(true);
         user.guid(getGuid());
         user.timeStamp(new Date().getTime());
         user.validate().then(function () {
             if (!user.isValid)
                 return cb(user.errors, null);
-            user.pass(model.generateHash(user.pass()));
+            user.password(model.generateHash(user.password()));
             userDAL.create(user.email(), user.toJSON(), function (err, data) {
                 if (err)
                     return cb(err, null);
                 myCache.del(myCacheName + "all");
                 emailer.email(configMail.fromText, configMail.from, data.email,
-                    data.name + " " + data.surname + ", " + myLocals.translate("welcome to SAM") + ".<br />" +
+                    data.name + /*" " + data.surname*/ + ", " + myLocals.translate("welcome to SAM") + ".<br />" +
                     myLocals.translate("To activate your email, please enter this code in the activation area in your dashboard: ") +
                     user.guid(), myLocals.translate("Welcome to SAM."),
                     function (err, status, body, headers) {
@@ -128,10 +128,10 @@ module.exports = {
                 return cb(err, null);
             var user = model.create();
             user.update(userData);
-            if (data.looking === "true")
-                data.looking = true;
+            if (data.active === "true")
+                data.active = true;
             else
-                data.looking = false;
+                data.active = false;
             user.update(data);
             user.validate().then(function () {
                 if (!user.isValid)
@@ -169,7 +169,7 @@ module.exports = {
                         _read(item.email, function (err, readValue) {
                             if (err)
                                 return cb(err, null);
-                            delete readValue.pass;
+                            delete readValue.password;
                             var profile = modelProfile.create();
                             profile.update(readValue);
                             myCache.set(myCacheName + "readUserProfile" + nameurl, profile.toJSON(), function (err, success) {
@@ -200,10 +200,10 @@ module.exports = {
             _readProfile(email, function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                if (readValue.looking === "true" || readValue.looking === true)
-                    readValue.looking === true
+                if (readValue.active === "true" || readValue.active === true)
+                    readValue.active === true
                 else
-                    readValue.looking === false
+                    readValue.active === false
                 myCache.set(myCacheName + "readMyProfile" + email, readValue, function (err, success) {
                     if (err)
                         return cb(err, null);
@@ -226,11 +226,11 @@ module.exports = {
                 if (err)
                     return cb(err, null);
                 var result = readAll.filter(function (user) {
-                    if (user.category === data.category && parseFloat(user.credit) > 0 && user.looking &&
+                    if (user.category === data.category && parseFloat(user.credit) > 0 && user.active &&
                         ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) ||
                             (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
                     ) {
-                        delete user.pass;
+                        delete user.password;
                         return user;
                     }
                 });
@@ -369,7 +369,7 @@ module.exports = {
             if (err)
                 return cb(err, null);
             emailer.email(configMail.fromText, configMail.from, data.email,
-                data.name + " " + data.surname + ", " + myLocals.translate("welcome to SAM") + ".<br />" +
+                data.name + /*" " + data.surname */+ ", " + myLocals.translate("welcome to SAM") + ".<br />" +
                 myLocals.translate("To activate your email, please enter this code in the activation area in your dashboard: ")
                 + data.guid, myLocals.translate("Welcome to SAM."),
                 function (err, status, body, headers) {

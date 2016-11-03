@@ -1,13 +1,13 @@
 var model = require('nodejs-model');
 
-var profile = new model("Profile")
+var profile = new model("Profile") 
     .attr('username', {
         validations: {
             presence: {
                 message: 'Username is required!'
             }
         }
-    })
+    })    
     .attr('name', {
         validations: {
             presence: {
@@ -15,22 +15,15 @@ var profile = new model("Profile")
             }
         }
     })
-    .attr('surname', {
-        validations: {
-            presence: {
-                message: 'Surname is required!'
-            }
-        }
-    })
-    .attr('nameurl', {
+   
+    .attr('url', {
         validations: {
             presence: {
                 message: 'Name Url is required!'
             }
         }
     })
-    .attr('description')
-    .attr('rating')
+    .attr('description')   
     .attr('address', {
         validations: {
             presence: {
@@ -77,8 +70,9 @@ var profile = new model("Profile")
             }
         }
     })
-    .attr('credit')
-    .attr('looking')
+    .attr('credit')    
+    .attr('active')
+    .attr('rating')
     .attr('category', {
         validations: {
             presence: {
@@ -86,7 +80,33 @@ var profile = new model("Profile")
             }
         }
     })
-    .attr('tags')
-    .attr('activated');
+    .attr('tags')   
+    .attr('authenticated')
+    .attr('timeStamp');
+
+     /*
+     .attr('username', {
+        validations: {
+            presence: {
+                message: 'Username is required!'
+            }
+        }
+    })
+     .attr('looking')
+     .attr('activated');
+     .attr('surname', {
+        validations: {
+            presence: {
+                message: 'Surname is required!'
+            }
+        }
+    })*/
+    /*.attr('nameurl', {
+        validations: {
+            presence: {
+                message: 'Name Url is required!'
+            }
+        }
+    })*/
 
 module.exports = profile;

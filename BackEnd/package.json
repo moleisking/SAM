@@ -34,6 +34,7 @@
     "passport-jwt": "2.1.0",
     "sendgrid": "4.7.1",
     "speakingurl": "10.0.0",
-    "swagger-express": "1.0.5"
+    "swagger-express": "1.0.5",
+    "mongodb": "^1.4.4"
   }
 }

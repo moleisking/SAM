@@ -71,11 +71,12 @@ export class RegisterFormComponent implements OnInit {
         this.myForm = this.formBuilder.group({
             username: ["", Validators.required],
             name: ["", Validators.required],
-            surname: ["", Validators.required],
-            passwords: this.formBuilder.group({
+            //surname: ["", Validators.required],
+            /*passwords: this.formBuilder.group({
                 pass: ["", [Validators.required, Validators.minLength(5)]],
                 repeat: ["", [Validators.required, Validators.minLength(5)]]
-            }, { validator: this.PasssAreEqual }),
+            }, { validator: this.PasssAreEqual }),*/
+            password: ["", [Validators.required, Validators.minLength(5)]],
             email: ["", Validators.required],
             category: ["", Validators.compose([Validators.pattern(regexPatterns.numbers), Validators.required])],
             tags: [""],

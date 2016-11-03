@@ -23,10 +23,10 @@ var transaction = new model("Transaction")
             },
             length: {
                 minimum: 1,
-                maximum: 20,
+                maximum: 2000,
                 messages: {
-                    tooShort: 'password is too short!',
-                    tooLong: 'password is too long!'
+                    tooShort: 'value is too low!',
+                    tooLong: 'value is too high!'
                 }
             }
         },

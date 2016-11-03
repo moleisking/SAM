@@ -17,7 +17,7 @@ export class UserService {
   ) { }
 
   register(user: UserModel, regLat: number, regLng: number): Observable<any> {
-    let body = "name=" + user.name + "&surname=" + user.surname + "&pass=" + user.passwords.pass
+    let body = "name=" + user.name + "&password=" + user.password
       + "&email=" + user.email + "&regLat=" + regLat + "&regLng=" + regLng + "&category=" + user.category
       + "&tags=" + user.tags + "&address=" + user.address + "&mobile=" + user.mobile + "&username=" + user.username;
 
@@ -33,7 +33,7 @@ export class UserService {
     let body = "description=" + profileform.description + "&address=" + profileform.address
       + "&mobile=" + profileform.mobile + "&image=" + image + "&dayRate=" + profileform.dayRate
       + "&hourRate=" + profileform.hourRate + "&curLat=" + profileform.curLat + "&curLng=" + profileform.curLng
-      + "&category=" + profileform.category + "&tags=" + profileform.tags + "&looking=" + profileform.looking;
+      + "&category=" + profileform.category + "&tags=" + profileform.tags + "&active=" + profileform.active; // "&looking=" + profileform.looking;
 
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));

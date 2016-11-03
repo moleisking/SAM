@@ -16,37 +16,26 @@ var user = new model("User")
             }
         }
     })
-    .attr('surname', {
-        validations: {
-            presence: {
-                message: 'Surname is required!'
-            }
-        }
-    })
-    .attr('pass', {
-        validations: {
-            presence: {
-                message: 'Password is required!'
-            },
-            length: {
-                minimum: 5,
-                messages: {
-                    tooShort: 'password is too short!'
-                }
-            }
-        },
-        // tags: ['private'] //this tags the accessibility as _private_ 
-    })
-    .attr('nameurl', {
+    .attr('url', {
         validations: {
             presence: {
                 message: 'Name Url is required!'
             }
         }
     })
-    .attr('admin')
-    .attr('email')
     .attr('description')
+    .attr('address', {
+        validations: {
+            presence: {
+                message: 'Address is required!'
+            }
+        }
+    })
+    .attr('type')
+    .attr('email')
+    .attr('image')
+    .attr('hourRate')
+    .attr('dayRate')
     .attr('regLat', {
         validations: {
             presence: {
@@ -82,15 +71,6 @@ var user = new model("User")
             }
         }
     })
-    .attr('tags')
-    .attr('address', {
-        validations: {
-            presence: {
-                message: 'Address is required!'
-            }
-        }
-    })
-    .attr('image')
     .attr('mobile', {
         validations: {
             presence: {
@@ -98,14 +78,57 @@ var user = new model("User")
             }
         }
     })
-    .attr('looking')
-    .attr('rating')
-    .attr('hourRate')
-    .attr('dayRate')
     .attr('credit')
+    .attr('active')
+    .attr('rating')
+    .attr('tags')    
     .attr('guid')
+    .attr('authenticated')   
+    .attr('timeStamp')
+    .attr('password', {
+        validations: {
+            presence: {
+                message: 'Password is required!'
+            },
+            length: {
+                minimum: 5,
+                messages: {
+                    tooShort: 'password is too short!'
+                }
+            }
+        }
+    });
+     /*
+    .attr('surname', {
+        validations: {
+            presence: {
+                message: 'Surname is required!'
+            }
+        })
     .attr('activated')
-    .attr('timeStamp');
+    .attr('looking')
+    .attr('nameurl', {
+        validations: {
+            presence: {
+                message: 'Name Url is required!'
+            }
+        }
+    })
+    .attr('pass', {
+        validations: {
+            presence: {
+                message: 'Password is required!'
+            },
+            length: {
+                minimum: 5,
+                messages: {
+                    tooShort: 'password is too short!'
+                }
+            }
+        },
+        // tags: ['private'] //this tags the accessibility as _private_ 
+    })
+     */
 
 module.exports = user;
 

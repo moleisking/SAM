@@ -16,8 +16,9 @@ export class AuthService {
   ) { }
 
   login(usercreds: UserModel): Observable<any> {
-    let body = "email=" + usercreds.email + "&pass=" + usercreds.passwords.pass;
-
+    //let body = "email=" + usercreds.email + "&pass=" + usercreds.passwords.pass;
+    let body = "email=" + usercreds.email + "&password=" + usercreds.password;
+    
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });
