@@ -27,7 +27,7 @@
 		<br> {{ errorMessages }}
 		<ul class="list-group">
 			<li class="list-group-item" *ngFor="let message of messagesList">
-				<a [routerLink]="['/messages', message.nameurl]">{{ message.name }}</a> - {{ message.text }}
+				<a [routerLink]="['/messages', message.url]">{{ message.name }}</a> - {{ message.text }}
 			</li>
 		</ul>
 	</tab>

@@ -61,7 +61,7 @@ module.exports = {
                     var contact = item.to === id ? item.from : item.to;
                     user.getUsernameByEmail(contact, function (err, data) {
                         item.name = data;
-                        item.nameurl = toURLString(data);
+                        item.url = toURLString(data);
                         if (result.length === 0)
                             result.push(item);
                         else {

@@ -140,7 +140,7 @@ module.exports = {
                     if (err)
                         return cb(err, null);
                     myCache.del(myCacheName + "readMyProfile" + email);
-                    myCache.del(myCacheName + "readUserProfile" + data.nameurl);
+                    myCache.del(myCacheName + "readUserProfile" + data.url);
                     myCache.del(myCacheName + "all");
                     return cb(null, data);
                 });
@@ -150,11 +150,11 @@ module.exports = {
         });
     },
 
-    getProfile: function (nameurl, locale, cb) {
+    getProfile: function (url, locale, cb) {
         util.translate(myLocals, locale);
-        if (nameurl === null || nameurl === undefined)
+        if (url === null || url === undefined)
             return cb(myLocals.translate("Must provide a valid name."), null);
-        myCache.get(myCacheName + "readUserProfile" + nameurl, function (err, value) {
+        myCache.get(myCacheName + "readUserProfile" + url, function (err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
@@ -164,7 +164,7 @@ module.exports = {
                     return cb(err, null);
                 var found = false;
                 data.forEach(function (item) {
-                    if (item.nameurl === nameurl) {
+                    if (item.url === url) {
                         found = true;
                         _read(item.email, function (err, readValue) {
                             if (err)
@@ -172,7 +172,7 @@ module.exports = {
                             delete readValue.password;
                             var profile = modelProfile.create();
                             profile.update(readValue);
-                            myCache.set(myCacheName + "readUserProfile" + nameurl, profile.toJSON(), function (err, success) {
+                            myCache.set(myCacheName + "readUserProfile" + url, profile.toJSON(), function (err, success) {
                                 if (err)
                                     return cb(err, null);
                                 if (success)
@@ -267,8 +267,8 @@ module.exports = {
         });
     },
 
-    getEmailByNameUrl: function (nameUrl, cb) {
-        var cachename = myCacheName + "getEmailByNameUrl" + nameUrl;
+    getEmailByNameUrl: function (url, cb) {
+        var cachename = myCacheName + "getEmailByNameUrl" + url;
         myCache.get(cachename, function (err, value) {
             if (err)
                 return cb(err, null);
@@ -278,8 +278,8 @@ module.exports = {
                 if (err)
                     return cb(err, null);
                 readValue.forEach(function (element) {
-                    if (element.nameurl == nameUrl)
-                        myCache.set(myCacheName + "getEmailByNameUrl" + nameUrl, element.email, function (err, success) {
+                    if (element.url == url)
+                        myCache.set(myCacheName + "getEmailByNameUrl" + url, element.email, function (err, success) {
                             if (err)
                                 return cb(err, null);
                             if (success)
@@ -308,7 +308,7 @@ module.exports = {
                     if (err)
                         return cb(err, null);
                     myCache.del(myCacheName + "readMyProfile" + email);
-                    myCache.del(myCacheName + "readUserProfile" + data.nameurl);
+                    myCache.del(myCacheName + "readUserProfile" + data.url);
                     myCache.del(myCacheName + "all");
                     emailer.email(configMail.fromText, configMail.from, email,
                         myLocalize.translate("Congrats, you have added $[1] euros to your credit. ", credit) +
@@ -346,7 +346,7 @@ module.exports = {
                     if (err)
                         return cb(err, null);
                     myCache.del(myCacheName + "readMyProfile" + email);
-                    myCache.del(myCacheName + "readUserProfile" + data.nameurl);
+                    myCache.del(myCacheName + "readUserProfile" + data.url);
                     myCache.del(myCacheName + "all");
                     emailer.email(configMail.fromText, configMail.from, email,
                         myLocalize.translate("Congrats, your account is been activated. "),

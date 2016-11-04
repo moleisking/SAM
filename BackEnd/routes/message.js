@@ -16,11 +16,11 @@ router.get("/readalllasts", passport.authenticate("jwt", { session: false }), fu
   });
 });
 
-router.get("/read/:nameUrl", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+router.get("/read/:url", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   util.translate(myLocals, req.query.locale);
-  if (!req.params.nameUrl)
+  if (!req.params.url)
     return res.status(400).json({ app_err: myLocals.translate("Please provide name url.") });
-  message.readWith(user.getEmailFromTokenUser(req.headers), req.params.nameUrl, req.query.locale, function (err, data) {
+  message.readWith(user.getEmailFromTokenUser(req.headers), req.params.url, req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
     res.json({ messages: data });

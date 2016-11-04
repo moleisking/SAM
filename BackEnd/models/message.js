@@ -31,6 +31,7 @@ var message = new model("Message")
             }
         }
     })
+    .attr('read')
     .attr('datestamp', {
         validations: {
             presence: {

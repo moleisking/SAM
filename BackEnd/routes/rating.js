@@ -18,22 +18,22 @@ router.post("/add", passport.authenticate("jwt", { session: false }), function (
   });
 });
 
-router.get("/readprofileauth/:nameUrl", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+router.get("/readprofileauth/:url", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   util.translate(myLocals, req.query.locale);
-  if (!req.params.nameUrl)
+  if (!req.params.url)
     return res.status(400).json({ app_err: myLocals.translate("Please provide name url.") });
-  rating.readProfileAuth(user.getEmailFromTokenUser(req.headers), req.params.nameUrl, req.query.locale, function (err, data) {
+  rating.readProfileAuth(user.getEmailFromTokenUser(req.headers), req.params.url, req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
     return res.json({ readprofile: data, myrating: data.myrating, average: data.average });
   });
 });
 
-router.get("/readprofile/:nameUrl", function (req, res, next) {
+router.get("/readprofile/:url", function (req, res, next) {
   util.translate(myLocals, req.query.locale);
-  if (!req.params.nameUrl)
+  if (!req.params.url)
     return res.status(400).json({ app_err: myLocals.translate("Please provide name url.") });
-  rating.readProfile(req.params.nameUrl, req.query.locale, function (err, data) {
+  rating.readProfile(req.params.url, req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
     return res.json({ readprofile: data, average: data.average });
