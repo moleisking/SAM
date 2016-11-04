@@ -1,44 +1,136 @@
 var JsonDB = require('node-json-db');
-var db = new JsonDB("SAM", true, false);
+var jsondb = new JsonDB("SAM", true, false);
 var _path = "/user";
+var config = require("../config/settings");
 
-var mongo = require('mongodb');
+var mongodb = require('mongodb').MongoClient;
 
 module.exports = {
 
     create: function (email, data, cb) {
-        //console.log("Create Function");
-        //console.log(email);
-        //console.log(data);
-        //console.log(cb);
-        try {
-            db.push(_path + "/" + email, data);
-            return cb(null, data);
-        } catch (error) {
-            return cb(error, null);
+        if (config.database == "nodedb")
+        {
+            console.log("Call -> nodedb:user:create");
+            try
+            {
+                jsondb.push(_path + "/" + email, data);
+                return cb(null, data);
+            }
+            catch (error)
+            {
+                return cb(error, null);
+            }
         }
+        else if (config.database == "mongodb")
+        { 
+            //Todo: finish this
+            //mongodb.connect(url, function(err, db) {
+            //assert.equal(null, err);
+            console.log("Connected correctly to mongodb server");                 
+            console.log(data);   
+            /*var insertDocuments = function(db, callback) {
+            // Get users collection 
+                var collection = mongodb.collection('users');
+                // Insert user 
+                collection.insert(
+                    {
+                        name: "Scott Johnston",
+                        url: "scott-johnston",
+                        description: "my description",
+                        address: "calle abades 16",
+                        email: "moleisking@gmail.com",
+                        mobile: "+3455512345",
+                        birthday:25/07/1979,
+                        image: "",
+                        hourRate: 20,
+                        dayRate: 300,
+                        regLat: 40.416775,
+                        regLng: -3.70379,
+                        curLat: 40.416775,
+                        curLng: -3.70379,
+                        credit: 100, 
+                        active: true
+                    }
+                , function(err, result) {
+                    assert.equal(err, null);               
+                    console.log("Inserted user into the user collection");
+                    callback(result);
+                });
+            }
+
+
+            mongodb.close();
+            });    */        
+        }   
     },
 
     read: function (email, cb) {
-        try {
-            //console.log("read email " + email);
-             //console.log("read cb " + cb);
-            var data = db.getData(_path + "/" + email);
-            return cb(null, data);
-        } catch (err) {
-            //console.log("user read catch error");
-            //console.log(err);
-            return cb(err, null);
-        }
+        if (config.database == "nodedb")
+        {
+            try {
+                //console.log("read email " + email);
+                //console.log("read cb " + cb);
+                var data = jsondb.getData(_path + "/" + email);
+                return cb(null, data);
+            } catch (err) {
+                //console.log("user read catch error");
+                //console.log(err);
+                return cb(err, null);
+            }
+        }     
+        else if (config.database == "mongodb")
+        { 
+
+            mongodb.connect(url, function(err, db) {
+            assert.equal(null, err);
+            console.log("Connected correctly to mongodb server");                 
+            console.log(data);   
+            var selectDocuments = function(db, callback) {
+            // Get users collection 
+                var collection = mongodb.collection('users');
+                // select user 
+                collection.find({ email: email }).toArray(function(err, data) {
+                    assert.equal(err, null);
+                    console.log("Found the following records");
+                    console.dir(data);
+                    return data;
+                });
+            }
+            mongodb.close();
+            });            
+        }   
     },
 
     all: function (cb) {
-        try {
-            var data = db.getData(_path);
-            return cb(null, data);
-        } catch (err) {
-            return cb(err, null);
-        }
+        if (config.database == "nodedb") {
+            try {
+                var data = jsondb.getData(_path);
+                return cb(null, data);
+            } catch (err) {
+                return cb(err, null);
+            }
+        } 
+        else if (config.database == "mongodb")
+        { 
+
+           mongodb.connect(url, function(err, db) {
+            assert.equal(null, err);
+            console.log("Connected correctly to mongodb server");                 
+            console.log(data);   
+            var selectDocuments = function(db, callback) {
+            // Get users collection 
+                var collection = mongodb.collection('users');
+                // select user 
+                collection.find({ email: email }).toArray(function(err, data) {
+                    assert.equal(err, null);
+                    console.log("Found the following records");
+                    console.dir(data);
+                    return data;
+                });
+            }
+            mongodb.close();
+            });            
+        }   
     },
 
     // delete: function (usernameurl, cb) {

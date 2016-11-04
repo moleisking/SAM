@@ -1,3 +1,5 @@
 module.exports = {
-  'secret': 'conchalalora'
+  'secret': 'conchalalora',
+  //'database': 'mongodb'
+  'database': 'nodedb'  
 };

@@ -80,6 +80,7 @@ var profile = new model("Profile")
             }
         }
     })
+    .attr('birthday')
     .attr('tags')   
     .attr('authenticated')
     .attr('timeStamp');

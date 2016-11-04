@@ -85,6 +85,7 @@ var user = new model("User")
     .attr('guid')
     .attr('authenticated')   
     .attr('timeStamp')
+    .attr('birthday')
     .attr('password', {
         validations: {
             presence: {
