@@ -168,7 +168,6 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
         if(categories.hasFile())
         {
             categories.loadFromFile();
-            categories.print();
             CategoriesAdapter adapter = new CategoriesAdapter(getActivity(), (ArrayList<Category>) categories.getCategoryList());
             //ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_category, R.id.txtItemCategory, categories.getCategoryStringArray());
             txtCategory.setAdapter(adapter);
