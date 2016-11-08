@@ -14,7 +14,7 @@ import { Categories } from "./components/categories";
 import { About } from "./components/about";
 import { ContactUs } from "./components/contactus";
 import { TermsConditions } from "./components/termsconditions";
-import { CookiePolicy } from "./components/cookiepolicy";
+import { PrivacyPolicyDataProtectionComponent } from "./components/privacypolicydataprotection";
 import { Profile } from "./components/profile";
 import { Messages } from "./components/messages";
 
@@ -81,7 +81,7 @@ if (Settings.prod)
         About,
         ContactUs,
         TermsConditions,
-        CookiePolicy,
+        PrivacyPolicyDataProtectionComponent,
         Profile,
         Messages,
 

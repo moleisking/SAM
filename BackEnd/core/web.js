@@ -48,17 +48,17 @@ module.exports = {
         });
     },
 
-    cookiePolicy: function (locale, cb) {
+    privacyPolicyDataProtection: function (locale, cb) {
         util.translate(myLocals, locale);
-        myCache.get(myCacheName + "cookiePolicy" + locale, function (err, value) {
+        myCache.get(myCacheName + "privacyPolicyDataProtection" + locale, function (err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _cookiePolicy(function (err, readValue) {
+            _privacyPolicyDataProtection(function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                myCache.set(myCacheName + "cookiePolicy" + locale, readValue, function (err, success) {
+                myCache.set(myCacheName + "privacyPolicyDataProtection" + locale, readValue, function (err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -72,7 +72,7 @@ module.exports = {
 
 function _about(cb) {
     try {
-        return cb(null, "About text is here from backend.");
+        return cb(null, "About text is here from backend. Please provide.");
     } catch (err) {
         return cb(err, null);
     };
@@ -86,9 +86,9 @@ function _termsConditions(cb) {
     };
 }
 
-function _cookiePolicy(cb) {
+function _privacyPolicyDataProtection(cb) {
     try {
-        return cb(null, "Cookie policy text is here from backend.");
+        return cb(null, myLocals.translate(myLocals.strings.privacypolicydataprotection));
     } catch (err) {
         return cb(err, null);
     };

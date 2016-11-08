@@ -24,9 +24,9 @@ export class WebService {
       .map((res: Response) => res.json().termsconditions).catch(this.handleError);
   }
 
-  cookiePolicy(): Observable<string> {
-    return this.http.get(Settings.backend_url + "/cookiepolicy?locale=" + this.trans.currentLang)
-      .map((res: Response) => res.json().cookiepolicy).catch(this.handleError);
+  privacyPolicyDataProtection(): Observable<string> {
+    return this.http.get(Settings.backend_url + "/privacypolicydataprotection?locale=" + this.trans.currentLang)
+      .map((res: Response) => res.json().privacypolicydataprotection).catch(this.handleError);
   }
 
   sendContactForm(form: any): Observable<any> {
