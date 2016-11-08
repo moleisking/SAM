@@ -23,7 +23,8 @@ export class AppComponent implements OnInit {
     // console.log(this.trans.currentLoader.prefix);
     this.supportedLangs = [
       { display: "English", value: "en" },
-      { display: "Español", value: "es" }
+      { display: "Español", value: "es" },
+      { display: "Italiano", value: "it" }
     ];
     this.selectLang(null, Settings.localization);
   }
