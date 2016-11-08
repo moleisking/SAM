@@ -26,18 +26,18 @@ export class RatingService {
             .map((res: Response) => res.json().add).catch(this.handleError);
     }
 
-    readProfileAuth(nameUrl: string): Observable<RatingModel> {
+    readProfileAuth(url: string): Observable<RatingModel> {
         let headers = new Headers();
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(Settings.backend_url + "/ratings/readProfileAuth/" + nameUrl
+        return this.http.get(Settings.backend_url + "/ratings/readProfileAuth/" + url
             + "?locale=" + this.trans.currentLang, options)
             .map((res: Response) => res.json()).catch(this.handleError);
     }
 
-    readProfile(nameUrl: string): Observable<RatingModel> {
-        return this.http.get(Settings.backend_url + "/ratings/readprofile/" + nameUrl
+    readProfile(url: string): Observable<RatingModel> {
+        return this.http.get(Settings.backend_url + "/ratings/readprofile/" + url
             + "?locale=" + this.trans.currentLang).map((res: Response) => res.json()).catch(this.handleError);
     }
 

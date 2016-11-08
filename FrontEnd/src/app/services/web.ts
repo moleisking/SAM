@@ -30,8 +30,10 @@ export class WebService {
   }
 
   sendContactForm(form: any): Observable<any> {
-    let creds = "name=" + form.name + /*"&surname=" + form.surname*/ + "&email=" + form.email
-      + "&message=" + form.notification;
+    let creds =
+      "name=" + form.name +
+      "&email=" + form.email +
+      "&message=" + form.notification;
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
 

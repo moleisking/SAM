@@ -33,7 +33,6 @@ export class Messages implements OnInit, OnDestroy {
     private image: string;
     private name: string;
     private url: string;
-    //private nameurl: string;
     private email: string;
     private messages: MessageModel[];
 
@@ -52,12 +51,10 @@ export class Messages implements OnInit, OnDestroy {
             this.getProfile$ = this.user.getProfile(id).subscribe(
                 profile => {
                     this.name = profile.name;
-                    //this.nameurl = profile.nameurl;
                     this.url = profile.url;
                     this.email = profile.email;
                     this.image = profile.image === "" ? this.defaultImage : profile.image;
                     this.trans.get("LoadingMessages").subscribe((res: string) => this.message = res);
-                    //this.messages$ = this.m.readWith(profile.nameurl).subscribe(
                     this.messages$ = this.m.readWith(profile.url).subscribe(
                         messages => {
                             messages.forEach(element => {
@@ -86,7 +83,6 @@ export class Messages implements OnInit, OnDestroy {
     }
 
     sendMessage(messageText: string) {
-        // if (!messageText || !this.email || this.email === "undefined" || !this.nameurl || this.nameurl === "undefined")
         if (!messageText || !this.email || this.email === "undefined" || !this.url || this.url === "undefined")
             this.trans.get("MessageNotValid").subscribe((res: string) => this.message = res);
         else if (messageText.length < 4 || messageText.length > 500)
@@ -96,7 +92,6 @@ export class Messages implements OnInit, OnDestroy {
 
             let model = new MessageModel();
             model.to = this.email;
-            // model.nameurl = this.nameurl;
             model.url = this.url;
             model.text = messageText;
 

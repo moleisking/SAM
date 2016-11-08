@@ -27,8 +27,6 @@
     "EmailRequired": "Una e-mail è richiesta.",
     "Name": "Nome",
     "NameRequired": "Un nome è richiesto.",
-    "Surname": "Cognome",
-    "SurnameRequired": "Un Cognome è richiesto.",
     "Password": "Password",
     "PasswordRequired": "Una Password di almeno 5 caratteri è richiesta.",
     "ConfirmPassword": "Conferma Password",
@@ -94,7 +92,7 @@
     "CodeAdded": "Codice inserito. Complimenti, adesso il tuo account è convalidato :)",
     "CodeReSent": "Codice inviato nuovamente...",
     "CodeReSentActivate": "Codice inviato nuovamente, adesso è possibile attivare il tuo account.",
-    "PetitionSend": "Richiesta inviata.",
+    "PasswordSend": "Password inviata.",
     "ErrorSendingEmail": "Errore nell'invio della e-mail.",
     "DoneForgottenPassword": "Ripristino password dimenticata eseguito con successo",
     "UserSentLoggedIn": "Utente diretto alla registrazione. Aspetta ...",
@@ -115,5 +113,11 @@
     "DoneSendRating": "Invio della valutazione eseguito.",
     "DoneSendMessage": "Messaggio inviato",
     "UserProfileSent": "Profilo utente inviato...",
-    "UserProfileSaved": "Profilo utente salvato."
+    "UserProfileSaved": "Profilo utente salvato.",
+    "ChangePassword": "Change password",
+    "OldPasswordHere": "Type old password here",
+    "NewPasswordHere": "Type new password here",
+    "ConfirmNewPassword": "Confirm new password here",
+    "ChangePasswordSent": "Change password sent...",
+    "ChangePasswordSaved": "Password changed."
 }

@@ -1,6 +1,7 @@
 var model = require("../models/user");
 var modelProfile = require("../models/profile");
 var userDAL = require("../dal/user");
+var imageDAL = require("../dal/image");
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var jwt = require("jwt-simple");
@@ -24,12 +25,11 @@ module.exports = {
         user.curLat(data.regLat);
         user.curLng(data.regLng);
         user.description("");
-        user.image("");
         user.dayRate(0);
         user.hourRate(0);
         user.credit(100);
         user.rating(0);
-        user.active(true);
+        user.looking(true);
         user.guid(getGuid());
         user.timeStamp(new Date().getTime());
         user.validate().then(function () {
@@ -41,7 +41,7 @@ module.exports = {
                     return cb(err, null);
                 myCache.del(myCacheName + "all");
                 emailer.email(configMail.fromText, configMail.from, data.email,
-                    data.name + /*" " + data.surname*/ + ", " + myLocals.translate("welcome to SAM") + ".<br />" +
+                    data.name + ", " + myLocals.translate("welcome to SAM") + ".<br />" +
                     myLocals.translate("To activate your email, please enter this code in the activation area in your dashboard: ") +
                     user.guid(), myLocals.translate("Welcome to SAM."),
                     function (err, status, body, headers) {
@@ -128,21 +128,25 @@ module.exports = {
                 return cb(err, null);
             var user = model.create();
             user.update(userData);
-            if (data.active === "true")
-                data.active = true;
+            if (data.looking === "true")
+                data.looking = true;
             else
-                data.active = false;
+                data.looking = false;
             user.update(data);
             user.validate().then(function () {
                 if (!user.isValid)
                     return cb(user.errors, null);
-                userDAL.create(email, user.toJSON(), function (err, data) {
+                imageDAL.create(email, data.image, function (err, dataImg) {
                     if (err)
                         return cb(err, null);
-                    myCache.del(myCacheName + "readMyProfile" + email);
-                    myCache.del(myCacheName + "readUserProfile" + data.url);
-                    myCache.del(myCacheName + "all");
-                    return cb(null, data);
+                    userDAL.create(email, user.toJSON(), function (err, data) {
+                        if (err)
+                            return cb(err, null);
+                        myCache.del(myCacheName + "readMyProfile" + email);
+                        myCache.del(myCacheName + "readUserProfile" + data.url);
+                        myCache.del(myCacheName + "all");
+                        return cb(null, data);
+                    });
                 });
             }).catch(function (err) {
                 return cb(err, null);
@@ -159,11 +163,11 @@ module.exports = {
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            module.exports.all(function (err, data) {
+            module.exports.all(function (err, users) {
                 if (err)
                     return cb(err, null);
                 var found = false;
-                data.forEach(function (item) {
+                users.forEach(function (item) {
                     if (item.url === url) {
                         found = true;
                         _read(item.email, function (err, readValue) {
@@ -172,12 +176,18 @@ module.exports = {
                             delete readValue.password;
                             var profile = modelProfile.create();
                             profile.update(readValue);
-                            myCache.set(myCacheName + "readUserProfile" + url, profile.toJSON(), function (err, success) {
-                                if (err)
+                            var data = profile.toJSON();
+                            imageDAL.read(data.email, function (err, img) {
+                                if (err && err.id != 5)
                                     return cb(err, null);
-                                if (success)
-                                    return cb(null, readValue);
-                                return cb("cache internal failure", null);
+                                data.image = img;
+                                myCache.set(myCacheName + "readUserProfile" + url, data, function (err, success) {
+                                    if (err)
+                                        return cb(err, null);
+                                    if (success)
+                                        return cb(null, data);
+                                    return cb("cache internal failure", null);
+                                });
                             });
                         });
                     }
@@ -200,17 +210,22 @@ module.exports = {
             _readProfile(email, function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                if (readValue.active === "true" || readValue.active === true)
-                    readValue.active === true
+                if (readValue.looking === "true" || readValue.looking === true)
+                    readValue.looking === true
                 else
-                    readValue.active === false
-                myCache.set(myCacheName + "readMyProfile" + email, readValue, function (err, success) {
-                    if (err)
+                    readValue.looking === false
+                imageDAL.read(email, function (err, value) {
+                    if (err && err.id != 5)
                         return cb(err, null);
-                    if (success)
-                        return cb(null, readValue);
-                    return cb("cache internal failure", null);
-                });
+                    readValue.image = value;
+                    myCache.set(myCacheName + "readMyProfile" + email, readValue, function (err, success) {
+                        if (err)
+                            return cb(err, null);
+                        if (success)
+                            return cb(null, readValue);
+                        return cb("cache internal failure", null);
+                    });
+                })
             });
         });
     },
@@ -226,7 +241,7 @@ module.exports = {
                 if (err)
                     return cb(err, null);
                 var result = readAll.filter(function (user) {
-                    if (user.category === data.category && parseFloat(user.credit) > 0 && user.active &&
+                    if (user.category === data.category && parseFloat(user.credit) > 0 && user.looking &&
                         ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) ||
                             (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
                     ) {
@@ -369,7 +384,7 @@ module.exports = {
             if (err)
                 return cb(err, null);
             emailer.email(configMail.fromText, configMail.from, data.email,
-                data.name + /*" " + data.surname */+ ", " + myLocals.translate("welcome to SAM") + ".<br />" +
+                data.name + ", " + myLocals.translate("welcome to SAM") + ".<br />" +
                 myLocals.translate("To activate your email, please enter this code in the activation area in your dashboard: ")
                 + data.guid, myLocals.translate("Welcome to SAM."),
                 function (err, status, body, headers) {
@@ -378,7 +393,34 @@ module.exports = {
                     return cb(null, data);
                 });
         });
-    }
+    },
+
+    changePassword: function (email, data, locale, cb) {
+        util.translate(myLocals, locale);
+        if (email === null)
+            return cb(myLocals.translate("Must provide a valid email."), null);
+        userDAL.read(email, function (err, userData) {
+            if (err)
+                return cb(err, null);
+            var user = model.create();
+            user.update(userData);
+            user.password(model.generateHash(data));
+            user.validate().then(function () {
+                if (!user.isValid)
+                    return cb(user.errors, null);
+                userDAL.create(email, user.toJSON(), function (err, data) {
+                    if (err)
+                        return cb(err, null);
+                    myCache.del(myCacheName + "readMyProfile" + email);
+                    myCache.del(myCacheName + "readUserProfile" + data.url);
+                    myCache.del(myCacheName + "all");
+                    return cb(null, data);
+                });
+            }).catch(function (err) {
+                return cb(err, null);
+            });
+        });
+    },
 }
 
 function _getToken(headers) {

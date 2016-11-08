@@ -25,6 +25,7 @@ export class Dashboard implements OnInit {
     private errorMessages: string;
     private messageCredit: string;
     private messageCode: string;
+    private messageChangePassword: string;
     private code: string;
 
     private usersList: UserModel[];
@@ -32,6 +33,10 @@ export class Dashboard implements OnInit {
     private messagesList: MessageModel[];
     private model: ProfileModel = new ProfileModel();
     private modelProfileForm: ProfileModel;
+
+    private password: string;
+    private newpassword: string;
+    private confirmpassword: string;
 
     constructor(
         private authService: AuthService,

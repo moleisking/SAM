@@ -3,31 +3,28 @@ var jsondb = new JsonDB("SAM", true, false);
 var _path = "/user";
 var config = require("../config/settings");
 
-var mongodb = require('mongodb').MongoClient;
+// var mongodb = require('mongodb').MongoClient;
+var mongodb = "";
 
 module.exports = {
 
     create: function (email, data, cb) {
-        if (config.database == "nodedb")
-        {
+        if (config.database == "nodedb") {
             console.log("Call -> nodedb:user:create");
-            try
-            {
-                jsondb.push(_path + "/" + email, data);
+            try {
+                jsondb.push(_path + "/" + email, data, true);
                 return cb(null, data);
             }
-            catch (error)
-            {
+            catch (error) {
                 return cb(error, null);
             }
         }
-        else if (config.database == "mongodb")
-        { 
+        else if (config.database == "mongodb") {
             //Todo: finish this
             //mongodb.connect(url, function(err, db) {
             //assert.equal(null, err);
-            console.log("Connected correctly to mongodb server");                 
-            console.log(data);   
+            console.log("Connected correctly to mongodb server");
+            console.log(data);
             /*var insertDocuments = function(db, callback) {
             // Get users collection 
                 var collection = mongodb.collection('users');
@@ -60,13 +57,12 @@ module.exports = {
 
 
             mongodb.close();
-            });    */        
-        }   
+            });    */
+        }
     },
 
     read: function (email, cb) {
-        if (config.database == "nodedb")
-        {
+        if (config.database == "nodedb") {
             try {
                 //console.log("read email " + email);
                 //console.log("read cb " + cb);
@@ -77,28 +73,27 @@ module.exports = {
                 //console.log(err);
                 return cb(err, null);
             }
-        }     
-        else if (config.database == "mongodb")
-        { 
+        }
+        else if (config.database == "mongodb") {
 
-            mongodb.connect(url, function(err, db) {
-            assert.equal(null, err);
-            console.log("Connected correctly to mongodb server");                 
-            console.log(data);   
-            var selectDocuments = function(db, callback) {
-            // Get users collection 
-                var collection = mongodb.collection('users');
-                // select user 
-                collection.find({ email: email }).toArray(function(err, data) {
-                    assert.equal(err, null);
-                    console.log("Found the following records");
-                    console.dir(data);
-                    return data;
-                });
-            }
-            mongodb.close();
-            });            
-        }   
+            mongodb.connect(url, function (err, db) {
+                assert.equal(null, err);
+                console.log("Connected correctly to mongodb server");
+                console.log(data);
+                var selectDocuments = function (db, callback) {
+                    // Get users collection 
+                    var collection = mongodb.collection('users');
+                    // select user 
+                    collection.find({ email: email }).toArray(function (err, data) {
+                        assert.equal(err, null);
+                        console.log("Found the following records");
+                        console.dir(data);
+                        return data;
+                    });
+                }
+                mongodb.close();
+            });
+        }
     },
 
     all: function (cb) {
@@ -109,28 +104,27 @@ module.exports = {
             } catch (err) {
                 return cb(err, null);
             }
-        } 
-        else if (config.database == "mongodb")
-        { 
+        }
+        else if (config.database == "mongodb") {
 
-           mongodb.connect(url, function(err, db) {
-            assert.equal(null, err);
-            console.log("Connected correctly to mongodb server");                 
-            console.log(data);   
-            var selectDocuments = function(db, callback) {
-            // Get users collection 
-                var collection = mongodb.collection('users');
-                // select user 
-                collection.find({ email: email }).toArray(function(err, data) {
-                    assert.equal(err, null);
-                    console.log("Found the following records");
-                    console.dir(data);
-                    return data;
-                });
-            }
-            mongodb.close();
-            });            
-        }   
+            mongodb.connect(url, function (err, db) {
+                assert.equal(null, err);
+                console.log("Connected correctly to mongodb server");
+                console.log(data);
+                var selectDocuments = function (db, callback) {
+                    // Get users collection 
+                    var collection = mongodb.collection('users');
+                    // select user 
+                    collection.find({ email: email }).toArray(function (err, data) {
+                        assert.equal(err, null);
+                        console.log("Found the following records");
+                        console.dir(data);
+                        return data;
+                    });
+                }
+                mongodb.close();
+            });
+        }
     },
 
     // delete: function (usernameurl, cb) {

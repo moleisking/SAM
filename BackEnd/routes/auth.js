@@ -14,23 +14,19 @@ require("../config/passport")(passport);
 
 router.post("/signup", function (req, res) {
   util.translate(myLocals, req.query.locale);
-  if (!req.body.username || !req.body.name || !req.body.email || !req.body.password || !req.body.regLat || !req.body.regLng || !req.body.category)
+  if (!req.body.username || !req.body.name || !req.body.email || !req.body.password || !req.body.regLat ||
+    !req.body.regLng || !req.body.category)
     return res.status(400).json({
-      app_err: myLocals.translate("Please, provide username, name, surname, email, password, coordenades and category.")
+      app_err: myLocals.translate("Please, provide username, name, email, password, coordenades and category.")
     });
   user.read(req.body.email, function (err, data) {
-    if (err && err.id != 5){
-       console.log("error id " + err);
-       return res.status(500).json({ err: "backend failed id 5 error" });
-      }
+    if (err && err.id != 5)
+      return res.status(500).json({ err });
     if (data)
-      return res.status(409).send({
-        app_err:
-        myLocals.translate("User already exists")
-      });
+      return res.status(409).send({ app_err: myLocals.translate("User already exists") });
     user.create(req.body, req.query.locale, function (err, data) {
       if (err)
-        return res.status(500).json({ err : "backend failed user create" });
+        return res.status(500).json({ err });
       res.status(201).json({ signup: data });
     });
   });
@@ -40,15 +36,15 @@ router.post("/authenticate", function (req, res) {
   util.translate(myLocals, req.query.locale);
   if (!req.body.email || !req.body.password)
     return res.status(400).json({ app_err: myLocals.translate("Please provide email and password.") });
-  user.read(req.body.email, function (err, user) {
+  user.read(req.body.email, function (err, data) {
     if (err && err.id != 5)
       return res.status(500).json({ err });
-    if (!user)
+    if (!data)
       return res.status(404).json({ app_err: myLocals.translate("Authentication failed.") });
-    if (!model.validPassword(req.body.password, user.password))
+    if (!model.validPassword(req.body.password, data.password))
       return res.status(403).json({ app_err: myLocals.translate("Authentication failed.") });
-    delete user.image;
-    var token = jwt.encode(user, config.secret);
+    delete data.image;
+    var token = jwt.encode(data, config.secret);
     res.json({ token: "JWT " + token });
   });
 });
@@ -77,6 +73,26 @@ router.post("/forgottenpassword", function (req, res) {
       if (err)
         return res.status(500).json({ err });
       res.json({ status, body, headers });
+    });
+  });
+});
+
+router.post("/changepassword", passport.authenticate("jwt", { session: false }), function (req, res) {
+  util.translate(myLocals, req.query.locale);
+  if (!req.body.oldpassword || !req.body.newpassword || !req.body.confirmpassword)
+    return res.status(400).json({ app_err: myLocals.translate("Please provide passwords to validate.") });
+  if (req.body.newpassword != req.body.confirmpassword)
+    return res.status(400).json({ app_err: myLocals.translate("New password and confirm password must be the same.") });
+  var email = user.getEmailFromTokenUser(req.headers);
+  user.read(email, function (err, data) {
+    if (err && err.id != 5)
+      return res.status(500).json({ err });
+    if (!data)
+      return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking password.") });
+    if (!model.validPassword(req.body.oldpassword, data.password))
+      return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking old password. Old password not valid.") });
+    user.changePassword(email, req.body.newpassword, req.query.locale, function (err, data) {
+      res.json({ changepassword: data });
     });
   });
 });

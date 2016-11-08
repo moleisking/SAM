@@ -21,7 +21,7 @@ router.post("/add", passport.authenticate("jwt", { session: false }), function (
 router.get("/readprofileauth/:url", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   util.translate(myLocals, req.query.locale);
   if (!req.params.url)
-    return res.status(400).json({ app_err: myLocals.translate("Please provide name url.") });
+    return res.status(400).json({ app_err: myLocals.translate("Please provide url.") });
   rating.readProfileAuth(user.getEmailFromTokenUser(req.headers), req.params.url, req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
@@ -32,7 +32,7 @@ router.get("/readprofileauth/:url", passport.authenticate("jwt", { session: fals
 router.get("/readprofile/:url", function (req, res, next) {
   util.translate(myLocals, req.query.locale);
   if (!req.params.url)
-    return res.status(400).json({ app_err: myLocals.translate("Please provide name url.") });
+    return res.status(400).json({ app_err: myLocals.translate("Please provide url.") });
   rating.readProfile(req.params.url, req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });

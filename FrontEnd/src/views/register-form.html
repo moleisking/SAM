@@ -14,20 +14,39 @@
                 {{ 'EmailRequired' | translate }}
             </small>
 		</div>
-		<div class="form-group">		
-			<label for="name">{{ 'Name' | translate }}</label>
-			<input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" />
-			<small [hidden]="myForm.controls.name.valid || myForm.controls.name.pristine" class="text-danger">
-                {{ 'Where' | translate }}
-            </small>					
-		</div>
 		<div class="form-group">
-			<label for="password">{{ 'Password' | translate }}</label>
-			<input type="text" class="form-control" formControlName="password" name="password" [(ngModel)]="password" minlength="5" />				
-			<small [hidden]="myForm.controls.password.valid || myForm.controls.password.pristine" class="text-danger">
-				{{ 'PasswordRequired' | translate }}
-			</small>
-		</div>		
+			<div class="col-md-12">
+				<label for="name">{{ 'Name' | translate }}</label>
+				<input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="name" />
+				<small [hidden]="myForm.controls.name.valid || myForm.controls.name.pristine" class="text-danger">
+                {{ 'Where' | translate }}
+            </small>
+			</div>
+		</div>
+		<div formGroupName="passwords">
+			<div class="form-group">
+				<div class="col-md-6">
+					<label for="password">{{ 'Password' | translate }}</label>
+					<input type="password" class="form-control" formControlName="password" name="password" [(ngModel)]="password" minlength="5"
+					/>
+					<small [hidden]="myForm.controls.passwords.controls.password.valid || myForm.controls.passwords.controls.password.pristine"
+						class="text-danger">
+						{{ 'PasswordRequired' | translate }}
+					</small>
+				</div>
+				<div class="col-md-6">
+					<label for="repeat">{{ 'ConfirmPassword' | translate }}</label>
+					<input type="password" class="form-control" formControlName="repeat" onpaste="return false" name="repeat" [(ngModel)]="repeat"
+						minlength="5" />
+					<small [hidden]="myForm.controls.passwords.controls.repeat.valid || myForm.controls.passwords.controls.repeat.pristine" class="text-danger">
+						{{ 'ConfirmPasswordRequired' | translate }}
+					</small>
+					<small [hidden]="!myForm.controls.passwords?.errors?.areEqual" class="text-danger">
+						{{ 'ConfirmPasswordSame' | translate }}
+					</small>
+				</div>
+			</div>
+		</div>
 		<div class="form-group" [class.GoogleInvisible]="!isGoogleVisible">
 			<label for="location">{{ 'Location' | translate }}</label>
 			<input type="text" class="form-control" id="location" placeholder="{{ 'WhereYouLive' | translate }}" />

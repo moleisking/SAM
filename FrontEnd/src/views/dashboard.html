@@ -8,7 +8,6 @@
 		<button (click)="logout()" class="pull-right">{{ 'Logout' | translate }}</button>
 	</div>
 </div>
-
 <tabset>
 	<tab title="{{ 'MyProfile' | translate }}">
 		<br>
@@ -19,7 +18,6 @@
 		<ul class="list-group">
 			<li class="list-group-item" *ngFor="let user of usersList">
 				<a [routerLink]="['/profile', user.url]">{{ user.url + ":" }}</a> {{ user.name }}
-				<!--  a [routerLink]="['/profile', user.nameurl]">{{ user.nameurl + ":" }}<> {{ user.name + " " + user.surname }} --> 
 			</li>
 		</ul>
 	</tab>
@@ -33,9 +31,11 @@
 	</tab>
 	<tab title="{{ 'Credit' | translate }}">
 		<div class="row">
-			<h4>
-				{{ 'Credit' | translate }}: &euro; {{ model.credit }}
-			</h4>
+			<div class="col-md-12">
+				<h4>
+					{{ 'Credit' | translate }}: &euro; {{ model.credit }}
+				</h4>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-8">
@@ -57,9 +57,11 @@
 	</tab>
 	<tab title="{{ 'ActivateAccount' | translate }}" *ngIf="!model.activated">
 		<div class="row">
-			<h4>
-				{{ 'Code' | translate }}:
-			</h4>
+			<div class="col-md-12">
+				<h4>
+					{{ 'Code' | translate }}:
+				</h4>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-8">
@@ -75,6 +77,9 @@
 				{{ messageCode }}
 			</div>
 		</div>
+	</tab>
+	<tab title="{{ 'ChangePassword' | translate }}">
+		<changepassword-form-component></changepassword-form-component>
 	</tab>
 </tabset>
 

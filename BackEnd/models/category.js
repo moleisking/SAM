@@ -15,12 +15,6 @@ var category = new model("Category")
             }
         }
     })
-    .attr('description', {
-        validations: {
-            presence: {
-                message: 'Category description is required!'
-            }
-        }
-    });
+    .attr('description');
 
 module.exports = category;

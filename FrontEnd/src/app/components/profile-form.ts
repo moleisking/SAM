@@ -55,14 +55,13 @@ export class ProfileFormComponent implements OnInit {
             category: [this.model.category,
             Validators.compose([Validators.pattern(regexPatterns.numbers), Validators.required])],
             tags: [this.model.tags],
-            active: [this.model.active]
-           /*looking: [this.model.looking]*/
+            looking: [this.model.looking]
         });
 
-        this.tags = this.cats.find(x => x.id === this.model.category).tags;
+        this.tags = this.cats.find(x => x.id == this.model.category).tags;
         this.model.tags.split(",").forEach(element => {
             if (element)
-                this.tagsActive.push(this.cats.find(e => e.id === this.model.category).tags
+                this.tagsActive.push(this.cats.find(e => e.id == this.model.category).tags
                     .find(e => e.id === +element));
         });
         this.tagsValue = this.model.tags;
@@ -119,7 +118,7 @@ export class ProfileFormComponent implements OnInit {
     onChangeCategory(value: number) {
         this.tagsValue = [];
         this.tagsActive = [];
-        this.tags = this.cats.find(x => x.id === value).tags;
+        this.tags = this.cats.find(x => x.id == value).tags;
         this.areTagsAvailable = this.tags.length > 0;
         this.mySelect.active = [];
     }

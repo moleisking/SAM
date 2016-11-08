@@ -27,8 +27,6 @@
     "EmailRequired": "Email ist erforderlich.",
     "Name": "Name",
     "NameRequired": "Name ist erforderlich.",
-    "Surname": "Surname",
-    "SurnameRequired": "Surname ist erforderlich.",
     "Password": "Password",
     "PasswordRequired": "Passwort erforderlich. Min. 5 Zeichen.",
     "ConfirmPassword": "Passwort bestätigen",
@@ -94,7 +92,7 @@
     "CodeAdded": "Code added. Now your account is validated. Enjoy :)",
     "CodeReSent": "Code resent...",
     "CodeReSentActivate": "Code resent. Now you can activate it.",
-    "PetitionSend": "Petition send.",
+    "PasswordSend": "Password send.",
     "ErrorSendingEmail": "Error sending email.",
     "DoneForgottenPassword": "Done forgotten password",
     "UserSentLoggedIn": "User sent to be logged in. Wait...",
@@ -115,5 +113,11 @@
     "DoneSendRating": "Done send rating",
     "DoneSendMessage": "Done send message",
     "UserProfileSent": "Benutzerprofil gesendet...",
-    "UserProfileSaved": "Benutzerprofil gespeichert."
+    "UserProfileSaved": "Benutzerprofil gespeichert.",
+    "ChangePassword": "Change password",
+    "OldPasswordHere": "Type old password here",
+    "NewPasswordHere": "Type new password here",
+    "ConfirmNewPassword": "Confirm new password here",
+    "ChangePasswordSent": "Change password sent...",
+    "ChangePasswordSaved": "Password changed."
 }

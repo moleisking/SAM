@@ -55,11 +55,11 @@ export class Profile implements OnInit, OnDestroy {
                     this.cat.all().subscribe(
                         c => {
                             this.cats = c;
-                            this.model.categoryName = this.cats.find(x => x.id === this.model.category).name;
+                            this.model.categoryName = this.cats.find(x => x.id == this.model.category).name;
                             let tags: string = "";
                             this.model.tags.split(",").forEach(element => {
                                 if (element)
-                                    tags += this.cats.find(e => e.id === this.model.category).tags
+                                    tags += this.cats.find(e => e.id == this.model.category).tags
                                         .find(e => e.id === +element).text + ", ";
                             });
                             this.model.tags = tags.substr(0, tags.length - 2);
@@ -70,7 +70,6 @@ export class Profile implements OnInit, OnDestroy {
                                     () => this.trans.get("DoneGetMyProfile")
                                         .subscribe((res: string) => console.log(res))
                                 );
-                                //this.r.readProfileAuth(profile.nameurl).subscribe(
                                 this.r.readProfileAuth(profile.url).subscribe(
                                     prof => {
                                         this.model.rating = prof.myrating;
@@ -83,7 +82,6 @@ export class Profile implements OnInit, OnDestroy {
                             }
                             else {
                                 this.itsMe = true; // for unlogged we use same logic as it were us.
-                                //this.r.readProfile(profile.nameurl).subscribe(
                                 this.r.readProfile(profile.url).subscribe(
                                     prof => this.model.average = prof.average,
                                     error => this.message = <any>error,
@@ -134,7 +132,6 @@ export class Profile implements OnInit, OnDestroy {
             let model = new MessageModel();
             model.to = this.model.email;
             model.url = this.model.url;
-            //  model.nameurl = this.model.nameurl;
             model.text = messageText;
 
             this.m.add(model).subscribe(

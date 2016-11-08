@@ -5,7 +5,7 @@ var myLocals = new Localize("localizations/emailer");
 
 module.exports = {
 
-    email: function (fromText, from, to, text, subject, cb) {
+    email: function(fromText, from, to, text, subject, cb) {
         var helper = require("sendgrid").mail;
         var from_email = new helper.Email(from, fromText);
         var to_email = new helper.Email(to);
@@ -19,7 +19,7 @@ module.exports = {
             body: mail.toJSON(),
         });
 
-        sg.API(request, function (err, response) {
+        sg.API(request, function(err, response) {
             console.log(response.statusCode);
             console.log(response.body);
             console.log(response.headers);
@@ -27,20 +27,20 @@ module.exports = {
         });
     },
 
-    forgottenpassword: function (to, pass, locale, cb) {
+    forgottenpassword: function(to, password, locale, cb) {
         util.translate(myLocals, locale);
         module.exports.email(myLocals.translate("SAM forgotten password"),
-            config.from, to, "<b>" + myLocals.translate("forgotten password") + " ✔</b> " + pass,
+            config.from, to, "<b>" + myLocals.translate("forgotten password") + " ✔</b> " + password,
             myLocals.translate("SAM forgotten password"), cb);
     },
 
-    sendContactForm: function (form, cb) {
-        form.message = form.name /*+ " " + form.surname */+ "<br />" + form.message;
+    sendContactForm: function(form, cb) {
+        form.message = form.name + "<br />" + form.message;
         module.exports.email("SAM Contact From", form.email, config.admin, form.message,
             myLocals.translate("SAM new Contact Us Form"), cb);
     },
 
-    newMessage: function (front, fromUrl, to, cb) {
+    newMessage: function(front, fromUrl, to, cb) {
         module.exports.email(myLocals.translate("SAM Messages"), config.from, to,
             "<b>" + myLocals.translate("New message") + "  ✔</b> <a href='" + front + "/messages/" +
             fromUrl + "'>" + myLocals.translate("Click here to see it") + "</a>.",

@@ -15,10 +15,11 @@ import { About } from "./components/about";
 import { ContactUs } from "./components/contactus";
 import { TermsConditions } from "./components/termsconditions";
 import { CookiePolicy } from "./components/cookiepolicy";
-import { ForgottenPassword } from "./components/forgottenpassword";
 import { Profile } from "./components/profile";
 import { Messages } from "./components/messages";
 
+import { ForgottenPasswordFormComponent } from "./components/forgottenpassword-form";
+import { ChangePasswordFormComponent } from "./components/changepassword-form";
 import { ContactUsFormComponent } from "./components/contactus-form";
 import { LoginFormComponent } from "./components/login-form";
 import { ProfileFormComponent } from "./components/profile-form";
@@ -81,10 +82,11 @@ if (Settings.prod)
         ContactUs,
         TermsConditions,
         CookiePolicy,
-        ForgottenPassword,
         Profile,
         Messages,
 
+        ForgottenPasswordFormComponent,
+        ChangePasswordFormComponent,
         ContactUsFormComponent,
         LoginFormComponent,
         ProfileFormComponent,

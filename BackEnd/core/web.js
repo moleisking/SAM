@@ -1,6 +1,9 @@
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "web";
+var util = require('../core/util');
+var Localize = require("localize");
+var myLocals = new Localize("localizations");
 
 module.exports = {
 
@@ -24,8 +27,9 @@ module.exports = {
         });
     },
 
-    termsConditions: function (cb) {
-        myCache.get(myCacheName + "termsConditions", function (err, value) {
+    termsConditions: function (locale, cb) {
+        util.translate(myLocals, locale);
+        myCache.get(myCacheName + "termsConditions" + locale, function (err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
@@ -33,7 +37,7 @@ module.exports = {
             _termsConditions(function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                myCache.set(myCacheName + "termsConditions", readValue, function (err, success) {
+                myCache.set(myCacheName + "termsConditions" + locale, readValue, function (err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -44,8 +48,9 @@ module.exports = {
         });
     },
 
-    cookiePolicy: function (cb) {
-        myCache.get(myCacheName + "cookiePolicy", function (err, value) {
+    cookiePolicy: function (locale, cb) {
+        util.translate(myLocals, locale);
+        myCache.get(myCacheName + "cookiePolicy" + locale, function (err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
@@ -53,7 +58,7 @@ module.exports = {
             _cookiePolicy(function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                myCache.set(myCacheName + "cookiePolicy", readValue, function (err, success) {
+                myCache.set(myCacheName + "cookiePolicy" + locale, readValue, function (err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -75,7 +80,7 @@ function _about(cb) {
 
 function _termsConditions(cb) {
     try {
-        return cb(null, "Terms & conditions text is here from backend.");
+        return cb(null, myLocals.translate(myLocals.strings.termsconditions));
     } catch (err) {
         return cb(err, null);
     };

@@ -22,7 +22,6 @@ export class MessageService {
         let options = new RequestOptions({ headers: headers });
         let body = "to=" + model.to + "&text=" + model.text + "&front=" + Settings.frontend_url
             + "&fromUrl=" + model.url;
-        //  + "&fromUrl=" + model.nameurl;
 
         return this.http.post(Settings.backend_url + "/messages/add?locale=" + this.trans.currentLang, body, options)
             .map((res: Response) => res.json().message).catch(this.handleError);

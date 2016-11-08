@@ -8,17 +8,17 @@ var modelTag = require("../models/tag");
 
 module.exports = {
 
-    all: function (cb) {
-        myCache.get(myCacheName + "allCategories", function (err, value) {
+    all: function (locale, cb) {
+        myCache.get(myCacheName + "allCategories" + locale, function (err, value) {
             if (err)
                 return cb(err, null);
             else
                 if (value == undefined)
-                    _all(function (err, readAll) {
+                    _all(locale, function (err, readAll) {
                         if (err)
                             return cb(err, null);
                         else
-                            myCache.set(myCacheName + "allCategories", readAll, function (err, success) {
+                            myCache.set(myCacheName + "allCategories" + locale, readAll, function (err, success) {
                                 if (err)
                                     return cb(err, null);
                                 if (success)
@@ -33,24 +33,28 @@ module.exports = {
     },
 }
 
-function _all(cb) {
+function _all(locale, cb) {
     try {
         catDAL.all(function (err, data) {
             if (err && (err.hasOwnProperty("id")))
                 return cb(err, null);
             var cats = [], c = 0;
             async.forEach(data, function (item, callback) {
+                console.log(locale)
                 var cat = modelCat.create();
-                cat.update(item);
+                cat.id(item.id);
+                cat.name(item[locale].name);
+                cat.description(item[locale].description);
                 cats.push(cat.toJSON());
                 var tags = [];
-                async.forEach(item.tags, function (itemT, callback) {
+                async.forEach(item[locale].tags, function (itemT, callback) {
                     var tag = modelTag.create();
                     tag.update(itemT);
                     tags.push(tag.toJSON());
                     callback();
                 }, function (err) {
-                    if (err) { return cb(err, null); }
+                    if (err)
+                        return cb(err, null);
                     console.log("Processing all tags completed of " + item.name);
                     cats[c].tags = tags;
                 });

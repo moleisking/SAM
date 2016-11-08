@@ -1,7 +1,7 @@
 var model = require('nodejs-model');
 var bCrypt = require('bcrypt-nodejs');
 
-var message = new model("Rating")
+var rating = new model("Rating")
     .attr('id', {
         validations: {
             presence: {
@@ -31,4 +31,4 @@ var message = new model("Rating")
         }
     });
 
-module.exports = message;
+module.exports = rating;

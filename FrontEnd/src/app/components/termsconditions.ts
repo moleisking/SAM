@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+
 import { WebService } from "../services/web";
 
 @Component({
@@ -10,7 +11,9 @@ export class TermsConditions implements OnInit {
 
     private message: string;
 
-    constructor(private web: WebService) {
+    constructor(
+        private web: WebService
+    ) {
         this.message = ""; // Here will come Terms & Conditions Text from backend.
     }
 

@@ -29,7 +29,6 @@ export class ContactUsFormComponent implements OnInit {
     ngOnInit() {
         this.myForm = this.formBuilder.group({
             name: ["", Validators.required],
-            //surname: ["", Validators.required],
             email: ["", Validators.required],
             notification: ["", Validators.required]
         });

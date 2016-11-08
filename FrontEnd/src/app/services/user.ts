@@ -7,6 +7,7 @@ import { TranslateService } from "ng2-translate";
 import { Settings } from "../config/settings";
 import { UserModel } from "../models/user";
 import { ProfileModel } from "../models/profile";
+import { ChangePasswordModel } from "../models/changepassword";
 
 @Injectable()
 export class UserService {
@@ -17,9 +18,17 @@ export class UserService {
   ) { }
 
   register(user: UserModel, regLat: number, regLng: number): Observable<any> {
-    let body = "name=" + user.name + "&password=" + user.password
-      + "&email=" + user.email + "&regLat=" + regLat + "&regLng=" + regLng + "&category=" + user.category
-      + "&tags=" + user.tags + "&address=" + user.address + "&mobile=" + user.mobile + "&username=" + user.username;
+    let body =
+      "name=" + user.name +
+      "&password=" + user.passwords.password +
+      "&email=" + user.email +
+      "&regLat=" + regLat +
+      "&regLng=" + regLng +
+      "&category=" + user.category +
+      "&tags=" + user.tags +
+      "&address=" + user.address +
+      "&mobile=" + user.mobile +
+      "&username=" + user.username;
 
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
@@ -30,10 +39,18 @@ export class UserService {
   }
 
   saveProfile(profileform: ProfileModel, image: string): Observable<any> {
-    let body = "description=" + profileform.description + "&address=" + profileform.address
-      + "&mobile=" + profileform.mobile + "&image=" + image + "&dayRate=" + profileform.dayRate
-      + "&hourRate=" + profileform.hourRate + "&curLat=" + profileform.curLat + "&curLng=" + profileform.curLng
-      + "&category=" + profileform.category + "&tags=" + profileform.tags + "&active=" + profileform.active; // "&looking=" + profileform.looking;
+    let body =
+      "description=" + profileform.description +
+      "&address=" + profileform.address +
+      "&mobile=" + profileform.mobile +
+      "&image=" + image +
+      "&dayRate=" + profileform.dayRate +
+      "&hourRate=" + profileform.hourRate +
+      "&curLat=" + profileform.curLat +
+      "&curLng=" + profileform.curLng +
+      "&category=" + profileform.category +
+      "&tags=" + profileform.tags +
+      "&looking=" + profileform.looking;
 
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
@@ -107,6 +124,21 @@ export class UserService {
 
     return this.http.get(Settings.backend_url + "/users/resendcode?locale=" + this.trans.currentLang, options)
       .map((res: Response) => res.json().resendcode).catch(this.handleError);
+  }
+
+  changePassword(passwordForm: ChangePasswordModel): Observable<any> {
+    console.log(passwordForm)
+    let body =
+      "oldpassword=" + passwordForm.oldpassword +
+      "&newpassword=" + passwordForm.newpassword +
+      "&confirmpassword=" + passwordForm.confirmpassword;
+
+    let headers = new Headers();
+    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+    return this.http.post(Settings.backend_url + "/changepassword?locale=" + this.trans.currentLang, body,
+      { headers: headers }).catch(this.handleError);
   }
 
   private extractData(res: Response) {

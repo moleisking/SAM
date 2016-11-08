@@ -9,7 +9,7 @@ import { CookiePolicy } from "../components/cookiepolicy";
 import { TermsConditions } from "../components/termsconditions";
 import { ContactUs } from "../components/contactus";
 import { Dashboard } from "../components/dashboard";
-import { ForgottenPassword } from "../components/forgottenpassword";
+import { ForgottenPasswordFormComponent } from "../components/forgottenpassword-form";
 import { Categories } from "../components/categories";
 import { Profile } from "../components/profile";
 import { Messages } from "../components/messages";
@@ -24,7 +24,7 @@ export const routes: Routes = [
   { path: "contactus", component: ContactUs },
   { path: "termsconditions", component: TermsConditions },
   { path: "cookiepolicy", component: CookiePolicy },
-  { path: "forgottenpassword", component: ForgottenPassword, canActivate: [RoutesManager] },
+  { path: "forgottenpassword", component: ForgottenPasswordFormComponent, canActivate: [RoutesManager] },
   { path: "messages/:id", component: Messages, canActivate: [RoutesManager] },
   { path: "profile/:id", component: Profile },
   { path: "", redirectTo: "/home", pathMatch: "full" }

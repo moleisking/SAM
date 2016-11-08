@@ -22,7 +22,6 @@
     "body-parser": "1.15.2",
     "coffee-script": "1.11.1",
     "express": "4.14.0",
-    "express-session": "1.14.1",
     "i18n": "0.8.3",
     "jwt-simple": "0.5.0",
     "localize": "0.4.7",
@@ -31,10 +30,9 @@
     "node-json-db": "0.7.3",
     "nodejs-model": "0.1.6",
     "passport": "0.3.2",
-    "passport-jwt": "2.1.0",
+    "passport-jwt": "2.2.0",
     "sendgrid": "4.7.1",
     "speakingurl": "10.0.0",
-    "swagger-express": "1.0.5",
-    "mongodb": "^1.4.4"
+    "swagger-express": "1.0.5"
   }
 }

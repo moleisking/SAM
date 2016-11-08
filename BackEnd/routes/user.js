@@ -37,7 +37,7 @@ router.get("/getmyprofile", passport.authenticate("jwt", { session: false }), fu
 router.get("/getprofile/:url", function (req, res, next) {
   util.translate(myLocals, req.query.locale);
   if (!req.params.url)
-    return res.status(400).json({ app_err: myLocals.translate("Please provide name url.") });
+    return res.status(400).json({ app_err: myLocals.translate("Please provide url.") });
   user.getProfile(req.params.url, req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
