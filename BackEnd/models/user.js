@@ -91,7 +91,7 @@ var user = new model("User")
             }
         }
     })
-    .attr('looking')
+    .attr('available')
     .attr('rating')
     .attr('hourRate')
     .attr('dayRate')

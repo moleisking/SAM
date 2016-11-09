@@ -50,7 +50,7 @@ export class UserService {
       "&curLng=" + profileform.curLng +
       "&category=" + profileform.category +
       "&tags=" + profileform.tags +
-      "&looking=" + profileform.looking;
+      "&available=" + profileform.available;
 
     let headers = new Headers();
     headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));

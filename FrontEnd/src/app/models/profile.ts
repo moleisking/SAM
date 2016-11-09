@@ -17,7 +17,7 @@ export class ProfileModel {
     categoryName: string;
     tags: string;
     average: number;
-    looking: boolean;
-    activated: boolean;
+    available: boolean;
+    activated: boolean;   
     birthday: string;
 }

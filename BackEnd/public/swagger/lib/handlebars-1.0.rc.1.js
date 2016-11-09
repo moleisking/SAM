@@ -1443,7 +1443,7 @@ Handlebars.JavaScriptCompiler = function() {};
     // On stack, before: value, ...
     // On stack, after: value[name], ...
     //
-    // Replace the value on the stack with the result of looking
+    // Replace the value on the stack with the result of available
     // up `name` on `value`
     lookup: function(name) {
       this.replaceStack(function(current) {
@@ -1456,7 +1456,7 @@ Handlebars.JavaScriptCompiler = function() {};
     // On stack, before: ...
     // On stack, after: data[id], ...
     //
-    // Push the result of looking up `id` on the current data
+    // Push the result of available up `id` on the current data
     lookupData: function(id) {
       this.pushStack(this.nameLookup('data', id, 'data'));
     },

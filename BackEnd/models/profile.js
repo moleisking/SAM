@@ -71,7 +71,7 @@ var profile = new model("Profile")
         }
     })
     .attr('credit')
-    .attr('looking')
+    .attr('available')
     .attr('category', {
         validations: {
             presence: {

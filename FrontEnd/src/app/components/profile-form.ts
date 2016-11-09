@@ -55,7 +55,7 @@ export class ProfileFormComponent implements OnInit {
             category: [this.model.category,
             Validators.compose([Validators.pattern(regexPatterns.numbers), Validators.required])],
             tags: [this.model.tags],
-            looking: [this.model.looking]
+            available: [this.model.available]
         });
 
         this.tags = this.cats.find(x => x.id == this.model.category).tags;

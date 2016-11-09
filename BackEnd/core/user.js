@@ -29,7 +29,7 @@ module.exports = {
         user.hourRate(0);
         user.credit(100);
         user.rating(0);
-        user.looking(true);
+        user.available(true);
         user.guid(getGuid());
         user.timeStamp(new Date().getTime());
         user.validate().then(function () {
@@ -128,10 +128,10 @@ module.exports = {
                 return cb(err, null);
             var user = model.create();
             user.update(userData);
-            if (data.looking === "true")
-                data.looking = true;
+            if (data.available === "true")
+                data.available = true;
             else
-                data.looking = false;
+                data.available = false;
             user.update(data);
             user.validate().then(function () {
                 if (!user.isValid)
@@ -210,10 +210,10 @@ module.exports = {
             _readProfile(email, function (err, readValue) {
                 if (err)
                     return cb(err, null);
-                if (readValue.looking === "true" || readValue.looking === true)
-                    readValue.looking === true
+                if (readValue.available === "true" || readValue.available === true)
+                    readValue.available === true
                 else
-                    readValue.looking === false
+                    readValue.available === false
                 imageDAL.read(email, function (err, value) {
                     if (err && err.id != 5)
                         return cb(err, null);
@@ -241,7 +241,7 @@ module.exports = {
                 if (err)
                     return cb(err, null);
                 var result = readAll.filter(function (user) {
-                    if (user.category === data.category && parseFloat(user.credit) > 0 && user.looking &&
+                    if (user.category === data.category && parseFloat(user.credit) > 0 && user.available &&
                         ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) ||
                             (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
                     ) {
