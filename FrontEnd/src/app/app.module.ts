@@ -38,6 +38,7 @@ import { OffClickDirective } from "ng2-select/components/select/off-click";
 import { HighlightPipe } from "ng2-select/components/select/select-pipes";
 import { TabsModule } from "ng2-tabs";
 import { RatingModule } from "ng2-rating";
+import { Ng2CompleterModule } from "ng2-completer";
 
 import { HttpModule, Http } from "@angular/http";
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from "ng2-translate";
@@ -57,6 +58,7 @@ if (Settings.prod)
         appRouterProvider,
         TabsModule,
         RatingModule,
+        Ng2CompleterModule,
         TranslateModule.forRoot({
             provide: TranslateLoader,
             useFactory: (http: Http) => new TranslateStaticLoader(http, "./localization", ".json"),

@@ -12,23 +12,21 @@ module.exports = {
         myCache.get(myCacheName + "allCategories" + locale, function (err, value) {
             if (err)
                 return cb(err, null);
-            else
-                if (value == undefined)
-                    _all(locale, function (err, readAll) {
+            else {
+                if (value != undefined)
+                    return cb(null, value);
+                _all(locale, function (err, readAll) {
+                    if (err)
+                        return cb(err, null);
+                    myCache.set(myCacheName + "allCategories" + locale, readAll, function (err, success) {
                         if (err)
                             return cb(err, null);
-                        else
-                            myCache.set(myCacheName + "allCategories" + locale, readAll, function (err, success) {
-                                if (err)
-                                    return cb(err, null);
-                                if (success)
-                                    return cb(null, readAll);
-                                else
-                                    return cb("cache internal failure", null);
-                            });
+                        if (success)
+                            return cb(null, readAll);
+                        return cb("cache internal failure", null);
                     });
-                else
-                    return cb(null, value);
+                });
+            }
         });
     },
 }
@@ -40,7 +38,6 @@ function _all(locale, cb) {
                 return cb(err, null);
             var cats = [], c = 0;
             async.forEach(data, function (item, callback) {
-                console.log(locale)
                 var cat = modelCat.create();
                 cat.id(item.id);
                 cat.name(item[locale].name);
@@ -55,13 +52,13 @@ function _all(locale, cb) {
                 }, function (err) {
                     if (err)
                         return cb(err, null);
-                    console.log("Processing all tags completed of " + item.name);
                     cats[c].tags = tags;
                 });
                 c++;
                 callback();
             }, function (err) {
-                if (err) { return cb(err, null); }
+                if (err)
+                    return cb(err, null);
                 console.log("Processing all categories completed");
                 return cb(null, cats);
             });

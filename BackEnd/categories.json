@@ -3,7 +3,11 @@
         {
             "id": 1,
             "en": {
-                "name": "artist",
+                "name": [
+                    "artist",
+                    "artistero",
+                    "artistillo"
+                ],
                 "description": "Category Artist",
                 "tags": [
                     {
@@ -21,7 +25,11 @@
                 ]
             },
             "es": {
-                "name": "artista",
+                "name": [
+                    "artista",
+                    "artistano",
+                    "artistete"
+                ],
                 "description": "Categoria de artista",
                 "tags": [
                     {
@@ -42,7 +50,11 @@
         {
             "id": 2,
             "en": {
-                "name": "builder",
+                "name": [
+                    "builder",
+                    "builderero",
+                    "builderillo"
+                ],
                 "description": "Category Builder",
                 "tags": [
                     {
@@ -60,7 +72,11 @@
                 ]
             },
             "es": {
-                "name": "Constructor",
+                "name": [
+                    "Constructor",
+                    "Constructero",
+                    "Constructillo"
+                ],
                 "description": "Categoria de constructor",
                 "tags": [
                     {
