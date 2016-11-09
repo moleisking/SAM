@@ -87,14 +87,14 @@ public class MessagesFragment extends Fragment implements ResponseAPI,ResponseMS
             conversation.print();
 
            //Define Conversation Messages
-           conversations = new Conversations(this.getActivity());
-           if (conversations.hasFile())
+           conversations = new Conversations();
+           if (conversations.hasFile(this.getActivity()))
            {
-               conversations.loadFromFile();
+               conversations.loadFromFile(this.getActivity());
            }
            else
            {
-               conversations = new Conversations(this.getActivity());
+               conversations = new Conversations();
            }
         }
         catch (Exception ex){Log.v("Messages:onCreateView",ex.getMessage());}
@@ -114,7 +114,7 @@ public class MessagesFragment extends Fragment implements ResponseAPI,ResponseMS
                 JSONObject myJson = new JSONObject(output).getJSONObject("add");
                 Message message = new Message(myJson.getString("to"), myJson.getString("from"), myJson.getString("text"), myJson.getLong("datestamp"));
                 conversations.find(users).getMessages().add(message);
-                conversations.saveToFile();
+                conversations.saveToFile(this.getActivity());
             }
             else if (output.contains("read"))
             {
@@ -141,7 +141,7 @@ public class MessagesFragment extends Fragment implements ResponseAPI,ResponseMS
             {
                 //New conversation needed
                 this.getMessages();
-                Conversation conversation = new Conversation(this.getActivity(), users );
+                Conversation conversation = new Conversation( users );
                 conversations.add(conversation);
                 Log.w("Messages:onCreateView", "New conversation started");
             }

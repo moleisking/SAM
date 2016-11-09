@@ -47,7 +47,7 @@ public class ProfileFragment extends Fragment implements ResponseAPI
         {
             Log.v("Profile:onCreate","Started");
             //Define Objects
-            user = new User(getActivity());
+            user = new User();
             user = (User)getActivity().getIntent().getSerializableExtra("User");
 
             imgProfile = (ImageView)ll.findViewById(R.id.imgProfile);

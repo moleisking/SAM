@@ -17,6 +17,7 @@ import java.util.TimerTask;
 import me.minitrabajo.R;
 import me.minitrabajo.model.Conversations;
 import me.minitrabajo.model.UserAccount;
+import me.minitrabajo.common.Utility;
 
 /**
  * Created by Scott on 21/10/2016.
@@ -116,8 +117,8 @@ public class LocalService extends Service {
 
         private void getMessages()
         {
-            userAccount = new UserAccount(context);
-            userAccount.loadFromFile();
+            //userAccount = new UserAccount();
+            userAccount =  (UserAccount) Utility.loadObject(getApplicationContext() ,UserAccount.USER_ACCOUNT_FILE_NAME);
             Log.v("LocalService:getMes","GET");
             String url = getResources().getString(R.string.url_get_messages);
             String parameters = "";
@@ -137,7 +138,7 @@ public class LocalService extends Service {
                 //Get JSON and add to object
                 if (output.contains("readalllasts"))
                 {
-                    conversations = new Conversations(context);
+                    conversations = new Conversations();
                     conversations.loadFromJSON(output, userAccount.getEmail());
                     conversations.print();
                     //conversations.saveToFile();

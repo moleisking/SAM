@@ -40,13 +40,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import me.minitrabajo.R;
+import me.minitrabajo.common.Utility;
 import me.minitrabajo.controller.GPS;
 import me.minitrabajo.controller.GetAPI;
 import me.minitrabajo.controller.PostAPI;
 import me.minitrabajo.controller.ResponseAPI;
 import me.minitrabajo.controller.ResponseGPS;
 import me.minitrabajo.model.Categories;
-import me.minitrabajo.model.User;
 import me.minitrabajo.model.UserAccount;
 
 //http://www.theappguruz.com/blog/android-take-photo-camera-gallery-code-sample
@@ -121,11 +121,13 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         }
 
-        categories = new Categories(this);
-        if(categories.hasFile())
+        categories = new Categories();
+        //if(categories.hasFile(getApplicationContext()))
+        if(!Utility.hasFile(this ,Categories.CATEGORIES_FILE_NAME))
         {
             Log.w("onCreate", "Categories load from file");
-            categories.loadFromFile();
+            //categories.loadFromFile(getApplicationContext());
+            categories =  (Categories)Utility.loadObject(this ,Categories.CATEGORIES_FILE_NAME);
         }
         else
         {
@@ -258,7 +260,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseAPI,R
 
     public void onRegisterClick(View view)
     {
-        UserAccount userAccount  = new UserAccount(this);
+        UserAccount userAccount  = new UserAccount();
         userAccount.setName(txtName.getText().toString());
         userAccount.setPassword(txtPassword.getText().toString());
         userAccount.setEmail(txtEmail.getText().toString());

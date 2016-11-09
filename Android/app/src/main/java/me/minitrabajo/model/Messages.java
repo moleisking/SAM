@@ -30,27 +30,24 @@ public class Messages implements Serializable {
 
     private static final long serialVersionUID = 8653577573642203229L;
     private static final String MESSAGE_FILE_NAME = "messages.dat";
-    private transient Context context;
+    //private transient Context context;
     private List<Message> messages;
 
-    public Messages (Context context)
+    public Messages ()
     {
-        this.context = context;
         this.messages = new ArrayList();
     }
 
-    public Messages(Context context, Message[] message)
+    public Messages( Message[] message)
     {
-        this.context= context;
         this.messages = new  ArrayList<Message>(1);
         for (int i =0; i < message.length;i++) {
             this.messages.add(message[i]);
         }
     }
 
-    public Messages (Context context, Messages messages)
+    public Messages ( Messages messages)
     {
-        this.context = context;
         this.messages = new  ArrayList<Message>();
         for (int i =0; i < messages.size();i++)
         {
@@ -186,18 +183,18 @@ public class Messages implements Serializable {
         receivedEmails.addAll(hs);
 
         //Build new Conversations
-        Conversations conversations = new Conversations(context);
-        conversations.add(new Conversation(context,new Users(context)));
+        Conversations conversations = new Conversations();
+        conversations.add(new Conversation(new Users()));
         for (int i = 0; i < receivedEmails.size(); i++)
         {
             String receivedEmail = receivedEmails.get(i).toString();
-            Conversation conversation = new Conversation(context);
+            Conversation conversation = new Conversation();
 
-            Users u = new Users(context);
+            Users u = new Users();
             u.add(new User(receivedEmail));
             u.add(new User( deviceEmail));
 
-            Messages m = new Messages(context);
+            Messages m = new Messages();
 
             for (int j = 0; j < this.messages.size(); j++)
             {
@@ -218,7 +215,7 @@ public class Messages implements Serializable {
         return conversations;
     }
 
-    public boolean hasFile()
+    public boolean hasFile(Context context)
     {
         boolean result = false;
         try
@@ -243,12 +240,12 @@ public class Messages implements Serializable {
         }
     }
 
-    public void deleteFile()
-    {
-        context.deleteFile(MESSAGE_FILE_NAME);
-    }
+    //public void deleteFile()
+    //{
+    //    context.deleteFile(MESSAGE_FILE_NAME);
+    //}
 
-    public void saveToFile()
+    public void saveToFile(Context context)
     {
         try
         {
@@ -288,7 +285,7 @@ public class Messages implements Serializable {
         return output;
     }
 
-    public void loadFromFile()
+    public void loadFromFile(Context context)
     {
         try
         {

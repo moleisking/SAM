@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import me.minitrabajo.R;
+import me.minitrabajo.common.Utility;
 import me.minitrabajo.controller.CategoriesAdapter;
 import me.minitrabajo.controller.GPS;
 import me.minitrabajo.controller.GetAPI;
@@ -75,11 +76,12 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
 
         try {
             //Define Objects
-            userAccount = new UserAccount(getActivity());
+            userAccount = new UserAccount();
             userAccount = ((MainActivity)getActivity()).getUserAccount();
 
-            categories = new Categories(this.getActivity());
-            categories.loadFromFile();
+            categories =  (Categories) Utility.loadObject (this.getActivity(),Categories.CATEGORIES_FILE_NAME);
+
+            //categories.loadFromFile(this.getActivity());
 
             //Start GPS
             currentLatLng = new LatLng(0.0d,0.0d);
@@ -276,7 +278,7 @@ public class AccountFragment extends Fragment implements ResponseAPI, ResponseGP
     public void onSaveClick(View view)
     {
         try {
-            UserAccount userAccount  = new UserAccount(this.getActivity());
+            UserAccount userAccount  = new UserAccount();
             userAccount.setName(txtName.getText().toString());
             userAccount.setPassword(txtPassword.getText().toString());
             userAccount.setEmail(txtEmail.getText().toString());

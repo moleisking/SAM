@@ -6,15 +6,11 @@ package me.minitrabajo.view;
  * V/Get:IOException: Unable to resolve host "minitrabajo.me": No address associated with hostname
 * */
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 //import android.support.v4.app.Fragment;
@@ -36,11 +32,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import me.minitrabajo.R;
+import me.minitrabajo.common.Utility;
 import me.minitrabajo.controller.GPS;
 import me.minitrabajo.controller.GetAPI;
 import me.minitrabajo.controller.ResponseAPI;
 import me.minitrabajo.controller.ResponseGPS;
 import me.minitrabajo.model.Categories;
+import me.minitrabajo.model.User;
 import me.minitrabajo.model.UserAccount;
 
 public class SettingFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener ,ResponseAPI, ResponseGPS
@@ -202,6 +200,15 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 }
             });
 
+            Preference prefTest = findPreference("pref_item_test");
+            prefTest.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.v("Setting:onTest","onTest()");
+                    onTest();
+                    return true;
+                }
+            });
+
             //About section
 
             Preference prefTermsAndConditions = findPreference("pref_item_terms_and_conditions");
@@ -262,7 +269,8 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 {
                     //Found profile
                     userAccount.loadFromJSON(output);
-                    userAccount.saveToFile();
+                    Utility.saveObject(this.getActivity(), userAccount);
+                    //userAccount.saveToFile(this.getActivity());
                     userAccount.print();
 
                     //Set Navigation Profile
@@ -276,7 +284,8 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 {
                     //Found category
                     categories.loadFromJSON(output);
-                    categories.saveToFile();
+                    Utility.saveObject(this.getActivity(),categories);
+                    //categories.saveToFile(this.getActivity());
                     categories.print();
 
                     //Communicate change to end users
@@ -442,25 +451,17 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         }
     }
 
-   /* protected void onTestClick()
+    protected void onTest()
     {
-        Log.v("Setting:onTestClick","Clicked");
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Run my test?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //Delete local file
-                        Toast.makeText(parentContext , "Yes clicked", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        Toast.makeText(parentContext , "No clicked", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .show();
-    }*/
+        try
+        {
+            User user = new User();
+        }
+        catch (Exception ex)
+        {
+            Toast.makeText(parentContext , "Error:" + ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
 
     protected void onUserAccountDelete()
     {

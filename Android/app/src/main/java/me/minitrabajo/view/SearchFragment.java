@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -26,17 +25,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import me.minitrabajo.R;
+import me.minitrabajo.common.Utility;
 import me.minitrabajo.controller.CategoriesAdapter;
 import me.minitrabajo.controller.GPS;
 import me.minitrabajo.controller.PostAPI;
 import me.minitrabajo.controller.ResponseAPI;
 import me.minitrabajo.controller.ResponseGPS;
-import me.minitrabajo.controller.TagsAdapter;
-import me.minitrabajo.controller.UsersAdapter;
 import me.minitrabajo.model.Categories;
 import me.minitrabajo.model.Category;
-import me.minitrabajo.model.Tag;
-import me.minitrabajo.model.User;
 import me.minitrabajo.model.UserAccount;
 import me.minitrabajo.model.Users;
 
@@ -64,7 +60,7 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
         Log.v("Search:OnCreate","Started");
 
         //Define account
-        userAccount = new UserAccount(getActivity());
+        userAccount = new UserAccount();
         userAccount = ((MainActivity)getActivity()).getUserAccount();
 
         //Define view
@@ -108,9 +104,8 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
         {
             //Get JSON and add to object
             JSONObject myJson = new JSONObject(output);
-            users = new Users(this.getActivity());
+            users = new Users();
             users.loadFromJSON( myJson.toString());
-
 
             if(users.size() == 0)
             {
@@ -125,7 +120,7 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
                 }
 
                 //Pass users to list, then load list
-                users.saveToFile();
+                Utility.saveObject(this.getActivity(), users);
 
                 //Move to list fragment
                 ((MainActivity)getActivity()).showResultsFragment();
@@ -164,10 +159,12 @@ public class SearchFragment extends Fragment implements ResponseAPI, ResponseGPS
     protected void fillCategory()
     {
         Log.w("Search:fillCategory", "Started");
-        categories = new Categories(this.getActivity());
-        if(categories.hasFile())
+        categories = new Categories();
+        //if(categories.hasFile(this.getActivity()))
+        if(Utility.hasFile(this.getActivity() ,Categories.CATEGORIES_FILE_NAME))
         {
-            categories.loadFromFile();
+            //categories.loadFromFile(this.getActivity());
+            categories =  (Categories)Utility.loadObject(this.getActivity() ,Categories.CATEGORIES_FILE_NAME);
             CategoriesAdapter adapter = new CategoriesAdapter(getActivity(), (ArrayList<Category>) categories.getCategoryList());
             //ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity().getApplicationContext(),  R.layout.row_category, R.id.txtItemCategory, categories.getCategoryStringArray());
             txtCategory.setAdapter(adapter);

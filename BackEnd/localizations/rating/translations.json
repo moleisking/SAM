@@ -1,16 +1,19 @@
 {
     "Please provide url.": {
         "es": "Por favor, provee url.",
+        "en": "Please provide url.",
         "it": "Por favor, provee url.",
         "de": "Bitte geben Sie den Namen der URL an."
     },
     "Please provide also id and number.": {
         "es": "Por favor, provee también id y número.",
+        "en": "Please provide also id and number.",
         "it": "Por favor, provee también id y número.",
         "de": "Bitte geben Sie eine ID und eine Nummer an."
     },
     "Must provide a valid id and from.": {
         "es": "Debe proveer un valido id y desde (from).",
+        "en": "Must provide a valid id and from.",
         "it": "Debe proveer un valido id y desde (from).",
         "de": "Debe proveer un valido id y desde (from)."
     }

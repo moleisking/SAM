@@ -1,41 +1,49 @@
 {
     "SAM forgotten password": {
         "es": "SAM contraseña olvidada",
+        "en": "SAM forgotten password",
         "it": "Benvenuti a SAM.",
         "de": "Willkommen bei SAM."
     },
     "forgotten password": {
         "es": "Contraseña olvidada",
+        "en": "forgotten password",
         "it": "Password dimenticata.",
         "de": "Passwort vergessen."
     },
     "SAM Contact From": {
         "es": "SAM formulario de contacto",
+        "en": "SAM Contact From",
         "it": "SAM contatto da.",
         "de": "SAM Kontakt Von."
     },
     "SAM new Contact Us Form": {
         "es": "SAM nuevo formulario Contáctanos",
+        "en": "SAM new Contact Us Form",
         "it": "SAM nuovo modulo di contatto.",
         "de": "SAM neu Kontaktformular."
     },
     "SAM Messages": {
         "es": "SAM mensajes.",
+        "en": "SAM Messages",
         "it": "SAM messaggio.",
         "de": "SAM Nachricht."
     },
     "New message": {
         "es": "Nuevo mensaje",
+        "en": "New message",
         "it": "nuovo messaggio.",
         "de": "neue Nachricht."
     },
     "Click here to see it": {
         "es": "Haz click aquí para verlo",
+        "en": "Click here to see it",
         "it": "Clicca qui per vederlo.",
         "de": "Klicken Sie hier, um es zu sehen."
     },
     "You got a new message": {
         "es": "Tienes un nuevo mensaje",
+        "en": "You got a new message",
         "it": "Hai un nuovo messaggio.",
         "de": "Sie haben eine neue Nachricht."
     }

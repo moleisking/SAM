@@ -26,9 +26,9 @@ import me.minitrabajo.view.RoundImage;
 public class User implements Serializable {
 		
 	private static final long serialVersionUID = -5964317817196182551L;
-	private String id = UUID.randomUUID().toString();
 	private int score = 0;
 	private int credit = 0;
+	private String id = UUID.randomUUID().toString();
 	private String name="";
 	private String mobile="";
 	private String email="";
@@ -37,6 +37,7 @@ public class User implements Serializable {
 	private String categoryId="";
 	private String tags="";
 	private String url="";
+	private String imageRaw = "";
 	private Double hourRate = 10d;
 	private Double dayRate = 200d;
 	private Double registeredLatitude = 40.431075;
@@ -44,14 +45,12 @@ public class User implements Serializable {
 	private Double currentLatitude = 40.431075;
 	private Double currentLongitude = -3.702203;
 	private Double distance = 0.0d;
-	private String imageRaw = "";
-	private transient Context context;
+
+	//private transient Context context;
 	private boolean accountStatus = false;
 
-	public User(Context context)
+	public User()
 	{
-		super();
-		this.context = context;
 	}
 
 	public User( String email)
@@ -61,7 +60,7 @@ public class User implements Serializable {
 
 	public User(String id, String name, String email)
 	{
-		this.id= id;
+		this.id = id;
 		this.name = name;
 		this.email = email;
 	}
@@ -87,7 +86,7 @@ public class User implements Serializable {
 	public User(String id, String imageRaw , String name, String url,  String description,  String email, String mobile, String address,
 				Double hourRate, Double dayRate, Double currentLatitude,  Double currentLongitude, Double registeredLatitude , Double registeredLongitude )
 	{
-		this.id= id;
+		this.id = id;
 		this.imageRaw = imageRaw;
 		this.name = name;
 		this.url = url;
@@ -309,10 +308,10 @@ public class User implements Serializable {
 		distance = R * c;
 	}
 
-	public void setContext(Context context)
-	{
-		this.context = context;
-	}
+	//public void setContext(Context context)
+	//{
+	//	this.context = context;
+	//}
 
 	public String getImageRaw()
 	{
@@ -477,7 +476,7 @@ public class User implements Serializable {
 
 			//this.id= data.getString("id");
 			this.name = data.getString("name");
-			this.url = data.getString("nameurl");
+			this.url = data.getString("url");
 			this.description = data.getString("description");
 			this.email = data.getString("email");
 			this.address = data.getString("address");

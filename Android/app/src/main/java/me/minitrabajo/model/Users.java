@@ -13,29 +13,27 @@ import org.json.JSONObject;
 
 public class Users implements Serializable  {
 
-	private static final String USERS_FILE_NAME = "users.dat";
+	public static final String USERS_FILE_NAME = "users.dat";
 	private static final long serialVersionUID = 8653566573642203221L;
 	private List<User> users;
-	private transient Context context;
+	//private transient Context context;
 	
-	public Users(Context context)
+	public Users()
 	{
-        this.context= context;
+        //this.context= context;
 		users = new  ArrayList<User>(0);
     }
 
-	public Users(Context context, User[] user)
+	public Users( User[] user)
 	{
-		this.context= context;
 		this.users = new  ArrayList<User>(2);
 		for (int i =0; i < user.length;i++) {
 			this.users.add(user[i]);
 		}
 	}
 
-	public Users (Context context, Users users)
+	public Users ( Users users)
 	{
-		this.context = context;
 		this.users = new  ArrayList<User>();
 		for (int i =0; i < users.size();i++)
 		{
@@ -50,7 +48,7 @@ public class Users implements Serializable  {
 
 	public boolean contains(User user)
 	{
-		Users users = new Users(context);
+		Users users = new Users();
 		users.add(user);
 		return contains(users);
 	}
@@ -147,7 +145,7 @@ public class Users implements Serializable  {
 		this.users = users;
 	}
 
-	public boolean hasFile()
+	/*public boolean hasFile(Context context)
 	{
 		boolean result = false;
 		try
@@ -170,7 +168,7 @@ public class Users implements Serializable  {
 		{
 			return result;
 		}
-	}
+	}*/
 
 	/*public void deleteFile()
 	{
@@ -220,7 +218,7 @@ public class Users implements Serializable  {
 
 	public Users getNonAccountUsers()
 	{
-		Users result = new Users(context);
+		Users result = new Users();
 
 		for (int i =0; i < users.size();i++)
 		{
@@ -277,23 +275,24 @@ public class Users implements Serializable  {
 	{
 		try
 		{
-			JSONArray users = new JSONObject(json).getJSONArray("users");
-			for(int i =0;i < users.length();i++)
+			JSONArray usersJson = new JSONObject(json).getJSONArray("users");
+			for(int i =0;i < usersJson.length();i++)
 			{
-				JSONObject userJSON = users.getJSONObject(i);
-				User user = new User(userJSON.getString("id"),
-                        userJSON.getString("image"),
-						userJSON.getString("name"),
-						userJSON.getString("description"),
-						userJSON.getString("email"),
-						userJSON.getString("mobile"),
-						userJSON.getString("address"),
-						Double.parseDouble(userJSON.getString("hourRate")),
-						Double.parseDouble(userJSON.getString("dayRate")),
-						Double.parseDouble(userJSON.getString("regLat")),
-						Double.parseDouble(userJSON.getString("regLng")),
-						Double.parseDouble(userJSON.getString("curLat")),
-						Double.parseDouble(userJSON.getString("curLng")));
+				JSONObject userJSON = usersJson.getJSONObject(i);
+				User user = new User();
+				try{user.setId(userJSON.getString("id"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setName(userJSON.getString("name"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setUrl(userJSON.getString("url"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setDescription(userJSON.getString("description"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setEmail(userJSON.getString("email"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setAddress(userJSON.getString("address"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setMobile(userJSON.getString("mobile"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setCategoryId(userJSON.getString("category"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setTags(userJSON.getString("tags"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setHourRate(Double.parseDouble(userJSON.getString("hourRate")));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setDayRate(Double.parseDouble(userJSON.getString("dayRate")));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setRegisteredLatLng(Double.parseDouble(userJSON.getString("regLat")), Double.parseDouble(userJSON.getString("regLng")));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
+				try{user.setImageRaw(userJSON.getString("image"));}catch (Exception e){Log.v("Users:JSON:err", e.getMessage());}
 				this.add(user);
 			}
 		}
@@ -303,7 +302,7 @@ public class Users implements Serializable  {
 		}
 	}
 
-	public void loadFromFile()
+	/*public void loadFromFile(Context context)
 	{
 		try
 		{
@@ -322,9 +321,9 @@ public class Users implements Serializable  {
 			Log.v("Users:loadFromFile",e.getMessage());
 			Log.v("Users:loadFromFile",e.getStackTrace().toString());
 		}
-	}
+	}*/
 
-	public void saveToFile()
+	/*public void saveToFile(Context context)
 	{
 		try
 		{
@@ -340,7 +339,7 @@ public class Users implements Serializable  {
 		{
 			Log.v("Users:saveToFile:Err",e.getMessage());
 		}
-	}
+	}*/
 
 	public void print()
 	{

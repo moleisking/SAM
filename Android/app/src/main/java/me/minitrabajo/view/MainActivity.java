@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
             fab = (FloatingActionButton)findViewById(R.id.fab);
 
             //Load user passed from login via file or token pass
-            userAccount = new UserAccount(this);
+            userAccount = new UserAccount();
             userAccount = (UserAccount) getIntent().getSerializableExtra("UserAccount");
 
             //Set View Header Fields
@@ -92,7 +92,9 @@ public class MainActivity extends AppCompatActivity
             txtDescription.setText(userAccount.getDescription());
 
             //Set default fragment
-            showResultsFragment();
+            //Todo:Check for users object
+            showSearchFragment();
+
 
             //Intent serviceIntent = new Intent(this, MessageService.class);
             //startService(new Intent(getBaseContext(), MessageService.class));

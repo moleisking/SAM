@@ -1,6 +1,5 @@
 package me.minitrabajo.controller;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -8,24 +7,14 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import me.minitrabajo.R;
-import me.minitrabajo.model.Conversation;
 import me.minitrabajo.model.Conversations;
-import me.minitrabajo.model.Message;
 import me.minitrabajo.model.UserAccount;
+import me.minitrabajo.common.Utility;
 
 /**
  * Created by Scott on 20/10/2016.
@@ -135,8 +124,8 @@ public class MessageService extends Service  {
 
         private void getMessages()
         {
-            userAccount = new UserAccount(context);
-            userAccount.loadFromFile();
+            //userAccount = new UserAccount();
+            userAccount =  (UserAccount) Utility.loadObject(getApplicationContext() ,UserAccount.USER_ACCOUNT_FILE_NAME);
             Log.v("MessageService","getMessages");
             String url = getResources().getString(R.string.url_get_messages);
             GetAPI asyncTask =new GetAPI(context);
@@ -152,14 +141,14 @@ public class MessageService extends Service  {
             try
             {
                 //Get user account
-                userAccount = new UserAccount(context);
-                userAccount.loadFromFile();
+                userAccount = new UserAccount();
+                userAccount =  (UserAccount) Utility.loadObject(getApplicationContext() ,UserAccount.USER_ACCOUNT_FILE_NAME);
 
                 //Get JSON and add to object
                 if (output.contains("readalllasts"))
                 {
                     Log.v("MessageService","Real latest");
-                    conversations = new Conversations(context);
+                    conversations = new Conversations();
                     conversations.loadFromJSON(output,userAccount.getEmail());
                     conversations.print();
 

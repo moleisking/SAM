@@ -7,33 +7,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.minitrabajo.R;
+import me.minitrabajo.common.Utility;
 import me.minitrabajo.controller.GetAPI;
 import me.minitrabajo.controller.PostAPI;
 import me.minitrabajo.controller.ResponseAPI;
@@ -61,48 +48,63 @@ public class LoginActivity extends AppCompatActivity implements  ResponseAPI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-        txtEmail = (AutoCompleteTextView) findViewById(R.id.txtEmail);
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
-        /*txtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    onLoginClick(txtPassword);
-                    return true;
+        try
+        {
+            mLoginFormView = findViewById(R.id.login_form);
+            mProgressView = findViewById(R.id.login_progress);
+            txtEmail = (AutoCompleteTextView) findViewById(R.id.txtEmail);
+            txtPassword = (EditText) findViewById(R.id.txtPassword);
+            /*txtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                    if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                        onLoginClick(txtPassword);
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
+            });*/
+            btnLogin = (Button) findViewById(R.id.btnLogin);
+
+            userAccount = new UserAccount();
+            categories = new Categories();
+            //txtEmail.setText("moleisking@gmail.com");
+            //txtPassword.setText("12345");
+            // if(!categories.hasFile(Categories.CATEGORIES_FILE_NAME))
+            if(!Utility.hasFile(this ,Categories.CATEGORIES_FILE_NAME))
+            {
+                Log.v("LoginActivity:onCreate","No category file found");
+                getCategories();
             }
-        });*/
-        btnLogin = (Button) findViewById(R.id.btnLogin);
+            else
+            {
+                categories = (Categories)Utility.loadObject(this ,Categories.CATEGORIES_FILE_NAME);
+                categories.print();
+            }
 
-        userAccount = new UserAccount(this);
-        categories = new Categories(this);
-
-        if(!categories.hasFile())
-        {
-            Log.v("LoginActivity:onCreate","No category file found");
-            getCategories();
+            //if(userAccount.hasFile(this))
+            if(Utility.hasFile(this, UserAccount.USER_ACCOUNT_FILE_NAME))
+            {
+                Log.v("LoginActivity:onCreate","File found");
+                userAccount =  (UserAccount) Utility.loadObject(getApplicationContext() ,UserAccount.USER_ACCOUNT_FILE_NAME);
+                userAccount.print();
+                if(userAccount.hasToken())
+                {
+                    //Already logged in go straight to main application
+                    Log.v("LoginActivity:onCreate","Token found");
+                    loadMainActivity();
+                }
+                if (userAccount !=  null && userAccount.getToken().equals("") && userAccount.getEmail().equals(""))
+                {
+                    //Check for corrupt file
+                    Log.v("LoginActivity:onCreate","Found corrupt file");
+                   deleteFile(userAccount.USER_ACCOUNT_FILE_NAME);
+                }
+            }
         }
-
-        if(userAccount.hasFile())
+        catch (Exception ex)
         {
-            Log.v("LoginActivity:onCreate","File found");
-            userAccount.loadFromFile();
-            userAccount.print();
-            if(userAccount.hasToken())
-            {
-                //Already logged in go straight to main application
-                Log.v("LoginActivity:onCreate","Token found");
-                loadMainActivity();
-            }
-            if (userAccount !=  null && userAccount.getToken().equals("") && userAccount.getEmail().equals(""))
-            {
-                //Check for corrupt file
-                Log.v("LoginActivity:onCreate","Found corrupt file");
-               deleteFile(userAccount.USER_ACCOUNT_FILE_NAME);
-            }
+            Log.v("Login:onCreate:Err",ex.getMessage());
         }
     }
 
@@ -281,7 +283,8 @@ public class LoginActivity extends AppCompatActivity implements  ResponseAPI
             {
                 Log.v("LoginActivity", "Profile download success");
                 userAccount.loadFromJSON(output);
-                userAccount.saveToFile();
+                Utility.saveObject(this, userAccount);
+               // userAccount.saveToFile(this);
                 loadMainActivity();
             }
             else if(header.contains("authentication failed"))
@@ -294,9 +297,10 @@ public class LoginActivity extends AppCompatActivity implements  ResponseAPI
             else if(header.contains("categories"))
             {
                 Log.v("LoginActivity", "Saving categories.");
-                Categories categories = new Categories(this);
+                Categories categories = new Categories();
                 categories.loadFromJSON(output);
-                categories.saveToFile();
+                Utility.saveObject(this,categories);
+                //categories.saveToFile(this);
             }
             else
             {
@@ -339,7 +343,7 @@ public class LoginActivity extends AppCompatActivity implements  ResponseAPI
     private void postAuthentication()
     {
         String url = getResources().getString(R.string.url_post_user_account_authenticate);
-        String parameters = "email=" + txtEmail.getText().toString() +"&pass=" + txtPassword.getText().toString();
+        String parameters = "email=" + txtEmail.getText().toString() +"&password=" + txtPassword.getText().toString();
         PostAPI asyncTask =new PostAPI(this);
         asyncTask.delegate = this;
         asyncTask.execute(url,parameters,"");

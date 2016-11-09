@@ -15,31 +15,28 @@ public class Conversation implements Serializable {
 
     private static final long serialVersionUID = 8653577983644503229L;
     private static String CONVERSATION_FILE_NAME = "conversation.dat";
-    private transient Context context;
+    //private transient Context context;
 
     private String id = UUID.randomUUID().toString();
     private Messages messages;
     private Users users;
 
-    public Conversation (Context context)
+    public Conversation ()
     {
-        this.context = context;
-        this.users = new Users(context,users);
-        this.messages = new Messages(context);
+        this.users = new Users(users);
+        this.messages = new Messages();
     }
 
-    public Conversation (Context context, Users users, Messages messages)
+    public Conversation ( Users users, Messages messages)
     {
-        this.context = context;
         this.messages = messages;
         this.users = users;
     }
 
-    public Conversation (Context context, Users users)
+    public Conversation ( Users users)
     {
-        this.context = context;
-        this.users = new Users(context,users);
-        this.messages = new Messages(context);
+        this.users = new Users(users);
+        this.messages = new Messages();
     }
 
     public String getId()

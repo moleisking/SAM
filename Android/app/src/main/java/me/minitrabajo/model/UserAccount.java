@@ -24,15 +24,14 @@ public class UserAccount extends User implements Serializable
 {
     private static final long serialVersionUID = 8653566573642203222L;
     public static final String USER_ACCOUNT_FILE_NAME = "user_account.dat";
-    private transient Context context;
+   // private transient Context context;
     private String token ="";
     private String password="";
 
-    public UserAccount(Context context)
+    public UserAccount()
     {
-        super(context);
         this.token = "";
-        this.context = context;
+        //this.context = context;
     }
 
     /* * *  PROPERTIES * * */
@@ -64,7 +63,7 @@ public class UserAccount extends User implements Serializable
         return token != null && !token.equals("") ? true : false;
     }
 
-    public boolean hasFile()
+    public boolean hasFile(Context context)
     {
         boolean result = false;
         try
@@ -138,15 +137,9 @@ public class UserAccount extends User implements Serializable
         return result;
     }
 
-    @Override
-    public void setContext(Context context)
-    {
-        this.context = context;
-    }
-
     public User getUser()
     {
-        User user = new User(context);
+        User user = new User();
         user.setId(this.getId());
         user.setName(this.getName());
         user.setUrl(this.getUrl());
@@ -182,7 +175,7 @@ public class UserAccount extends User implements Serializable
 
     /* * * SAVE FUNCTIONS * * */
 
-    public void saveToFile()
+   /* public void saveToFile(Context context)
     {
         try
         {
@@ -197,7 +190,7 @@ public class UserAccount extends User implements Serializable
         {
             Log.v("UserAccount:Save",e.getMessage());
         }
-    }
+    }*/
 
     @Override
     public String saveToString()
@@ -226,7 +219,7 @@ public class UserAccount extends User implements Serializable
 
     /* * * LOAD FUNCTIONS * * */
 
-    public void loadFromFile()
+   /* public void loadFromFile(Context context)
     {
         try
         {
@@ -258,7 +251,7 @@ public class UserAccount extends User implements Serializable
             Log.v("LoadUserAccount",e.getMessage());
             Log.v("LoadUserAccount",e.getStackTrace().toString());
         }
-    }
+    }*/
 
     @Override
     public void loadFromString( String str )
@@ -299,7 +292,7 @@ public class UserAccount extends User implements Serializable
             JSONObject data = new JSONObject(json).getJSONObject("myuser");
 
             try{this.setName(data.getString("name"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
-            try{this.setUrl(data.getString("nameurl"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
+            try{this.setUrl(data.getString("url"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
             try{this.setDescription(data.getString("description"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
             try{this.setEmail(data.getString("email"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}
             try{this.setAddress(data.getString("address"));}catch (Exception e){Log.v("UserAccount:JSON:err", e.getMessage());}

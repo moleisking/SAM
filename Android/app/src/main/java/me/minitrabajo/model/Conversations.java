@@ -27,19 +27,19 @@ import java.util.List;
 public class Conversations implements Serializable {
 
     private static final long serialVersionUID = 2553566873643403224L;
-    private static final String CONVERSATIONS_FILE_NAME = "conversations.dat";
-    private transient Context context;
+    public static final String CONVERSATIONS_FILE_NAME = "conversations.dat";
+    //private transient Context context;
     private List<Conversation> conversations;
 
-    public Conversations(Context context)
+    public Conversations()
     {
-        this.context = context;
+       // this.context = context;
         this.conversations = new ArrayList<Conversation>(1);
     }
 
-    public Conversations(Context context, Conversations conversations)
+    public Conversations( Conversations conversations)
     {
-        this.context = context;
+        //this.context = context;
         this.conversations = new ArrayList<Conversation>(1);
 
         //Assume adding of new conversations and messages
@@ -263,7 +263,7 @@ public class Conversations implements Serializable {
         });
     }
 
-    public boolean hasFile()
+    public boolean hasFile(Context context)
     {
         boolean result = false;
         try
@@ -317,7 +317,7 @@ public class Conversations implements Serializable {
     *   Save Functions
     * */
 
-    public void saveToFile()
+    public void saveToFile(Context context)
     {
         try
         {
@@ -361,7 +361,7 @@ public class Conversations implements Serializable {
     *   Load Functions
     * */
 
-    public void loadFromFile()
+    public void loadFromFile(Context context)
     {
         try
         {
@@ -409,7 +409,7 @@ public class Conversations implements Serializable {
                 if (json.substring(0,19).contains("read"))
                 {
                     JSONArray messagesJSON = new JSONObject(json).getJSONArray("read");
-                    Messages messages = new Messages(context);
+                    Messages messages = new Messages();
                     for (int i = 0; i < messagesJSON.length(); i++) {
                         JSONObject messageJSON = messagesJSON.getJSONObject(i);
                         Message message = new Message(messageJSON.getString("to"),messageJSON.getString("from"),messageJSON.getString("text"), messageJSON.getLong("timestamp") );
@@ -423,7 +423,7 @@ public class Conversations implements Serializable {
                 else if (json.substring(0,19).contains("readalllasts"))
                 {
                     JSONArray messagesJSON = new JSONObject(json).getJSONArray("readalllasts");
-                    Messages messages = new Messages(context);
+                    Messages messages = new Messages();
                     for (int i = 0; i < messagesJSON.length(); i++) {
                         JSONObject messageJSON = messagesJSON.getJSONObject(i);
                         Message message = new Message(messageJSON.getString("to"),messageJSON.getString("from"),messageJSON.getString("text"), messageJSON.getLong("timestamp") );

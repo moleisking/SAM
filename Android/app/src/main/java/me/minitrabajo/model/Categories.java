@@ -25,32 +25,28 @@ import java.util.List;
 public class Categories extends ArrayList implements Serializable
 {
     private static final long serialVersionUID = 8653566573642203224L;
-    public static final String CATEGORY_FILE_NAME = "categories.dat";
-    private transient Context context;
+    public static final String CATEGORIES_FILE_NAME = "categories.dat";
+    //private transient Context context;
     private List<Category> categories;
 
-    public Categories(Context context)
+    public Categories()
     {
-        this.context = context;
         this.categories = new ArrayList();
     }
 
     protected Category getCategory(int i)
     {
         return categories.get(i);
-        //return (Category)this.get(i);
     }
 
     public int size()
     {
         return categories.size();
-        //return this.size();
     }
 
     protected void add(Category c)
     {
         categories.add(c);
-        //this.add(c);
     }
 
     public List<Category> getCategoryList()
@@ -71,12 +67,6 @@ public class Categories extends ArrayList implements Serializable
             names[i] = categories.get(i).getName();
         }
 
-        /*String[] names = new String[this.size()];
-        for (int i = 0; i < this.size();i++ )
-        {
-            names[i] = ((Category)this.get(i)).getName();
-        }*/
-
         return names;
     }
 
@@ -86,12 +76,12 @@ public class Categories extends ArrayList implements Serializable
     }
 
 
-    public boolean hasFile()
+   /* public boolean hasFile(Context context)
     {
         boolean result = false;
         try
         {
-            File file = context.getFileStreamPath(CATEGORY_FILE_NAME);
+            File file = context.getFileStreamPath(CATEGORIES_FILE_NAME);
             if(file == null || !file.exists()) {
                 result= false;
             }
@@ -109,7 +99,7 @@ public class Categories extends ArrayList implements Serializable
         {
             return result;
         }
-    }
+    }*/
 
    /* public void deleteFile()
     {
@@ -129,15 +119,6 @@ public class Categories extends ArrayList implements Serializable
             }
         }
 
-       /*for (int i =0; i < this.size();i++)
-        {
-            if (((Category)this.get(i)).getName().equals(name))
-            {
-                result = (Category)this.get(i);
-                break;
-            }
-        }*/
-
         return result;
     }
 
@@ -145,11 +126,11 @@ public class Categories extends ArrayList implements Serializable
     *   Save Functions
     * */
 
-    public void saveToFile()
+   /* public void saveToFile(Context context)
     {
         try
         {
-            FileOutputStream fos = context.openFileOutput(CATEGORY_FILE_NAME , Context.MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput(CATEGORIES_FILE_NAME , Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(this);
             os.close();
@@ -159,7 +140,7 @@ public class Categories extends ArrayList implements Serializable
         {
             Log.v("Categories:Save",e.getMessage());
         }
-    }
+    }*/
 
     public String saveToString()
     {
@@ -189,12 +170,12 @@ public class Categories extends ArrayList implements Serializable
     *   Load Functions
     * */
 
-    public void loadFromFile()
+    /*public void loadFromFile(Context context)
     {
         try
         {
             //Read file
-            FileInputStream fis = context.openFileInput(CATEGORY_FILE_NAME);
+            FileInputStream fis = context.openFileInput(CATEGORIES_FILE_NAME);
             ObjectInputStream is = new ObjectInputStream(fis);
             Categories cc = (Categories) is.readObject();
             is.close();
@@ -218,7 +199,7 @@ public class Categories extends ArrayList implements Serializable
             this.add(cc);
         }
 
-    }
+    }*/
 
     public void loadFromString( String str )
     {
@@ -283,22 +264,6 @@ public class Categories extends ArrayList implements Serializable
             }
         } catch (Exception ex){Log.v("Categories:Err:print", ex.getMessage());}
 
-        /*try{
-            Log.v("Categories", "Object");
-            Log.v("Categories Size", String.valueOf(this.size()));
-            for(int i = 0; i < this.size(); i++)
-            {
-                Log.v("Category" ,  ((Category)this.get(i)).getID() +":"+ ((Category)this.get(i)).getName());
-                List<Tag> tags = ((Category)this.get(i)).getArrayList();
-                Log.v("Tag Size" , String.valueOf(tags.size()));
-                if (i==3){break;}
-                for(int j = 0; j < tags.size(); j++)
-                {
-                    Log.v("Tag" ,  tags.get(j).getID() +":"+ tags.get(j).getText());
-                    if (j==3){break;}
-                }
-            }
-        } catch (Exception ex){Log.v("Categories:Err:print", ex.getMessage());}*/
     }
 
 }

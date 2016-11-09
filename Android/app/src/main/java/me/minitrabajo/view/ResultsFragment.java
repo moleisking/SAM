@@ -13,11 +13,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import me.minitrabajo.R;
+import me.minitrabajo.common.Utility;
 import me.minitrabajo.controller.UsersAdapter;
 import me.minitrabajo.model.User;
 import me.minitrabajo.model.Users;
@@ -42,8 +40,8 @@ public class ResultsFragment extends Fragment {
         listView.setOnItemClickListener(new ItemList());
 
         //Get List Data
-        users = new Users(this.getActivity());
-        users.loadFromFile();
+        users =  (Users) Utility.loadObject(this.getActivity() ,Users.USERS_FILE_NAME);
+        //users.loadFromFile(this.getActivity());
         users.print();
 
         //Fill ListView with Data

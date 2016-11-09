@@ -1,7 +1,7 @@
 export interface UserModel {
     username: string;
     name: string;
-    passwords: any;
+    password: any;
     email: string;
     mobile: string;
     address: string;

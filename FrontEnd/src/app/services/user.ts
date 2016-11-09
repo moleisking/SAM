@@ -20,7 +20,7 @@ export class UserService {
   register(user: UserModel, regLat: number, regLng: number): Observable<any> {
     let body =
       "name=" + user.name +
-      "&password=" + user.passwords.password +
+      "&password=" + user.password +
       "&email=" + user.email +
       "&regLat=" + regLat +
       "&regLng=" + regLng +
