@@ -1,19 +1,20 @@
 var model = require("../models/message");
 var user = require("./user");
 var dal = require("../dal/message");
-var toURLString = require('speakingurl');
+var toURLString = require("speakingurl");
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "message";
 var emailer = require("./emailer");
-var util = require('./util');
+var util = require("./util");
 var Localize = require("localize");
 var myLocals = new Localize("localizations/message");
+var config = require("../config/settings");
 
 module.exports = {
 
     create: function (from, data, cb) {
-        var front = data.front;
+        var frontEndUrl = config.frontEndUrl;
         var fromUrl = data.fromUrl;
         var message = model.create();
         message.from(from);
@@ -28,7 +29,7 @@ module.exports = {
                 myCache.del(myCacheName + "allLasts" + data.from);
                 myCache.del(myCacheName + "allWith" + data.from + data.to);
                 myCache.del(myCacheName + "allWith" + data.to + data.from);
-                emailer.newMessage(front, fromUrl, data.to, function (err, statusCode, body, headers) {
+                emailer.newMessage(frontEndUrl, fromUrl, data.to, function (err, statusCode, body, headers) {
                     if (err)
                         return cb(err, null);
                     return cb(null, data);

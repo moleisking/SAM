@@ -29,7 +29,7 @@ router.get("/read/:url", passport.authenticate("jwt", { session: false }), funct
 
 router.post("/add", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   util.translate(myLocals, req.query.locale);
-  if (!req.body.to || !req.body.text || !req.body.front || !req.body.fromUrl)
+  if (!req.body.to || !req.body.text || !req.body.fromUrl)
     return res.status(400).json({
       app_err:
       myLocals.translate("Please provide front name to show on the email, url from name, to and text.")

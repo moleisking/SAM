@@ -20,8 +20,10 @@ export class MessageService {
         headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         let options = new RequestOptions({ headers: headers });
-        let body = "to=" + model.to + "&text=" + model.text + "&front=" + Settings.frontend_url
-            + "&fromUrl=" + model.url;
+        let body =
+            "to=" + model.to +
+            "&text=" + model.text +
+            "&fromUrl=" + model.url;
 
         return this.http.post(Settings.backend_url + "/messages/add?locale=" + this.trans.currentLang, body, options)
             .map((res: Response) => res.json().message).catch(this.handleError);
