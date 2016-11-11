@@ -3,7 +3,7 @@
 		<img [src]="image" alt="" class="img-rounded img-responsive" />
 	</div>
 	<div class="col-md-8">
-		<form [formGroup]="myForm" novalidate>
+		<form [formGroup]="myForm" novalidate (submit)="save()">
 			<div class="form-group">
 				<label for="image">{{ 'Image' | translate }}</label>
 				<input type="file" class="form-control" id="image" name="image" />
@@ -57,8 +57,8 @@
 					{{ 'ActivelyLookingWork' | translate }}
 				</label>
 			</div>
-			<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="save()">{{ 'Save' | translate }}</button>
 			<p>{{ message }}</p>
+			<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">{{ 'Save' | translate }}</button>
 			<input type="hidden" formControlName="curLat" name="curLat" [(ngModel)]="model.curLat" #lat>
 			<input type="hidden" formControlName="curLng" name="curLng" [(ngModel)]="model.curLng" #lng>
 		</form>

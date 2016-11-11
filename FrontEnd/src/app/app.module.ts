@@ -18,6 +18,7 @@ import { PrivacyPolicyDataProtectionComponent } from "./components/privacypolicy
 import { Profile } from "./components/profile";
 import { Messages } from "./components/messages";
 
+import { ForgottenPasswordComponent } from "./components/forgottenpassword";
 import { ForgottenPasswordFormComponent } from "./components/forgottenpassword-form";
 import { ChangePasswordFormComponent } from "./components/changepassword-form";
 import { ContactUsFormComponent } from "./components/contactus-form";
@@ -85,6 +86,7 @@ if (Settings.prod)
         Profile,
         Messages,
 
+        ForgottenPasswordComponent,
         ForgottenPasswordFormComponent,
         ChangePasswordFormComponent,
         ContactUsFormComponent,

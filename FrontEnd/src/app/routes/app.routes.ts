@@ -9,6 +9,7 @@ import { PrivacyPolicyDataProtectionComponent } from "../components/privacypolic
 import { TermsConditions } from "../components/termsconditions";
 import { ContactUs } from "../components/contactus";
 import { Dashboard } from "../components/dashboard";
+import { ForgottenPasswordComponent } from "../components/forgottenpassword";
 import { ForgottenPasswordFormComponent } from "../components/forgottenpassword-form";
 import { Categories } from "../components/categories";
 import { Profile } from "../components/profile";
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: "termsconditions", component: TermsConditions },
   { path: "privacypolicydataprotection", component: PrivacyPolicyDataProtectionComponent },
   { path: "forgottenpassword", component: ForgottenPasswordFormComponent, canActivate: [RoutesManager] },
+  { path: "forgottenpassword/:id", component: ForgottenPasswordComponent, canActivate: [RoutesManager] },
   { path: "messages/:id", component: Messages, canActivate: [RoutesManager] },
   { path: "profile/:id", component: Profile },
   { path: "", redirectTo: "/home", pathMatch: "full" }

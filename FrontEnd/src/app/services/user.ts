@@ -127,7 +127,12 @@ export class UserService {
   }
 
   changePassword(passwordForm: ChangePasswordModel): Observable<any> {
-    console.log(passwordForm)
+    if (passwordForm.newpassword !== passwordForm.confirmpassword) {
+      let errorMsg: string;
+      this.trans.get("ConfirmPasswordSame").subscribe((res: string) => errorMsg = res);
+      return Observable.throw(errorMsg);
+    }
+
     let body =
       "oldpassword=" + passwordForm.oldpassword +
       "&newpassword=" + passwordForm.newpassword +
@@ -138,6 +143,25 @@ export class UserService {
     headers.append("Content-Type", "application/x-www-form-urlencoded");
 
     return this.http.post(Settings.backend_url + "/changepassword?locale=" + this.trans.currentLang, body,
+      { headers: headers }).catch(this.handleError);
+  }
+
+  changeForgottenPassword(passwordForm: ChangePasswordModel): Observable<any> {
+    if (passwordForm.newpassword !== passwordForm.confirmpassword) {
+      let errorMsg: string;
+      this.trans.get("ConfirmPasswordSame").subscribe((res: string) => errorMsg = res);
+      return Observable.throw(errorMsg);
+    }
+
+    let body =
+      "oldpassword=" + passwordForm.oldpassword +
+      "&newpassword=" + passwordForm.newpassword +
+      "&confirmpassword=" + passwordForm.confirmpassword;
+
+    let headers = new Headers();
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+    return this.http.post(Settings.backend_url + "/changeforgottenpassword?locale=" + this.trans.currentLang, body,
       { headers: headers }).catch(this.handleError);
   }
 

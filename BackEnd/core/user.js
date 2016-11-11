@@ -306,6 +306,30 @@ module.exports = {
         });
     },
 
+    getEmailByGuid: function (guid, cb) {
+        var cachename = myCacheName + "getEmailByGuid" + guid;
+        myCache.get(cachename, function (err, value) {
+            if (err)
+                return cb(err, null);
+            if (value != undefined)
+                return cb(null, value);
+            _all(function (err, readValue) {
+                if (err)
+                    return cb(err, null);
+                readValue.forEach(function (element) {
+                    if (element.guid.replace(/-/g, "") == guid)
+                        myCache.set(myCacheName + "getEmailByGuid" + guid, element.email, function (err, success) {
+                            if (err)
+                                return cb(err, null);
+                            if (success)
+                                return cb(null, element.email);
+                            return cb("cache internal failure", null);
+                        });
+                }, this);
+            });
+        });
+    },
+
     addCredit: function (email, credit, locale, cb) {
         util.translate(myLocals, locale);
         if (email === null || email === undefined || credit === null || credit === undefined || credit < 0)

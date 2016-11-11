@@ -69,7 +69,7 @@ router.post("/forgottenpassword", function (req, res) {
       return res.status(500).json({ err });
     if (!data)
       return res.status(404).json({ app_err: myLocals.translate("The user don't exist.") });
-    emailer.forgottenpassword(data.email, data.password, req.query.locale, function (err, status, body, headers) {
+    emailer.forgottenpassword(data.email, data.guid, req.query.locale, function (err, status, body, headers) {
       if (err)
         return res.status(500).json({ err });
       res.json({ status, body, headers });
@@ -93,6 +93,27 @@ router.post("/changepassword", passport.authenticate("jwt", { session: false }),
       return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking old password. Old password not valid.") });
     user.changePassword(email, req.body.newpassword, req.query.locale, function (err, data) {
       res.json({ changepassword: data });
+    });
+  });
+});
+
+router.post("/changeforgottenpassword", function (req, res) {
+  util.translate(myLocals, req.query.locale);
+  if (!req.body.oldpassword || req.body.oldpassword.length !== 32 || !req.body.newpassword || !req.body.confirmpassword)
+    return res.status(400).json({ app_err: myLocals.translate("Please provide passwords to validate.") });
+  if (req.body.newpassword != req.body.confirmpassword)
+    return res.status(400).json({ app_err: myLocals.translate("New password and confirm password must be the same.") });
+  user.getEmailByGuid(req.body.oldpassword, function (err, email) {
+    if (err)
+      return res.status(500).json({ err });
+    user.read(email, function (err, data) {
+      if (err && err.id != 5)
+        return res.status(500).json({ err });
+      if (!data)
+        return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking password.") });
+      user.changePassword(email, req.body.newpassword, req.query.locale, function (err, data) {
+        res.json({ changeforgottenpassword: data });
+      });
     });
   });
 });

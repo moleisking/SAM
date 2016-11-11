@@ -8,8 +8,20 @@
     "forgotten password": {
         "es": "Contraseña olvidada",
         "en": "forgotten password",
-        "it": "Password dimenticata.",
-        "de": "Passwort vergessen."
+        "it": "Password dimenticata",
+        "de": "Passwort vergessen"
+    },
+    "Click": {
+        "es": "Haz click",
+        "en": "Click",
+        "it": "Click",
+        "de": "Click"
+    },
+    "here": {
+        "es": "aquí",
+        "en": "here",
+        "it": "here",
+        "de": "here"
     },
     "SAM Contact From": {
         "es": "SAM formulario de contacto",
