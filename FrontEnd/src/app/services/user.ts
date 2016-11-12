@@ -103,29 +103,6 @@ export class UserService {
       .map((res: Response) => res.json().users).catch(this.handleError);
   }
 
-  addCode(code: string): Observable<any> {
-    let headers = new Headers();
-    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-    let options = new RequestOptions({ headers: headers });
-    let body = "code=" + code.trim();
-
-    return this.http.post(Settings.backend_url + "/users/activate?locale=" + this.trans.currentLang, body, options)
-      .map((res: Response) => res.json().activate).catch(this.handleError);
-  }
-
-  resendCode(): Observable<any> {
-    let headers = new Headers();
-    headers.append("authorization", "JWT " + localStorage.getItem("auth_key"));
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.get(Settings.backend_url + "/users/resendcode?locale=" + this.trans.currentLang, options)
-      .map((res: Response) => res.json().resendcode).catch(this.handleError);
-  }
-
   changePassword(passwordForm: ChangePasswordModel): Observable<any> {
     if (passwordForm.newpassword !== passwordForm.confirmpassword) {
       let errorMsg: string;
@@ -162,6 +139,16 @@ export class UserService {
     headers.append("Content-Type", "application/x-www-form-urlencoded");
 
     return this.http.post(Settings.backend_url + "/changeforgottenpassword?locale=" + this.trans.currentLang, body,
+      { headers: headers }).catch(this.handleError);
+  }
+
+  activate(code: string): Observable<any> {
+    let body = "code=" + code;
+
+    let headers = new Headers();
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+    return this.http.post(Settings.backend_url + "/activate?locale=" + this.trans.currentLang, body,
       { headers: headers }).catch(this.handleError);
   }
 

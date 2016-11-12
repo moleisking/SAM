@@ -34,7 +34,7 @@ router.post("/add", passport.authenticate("jwt", { session: false }), function (
       app_err:
       myLocals.translate("Please provide front name to show on the email, url from name, to and text.")
     });
-  message.create(user.getEmailFromTokenUser(req.headers), req.body, function (err, data) {
+  message.create(user.getEmailFromTokenUser(req.headers), req.body, req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
     res.json({ message: data });

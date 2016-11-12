@@ -55,29 +55,6 @@
 			</div>
 		</div>
 	</tab>
-	<tab title="{{ 'ActivateAccount' | translate }}" *ngIf="!model.activated">
-		<div class="row">
-			<div class="col-md-12">
-				<h4>
-					{{ 'Code' | translate }}:
-				</h4>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-8">
-				<input type="text" class="form-control" placeholder="{{ 'AddActivationCodeHere' | translate }}" [(ngModel)]="code" />
-			</div>
-			<div class="col-md-4">
-				<button type="button" (click)="addCode(code)" class="btn btn-primary">{{ 'ActivateIt' | translate }}</button>
-				<button type="button" (click)="addCodeResend()" class="btn btn-primary">{{ 'Resend' | translate }}</button>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				{{ messageCode }}
-			</div>
-		</div>
-	</tab>
 	<tab title="{{ 'ChangePassword' | translate }}">
 		<changepassword-form-component></changepassword-form-component>
 	</tab>

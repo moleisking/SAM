@@ -67,12 +67,4 @@ router.post("/activate", passport.authenticate("jwt", { session: false }), funct
   });
 });
 
-router.get("/resendcode", passport.authenticate("jwt", { session: false }), function (req, res, next) {
-  user.resendCode(user.getEmailFromTokenUser(req.headers), req.query.locale, function (err, data) {
-    if (err)
-      return res.status(500).json({ err });
-    res.json({ resendcode: data });
-  });
-});
-
 module.exports = router;

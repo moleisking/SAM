@@ -24,9 +24,7 @@ export class Dashboard implements OnInit {
     private errorUsers: string;
     private errorMessages: string;
     private messageCredit: string;
-    private messageCode: string;
     private messageChangePassword: string;
-    private code: string;
 
     private usersList: UserModel[];
     private catList: CategoryModel[];
@@ -111,27 +109,5 @@ export class Dashboard implements OnInit {
                 () => this.trans.get("DoneAddingCredit").subscribe((res: string) => console.log(res))
             );
         }
-    }
-
-    addCode(code: string) {
-        if (code.length === 0)
-            this.trans.get("CodeNoEmpty").subscribe((res: string) => this.messageCode = res);
-        else {
-            this.trans.get("CodeSent").subscribe((res: string) => this.messageCode = res);
-            this.user.addCode(code).subscribe(
-                x => this.trans.get("CodeAdded").subscribe((res: string) => this.messageCode = res),
-                error => this.messageCode = <any>error,
-                () => this.trans.get("DoneAddingCode").subscribe((res: string) => console.log(res))
-            );
-        }
-    }
-
-    addCodeResend() {
-        this.trans.get("CodeReSent").subscribe((res: string) => this.messageCode = res);
-        this.user.resendCode().subscribe(
-            x => this.trans.get("CodeReSentActivate").subscribe((res: string) => this.messageCode = res),
-            error => this.messageCode = <any>error,
-            () => this.trans.get("DoneResendingCode").subscribe((res: string) => console.log(res))
-        );
     }
 }

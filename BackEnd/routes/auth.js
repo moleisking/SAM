@@ -14,8 +14,15 @@ require("../config/passport")(passport);
 
 router.post("/signup", function (req, res) {
   util.translate(myLocals, req.query.locale);
-  if (!req.body.username || !req.body.name || !req.body.email || !req.body.password || !req.body.regLat ||
-    !req.body.regLng || !req.body.category)
+  if (
+    !req.body.username ||
+    !req.body.name ||
+    !req.body.email ||
+    !req.body.password ||
+    !req.body.regLat ||
+    !req.body.regLng ||
+    !req.body.category
+  )
     return res.status(400).json({
       app_err: myLocals.translate("Please, provide username, name, email, password, coordenades and category.")
     });
@@ -118,22 +125,41 @@ router.post("/changeforgottenpassword", function (req, res) {
   });
 });
 
+router.post("/activate", function (req, res) {
+  util.translate(myLocals, req.query.locale);
+  if (!req.body.code || req.body.code.length != 32)
+    return res.status(400).json({ app_err: myLocals.translate("Please provide code to validate.") });
+  user.getEmailByGuid(req.body.code, function (err, email) {
+    if (err)
+      return res.status(500).json({ err });
+    if (!email)
+      return res.status(500).json({ app_err: myLocals.translate("Profile not found") });
+    user.activate(email, req.body.code, req.query.locale, function (err, data) {
+      if (err && err.id != 5)
+        return res.status(500).json({ err });
+      if (!data)
+        return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking password.") });
+      res.json({ activate: data.activate });
+    });
+  });
+});
+
 module.exports = router;
 
-    // var Localize = require('localize');
-    // var myLocalize = new Localize({
-    //     "Testing...": {
-    //         "es": "Pruebas...",
-    //         "sr": "тестирање..."
-    //     },
-    //     "Substitution: $[1]": {
-    //         "es": "Sustitución: $[1]",
-    //         "sr": "замена: $[1]"
-    //     }
-    // });
-    // console.log(myLocalize.translate("Testing...")); // Testing...
-    // console.log(myLocalize.translate("Substitution: $[1]", 5)); // Substitution: 5
-    // myLocalize.setLocale("es");
-    // console.log(myLocalize.translate("Testing...")); // Pruebas...
-    // myLocalize.setLocale("sr");
-    // console.log(myLocalize.translate("Substitution: $[1]", 5)); // замена: 5
+// var Localize = require('localize');
+// var myLocalize = new Localize({
+//     "Testing...": {
+//         "es": "Pruebas...",
+//         "sr": "тестирање..."
+//     },
+//     "Substitution: $[1]": {
+//         "es": "Sustitución: $[1]",
+//         "sr": "замена: $[1]"
+//     }
+// });
+// console.log(myLocalize.translate("Testing...")); // Testing...
+// console.log(myLocalize.translate("Substitution: $[1]", 5)); // Substitution: 5
+// myLocalize.setLocale("es");
+// console.log(myLocalize.translate("Testing...")); // Pruebas...
+// myLocalize.setLocale("sr");
+// console.log(myLocalize.translate("Substitution: $[1]", 5)); // замена: 5

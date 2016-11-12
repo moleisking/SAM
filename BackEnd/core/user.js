@@ -6,7 +6,6 @@ var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var jwt = require("jwt-simple");
 var config = require("../config/settings");
-var configMail = require("../config/settingsmail");
 var dist = require("./util");
 var toURLString = require("speakingurl");
 var myCacheName = "user";
@@ -40,15 +39,11 @@ module.exports = {
                 if (err)
                     return cb(err, null);
                 myCache.del(myCacheName + "all");
-                emailer.email(configMail.fromText, configMail.from, data.email,
-                    data.name + ", " + myLocals.translate("welcome to SAM") + ".<br />" +
-                    myLocals.translate("To activate your email, please enter this code in the activation area in your dashboard: ") +
-                    user.guid(), myLocals.translate("Welcome to SAM."),
-                    function (err, status, body, headers) {
-                        if (err)
-                            return cb(err, null);
-                        return cb(null, data);
-                    });
+                emailer.create(data.name, data.email, data.guid, locale, function (err, status, body, headers) {
+                    if (err)
+                        return cb(err, null);
+                    return cb(null, data);
+                });
             });
         }).catch(function (err) {
             return cb(err, null);
@@ -77,19 +72,6 @@ module.exports = {
             });
         });
     },
-
-    // delete: function (email, cb) {
-    //     if (email === null || email === undefined)
-    //         return cb("Must provide a valid value.", null);
-    //     _delete(email, function (err, value) {
-    //         if (err)
-    //             return cb(err, null);
-    //         myCache.del(myCacheName + "getUsernameByEmail" + email);
-    //         myCache.del(myCacheName + "readUser" + email);
-    //         myCache.del(myCacheName + "all");
-    //         return cb(null, value);
-    //     });
-    // },
 
     all: function (cb) {
         myCache.get(myCacheName + "all", function (err, value) {
@@ -349,11 +331,7 @@ module.exports = {
                     myCache.del(myCacheName + "readMyProfile" + email);
                     myCache.del(myCacheName + "readUserProfile" + data.url);
                     myCache.del(myCacheName + "all");
-                    emailer.email(configMail.fromText, configMail.from, email,
-                        myLocalize.translate("Congrats, you have added $[1] euros to your credit. ", credit) +
-                        myLocalize.translate("Now you final credit balance is: $[1] euros.",
-                            parseFloat(user.credit()) + parseFloat(credit)) +
-                        myLocalize.translate("You have added new credit!"),
+                    emailer.addCredit(email, parseFloat(user.credit()) + parseFloat(credit), locale,
                         function (err, status, body, headers) {
                             if (err)
                                 return cb(err, null);
@@ -375,7 +353,7 @@ module.exports = {
                 return cb(err, null);
             var user = model.create();
             user.update(userData);
-            if (user.guid() !== code)
+            if (user.guid().replace(/-/g, "") !== code)
                 return cb(myLocalize.translate("Code is not correct."), null);
             user.activated(true);
             user.validate().then(function () {
@@ -387,35 +365,15 @@ module.exports = {
                     myCache.del(myCacheName + "readMyProfile" + email);
                     myCache.del(myCacheName + "readUserProfile" + data.url);
                     myCache.del(myCacheName + "all");
-                    emailer.email(configMail.fromText, configMail.from, email,
-                        myLocalize.translate("Congrats, your account is been activated. "),
-                        myLocalize.translate("Your account is activated!"),
-                        function (err, status, body, headers) {
-                            if (err)
-                                return cb(err, null);
-                            return cb(null, data);
-                        });
+                    emailer.activate(email, locale, function (err, status, body, headers) {
+                        if (err)
+                            return cb(err, null);
+                        return cb(null, data);
+                    });
                 });
             }).catch(function (err) {
                 return cb(err, null);
             });
-        });
-    },
-
-    resendCode: function (email, locale, cb) {
-        util.translate(myLocals, locale);
-        userDAL.read(email, function (err, data) {
-            if (err)
-                return cb(err, null);
-            emailer.email(configMail.fromText, configMail.from, data.email,
-                data.name + ", " + myLocals.translate("welcome to SAM") + ".<br />" +
-                myLocals.translate("To activate your email, please enter this code in the activation area in your dashboard: ")
-                + data.guid, myLocals.translate("Welcome to SAM."),
-                function (err, status, body, headers) {
-                    if (err)
-                        return cb(err, null);
-                    return cb(null, data);
-                });
         });
     },
 
@@ -445,6 +403,19 @@ module.exports = {
             });
         });
     },
+
+    // delete: function (email, cb) {
+    //     if (email === null || email === undefined)
+    //         return cb("Must provide a valid value.", null);
+    //     _delete(email, function (err, value) {
+    //         if (err)
+    //             return cb(err, null);
+    //         myCache.del(myCacheName + "getUsernameByEmail" + email);
+    //         myCache.del(myCacheName + "readUser" + email);
+    //         myCache.del(myCacheName + "all");
+    //         return cb(null, value);
+    //     });
+    // },
 }
 
 function _getToken(headers) {

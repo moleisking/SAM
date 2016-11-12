@@ -35,12 +35,6 @@
         "it": "SAM nuovo modulo di contatto.",
         "de": "SAM neu Kontaktformular."
     },
-    "SAM Messages": {
-        "es": "SAM mensajes.",
-        "en": "SAM Messages",
-        "it": "SAM messaggio.",
-        "de": "SAM Nachricht."
-    },
     "New message": {
         "es": "Nuevo mensaje",
         "en": "New message",
@@ -58,5 +52,40 @@
         "en": "You got a new message",
         "it": "Hai un nuovo messaggio.",
         "de": "Sie haben eine neue Nachricht."
+    },
+    "Thanks for creating an account with us! <br /> $[1], please, to activate your email click": {
+        "es": "Gracias por crear una cuenta con nosotros! <br /> $[1], por favor, para activar tu cuenta haz click",
+        "it": "Thanks for creating an account with us! <br /> $[1], please, to activate your email click",
+        "de": "Thanks for creating an account with us! <br /> $[1], please, to activate your email click"
+    },
+    "Welcome to SAM.": {
+        "es": "Bienvenido a SAM.",
+        "it": "bienvenido a SAM.",
+        "de": "Welcome to SAM."
+    },
+    "Congrats, you have added $[1] euros to your credit. ": {
+        "es": "Felicidades, has añadido $[1] euros a tu crédito. ",
+        "it": "Felicidades, has añadido $[1] euros a tu crédito. ",
+        "de": "Congratulations, you have added $[1] euros to your credit."
+    },
+    "Now your final credit balance is: $[1] euros.": {
+        "es": "Ahora tu crédito final es: $[1] euros. ",
+        "it": "Ahora tu crédito final es: $[1] euros. ",
+        "de": "Ahora tu crédito final es: $[1] euros. "
+    },
+    "You have added new credit!": {
+        "es": "¡Has añadido nuevo crédito!",
+        "it": "¡Has añadido nuevo crédito!",
+        "de": "¡Has añadido nuevo crédito!"
+    },
+    "Your account is activated!": {
+        "es": "¡Tu cuenta está activada!.",
+        "it": "¡Tu cuenta está activada!.",
+        "de": "¡Tu cuenta está activada!."
+    },
+    "Congrats, your account is been activated.": {
+        "es": "Felicidades, tu cuenta ha sido activada.",
+        "it": "Felicidades, tu cuenta ha sido activada.",
+        "de": "Felicidades, tu cuenta ha sido activada."
     }
 }

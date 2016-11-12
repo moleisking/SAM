@@ -49,21 +49,6 @@
         "it": "Por favor, provee código.",
         "de": "Please provide a code."
     },
-    "welcome to SAM": {
-        "es": "bienvenido a SAM",
-        "it": "bienvenido a SAM",
-        "de": "welcome to SAM"
-    },
-    "To activate your email, please enter this code in the activation area in your dashboard: ": {
-        "es": "Para activar tu email, por favor, entra este código en la area de activación en tu panel de control.",
-        "it": "Para activar tu email, por favor, entra este código en la area de activación en tu panel de control.",
-        "de": "Para activar tu email, por favor, entra este código en la area de activación en tu panel de control."
-    },
-    "Welcome to SAM.": {
-        "es": "Bienvenido a SAM.",
-        "it": "Bienvenido a SAM.",
-        "de": "Bienvenido a SAM."
-    },
     "Must provide a valid email.": {
         "es": "Debe proveer un email válido.",
         "it": "Debe proveer un email válido.",
@@ -84,21 +69,6 @@
         "it": "Debe proveer un valor y un email.",
         "de": "You must provide a value and an email."
     },
-    "Congrats, you have added $[1] euros to your credit. ": {
-        "es": "Felicidades, has añadido $[1] euros a tu crédito. ",
-        "it": "Felicidades, has añadido $[1] euros a tu crédito. ",
-        "de": "Congratulations, you have added $[1] euros to your credit."
-    },
-    "Now you final credit balance is: $[1] euros.": {
-        "es": "Ahora tu crédito final es: $[1] euros. ",
-        "it": "Ahora tu crédito final es: $[1] euros. ",
-        "de": "Ahora tu crédito final es: $[1] euros. "
-    },
-    "You have added new credit!": {
-        "es": "¡Has añadido nuevo crédito!",
-        "it": "¡Has añadido nuevo crédito!",
-        "de": "¡Has añadido nuevo crédito!"
-    },
     "Must provide a code and an email.": {
         "es": "Debe proveer un código y un email.",
         "en": "You must provide a code and an email.",
@@ -109,16 +79,6 @@
         "es": "El código no es correcto.",
         "it": "El código no es correcto.",
         "de": "El código no es correcto."
-    },
-    "Congrats, your account is been activated. ": {
-        "es": "Felicidades, tu cuenta ha sido activada.",
-        "it": "Felicidades, tu cuenta ha sido activada.",
-        "de": "Felicidades, tu cuenta ha sido activada."
-    },
-    "Your account is activated!": {
-        "es": "¡Tu cuenta está activada!.",
-        "it": "¡Tu cuenta está activada!.",
-        "de": "¡Tu cuenta está activada!."
     },
     "Please provide passwords to validate.": {
         "es": "Por favor provee las contraseñas para validar.",
@@ -139,5 +99,10 @@
         "es": "Autenticación falló comprobando la vieja contraseña. La vieja contraseña no es valida.",
         "it": "Authentication failed checking old password. Old password not valid",
         "de": "Authentication failed checking old password. Old password not valid"
+    },
+    "Please provide code to validate.": {
+        "es": "Por favor provee el codigo para validar.",
+        "it": "Please provide code to validate.",
+        "de": "Please provide code to validate."
     }
 }

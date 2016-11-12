@@ -13,8 +13,7 @@ var config = require("../config/settings");
 
 module.exports = {
 
-    create: function (from, data, cb) {
-        var frontEndUrl = config.frontEndUrl;
+    create: function (from, data, locale, cb) {
         var fromUrl = data.fromUrl;
         var message = model.create();
         message.from(from);
@@ -29,7 +28,7 @@ module.exports = {
                 myCache.del(myCacheName + "allLasts" + data.from);
                 myCache.del(myCacheName + "allWith" + data.from + data.to);
                 myCache.del(myCacheName + "allWith" + data.to + data.from);
-                emailer.newMessage(frontEndUrl, fromUrl, data.to, function (err, statusCode, body, headers) {
+                emailer.newMessage(fromUrl, data.to, locale, function (err, statusCode, body, headers) {
                     if (err)
                         return cb(err, null);
                     return cb(null, data);
