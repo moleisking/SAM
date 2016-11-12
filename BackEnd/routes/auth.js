@@ -26,17 +26,33 @@ router.post("/signup", function (req, res) {
     return res.status(400).json({
       app_err: myLocals.translate("Please, provide username, name, email, password, coordenades and category.")
     });
+  //Check if user already exists
   user.read(req.body.email, function (err, data) {
-    if (err && err.id != 5)
-      return res.status(500).json({ err });
-    if (data)
+    if (config.database_type == "nodedb" && err && err.id != 5) { 
+    console.log(err);
+    return res.status(500).json({ err });
+    }
+    //if (data)
+    //  return res.status(409).send({ app_err: myLocals.translate("User already exists") });
+     if (config.database_type == "nodedb" && String(data).indexOf("name") != -1)
+    { 
+      console.log("User already exists");     
+      console.log(data);
       return res.status(409).send({ app_err: myLocals.translate("User already exists") });
+    }
+    else if (config.database_type == "mongodb" && String(data).indexOf("{}") != -1)
+    { 
+      console.log("User already exists");     
+      console.log(data);
+      return res.status(409).send({ app_err: myLocals.translate("User already exists") });
+    }
+    //Check if read finds user before starting create
     user.create(req.body, req.query.locale, function (err, data) {
       if (err)
         return res.status(500).json({ err });
       res.status(201).json({ signup: data });
     });
-  });
+  });//end read
 });
 
 router.post("/authenticate", function (req, res) {
@@ -44,7 +60,7 @@ router.post("/authenticate", function (req, res) {
   if (!req.body.email || !req.body.password)
     return res.status(400).json({ app_err: myLocals.translate("Please provide email and password.") });
   user.read(req.body.email, function (err, data) {
-    if (err && err.id != 5)
+    if (config.database_type == "nodedb" && err && err.id != 5)
       return res.status(500).json({ err });
     if (!data)
       return res.status(404).json({ app_err: myLocals.translate("Authentication failed.") });
@@ -59,7 +75,7 @@ router.post("/authenticate", function (req, res) {
 router.get("/dashboard", passport.authenticate("jwt", { session: false }), function (req, res) {
   util.translate(myLocals, req.query.locale);
   user.read(user.getEmailFromTokenUser(req.headers), function (err, data) {
-    if (err && err.id != 5)
+    if (config.database_type == "nodedb" && err && err.id != 5)
       return res.status(500).json({ err });
     if (!data)
       return res.status(404).json({ app_err: myLocals.translate("Authentication failed.") });
@@ -72,7 +88,7 @@ router.post("/forgottenpassword", function (req, res) {
   if (!req.body.email)
     return res.status(400).json({ app_err: myLocals.translate("Please provide email.") });
   user.read(req.body.email, function (err, data) {
-    if (err && err.id != 5)
+    if (config.database_type == "nodedb" && err && err.id != 5)
       return res.status(500).json({ err });
     if (!data)
       return res.status(404).json({ app_err: myLocals.translate("The user don't exist.") });
@@ -92,7 +108,7 @@ router.post("/changepassword", passport.authenticate("jwt", { session: false }),
     return res.status(400).json({ app_err: myLocals.translate("New password and confirm password must be the same.") });
   var email = user.getEmailFromTokenUser(req.headers);
   user.read(email, function (err, data) {
-    if (err && err.id != 5)
+    if (config.database_type == "nodedb" && err && err.id != 5)
       return res.status(500).json({ err });
     if (!data)
       return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking password.") });
@@ -114,7 +130,7 @@ router.post("/changeforgottenpassword", function (req, res) {
     if (err)
       return res.status(500).json({ err });
     user.read(email, function (err, data) {
-      if (err && err.id != 5)
+      if (config.database_type == "nodedb" && err && err.id != 5)
         return res.status(500).json({ err });
       if (!data)
         return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking password.") });

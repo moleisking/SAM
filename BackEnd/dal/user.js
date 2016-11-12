@@ -3,13 +3,15 @@ var jsondb = new JsonDB("SAM", true, false);
 var _path = "/user";
 var config = require("../config/settings");
 
-// var mongodb = require('mongodb').MongoClient;
-var mongodb = "";
+var mongoClient = require('mongodb').MongoClient;
+var mongoObjectId = require('mongodb').ObjectID;
+var mongoUri = config.database_address; //"mongodb://192.168.1.100:27017/test"; ///dbname -u dbuser -p dbpassword
+var assert = require('assert');
 
 module.exports = {
 
     create: function (email, data, cb) {
-        if (config.database == "nodedb") {
+        if (config.database_type == "nodedb") {
             console.log("Call -> nodedb:user:create");
             try {
                 jsondb.push(_path + "/" + email, data, true);
@@ -19,85 +21,69 @@ module.exports = {
                 return cb(error, null);
             }
         }
-        else if (config.database == "mongodb") {
-            //Todo: finish this
-            //mongodb.connect(url, function(err, db) {
-            //assert.equal(null, err);
-            console.log("Connected correctly to mongodb server");
-            console.log(data);
-            /*var insertDocuments = function(db, callback) {
-            // Get users collection 
-                var collection = mongodb.collection('users');
-                // Insert user 
-                collection.insert(
-                    {
-                        name: "Scott Johnston",
-                        url: "scott-johnston",
-                        description: "my description",
-                        address: "calle abades 16",
-                        email: "moleisking@gmail.com",
-                        mobile: "+3455512345",
-                        birthday:25/07/1979,
-                        image: "",
-                        hourRate: 20,
-                        dayRate: 300,
-                        regLat: 40.416775,
-                        regLng: -3.70379,
-                        curLat: 40.416775,
-                        curLng: -3.70379,
-                        credit: 100, 
-                        active: true
-                    }
-                , function(err, result) {
-                    assert.equal(err, null);               
-                    console.log("Inserted user into the user collection");
-                    callback(result);
-                });
+        else if (config.database_type == "mongodb") {
+            console.log("monogodb create user");
+            try
+            {
+                mongoClient.connect(mongoUri, function(err, db) {               
+                    if (err) throw err;   
+                    console.log(data);
+                
+                    db.collection('users').insert(data , function(err, result) {
+                        assert.equal(err, null);               
+                        console.log("user inserted");
+                        return cb(null, data);
+                        //callback(result);
+                        //db.close();
+                    });      
+                }); 
             }
-
-
-            mongodb.close();
-            });    */
+            catch (err)
+            {                
+                console.log(err);
+                return cb(err, null);
+            } 
         }
     },
 
     read: function (email, cb) {
-        if (config.database == "nodedb") {
-            try {
-                //console.log("read email " + email);
-                //console.log("read cb " + cb);
+        console.log("nodedb read user");        
+        if (config.database_type == "nodedb") {            
+            try {                
                 var data = jsondb.getData(_path + "/" + email);
                 return cb(null, data);
-            } catch (err) {
-                //console.log("user read catch error");
-                //console.log(err);
+            } catch (err) {               
                 return cb(err, null);
             }
         }
-        else if (config.database == "mongodb") {
-
-            mongodb.connect(url, function (err, db) {
-                assert.equal(null, err);
-                console.log("Connected correctly to mongodb server");
-                console.log(data);
-                var selectDocuments = function (db, callback) {
-                    // Get users collection 
-                    var collection = mongodb.collection('users');
-                    // select user 
-                    collection.find({ email: email }).toArray(function (err, data) {
-                        assert.equal(err, null);
-                        console.log("Found the following records");
+        else if (config.database_type == "mongodb") {
+            console.log("mongodb read user");           
+            try
+            {
+                mongoClient.connect(mongoUri, function (err, db) {                 
+                    if (err) throw err;   
+                       
+                    db.collection('users').find({ email: email }).toArray(function (err, data) {
+                        console.log("user found");  
+                        assert.equal(err, null);                       
                         console.dir(data);
-                        return data;
-                    });
-                }
-                mongodb.close();
-            });
-        }
+                        return cb(null,data);
+                        });                        
+                
+                }); //close connection
+            }
+            catch (err)
+            {                
+                console.log(err);
+                return cb(err, null);
+            }
+            
+        }//close if (config.database_type == "mongodb")
+            
     },
 
     all: function (cb) {
-        if (config.database == "nodedb") {
+        if (config.database_type == "nodedb") {
             try {
                 var data = jsondb.getData(_path);
                 return cb(null, data);
@@ -105,26 +91,27 @@ module.exports = {
                 return cb(err, null);
             }
         }
-        else if (config.database == "mongodb") {
-
-            mongodb.connect(url, function (err, db) {
-                assert.equal(null, err);
-                console.log("Connected correctly to mongodb server");
-                console.log(data);
-                var selectDocuments = function (db, callback) {
-                    // Get users collection 
-                    var collection = mongodb.collection('users');
-                    // select user 
-                    collection.find({ email: email }).toArray(function (err, data) {
+        else if (config.database_type == "mongodb") {
+            console.log("mongodb all user");       
+            try
+            {            
+                mongoClient.connect(mongoUri, function (err, db) {
+                    if (err) throw err;     
+                       
+                    db.collection('users').find().toArray(function (err, data) {
                         assert.equal(err, null);
-                        console.log("Found the following records");
+                        console.log("user found");
                         console.dir(data);
-                        return data;
-                    });
-                }
-                mongodb.close();
-            });
-        }
+                        return cb(null,data);
+                        });                                  
+                });
+            }
+            catch (err)
+            {               
+                console.log(err);
+                return cb(err, null);
+            }
+        }// if (config.database_type == "mongodb")
     },
 
     // delete: function (usernameurl, cb) {
