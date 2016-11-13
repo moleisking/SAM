@@ -6,7 +6,8 @@ import { TranslateService } from "ng2-translate";
 
 @Component({
     selector: "categories-component",
-    templateUrl: "../../views/categories.html"
+    templateUrl: "../../views/categories.html",
+    styleUrls: ["../../styles/categories.css"]
 })
 
 export class Categories implements OnInit {

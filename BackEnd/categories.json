@@ -4,37 +4,43 @@
             "id": 1,
             "en": {
                 "name": "artist",
-                "description": "Category Artist",
+                "description": "Description Artist",
                 "tags": [
                     {
-                        "id": 1,
-                        "text": "actor"
+                        "id": 11,
+                        "name": "actor",
+                        "description": "Tag actor"
                     },
                     {
-                        "id": 2,
-                        "text": "musician"
+                        "id": 12,
+                        "name": "musician",
+                        "description": "Tag musician"
                     },
                     {
-                        "id": 3,
-                        "text": "painter"
+                        "id": 13,
+                        "name": "painter",
+                        "description": "Tag painter"
                     }
                 ]
             },
             "es": {
                 "name": "artista",
-                "description": "Categoria de artista",
+                "description": "Descripción de artista",
                 "tags": [
                     {
-                        "id": 1,
-                        "text": "actor"
+                        "id": 11,
+                        "name": "actor",
+                        "description": "Etiqueta actor"
                     },
                     {
-                        "id": 2,
-                        "text": "músico"
+                        "id": 12,
+                        "name": "músico",
+                        "description": "Etiqueta músico"
                     },
                     {
-                        "id": 3,
-                        "text": "pintor"
+                        "id": 13,
+                        "name": "pintor",
+                        "description": "Etiqueta pintor"
                     }
                 ]
             }
@@ -43,37 +49,43 @@
             "id": 2,
             "en": {
                 "name": "builder",
-                "description": "Category Builder",
+                "description": "Description Builder",
                 "tags": [
                     {
-                        "id": 1,
-                        "text": "programs"
+                        "id": 21,
+                        "name": "programs",
+                        "description": "Tag programs"
                     },
                     {
-                        "id": 2,
-                        "text": "buildings"
+                        "id": 22,
+                        "name": "buildings",
+                        "description": "Tag buildings"
                     },
                     {
-                        "id": 3,
-                        "text": "houses"
+                        "id": 23,
+                        "name": "houses",
+                        "description": "Tag houses"
                     }
                 ]
             },
             "es": {
                 "name": "Constructor",
-                "description": "Categoria de constructor",
+                "description": "Descripción constructor",
                 "tags": [
                     {
-                        "id": 1,
-                        "text": "programas"
+                        "id": 21,
+                        "name": "programas",
+                        "description": "Etiqueta programas"
                     },
                     {
-                        "id": 2,
-                        "text": "edificios"
+                        "id": 22,
+                        "name": "edificios",
+                        "description": "Etiqueta edificios"
                     },
                     {
-                        "id": 3,
-                        "text": "casas"
+                        "id": 23,
+                        "name": "casas",
+                        "description": "Etiqueta casas"
                     }
                 ]
             }

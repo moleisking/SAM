@@ -2,13 +2,9 @@
 <p>{{ message }}</p>
 <div class="list-group">
   <ul>
-    <li *ngFor="let c of cats">
-      {{ c.name[0].toUpperCase() + c.name.substr(1) }} - {{ c.description[0].toUpperCase() + c.description.substr(1) }}
-      <ul>
-        <li *ngFor="let t of c.tags">
-          {{ t.text }}
-        </li>
-      </ul>
-    </li>
+    <p class="bg-info" *ngFor="let c of cats">
+      {{ c.name[0].toUpperCase() + c.name.substr(1) }}
+      <br /> - {{ c.description[0].toUpperCase() + c.description.substr(1) }}
+    </p>
   </ul>
 </div>

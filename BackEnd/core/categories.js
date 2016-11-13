@@ -3,8 +3,7 @@ var async = require("async");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "categories";
 var catDAL = require("../dal/categories");
-var modelCat = require("../models/category");
-var modelTag = require("../models/tag");
+var model = require("../models/category");
 
 module.exports = {
 
@@ -36,25 +35,24 @@ function _all(locale, cb) {
         catDAL.all(function (err, data) {
             if (err && (err.hasOwnProperty("id")))
                 return cb(err, null);
-            var cats = [], c = 0;
+            var cats = [];
             async.forEach(data, function (item, callback) {
-                var cat = modelCat.create();
+                var cat = model.create();
+                var catName = item[locale].name;
                 cat.id(item.id);
                 cat.name(item[locale].name);
                 cat.description(item[locale].description);
                 cats.push(cat.toJSON());
                 var tags = [];
                 async.forEach(item[locale].tags, function (itemT, callback) {
-                    var tag = modelTag.create();
-                    tag.update(itemT);
-                    tags.push(tag.toJSON());
+                    itemT.name = catName + " - " + itemT.name;
+                    cat.update(itemT);
+                    cats.push(cat.toJSON());
                     callback();
                 }, function (err) {
                     if (err)
                         return cb(err, null);
-                    cats[c].tags = tags;
                 });
-                c++;
                 callback();
             }, function (err) {
                 if (err)
