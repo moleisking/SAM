@@ -25,7 +25,6 @@ export class UserService {
       "&regLat=" + regLat +
       "&regLng=" + regLng +
       "&category=" + user.category +
-      "&tags=" + user.tags +
       "&address=" + user.address +
       "&mobile=" + user.mobile +
       "&username=" + user.username;
@@ -49,7 +48,6 @@ export class UserService {
       "&curLat=" + profileform.curLat +
       "&curLng=" + profileform.curLng +
       "&category=" + profileform.category +
-      "&tags=" + profileform.tags +
       "&available=" + profileform.available;
 
     let headers = new Headers();

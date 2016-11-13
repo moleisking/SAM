@@ -44,9 +44,9 @@ function _all(locale, cb) {
                 cat.description(item[locale].description);
                 cats.push(cat.toJSON());
                 var tags = [];
-                async.forEach(item[locale].tags, function (itemT, callback) {
-                    itemT.name = catName + " - " + itemT.name;
-                    cat.update(itemT);
+                async.forEach(item[locale].tags, function (itemTag, callback) {
+                    itemTag.name = catName + " - " + itemTag.name;
+                    cat.update(itemTag);
                     cats.push(cat.toJSON());
                     callback();
                 }, function (err) {

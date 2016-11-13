@@ -10,7 +10,6 @@ import { CategoriesService } from "../services/categories";
 import { TranslateService } from "ng2-translate";
 
 import { CategoryModel } from "../models/category";
-import { TagModel } from "../models/tag";
 
 declare let google: any;
 
@@ -31,9 +30,6 @@ export class RegisterFormComponent implements OnInit {
     private regLat: number;
     private regLng: number;
     private cats: Array<CategoryModel>;
-    private tags: Array<TagModel>;
-    private tagsValue: any = [];
-    private areTagsAvailable: boolean = false;
     private isGoogleVisible: boolean = false;
 
     constructor(
@@ -74,27 +70,12 @@ export class RegisterFormComponent implements OnInit {
             password: ["", [Validators.required, Validators.minLength(5)]],
             email: ["", Validators.required],
             category: ["", Validators.compose([Validators.pattern(regexPatterns.numbers), Validators.required])],
-            tags: [""],
             address: ["", Validators.required],
             mobile: [""]
         });
 
         this.getPosition();
         this.getCategories();
-    }
-
-    PasssAreEqual(group: FormGroup) {
-        let valid = group.controls["password"].value === group.controls["repeat"].value;
-        if (valid)
-            return null;
-        return { areEqual: true };
-    }
-
-    onChangeCategory(value: number) {
-        this.tags = this.cats.find(x => x.id == value).tags;
-        this.areTagsAvailable = this.tags.length > 0;
-        if (this.areTagsAvailable && this.tagsValue.length > 0)
-            this.mySelect.active = [];
     }
 
     getCategories() {
@@ -134,7 +115,6 @@ export class RegisterFormComponent implements OnInit {
             if (!this.myForm.dirty && !this.myForm.valid)
                 this.trans.get("FormNotValid").subscribe((res: string) => this.message = res);
             else {
-                this.myForm.controls["tags"].setValue(this.tagsValue.map((item: any) => { return item.id; }).join(","));
                 this.trans.get("NewUserSent").subscribe((res: string) => this.message = res);
                 this.user.register(this.myForm.value, this.regLat, this.regLng).subscribe(
                     () => this.router.navigate(["/login"]),
@@ -145,10 +125,6 @@ export class RegisterFormComponent implements OnInit {
         }
     }
 
-    refreshValue(value: number): void {
-        this.tagsValue = value;
-    }
-
     getAddress(place: Object) {
         let address = place["formatted_address"];
         let location = place["geometry"]["location"];
@@ -156,25 +132,4 @@ export class RegisterFormComponent implements OnInit {
         this.regLng = location.lng();
         // console.log("place", address, location, this.regLat, this.regLng);
     }
-
-    // public selected(value: any): void {
-    //     console.log("Selected value is: ", value);
-    //     console.log(this.myForm.value);
-    //     console.log(this.tagsValue);
-    // }
-
-    // public removed(value: any): void {
-    //     console.log("Removed value is: ", value);
-    // }
-
-    // public typed(value: any): void {
-    //     console.log("New input: ", value);
-    // }
-
-    // public itemsToString(value: Array<any> = []): string {
-    //     return value
-    //         .map((item: any) => {
-    //             return item.text;
-    //         }).join(",");
-    // }
 }

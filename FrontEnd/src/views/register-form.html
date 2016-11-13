@@ -54,12 +54,6 @@
                 </option>
             </select>
 		</div>
-		<div class="form-group" *ngIf="areTagsAvailable">
-			<label for="tags">{{ 'Tags' | translate }}</label>
-			<ng-select [data]="tagsValue" [multiple]="true" [items]="tags" (data)="refreshValue($event)" placeholder="{{ 'NoTagsYet' | translate }}"></ng-select>
-			<!--(typed)="typed($event)" (removed)="removed($event)" [disabled]="disabled" (selected)="selected($event)"-->
-			<!--<pre>{{itemsToString(tagsValue)}}</pre>-->
-		</div>
 		<p>{{ message }}</p>
 		<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">{{ 'Register' | translate }}</button>
 	</form>

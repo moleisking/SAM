@@ -56,13 +56,6 @@ export class Profile implements OnInit, OnDestroy {
                         c => {
                             this.cats = c;
                             this.model.categoryName = this.cats.find(x => x.id == this.model.category).name;
-                            let tags: string = "";
-                            this.model.tags.split(",").forEach(element => {
-                                if (element)
-                                    tags += this.cats.find(e => e.id == this.model.category).tags
-                                        .find(e => e.id === +element).text + ", ";
-                            });
-                            this.model.tags = tags.substr(0, tags.length - 2);
                             if (this.authService.isLoggedIn()) {
                                 this.user.getMyProfile().subscribe(
                                     my => this.itsMe = profile.email === my.email,

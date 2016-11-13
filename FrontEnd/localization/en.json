@@ -38,8 +38,6 @@
     "AddressRequired": "Address is required.",
     "Mobile": "Mobile",
     "MobileRequired": "Mobile is required.",
-    "Tags": "Tags",
-    "NoTagsYet": "No tags selected yet",
     "Send": "Send",
     "Message": "Message",
     "MessageRequired": "Message is required.",

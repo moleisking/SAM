@@ -6,6 +6,5 @@ export interface UserModel {
     mobile: string;
     address: string;
     category: number;
-    tags: string;    
     birthday: string;
 }

@@ -35,9 +35,6 @@ import { MessageService } from "./services/message";
 import { RatingService } from "./services/rating";
 import { PaymentService } from "./services/payment";
 
-import { SelectComponent } from "ng2-select";
-import { OffClickDirective } from "ng2-select/components/select/off-click";
-import { HighlightPipe } from "ng2-select/components/select/select-pipes";
 import { TabsModule } from "ng2-tabs";
 import { RatingModule } from "ng2-rating";
 
@@ -70,10 +67,6 @@ if (Settings.prod)
     ],
     declarations: [
         AppComponent,
-
-        SelectComponent,
-        OffClickDirective,
-        HighlightPipe,
 
         Home,
         Login,
