@@ -1,6 +1,6 @@
 module.exports = {
   secret: "conchalalora",
-  //database: "mongodb"
-  database: "nodedb",
+  //database_type: "mongodb"
+  database_type: "nodedb",
   frontEndUrl: "http://localhost:3000"
 };
