@@ -43,6 +43,7 @@ export class Home implements OnInit {
         this.cat.all().subscribe(
             c => {
                 this.cats = c;
+                console.log(this.cats);
                 this.category = c[0].id;
             },
             error => this.message = <any>error,

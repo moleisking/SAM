@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Settings } from "../config/settings";
 
-import { SelectComponent } from "ng2-select";
 import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
 import { CategoriesService } from "../services/categories";
@@ -16,13 +15,10 @@ declare let google: any;
 @Component({
     selector: "register-form-component",
     templateUrl: "../../views/register-form.html",
-    styleUrls: ["../../styles/form.css", "../../styles/ng2-select.css"]
+    styleUrls: ["../../styles/form.css"]
 })
 
 export class RegisterFormComponent implements OnInit {
-
-    @ViewChild(SelectComponent)
-    private mySelect: SelectComponent;
 
     private myForm: FormGroup;
 

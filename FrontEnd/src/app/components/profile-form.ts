@@ -14,7 +14,7 @@ declare let google: any;
 @Component({
     selector: "profile-form-component",
     templateUrl: "../../views/profile-form.html",
-    styleUrls: ["../../styles/form.css", "../../styles/ng2-select.css"]
+    styleUrls: ["../../styles/form.css"]
 })
 
 export class ProfileFormComponent implements OnInit {
