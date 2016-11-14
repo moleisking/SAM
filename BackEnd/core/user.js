@@ -156,6 +156,7 @@ module.exports = {
                             if (err)
                                 return cb(err, null);
                             delete readValue.password;
+                            delete readValue.guid;
                             var profile = modelProfile.create();
                             profile.update(readValue);
                             var data = profile.toJSON();

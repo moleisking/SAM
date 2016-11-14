@@ -51,7 +51,9 @@ export class Profile implements OnInit, OnDestroy {
             this.user.getProfile(id).subscribe(
                 profile => {
                     this.model = profile;
-                    this.model.image = profile.image === "" ? this.defaultImage : profile.image;
+                    console.log(profile.image)
+                    this.model.image = profile.image === undefined || profile.image === ""
+                        ? this.defaultImage : profile.image;
                     this.cat.all().subscribe(
                         c => {
                             this.cats = c;
