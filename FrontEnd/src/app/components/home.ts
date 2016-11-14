@@ -51,8 +51,9 @@ export class Home implements OnInit {
         );
     }
 
-    onChangeCategory(value: number) {
-        this.category = value;
+    onChangeCategory(e: any): void {
+        console.log(e.item.id)
+        this.category = e.item.id;
     }
 
     onChangeRadius(value: number) {

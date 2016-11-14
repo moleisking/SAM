@@ -37,6 +37,7 @@ import { PaymentService } from "./services/payment";
 
 import { TabsModule } from "ng2-tabs";
 import { RatingModule } from "ng2-rating";
+import { TypeaheadModule } from "../com/typeahead/typeahead.module";
 
 import { HttpModule, Http } from "@angular/http";
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from "ng2-translate";
@@ -56,6 +57,7 @@ if (Settings.prod)
         appRouterProvider,
         TabsModule,
         RatingModule,
+        TypeaheadModule,
         TranslateModule.forRoot({
             provide: TranslateLoader,
             useFactory: (http: Http) => new TranslateStaticLoader(http, "./localization", ".json"),

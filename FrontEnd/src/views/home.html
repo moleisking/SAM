@@ -13,11 +13,18 @@
 <div class="row">
 	<div class="col-md-offset-1 col-md-7">
 		<div class="form-group">
-			<select class="form-control" (change)="onChangeCategory($event.target.value)">
+			<!--<select class="form-control" (change)="onChangeCategory($event.target.value)">
                 <option *ngFor="let cat of cats" value={{cat.id}}>
 					{{ cat.name[0].toUpperCase() + cat.name.substr(1) }}
                 </option>
-            </select>
+            </select>-->
+			<template #customItemTemplate let-model="item" let-index="index">
+				<!--<h5>This is: {{ model | json }} Index: {{ index }}</h5>-->
+				<h5>{{ model.name }}</h5>
+			</template>
+			<!--<pre class="card card-block card-header">Model: {{ customSelected | json }}</pre>-->
+			<input [(ngModel)]="message" [typeahead]="cats" [typeaheadItemTemplate]="customItemTemplate" [typeaheadOptionField]="'name'"
+				(typeaheadOnSelect)="onChangeCategory($event)" class="form-control">
 		</div>
 	</div>
 	<div class="col-md-3">
@@ -31,22 +38,6 @@
 		</div>
 	</div>
 </div>
-<!--<div class="row">
-	<div class="col-md-offset-1 col-md-10">
-		<div class="form-group">
-
-
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-offset-1 col-md-10">
-		<div class="form-group">
-
-
-		</div>
-	</div>
-</div>-->
 <div class="row">
 	<div class="col-md-offset-1 col-md-10">
 		<div class="form-group">
