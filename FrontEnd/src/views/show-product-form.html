@@ -1,0 +1,62 @@
+<div class="row">
+	<div class="col-md-4">
+		<img [src]="image" alt="" class="img-rounded img-responsive" />
+	</div>
+	<div class="col-md-8">
+		<form [formGroup]="myForm" novalidate (submit)="save()">
+			<div class="form-group">
+				<label for="image">{{ 'Image' | translate }}</label>
+				<input type="file" class="form-control" id="image" name="image" />
+			</div>
+			<div class="form-group">
+				<label for="description">{{ 'Description' | translate }}</label>
+				<input type="text" class="form-control" formControlName="description" name="description" [(ngModel)]="model.description"
+				/>
+				<small [hidden]="myForm.controls.description.valid || (myForm.controls.description.pristine)" class="text-danger">
+                    {{ 'DescriptionRequired' | translate }}
+                </small>
+			</div>
+			<div class="form-group">
+				<label for="address">{{ 'Address' | translate }}</label>
+				<input type="text" class="form-control" formControlName="address" id="address" name="address" [(ngModel)]="model.address"
+				/>
+				<small [hidden]="myForm.controls.address.valid || (myForm.controls.address.pristine)" class="text-danger">
+                    {{ 'AddressRequired' | translate }}
+                </small>
+			</div>
+			<div class="form-group">
+				<label for="mobile">{{ 'Mobile' | translate }}</label>
+				<input type="text" class="form-control" formControlName="mobile" name="mobile" [(ngModel)]="model.mobile" />
+				<small [hidden]="myForm.controls.mobile.valid || (myForm.controls.mobile.pristine)" class="text-danger">
+                    {{ 'MobileRequired' | translate }}
+                </small>
+			</div>
+			<div class="form-group">
+				<label for="hourRate">{{ 'HourRate' | translate }}</label>
+				<input type="number" class="form-control" formControlName="hourRate" name="hourRate" [(ngModel)]="model.hourRate" />
+			</div>
+			<div class="form-group">
+				<label for="dayRate">{{ 'DayRate' | translate }}</label>
+				<input type="number" class="form-control" formControlName="dayRate" name="dayRate" [(ngModel)]="model.dayRate" />
+			</div>
+			<div class="form-group">
+				<label for="category">{{ 'Category' | translate }}</label>
+				<select class="form-control" formControlName="category" name="category" [(ngModel)]="model.category">
+                    <option *ngFor="let cat of cats" value={{cat.id}}>
+					{{ cat.name[0].toUpperCase() + cat.name.substr(1) }}
+                    </option>
+                </select>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" formControlName="available" name="available" [(ngModel)]="model.available" />
+					{{ 'ActivelyLookingWork' | translate }}
+				</label>
+			</div>
+			<p>{{ message }}</p>
+			<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">{{ 'Save' | translate }}</button>
+			<input type="hidden" formControlName="curLat" name="curLat" [(ngModel)]="model.curLat" #lat>
+			<input type="hidden" formControlName="curLng" name="curLng" [(ngModel)]="model.curLng" #lng>
+		</form>
+	</div>
+</div>
