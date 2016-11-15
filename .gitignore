@@ -14,3 +14,12 @@ BackEnd/config/settingsmail.js
 FrontEnd/scripts/
 FrontEnd/typings/
 FrontEnd/dist/
+
+/Android/app/*.iml
+/Android/app/.gradle
+/Android/app/local.properties
+/Android/app/.idea/workspace.xml
+/Android/app/.idea/libraries
+/Android/app/build
+/Android/app/captures
+/Android/app/.externalNativeBuild
