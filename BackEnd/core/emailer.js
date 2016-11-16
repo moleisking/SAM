@@ -1,4 +1,4 @@
-var configMail = require("../config/settingsmail");
+var config = require("../config/settings");
 var configSys = require("../config/settings");
 var util = require('./util');
 var Localize = require("localize");
@@ -14,7 +14,7 @@ module.exports = {
             myLocals.translate("Thanks for creating an account with us! <br /> $[1], please, to activate your email click", name) +
             " <a href='" + configSys.frontEndUrl + "/activate/" + guidClean + "'>" +
             myLocals.translate("here") + "</a>.";
-        module.exports.email(configMail.fromText, configMail.from, email, body, subject, cb);
+        module.exports.email(config.mail_from_name, config.mail_from_email, email, body, subject, cb);
     },
 
     forgottenpassword: function (to, guid, locale, cb) {
@@ -25,19 +25,19 @@ module.exports = {
             myLocals.translate("Click") +
             " <a href='" + configSys.frontEndUrl + "/forgottenpassword/" + guidClean + "'>" +
             myLocals.translate("here") + "</a>.";
-        module.exports.email(configMail.fromText, configMail.from, to, body, subject, cb);
+        module.exports.email(config.mail_from_name, config.mail_from_email, to, body, subject, cb);
     },
 
     sendContactForm: function (form, cb) {
         form.message = form.name + "<br />" + form.message;
         var subject = myLocals.translate("SAM new Contact Us Form");
-        module.exports.email("SAM Contact From", form.email, configMail.admin, form.message, subject, cb);
+        module.exports.email("SAM Contact From", form.email, config.mail_provider_user, form.message, subject, cb);
     },
 
     newMessage: function (fromUrl, to, locale, cb) {
         util.translate(myLocals, locale);
         var subject = myLocals.translate("You got a new message");
-        module.exports.email(configMail.fromText, configMail.from, to,
+        module.exports.email(config.mail_from_name, config.mail_from_email, to,
             "<b>" + myLocals.translate("New message") + "  ✔</b> <a href='" + configSys.frontEndUrl + "/messages/" +
             fromUrl + "'>" + myLocals.translate("Click here to see it") + "</a>.", subject, cb);
     },
@@ -47,14 +47,14 @@ module.exports = {
         var subject = myLocals.translate("You have added new credit!");
         var body = myLocals.translate("Congrats, you have added $[1] euros to your credit. ", credit) +
             myLocals.translate("Now your final credit balance is: $[1] euros.", credit);
-        module.exports.email(configMail.fromText, configMail.from, email, body, subject, cb);
+        module.exports.email(config.mail_from_name, config.mail_from_email, email, body, subject, cb);
     },
 
     activate: function (email, locale, cb) {
         util.translate(myLocals, locale);
         var subject = myLocals.translate("Your account is activated!");
         var body = myLocals.translate("Congrats, your account is been activated.");
-        module.exports.email(configMail.fromText, configMail.from, email, body, subject, cb);
+        module.exports.email(config.mail_from_name, config.mail_from_email, email, body, subject, cb);
     },
 
     email: function (fromText, from, to, body, subject, cb) {
@@ -64,7 +64,7 @@ module.exports = {
         var content = new helper.Content("text/html", body);
         var mail = new helper.Mail(from_email, subject, to_email, content);
 
-        var sg = require("sendgrid")(configMail.sendgrid);
+        var sg = require("sendgrid")(config.mail_provider_key);
         var request = sg.emptyRequest({
             method: "POST",
             path: "/v3/mail/send",
