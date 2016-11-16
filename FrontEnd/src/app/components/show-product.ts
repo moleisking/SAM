@@ -125,7 +125,7 @@ export class Product implements OnInit, OnDestroy {
             this.trans.get("MessageProfileSent").subscribe((res: string) => this.message = res);
 
             let model = new MessageModel();
-            model.to = this.model.email;
+            model.to_email = this.model.email;
             model.url = this.model.url;
             model.text = messageText;
 

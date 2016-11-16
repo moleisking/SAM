@@ -1,4 +1,5 @@
 export class ProfileModel {
+    id: string;
     name: string;
     url: string;
     email: string;

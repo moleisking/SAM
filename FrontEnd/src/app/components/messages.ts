@@ -58,10 +58,10 @@ export class Messages implements OnInit, OnDestroy {
                     this.messages$ = this.m.readWith(profile.url).subscribe(
                         messages => {
                             messages.forEach(element => {
-                                if (element.from === profile.email)
-                                    element.from = profile.name;
+                                if (element.from_email === profile.email)
+                                    element.from_email = profile.name;
                                 else
-                                    this.trans.get("Me").subscribe((res: string) => element.from = res);
+                                    this.trans.get("Me").subscribe((res: string) => element.from_email = res);
                             });
                             this.messages = messages;
                             this.message = "";
@@ -91,14 +91,14 @@ export class Messages implements OnInit, OnDestroy {
             this.trans.get("MessageProfileSent").subscribe((res: string) => this.message = res);
 
             let model = new MessageModel();
-            model.to = this.email;
+            model.to_email = this.email;
             model.url = this.url;
             model.text = messageText;
 
             this.m.add(model).subscribe(
                 m => {
                     this.trans.get("MessageSent").subscribe((res: string) => this.message = res);
-                    this.trans.get("Me").subscribe((res: string) => m.from = res);
+                    this.trans.get("Me").subscribe((res: string) => m.from_email = res);
                     this.messages.push(m);
                     // clean the new message form
                     this.message = "";

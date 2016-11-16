@@ -21,7 +21,7 @@ export class MessageService {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         let options = new RequestOptions({ headers: headers });
         let body =
-            "to=" + model.to +
+            "to=" + model.to_email +
             "&text=" + model.text +
             "&fromUrl=" + model.url;
 
