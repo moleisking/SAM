@@ -6,13 +6,6 @@
 <div class="row">
 	<div class="col-md-offset-1 col-md-10">
 		<div class="form-group">
-			<input type="text" class="form-control" id="location" placeholder="{{ 'Where' | translate }}" autofocus />
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-offset-1 col-md-7">
-		<div class="form-group">
 			<!--<select class="form-control" (change)="onChangeCategory($event.target.value)">
                 <option *ngFor="let cat of cats" value={{cat.id}}>
 					{{ cat.name[0].toUpperCase() + cat.name.substr(1) }}
@@ -24,7 +17,16 @@
 			</template>
 			<!--<pre class="card card-block card-header">Model: {{ customSelected | json }}</pre>-->
 			<input [(ngModel)]="message" [typeahead]="cats" [typeaheadItemTemplate]="customItemTemplate" [typeaheadOptionField]="'name'"
-				(typeaheadOnSelect)="onChangeCategory($event)" class="form-control">
+				(typeaheadOnSelect)="onChangeCategory($event)" class="form-control" autofocus placeholder="{{ 'Categories' | translate }}"
+			/>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-offset-1 col-md-7">
+		<div class="form-group">
+
+			<input type="text" class="form-control" id="location" placeholder="{{ 'Where' | translate }}" />
 		</div>
 	</div>
 	<div class="col-md-3">
