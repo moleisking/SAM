@@ -30,6 +30,7 @@ export class ContactUsFormComponent implements OnInit {
         this.myForm = this.formBuilder.group({
             name: ["", Validators.required],
             email: ["", Validators.required],
+            subject: ["", Validators.required],
             notification: ["", Validators.required]
         });
     }
