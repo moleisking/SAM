@@ -32,7 +32,6 @@
     "ConfirmPassword": "Confirm Password",
     "ConfirmPasswordRequired": "Confirmed password is required. Min 5 chars.",
     "ConfirmPasswordSame": "Password and confirmed password must be the same.",
-    "Location": "Location",
     "WhereYouLive": "Where do you live?",
     "Address": "Address",
     "AddressRequired": "Address is required.",

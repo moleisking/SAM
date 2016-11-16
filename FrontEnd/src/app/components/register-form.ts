@@ -42,7 +42,7 @@ export class RegisterFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        let searchBox: any = document.getElementById("location");
+        let searchBox: any = document.getElementById("address");
         let options = {
             // return only geocoding results, rather than business results.
             types: ["geocode"], componentRestrictions: { country: Settings.search_country }
@@ -53,10 +53,10 @@ export class RegisterFormComponent implements OnInit {
         // Add listener to the place changed event
         autocomplete.addListener("place_changed", () => {
             let place = autocomplete.getPlace();
+            let address = place.formatted_address;
             this.regLat = place.geometry.location.lat();
             this.regLng = place.geometry.location.lng();
-            let address = place.formatted_address;
-            this.getAddress(place);
+            this.myForm.patchValue({ address: address });
         });
 
         let regexPatterns = { numbers: "^[0-9]*$" };
@@ -119,13 +119,5 @@ export class RegisterFormComponent implements OnInit {
                 );
             }
         }
-    }
-
-    getAddress(place: Object) {
-        let address = place["formatted_address"];
-        let location = place["geometry"]["location"];
-        this.regLat = location.lat();
-        this.regLng = location.lng();
-        // console.log("place", address, location, this.regLat, this.regLng);
     }
 }
