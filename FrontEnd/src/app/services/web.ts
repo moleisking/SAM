@@ -33,6 +33,7 @@ export class WebService {
     let creds =
       "name=" + form.name +
       "&email=" + form.email +
+      "&subject=" + form.subject +
       "&message=" + form.notification;
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");

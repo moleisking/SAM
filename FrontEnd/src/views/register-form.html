@@ -29,15 +29,9 @@
 			</small>
 		</div>
 		<div class="form-group" [class.GoogleInvisible]="!isGoogleVisible">
-			<label for="location">{{ 'Location' | translate }}</label>
-			<input type="text" class="form-control" id="location" placeholder="{{ 'WhereYouLive' | translate }}" />
-		</div>
-		<div class="form-group">
 			<label for="address">{{ 'Address' | translate }}</label>
-			<input type="text" class="form-control" formControlName="address" name="address" [(ngModel)]="address" />
-			<small [hidden]="myForm.controls.address.valid || myForm.controls.address.pristine" class="text-danger">
-                {{ 'AddressRequired' | translate }}
-            </small>
+			<input type="text" class="form-control" id="address" formControlName="address" name="address" [(ngModel)]="address" placeholder="{{ 'WhereYouLive' | translate }}"
+			/>
 		</div>
 		<div class="form-group">
 			<label for="mobile">{{ 'Mobile' | translate }}</label>
