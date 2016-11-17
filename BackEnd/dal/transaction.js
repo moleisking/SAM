@@ -1,5 +1,5 @@
 var JsonDB = require('node-json-db');
-var jsondb = new JsonDB("SAM", true, false);
+var jsondb = new JsonDB("transactionsdb", true, false);
 var _path = "/transactions";
 var config = require("../config/settings");
 
@@ -11,7 +11,7 @@ var mongoUri = config.database_address;
 module.exports = {
 
     create: function ( data, cb) {
-        if (config.database_type == "nodedb") {
+       /* if (config.database_type == "nodedb") {
             console.log("nodedb create transactions");
             try {
                 jsondb.push(_path + "/" , data, true);
@@ -21,7 +21,7 @@ module.exports = {
                 return cb(error, null);
             }
         }
-        else if (config.database_type == "mongodb") {
+        else if (config.database_type == "mongodb") {*/
             console.log("monogodb create transactions");
             try
             {
@@ -44,10 +44,10 @@ module.exports = {
                 return cb(err, null);
             } 
         }
-    },
+    /*}*/,
 
     read: function (id, cb) {
-        console.log("nodedb read transactions");        
+       /* console.log("nodedb read transactions");        
         if (config.database_type == "nodedb") {            
             try {                
                 var data = jsondb.getData(_path + "/" + id);
@@ -56,7 +56,7 @@ module.exports = {
                 return cb(err, null);
             }
         }
-        else if (config.database_type == "mongodb") {
+        else if (config.database_type == "mongodb") {*/
             console.log("mongodb read transactions");           
             try
             {
@@ -79,7 +79,7 @@ module.exports = {
             
         }//close if (config.database_type == "mongodb")
             
-    },
+   /* }*/,
 
     all: function (cb) {
         if (config.database_type == "nodedb") {

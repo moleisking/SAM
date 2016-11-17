@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
-var user = require("../core/user");
+var user = require("../dal/user");
 var passport = require("passport");
-var util = require('../core/util');
+var util = require('../dal/util');
 var Localize = require("localize");
 var myLocals = new Localize("localizations/user");
 
@@ -16,7 +16,7 @@ router.get("/", passport.authenticate("jwt", { session: false }), function (req,
 
 router.post("/saveprofile", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   util.translate(myLocals, req.query.locale);
-  if (!req.body.description || !req.body.mobile || !req.body.address || !req.body.category)
+  if (!req.body.description || !req.body.mobile || !req.body.address || !req.body.tags)
     return res.status(400).json({ app_err: myLocals.translate("Please provide description, category, mobile and address.") });
   req.body.image = req.body.image.replace(/ /g, "+");
   user.saveProfile(user.getEmailFromTokenUser(req.headers), req.body, req.query.locale, function (err, data) {
@@ -47,7 +47,7 @@ router.get("/getprofile/:url", function (req, res, next) {
 
 router.post("/search", function (req, res, next) {
   util.translate(myLocals, req.query.locale);
-  if (!req.body.regLat || !req.body.regLng || !req.body.category || !req.body.radius)
+  if (!req.body.regLat || !req.body.regLng || !req.body.curLat || !req.body.curLng || !req.body.tags || !req.body.radius)
     return res.status(400).json({ app_err: myLocals.translate("Please provide radius, category, lat and lng.") });
   user.search(req.body, function (err, data) {
     if (err)

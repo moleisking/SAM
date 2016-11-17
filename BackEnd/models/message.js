@@ -2,7 +2,8 @@ var model = require('nodejs-model');
 var bCrypt = require('bcrypt-nodejs');
 
 var message = new model("Message")
-    .attr('id')        
+    .attr('id')  
+    .attr('from_id')    
     .attr('from_name')    
     .attr('from_url')   
     .attr('from_email', {
@@ -12,6 +13,7 @@ var message = new model("Message")
             }
         }
     }) 
+    .attr('to_id')    
     .attr('to_name')    
     .attr('to_url')   
     .attr('to_email', {

@@ -1,5 +1,5 @@
 var JsonDB = require("node-json-db");
-var db = new JsonDB("Images", true, false);
+var db = new JsonDB("imagesdb", true, false);
 var _path = "/images/";
 var config = require("../config/settings");
 var mongoClient = require('mongodb').MongoClient;
@@ -46,7 +46,7 @@ module.exports = {
     },
 
     read: function (id, cb) {
-        if (config.database_type == "nodedb") {
+       /* if (config.database_type == "nodedb") {
             console.log("read nodedb image");
             try {
                 var data = db.getData(_path + id);
@@ -55,7 +55,7 @@ module.exports = {
                 return cb(err);
             }
         }
-        else if (config.database_type == "mongodb") {
+        else if (config.database_type == "mongodb") {*/
             console.log("read mongodb image");           
             try
             {
@@ -75,5 +75,5 @@ module.exports = {
                 return cb(err, null);
             }
         }//close if (config.database_type == "mongodb")     
-    },
+   /* }*/,
 }
