@@ -28,7 +28,7 @@ export class UserService {
       "&address=" + user.address +
       "&mobile=" + user.mobile +
       "&username=" + user.username;
-console.log(body)
+
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });

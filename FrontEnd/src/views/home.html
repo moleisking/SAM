@@ -13,12 +13,11 @@
             </select>-->
 			<template #customItemTemplate let-model="item" let-index="index">
 				<!--<h5>This is: {{ model | json }} Index: {{ index }}</h5>-->
-				<h5>{{ model.name }}</h5>
+				<h5>{{ model.name[0].toUpperCase() + model.name.substr(1) }}</h5>
 			</template>
 			<!--<pre class="card card-block card-header">Model: {{ customSelected | json }}</pre>-->
-			<input [(ngModel)]="message" [typeahead]="cats" [typeaheadItemTemplate]="customItemTemplate" [typeaheadOptionField]="'name'"
-				(typeaheadOnSelect)="onChangeCategory($event)" class="form-control" autofocus placeholder="{{ 'Categories' | translate }}"
-			/>
+			<input [(ngModel)]="c" [typeahead]="cats" [typeaheadItemTemplate]="customItemTemplate" [typeaheadOptionField]="'name'" (typeaheadOnSelect)="onChangeCategory($event)"
+				class="form-control" autofocus placeholder="{{ 'Categories' | translate }}" />
 		</div>
 	</div>
 </div>

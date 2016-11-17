@@ -2,92 +2,98 @@
     "categories": [
         {
             "id": 1,
+            "cat": 0,
             "en": {
                 "name": "artist",
-                "description": "Description Artist",
-                "tags": [
-                    {
-                        "id": 11,
-                        "name": "actor",
-                        "description": "Tag actor"
-                    },
-                    {
-                        "id": 12,
-                        "name": "musician",
-                        "description": "Tag musician"
-                    },
-                    {
-                        "id": 13,
-                        "name": "painter",
-                        "description": "Tag painter"
-                    }
-                ]
+                "description": "Description Artist"
             },
             "es": {
                 "name": "artista",
-                "description": "Descripción de artista",
-                "tags": [
-                    {
-                        "id": 11,
-                        "name": "actor",
-                        "description": "Etiqueta actor"
-                    },
-                    {
-                        "id": 12,
-                        "name": "músico",
-                        "description": "Etiqueta músico"
-                    },
-                    {
-                        "id": 13,
-                        "name": "pintor",
-                        "description": "Etiqueta pintor"
-                    }
-                ]
+                "description": "Descripción de artista"
+            }
+        },
+        {
+            "id": 11,
+            "cat": 1,
+            "en": {
+                "name": "actor",
+                "description": "Tag actor"
+            },
+            "es": {
+                "name": "actor",
+                "description": "Etiqueta actor"
+            }
+        },
+        {
+            "id": 12,
+            "cat": 1,
+            "en": {
+                "name": "musician",
+                "description": "Tag musician"
+            },
+            "es": {
+                "name": "músico",
+                "description": "Etiqueta músico"
+            }
+        },
+        {
+            "id": 13,
+            "cat": 1,
+            "en": {
+                "name": "painter",
+                "description": "Tag painter"
+            },
+            "es": {
+                "name": "pintor",
+                "description": "Etiqueta pintor"
             }
         },
         {
             "id": 2,
+            "cat": 0,
             "en": {
                 "name": "builder",
-                "description": "Description Builder",
-                "tags": [
-                    {
-                        "id": 21,
-                        "name": "programs",
-                        "description": "Tag programs"
-                    },
-                    {
-                        "id": 22,
-                        "name": "buildings",
-                        "description": "Tag buildings"
-                    },
-                    {
-                        "id": 23,
-                        "name": "houses",
-                        "description": "Tag houses"
-                    }
-                ]
+                "description": "Description Builder"
             },
             "es": {
                 "name": "Constructor",
-                "description": "Descripción constructor",
-                "tags": [
-                    {
-                        "id": 21,
-                        "name": "programas",
-                        "description": "Etiqueta programas"
-                    },
-                    {
-                        "id": 22,
-                        "name": "edificios",
-                        "description": "Etiqueta edificios"
-                    },
-                    {
-                        "id": 23,
-                        "name": "casas",
-                        "description": "Etiqueta casas"
-                    }
-                ]
+                "description": "Descripción constructor"
+            }
+        },
+        {
+            "id": 21,
+            "cat": 2,
+            "en": {
+                "name": "programs",
+                "description": "Tag programs"
+            },
+            "es": {
+                "name": "programas",
+                "description": "Etiqueta programas"
+            }
+        },
+        {
+            "id": 22,
+            "cat": 2,
+            "en": {
+                "name": "buildings",
+                "description": "Tag buildings"
+            },
+            "es": {
+                "name": "edificios",
+                "description": "Etiqueta edificios"
+            }
+        },
+        {
+            "id": 23,
+            "cat": 2,
+            "en": {
+                "name": "houses",
+                "description": "Tag houses"
+            },
+            "es": {
+                "name": "casas",
+                "description": "Etiqueta casas"
             }
         }
     ]

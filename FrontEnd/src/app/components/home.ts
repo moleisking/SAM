@@ -20,6 +20,7 @@ export class Home implements OnInit {
     private users: Array<UserModel>;
     private cats: Array<CategoryModel>;
     private message: string;
+    private c: string; // just for the view auto complete object
 
     private lat: number;
     private lng: number;
@@ -33,7 +34,6 @@ export class Home implements OnInit {
     ) { }
 
     getAddress(place: Object) {
-        let address = place["formatted_address"];
         let location = place["geometry"]["location"];
         this.lat = location.lat();
         this.lng = location.lng();
@@ -43,7 +43,6 @@ export class Home implements OnInit {
         this.cat.all().subscribe(
             c => {
                 this.cats = c;
-                console.log(this.cats);
                 this.category = c[0].id;
             },
             error => this.message = <any>error,
@@ -52,7 +51,6 @@ export class Home implements OnInit {
     }
 
     onChangeCategory(e: any): void {
-        console.log(e.item.id)
         this.category = e.item.id;
     }
 

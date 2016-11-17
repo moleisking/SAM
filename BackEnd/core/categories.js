@@ -1,5 +1,4 @@
 var NodeCache = require("node-cache");
-var async = require("async");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "categories";
 var catDAL = require("../dal/categories");
@@ -7,17 +6,17 @@ var model = require("../models/category");
 
 module.exports = {
 
-    all: function(locale, cb) {
-        myCache.get(myCacheName + "allCategories" + locale, function(err, value) {
+    all: function (locale, cb) {
+        myCache.get(myCacheName + "allCategories" + locale, function (err, value) {
             if (err)
                 return cb(err, null);
             else {
                 if (value != undefined)
                     return cb(null, value);
-                _all(locale, function(err, readAll) {
+                _all(locale, function (err, readAll) {
                     if (err)
                         return cb(err, null);
-                    myCache.set(myCacheName + "allCategories" + locale, readAll, function(err, success) {
+                    myCache.set(myCacheName + "allCategories" + locale, readAll, function (err, success) {
                         if (err)
                             return cb(err, null);
                         if (success)
@@ -32,35 +31,18 @@ module.exports = {
 
 function _all(locale, cb) {
     try {
-        catDAL.all(function(err, data) {
-            if (err && (err.hasOwnProperty("id")))
+        catDAL.all(function (err, data) {
+            if (err && err.hasOwnProperty("id"))
                 return cb(err, null);
             var cats = [];
-            async.forEach(data, function(item, callback) {
+            data.forEach(function (item) {
                 var cat = model.create();
-                var catName = item[locale].name;
                 cat.id(item.id);
                 cat.name(item[locale].name);
                 cat.description(item[locale].description);
                 cats.push(cat.toJSON());
-                var tags = [];
-                async.forEach(item[locale].tags, function(itemTag, callback) {
-                    cat.update(itemTag);
-                    var tagName = catName + " - " + itemTag.name;
-                    cat.name(tagName);
-                    cats.push(cat.toJSON());
-                    callback();
-                }, function(err) {
-                    if (err)
-                        return cb(err, null);
-                });
-                callback();
-            }, function(err) {
-                if (err)
-                    return cb(err, null);
-                console.log("Processing all categories completed");
-                return cb(null, cats);
-            });
+            }, this);
+            return cb(null, cats);
         });
     } catch (err) {
         return cb(err, null);

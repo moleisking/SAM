@@ -18,9 +18,7 @@ export class Categories implements OnInit {
     constructor(
         private cat: CategoriesService,
         private trans: TranslateService
-    ) {
-        this.message = "";
-    }
+    ) { this.message = ""; }
 
     getCategories() {
         this.cat.all().subscribe(
