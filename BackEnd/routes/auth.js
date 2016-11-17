@@ -6,12 +6,12 @@ var user = require("../dal/user");
 var emailer = require("../dal/emailer");
 var model = require("../models/user");
 var router = express.Router();
-var util = require('../dal/util');
+var util = require('../util/util');
 var Localize = require("localize");
 var myLocals = new Localize("localizations/user");
 var uuid = require('node-uuid');
 
-require("../config/passport")(passport);
+require("../util/passport")(passport);
 
 router.post("/signup", function (req, res) {
   console.log("route signup called");   

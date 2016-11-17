@@ -4,7 +4,7 @@ var router = express.Router();
 var passport = require("passport");
 var message = require("../dal/message");
 var user = require("../dal/user");
-var util = require("../dal/util");
+var util = require("../util/util");
 var Localize = require("localize");
 var myLocals = new Localize("localizations/message");
 
