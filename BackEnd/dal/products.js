@@ -1,5 +1,5 @@
 var JsonDB = require('node-json-db');
-var jsondb = new JsonDB("productsdb", true, false);
+var jsondb = new JsonDB("SAM", true, false);
 var _path = "/products";
 var config = require("../config/settings");
 
@@ -23,59 +23,63 @@ module.exports = {
         }
         else if (config.database_type == "mongodb") {
             console.log("monogodb create product");
-            try {
-                mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;
+            try
+            {
+                mongoClient.connect(mongoUri, function(err, db) {               
+                    if (err) throw err;   
                     console.log(data);
-
-                    db.collection('products').insert(data, function (err, result) {
-                        assert.equal(err, null);
+                
+                    db.collection('products').insert(data , function(err, result) {
+                        assert.equal(err, null);               
                         console.log("product inserted");
                         //callback(result);
                         db.close();
                         return cb(null, data);
-                    });
-                });
+                    });      
+                }); 
             }
-            catch (err) {
+            catch (err)
+            {                
                 console.log(err);
                 return cb(err, null);
-            }
+            } 
         }
     },
 
     read: function (id, cb) {
-        console.log("nodedb read product");
-        if (config.database_type == "nodedb") {
-            try {
+        console.log("nodedb read product");        
+        if (config.database_type == "nodedb") {            
+            try {                
                 var data = jsondb.getData(_path + "/" + id);
                 return cb(null, data);
-            } catch (err) {
+            } catch (err) {               
                 return cb(err, null);
             }
         }
         else if (config.database_type == "mongodb") {
-            console.log("mongodb read product");
-            try {
-                mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;
-
+            console.log("mongodb read product");           
+            try
+            {
+                mongoClient.connect(mongoUri, function (err, db) {                 
+                    if (err) throw err;   
+                       
                     db.collection('products').find({ id: id }).toArray(function (err, data) {
-                        console.log("product found");
-                        assert.equal(err, null);
+                        console.log("product found");  
+                        assert.equal(err, null);                       
                         console.dir(data);
-                        return cb(null, data);
-                    });
-
+                        return cb(null,data);
+                        });                        
+                
                 }); //close connection
             }
-            catch (err) {
+            catch (err)
+            {                
                 console.log(err);
                 return cb(err, null);
             }
-
+            
         }//close if (config.database_type == "mongodb")
-
+            
     },
 
     all: function (cb) {
@@ -88,20 +92,22 @@ module.exports = {
             }
         }
         else if (config.database_type == "mongodb") {
-            console.log("mongodb all product");
-            try {
+            console.log("mongodb all product");       
+            try
+            {            
                 mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;
-
+                    if (err) throw err;     
+                       
                     db.collection('products').find().toArray(function (err, data) {
                         assert.equal(err, null);
                         console.log("product found");
                         console.dir(data);
-                        return cb(null, data);
-                    });
+                        return cb(null,data);
+                        });                                  
                 });
             }
-            catch (err) {
+            catch (err)
+            {               
                 console.log(err);
                 return cb(err, null);
             }

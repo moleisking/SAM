@@ -6,12 +6,11 @@ var user = require("../core/user");
 var emailer = require("../core/emailer");
 var model = require("../models/user");
 var router = express.Router();
-var util = require('../util/util');
+var util = require('../core/util');
 var Localize = require("localize");
 var myLocals = new Localize("localizations/user");
-var uuid = require('node-uuid');
 
-require("../util/passport")(passport);
+require("../config/passport")(passport);
 
 router.post("/signup", function(req, res) {
     util.translate(myLocals, req.query.locale);

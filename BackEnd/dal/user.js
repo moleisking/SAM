@@ -1,8 +1,7 @@
 var JsonDB = require('node-json-db');
 var jsondb = new JsonDB("usersdb", true, false);
-var _path = "/users";
+var _path = "/user";
 var config = require("../config/settings");
-
 
 var mongoClient = require('mongodb').MongoClient;
 var mongoObjectId = require('mongodb').ObjectID;
@@ -11,85 +10,76 @@ var assert = require('assert');
 
 module.exports = {
 
-    create: function ( data, cb) {
-        /*if (config.database_type == "nodedb") {
+    create: function (email, data, cb) {
+        if (config.database_type == "nodedb") {
             console.log("Call -> nodedb:user:create");
-            try {               
-                console.log("dal user create success");
-                jsondb.push(_path + "[]", data, true);
+            try {
+                jsondb.push(_path + "/" + email, data, true);
                 return cb(null, data);
             }
             catch (error) {
-                console.log("dal user create err");
                 return cb(error, null);
             }
         }
-        else if (config.database_type == "mongodb") {*/
+        else if (config.database_type == "mongodb") {
             console.log("monogodb create user");
-            try
-            {
-                mongoClient.connect(mongoUri, function(err, db) {               
-                    if (err) throw err;   
+            try {
+                mongoClient.connect(mongoUri, function (err, db) {
+                    if (err) throw err;
                     console.log(data);
-                
-                    db.collection('users').insert(data , function(err, result) {
-                        assert.equal(err, null);               
+
+                    db.collection('users').insert(data, function (err, result) {
+                        assert.equal(err, null);
                         console.log("user inserted");
                         return cb(null, data);
                         //callback(result);
                         //db.close();
-                    });      
-                }); 
+                    });
+                });
             }
-            catch (err)
-            {                
+            catch (err) {
                 console.log(err);
                 return cb(err, null);
-            } 
+            }
         }
-   /* }*/,
+    },
 
     read: function (email, cb) {
-      /*  console.log("nodedb read user");        
-        if (config.database_type == "nodedb") {            
-            try {                
-                var data = jsondb.getData(_path ).find('{email:' + email+ "}");
-                console.log("read user found"); 
-                console.log(data); 
+        console.log("nodedb read user");
+        if (config.database_type == "nodedb") {
+            try {
+                var data = jsondb.getData(_path + "/" + email);
                 return cb(null, data);
-            } catch (err) {                    
-                console.log(err); 
+            } catch (err) {
                 return cb(err, null);
             }
         }
-        else if (config.database_type == "mongodb") {*/
-            console.log("mongodb read user");           
-            try
-            {
-                mongoClient.connect(mongoUri, function (err, db) {                 
-                    if (err) throw err;   
-                       
+        else if (config.database_type == "mongodb") {
+            console.log("mongodb read user");
+            try {
+                mongoClient.connect(mongoUri, function (err, db) {
+                    if (err) throw err;
+
                     db.collection('users').find({ email: email }).toArray(function (err, data) {
-                        console.log("user found");  
-                        assert.equal(err, null);                       
+                        console.log("user found");
+                        assert.equal(err, null);
                         console.dir(data);
-                        return cb(null,data);
-                        });                        
-                
+                        return cb(null, data);
+                    });
+
                 }); //close connection
             }
-            catch (err)
-            {                
+            catch (err) {
                 console.log(err);
                 return cb(err, null);
             }
-            
+
         }//close if (config.database_type == "mongodb")
-            
-   /* }*/,
+
+    },
 
     all: function (cb) {
-        /*if (config.database_type == "nodedb") {
+        if (config.database_type == "nodedb") {
             try {
                 var data = jsondb.getData(_path);
                 return cb(null, data);
@@ -97,28 +87,26 @@ module.exports = {
                 return cb(err, null);
             }
         }
-        else if (config.database_type == "mongodb") {*/
-            console.log("mongodb all user");       
-            try
-            {            
+        else if (config.database_type == "mongodb") {
+            console.log("mongodb all user");
+            try {
                 mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;     
-                       
+                    if (err) throw err;
+
                     db.collection('users').find().toArray(function (err, data) {
                         assert.equal(err, null);
                         console.log("user found");
                         console.dir(data);
-                        return cb(null,data);
-                        });                                  
+                        return cb(null, data);
+                    });
                 });
             }
-            catch (err)
-            {               
+            catch (err) {
                 console.log(err);
                 return cb(err, null);
             }
         }// if (config.database_type == "mongodb")
-   /* }*/,
+    },
 
     // delete: function (usernameurl, cb) {
     //     try {

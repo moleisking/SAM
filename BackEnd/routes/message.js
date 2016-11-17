@@ -2,22 +2,14 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
-var message = require("../dal/message");
-var user = require("../dal/user");
-var util = require("../util/util");
+var message = require("../core/message");
+var user = require("../core/user");
+var util = require("../core/util");
 var Localize = require("localize");
 var myLocals = new Localize("localizations/message");
 
-router.get("/readallnew", passport.authenticate("jwt", { session: false }), function (req, res, next) {
-  message.readAllLatest(user.getEmailFromTokenUser(req.headers), req.query.locale, function (err, data) {
-    if (err)
-      return res.status(500).json({ err });
-    res.json({ messages: data });
-  });
-});
-
-router.get("/readall", passport.authenticate("jwt", { session: false }), function (req, res, next) {
-  message.readAll(user.getEmailFromTokenUser(req.headers), req.query.locale, function (err, data) {
+router.get("/readalllasts", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+  message.readAllLasts(user.getEmailFromTokenUser(req.headers), req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
     res.json({ messages: data });

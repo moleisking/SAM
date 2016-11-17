@@ -1,8 +1,7 @@
 var model = require("nodejs-model");
 
 var profile = new model("Profile")
-    .attr('id')    
-    .attr('username', {
+    .attr("username", {
         validations: {
             presence: {
                 message: "Username is required!"

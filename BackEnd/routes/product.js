@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
-var user = require("../dal/product");
+var user = require("../core/user");
 var passport = require("passport");
-var util = require('../util/util');
+var util = require('../core/util');
 var Localize = require("localize");
 var myLocals = new Localize("localizations/user");
 

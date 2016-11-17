@@ -2,8 +2,7 @@ var model = require("nodejs-model");
 var bCrypt = require("bcrypt-nodejs");
 
 var transaction = new model("Product")
-    .attr('id')    
-    .attr('userid', {
+    .attr("userid", {
         validations: {
             presence: {
                 message: "Userid is required!"
