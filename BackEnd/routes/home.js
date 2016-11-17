@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var util = require("../core/util");
+var util = require("../util/util");
 var Localize = require("localize");
 var myLocals = new Localize("localizations/home");
 

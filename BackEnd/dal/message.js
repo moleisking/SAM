@@ -1,5 +1,5 @@
 var JsonDB = require("node-json-db");
-var db = new JsonDB("Messages", true, false);
+var db = new JsonDB("messagesdb", true, false);
 var _path = "/messages";
 
 var config = require("../config/settings");
@@ -11,7 +11,7 @@ var mongoUri = config.database_address; //"mongodb://192.168.1.100:27017/test"; 
 module.exports = {
 
     create: function (data, cb) {
-        if (config.database_type == "nodedb") {
+       /* if (config.database_type == "nodedb") {
             console.log("nodedb create message");
             try {
                 db.push(_path + "[]", data, true);
@@ -20,7 +20,7 @@ module.exports = {
                 return cb(error, null);
             }
         }
-        else if (config.database_type == "mongodb") {
+        else if (config.database_type == "mongodb") {*/
             console.log("mongodb create message");
             try
             {
@@ -44,11 +44,11 @@ module.exports = {
                 return cb(err, null);
             } 
         }    
-    },
+   /* }*/,
 
     //this should be all    
     read: function (cb) {
-        if (config.database_type == "nodedb")
+       /* if (config.database_type == "nodedb")
         {
              console.log("nodedb read message");
             try {
@@ -58,7 +58,7 @@ module.exports = {
                 return cb(err);
              }
          }
-        else if (config.database_type == "mongodb") {
+        else if (config.database_type == "mongodb") {*/
             console.log("mongodb read message");
            
             try
@@ -80,5 +80,5 @@ module.exports = {
             }
             
         }//close if (config.database_type == "mongodb")     
-    },
+    /*}*/,
 }

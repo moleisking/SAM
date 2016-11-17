@@ -1,6 +1,6 @@
 var JsonDB = require('node-json-db');
-var jsondb = new JsonDB("SAM", true, false);
-var _path = "/products";
+var jsondb = new JsonDB("productsdb", true, false);
+var _path = "/product";
 var config = require("../config/settings");
 
 var mongoClient = require('mongodb').MongoClient;
@@ -11,7 +11,7 @@ var assert = require('assert');
 module.exports = {
 
     create: function (data, cb) {
-        if (config.database_type == "nodedb") {
+      /*  if (config.database_type == "nodedb") {
             console.log("nodedb create product");
             try {
                 jsondb.push(_path + "/", data, true);
@@ -21,7 +21,7 @@ module.exports = {
                 return cb(error, null);
             }
         }
-        else if (config.database_type == "mongodb") {
+        else if (config.database_type == "mongodb") {*/
             console.log("monogodb create product");
             try
             {
@@ -44,10 +44,10 @@ module.exports = {
                 return cb(err, null);
             } 
         }
-    },
+  /*  }*/,
 
     read: function (id, cb) {
-        console.log("nodedb read product");        
+       /* console.log("nodedb read product");        
         if (config.database_type == "nodedb") {            
             try {                
                 var data = jsondb.getData(_path + "/" + id);
@@ -56,7 +56,7 @@ module.exports = {
                 return cb(err, null);
             }
         }
-        else if (config.database_type == "mongodb") {
+        else if (config.database_type == "mongodb") {*/
             console.log("mongodb read product");           
             try
             {
@@ -80,10 +80,10 @@ module.exports = {
             
         }//close if (config.database_type == "mongodb")
             
-    },
+   /* }*/,
 
     all: function (cb) {
-        if (config.database_type == "nodedb") {
+       /* if (config.database_type == "nodedb") {
             try {
                 var data = jsondb.getData(_path);
                 return cb(null, data);
@@ -91,7 +91,7 @@ module.exports = {
                 return cb(err, null);
             }
         }
-        else if (config.database_type == "mongodb") {
+        else if (config.database_type == "mongodb") {*/
             console.log("mongodb all product");       
             try
             {            
@@ -112,7 +112,7 @@ module.exports = {
                 return cb(err, null);
             }
         }// if (config.database_type == "mongodb")
-    },
+    /*}*/,
 
     // delete: function (usernameurl, cb) {
     //     try {

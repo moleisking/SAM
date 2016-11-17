@@ -2,7 +2,8 @@ var model = require("nodejs-model");
 var bCrypt = require("bcrypt-nodejs");
 
 var user = new model("User")
-    .attr("username", {
+    .attr('id')    
+    .attr('username', {
         validations: {
             presence: {
                 message: "Username is required!"
@@ -68,14 +69,15 @@ var user = new model("User")
             }
         }
     })
-    .attr("tags", {
+    .attr('category', {
         validations: {
             presence: {
-                message: "Tags are required!"
+                message: 'Category is required!'
             }
         }
     })
-    .attr("address", {
+    .attr('tags')
+    .attr('address', {
         validations: {
             presence: {
                 message: "Address is required!"
@@ -89,14 +91,15 @@ var user = new model("User")
             }
         }
     })
-    .attr("available")
-    .attr("rating")
-    .attr("hourRate")
-    .attr("dayRate")
-    .attr("credit")
-    .attr("guid")
-    .attr("activated")
-    .attr("timeStamp");
+    .attr('available')
+    .attr('rating')
+    .attr('total')
+    .attr('hourRate')
+    .attr('dayRate')
+    .attr('credit')
+    .attr('guid')
+    .attr('activated')
+    .attr('datetimeStamp');
 
 module.exports = user;
 

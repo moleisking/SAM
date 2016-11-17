@@ -6,7 +6,7 @@ module.exports = {
   secret: "conchalalora",
   //database_type: "mongodb",
   database_type: "nodedb",
-  database_user: "nodedb",
-  database_secret: "nodedb",
+  database_user: "mike",
+  database_secret: "qwerty",
   frontEndUrl: "http://localhost:3000"
 };

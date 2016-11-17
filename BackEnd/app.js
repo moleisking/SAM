@@ -7,11 +7,13 @@ var swagger = require('swagger-express');
 
 var home = require("./routes/home");
 var web = require("./routes/web");
-var users = require("./routes/user");
+var user = require("./routes/user");
 var auth = require("./routes/auth");
 var message = require("./routes/message");
-var rating = require("./routes/rating");
-var payment = require("./routes/payment");
+var score = require("./routes/score");
+var transaction = require("./routes/transaction");
+var product = require("./routes/product");
+var tag = require("./routes/tag");
 
 var app = express();
 
@@ -57,11 +59,13 @@ app.use(allowCrossDomain);
 
 app.use("/", home);
 app.use("/", web);
-app.use("/users", users);
 app.use("/", auth);
-app.use("/messages", message);
-app.use("/ratings", rating);
-app.use("/payment", payment);
+app.use("/user", user);
+app.use("/message", message);
+app.use("/score", score);
+app.use("/transaction", transaction);
+app.use("/product", product);
+app.use("/tag", tag);
 
 app.use(swagger.init(app, {
   apiVersion: '1.0',
@@ -81,6 +85,7 @@ app.use(redirectRouterUnmatched);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+  console.log("App error 404");
   var err = new Error("Not Found");
   err.status = 404;
   next(err);
