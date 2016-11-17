@@ -1,17 +1,12 @@
 node_modules
 *.gz
-
-FrontEnd/*.log
-FrontEnd/npm-debug.log.*
-BackEnd/npm-debug.log.*
+*.log
 
 BackEnd/SAM.json
 BackEnd/Messages.json
 BackEnd/Rating.json
 BackEnd/Images.json
-BackEnd/config/settingsmail.js
 
-FrontEnd/scripts/
 FrontEnd/typings/
 FrontEnd/dist/
 
