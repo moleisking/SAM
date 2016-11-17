@@ -1,104 +1,102 @@
-var model = require('nodejs-model');
-var bCrypt = require('bcrypt-nodejs');
+var model = require("nodejs-model");
+var bCrypt = require("bcrypt-nodejs");
 
 var user = new model("User")
-    .attr('username', {
+    .attr("username", {
         validations: {
             presence: {
-                message: 'Username is required!'
+                message: "Username is required!"
             }
         }
     })
-    .attr('name', {
+    .attr("name", {
         validations: {
             presence: {
-                message: 'Name is required!'
+                message: "Name is required!"
             }
         }
     })
-    .attr('password', {
+    .attr("password", {
         validations: {
             presence: {
-                message: 'Password is required!'
+                message: "Password is required!"
             },
             length: {
                 minimum: 5,
                 messages: {
-                    tooShort: 'Password is too short!'
+                    tooShort: "Password is too short!"
                 }
             }
         },
-        // tags: ['private'] //this tags the accessibility as _private_ 
+        // tags: ["private"] //this tags the accessibility as _private_ 
     })
-    .attr('url', {
+    .attr("url", {
         validations: {
             presence: {
-                message: 'Name Url is required!'
+                message: "Name Url is required!"
             }
         }
     })
-    .attr('admin')
-    .attr('email')
-    .attr('description')
-    .attr('birthday')
-    .attr('regLat', {
+    .attr("admin")
+    .attr("email")
+    .attr("description")
+    .attr("regLat", {
         validations: {
             presence: {
-                message: 'Latitude is required!'
+                message: "Latitude is required!"
             }
         }
     })
-    .attr('regLng', {
+    .attr("regLng", {
         validations: {
             presence: {
-                message: 'Longitude is required!'
+                message: "Longitude is required!"
             }
         }
     })
-    .attr('curLat', {
+    .attr("curLat", {
         validations: {
             presence: {
-                message: 'Current Latitude is required!'
+                message: "Current Latitude is required!"
             }
         }
     })
-    .attr('curLng', {
+    .attr("curLng", {
         validations: {
             presence: {
-                message: 'Current Longitude is required!'
+                message: "Current Longitude is required!"
             }
         }
     })
-    .attr('category', {
+    .attr("tags", {
         validations: {
             presence: {
-                message: 'Category is required!'
+                message: "Tags are required!"
             }
         }
     })
-    .attr('tags')
-    .attr('address', {
+    .attr("address", {
         validations: {
             presence: {
-                message: 'Address is required!'
+                message: "Address is required!"
             }
         }
     })
-    .attr('mobile', {
+    .attr("mobile", {
         validations: {
             presence: {
-                message: 'Mobile is required!'
+                message: "Mobile is required!"
             }
         }
     })
-    .attr('available')
-    .attr('rating')
-    .attr('hourRate')
-    .attr('dayRate')
-    .attr('credit')
-    .attr('guid')
-    .attr('activated')
-    .attr('timeStamp');
+    .attr("available")
+    .attr("rating")
+    .attr("hourRate")
+    .attr("dayRate")
+    .attr("credit")
+    .attr("guid")
+    .attr("activated")
+    .attr("timeStamp");
 
 module.exports = user;
 
@@ -110,34 +108,34 @@ module.exports.validPassword = function (userpass, passwordhash) {
     return bCrypt.compareSync(userpass, passwordhash);
 };
 
-// var model = require('nodejs-model');
+// var model = require("nodejs-model");
 
 // //create a new model definition _User_ and define _name_/_password_ attributes 
-// var User = model("User").attr('name', {
+// var User = model("User").attr("name", {
 //   validations: {
 //     presence: {
-//       message: 'Name is required!'
+//       message: "Name is required!"
 //     }
 //   }
-// }).attr('password', {
+// }).attr("password", {
 //   validations: {
 //     length: {
 //       minimum: 5,
 //       maximum: 20,
 //       messages: {
-//         tooShort: 'password is too short!',
-//         tooLong: 'password is too long!'
+//         tooShort: "password is too short!",
+//         tooLong: "password is too long!"
 //       }
 //     }
 //   },
 //   //this tags the accessibility as _private_ 
-//   tags: ['private']
+//   tags: ["private"]
 // });
 
 // var u1 = User.create();
 // //getters are generated automatically 
-// u1.name('foo');
-// u1.password('password');
+// u1.name("foo");
+// u1.password("password");
 
 // console.log(u1.name());
 // //prints _foo_ 
@@ -154,8 +152,8 @@ module.exports.validPassword = function (userpass, passwordhash) {
 
 // //get object as a plain object, ready for JSON 
 // console.log(u1.toJSON());
-// //produces: { name: 'foo' } 
+// //produces: { name: "foo" } 
 
-// //now also with attributes that were tagged with 'private' 
-// console.log(u1.toJSON('private'));
-// //produces: { name: 'foo' } { password: 'password' } 
+// //now also with attributes that were tagged with "private" 
+// console.log(u1.toJSON("private"));
+// //produces: { name: "foo" } { password: "password" } 

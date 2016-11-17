@@ -1,32 +1,32 @@
-var model = require('nodejs-model');
-var bCrypt = require('bcrypt-nodejs');
+var model = require("nodejs-model");
+var bCrypt = require("bcrypt-nodejs");
 
 var rating = new model("Rating")
-    .attr('id', {
+    .attr("id", {
         validations: {
             presence: {
-                message: 'Id is required!'
+                message: "Id is required!"
             }
         }
     })
-    .attr('from', {
+    .attr("from", {
         validations: {
             presence: {
-                message: 'From is required!'
+                message: "From is required!"
             }
         }
     })
-    .attr('number', {
+    .attr("number", {
         validations: {
             presence: {
-                message: 'Number is required!'
+                message: "Number is required!"
             }
         }
     })
-    .attr('datestamp', {
+    .attr("datestamp", {
         validations: {
             presence: {
-                message: 'DateStamp is required!'
+                message: "DateStamp is required!"
             }
         }
     });

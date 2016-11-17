@@ -4,11 +4,11 @@
             "id": 1,
             "cat": 0,
             "en": {
-                "name": "artist",
+                "text": "artist",
                 "description": "Description Artist"
             },
             "es": {
-                "name": "artista",
+                "text": "artista",
                 "description": "Descripción de artista"
             }
         },
@@ -16,11 +16,11 @@
             "id": 11,
             "cat": 1,
             "en": {
-                "name": "actor",
+                "text": "actor",
                 "description": "Tag actor"
             },
             "es": {
-                "name": "actor",
+                "text": "actor",
                 "description": "Etiqueta actor"
             }
         },
@@ -28,11 +28,11 @@
             "id": 12,
             "cat": 1,
             "en": {
-                "name": "musician",
+                "text": "musician",
                 "description": "Tag musician"
             },
             "es": {
-                "name": "músico",
+                "text": "músico",
                 "description": "Etiqueta músico"
             }
         },
@@ -40,11 +40,11 @@
             "id": 13,
             "cat": 1,
             "en": {
-                "name": "painter",
+                "text": "painter",
                 "description": "Tag painter"
             },
             "es": {
-                "name": "pintor",
+                "text": "pintor",
                 "description": "Etiqueta pintor"
             }
         },
@@ -52,11 +52,11 @@
             "id": 2,
             "cat": 0,
             "en": {
-                "name": "builder",
+                "text": "builder",
                 "description": "Description Builder"
             },
             "es": {
-                "name": "Constructor",
+                "text": "Constructor",
                 "description": "Descripción constructor"
             }
         },
@@ -64,11 +64,11 @@
             "id": 21,
             "cat": 2,
             "en": {
-                "name": "programs",
+                "text": "programs",
                 "description": "Tag programs"
             },
             "es": {
-                "name": "programas",
+                "text": "programas",
                 "description": "Etiqueta programas"
             }
         },
@@ -76,11 +76,11 @@
             "id": 22,
             "cat": 2,
             "en": {
-                "name": "buildings",
+                "text": "buildings",
                 "description": "Tag buildings"
             },
             "es": {
-                "name": "edificios",
+                "text": "edificios",
                 "description": "Etiqueta edificios"
             }
         },
@@ -88,11 +88,11 @@
             "id": 23,
             "cat": 2,
             "en": {
-                "name": "houses",
+                "text": "houses",
                 "description": "Tag houses"
             },
             "es": {
-                "name": "casas",
+                "text": "casas",
                 "description": "Etiqueta casas"
             }
         }

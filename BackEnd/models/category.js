@@ -1,20 +1,21 @@
-var model = require('nodejs-model');
+var model = require("nodejs-model");
 
 var category = new model("Category")
-    .attr('id', {
+    .attr("id", {
         validations: {
             presence: {
-                message: 'ID is required!'
+                message: "ID is required!"
             }
         }
     })
-    .attr('name', {
+    .attr("text", {
         validations: {
             presence: {
-                message: 'Name is required!'
+                message: "Name is required!"
             }
         }
     })
-    .attr('description');
+    .attr("description")
+    .attr("cat");
 
 module.exports = category;

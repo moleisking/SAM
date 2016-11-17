@@ -19,6 +19,13 @@ export class CategoriesService {
   all(): Observable<CategoryModel[]> {
     return this.http.get(Settings.backend_url + "/categories?locale=" + this.trans.currentLang)
       .map((res: Response) => res.json().categories)
+      .map((x: any) => {
+        return x.map((y: any) => {
+          y.text = y.text[0].toUpperCase() + y.text.substr(1);
+          y.description = y.description[0].toUpperCase() + y.description.substr(1);
+          return y;
+        });
+      })
       .catch(this.handleError);
   }
 

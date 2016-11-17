@@ -1,53 +1,53 @@
-var model = require('nodejs-model');
-var bCrypt = require('bcrypt-nodejs');
+var model = require("nodejs-model");
+var bCrypt = require("bcrypt-nodejs");
 
 var transaction = new model("Product")
-    .attr('userid', {
+    .attr("userid", {
         validations: {
             presence: {
-                message: 'Userid is required!'
+                message: "Userid is required!"
             }
         }
     })
-    .attr('image1')
-    .attr('image2')
-    .attr('image3')
-    .attr('image4')
-    .attr('title', {
+    .attr("image1")
+    .attr("image2")
+    .attr("image3")
+    .attr("image4")
+    .attr("title", {
         validations: {
             presence: {
-                message: 'Title is required!'
+                message: "Title is required!"
             }
         }
     })
-    .attr('description', {
+    .attr("description", {
         validations: {
             presence: {
-                message: 'Description is required!'
+                message: "Description is required!"
             }
         }
     })
-    .attr('price', {
+    .attr("price", {
         validations: {
             presence: {
-                message: 'Value is required!'
+                message: "Value is required!"
             },
             length: {
                 minimum: 1,
                 maximum: 2000,
                 messages: {
-                    tooShort: 'price is too small!',
-                    tooLong: 'price is too high!'
+                    tooShort: "price is too small!",
+                    tooLong: "price is too high!"
                 }
             }
-        },        
+        },
     })
-    .attr('datetimestamp', {
+    .attr("datetimestamp", {
         validations: {
             presence: {
-                message: 'DateTimeStamp is required!'
+                message: "DateTimeStamp is required!"
             }
         }
-    });    
+    });
 
 module.exports = product;

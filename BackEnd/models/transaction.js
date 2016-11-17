@@ -1,43 +1,43 @@
-var model = require('nodejs-model');
-var bCrypt = require('bcrypt-nodejs');
+var model = require("nodejs-model");
+var bCrypt = require("bcrypt-nodejs");
 
 var transaction = new model("Transaction")
-    .attr('userid', {
+    .attr("userid", {
         validations: {
             presence: {
-                message: 'Userid is required!'
+                message: "Userid is required!"
             }
         }
     })
-    .attr('name', {
+    .attr("name", {
         validations: {
             presence: {
-                message: 'Name is required!'
+                message: "Name is required!"
             }
         }
     })
-    .attr('value', {
+    .attr("value", {
         validations: {
             presence: {
-                message: 'Value is required!'
+                message: "Value is required!"
             },
             length: {
                 minimum: 1,
                 maximum: 2000,
                 messages: {
-                    tooShort: 'value is too low!',
-                    tooLong: 'value is too high!'
+                    tooShort: "value is too low!",
+                    tooLong: "value is too high!"
                 }
             }
         },
-        // tags: ['private'] //this tags the accessibility as _private_ 
+        // tags: ["private"] //this tags the accessibility as _private_ 
     })
-    .attr('datetimestamp', {
+    .attr("datetimestamp", {
         validations: {
             presence: {
-                message: 'DateTimeStamp is required!'
+                message: "DateTimeStamp is required!"
             }
         }
-    });    
+    });
 
 module.exports = transaction;

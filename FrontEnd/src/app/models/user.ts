@@ -6,6 +6,4 @@ export interface UserModel {
     email: string;
     mobile: string;
     address: string;
-    category: number;
-    birthday: string;
 }

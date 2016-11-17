@@ -1,10 +1,10 @@
-<h1>{{ 'Categories' | translate }}</h1>
+<h1>{{ 'Tags' | translate }}</h1>
 <p>{{ message }}</p>
 <div class="list-group">
   <ul>
     <p class="bg-info" *ngFor="let c of cats">
-      {{ c.name[0].toUpperCase() + c.name.substr(1) }}
-      <br /> - {{ c.description[0].toUpperCase() + c.description.substr(1) }}
+      {{ c.name }}
+      <br /> - {{ c.description }}
     </p>
   </ul>
 </div>

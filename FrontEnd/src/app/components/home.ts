@@ -18,13 +18,13 @@ declare let google: any;
 export class Home implements OnInit {
 
     private users: Array<UserModel>;
-    private cats: Array<CategoryModel>;
+    private catAll: Array<CategoryModel>;
     private message: string;
     private c: string; // just for the view auto complete object
 
     private lat: number;
     private lng: number;
-    private category: number;
+    private tag: number;
     private radius: number = 5;
 
     constructor(
@@ -42,16 +42,16 @@ export class Home implements OnInit {
     getCategories() {
         this.cat.all().subscribe(
             c => {
-                this.cats = c;
-                this.category = c[0].id;
+                this.catAll = c;
+                this.tag = c[0].id;
             },
             error => this.message = <any>error,
             () => this.trans.get("DoneCat").subscribe((res: string) => console.log(res))
         );
     }
 
-    onChangeCategory(e: any): void {
-        this.category = e.item.id;
+    onChangeTag(e: any): void {
+        this.tag = e.item.id;
     }
 
     onChangeRadius(value: number) {
@@ -76,12 +76,11 @@ export class Home implements OnInit {
         if (!this.lat || !this.lng)
             this.trans.get("PleaseSelectCity").subscribe((res: string) => this.message = res);
         else {
-            this.user.search(this.lat, this.lng, this.category, this.radius).subscribe(
+            this.user.search(this.lat, this.lng, this.tag, this.radius).subscribe(
                 (users) => {
                     this.users = users;
                     if (users.length === 0)
-                        this.trans.get("UsersNotFound")
-                            .subscribe((res: string) => this.message = res);
+                        this.trans.get("UsersNotFound").subscribe((res: string) => this.message = res);
                     else
                         this.message = "";
                 },

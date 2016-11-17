@@ -38,6 +38,9 @@ import { PaymentService } from "./services/payment";
 import { TabsModule } from "ng2-tabs";
 import { RatingModule } from "ng2-rating";
 import { TypeaheadModule } from "../com/typeahead/typeahead.module";
+import { SelectComponent } from "ng2-select";
+import { OffClickDirective } from "ng2-select/components/select/off-click";
+import { HighlightPipe } from "ng2-select/components/select/select-pipes";
 
 import { HttpModule, Http } from "@angular/http";
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from "ng2-translate";
@@ -69,6 +72,10 @@ if (Settings.prod)
     ],
     declarations: [
         AppComponent,
+
+        SelectComponent,
+        OffClickDirective,
+        HighlightPipe,
 
         Home,
         Login,

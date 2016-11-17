@@ -17,14 +17,14 @@ export class UserService {
     private trans: TranslateService
   ) { }
 
-  register(user: UserModel, regLat: number, regLng: number): Observable<any> {
+  register(user: UserModel, regLat: number, regLng: number, tagsActive: any): Observable<any> {
     let body =
       "name=" + user.name +
       "&password=" + user.password +
       "&email=" + user.email +
       "&regLat=" + regLat +
       "&regLng=" + regLng +
-      "&category=" + user.category +
+      "&tags=" + tagsActive.map((x: any) => { return x.id; } ) +
       "&address=" + user.address +
       "&mobile=" + user.mobile +
       "&username=" + user.username;
@@ -37,7 +37,7 @@ export class UserService {
       body, options).catch(this.handleError);
   }
 
-  saveProfile(profileform: ProfileModel, image: string): Observable<any> {
+  saveProfile(profileform: ProfileModel, image: string, tagsActive: any): Observable<any> {
     let body =
       "description=" + profileform.description +
       "&address=" + profileform.address +
@@ -47,7 +47,7 @@ export class UserService {
       "&hourRate=" + profileform.hourRate +
       "&curLat=" + profileform.curLat +
       "&curLng=" + profileform.curLng +
-      "&category=" + profileform.category +
+      "&tags=" + tagsActive.map((x: any) => { return x.id; } ) +
       "&available=" + profileform.available;
 
     let headers = new Headers();
@@ -91,8 +91,13 @@ export class UserService {
       .map(this.extractData).catch(this.handleError);
   }
 
-  search(regLat: number, regLng: number, category: number, radius: number): Observable<UserModel[]> {
-    let body = "regLat=" + regLat + "&regLng=" + regLng + "&category=" + category + "&radius=" + radius;
+  search(regLat: number, regLng: number, tag: number, radius: number): Observable<UserModel[]> {
+    let body =
+      "regLat=" + regLat +
+      "&regLng=" + regLng +
+      "&tag=" + tag +
+      "&radius=" + radius;
+
     let headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     let options = new RequestOptions({ headers: headers });

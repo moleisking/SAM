@@ -48,8 +48,8 @@
 		<p>{{ model.dayRate }}</p>
 		<p><b>{{ 'HourRate' | translate }}:</b></p>
 		<p>{{ model.hourRate }}</p>
-		<p><b>{{ 'Category' | translate }}:</b></p>
-		<p>{{ model.categoryName }}</p>
+		<p><b>{{ 'Tags' | translate }}:</b></p>
+		<p>{{ tagsName }}</p>
 		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#SendMessageModal" *ngIf="!itsMe">
             <span class="glyphicon glyphicon-envelope"></span> {{ 'SendMessage' | translate }}
         </button>

@@ -16,7 +16,7 @@ var myLocals = new Localize("localizations/user");
 
 module.exports = {
 
-    create: function (data, locale, cb) {
+    create: function(data, locale, cb) {
         util.translate(myLocals, locale);
         var user = model.create();
         user.update(data);
@@ -31,38 +31,38 @@ module.exports = {
         user.available(true);
         user.guid(getGuid());
         user.timeStamp(new Date().getTime());
-        user.validate().then(function () {
+        user.validate().then(function() {
             if (!user.isValid)
                 return cb(user.errors, null);
             user.password(model.generateHash(user.password()));
-            userDAL.create(user.email(), user.toJSON(), function (err, data) {
+            userDAL.create(user.email(), user.toJSON(), function(err, data) {
                 if (err)
                     return cb(err, null);
                 myCache.del(myCacheName + "all");
-                emailer.create(data.name, data.email, data.guid, locale, function (err, status, body, headers) {
+                emailer.create(data.name, data.email, data.guid, locale, function(err, status, body, headers) {
                     if (err)
                         return cb(err, null);
                     return cb(null, data);
                 });
             });
-        }).catch(function (err) {
+        }).catch(function(err) {
             return cb(err, null);
         });
     },
 
-    read: function (email, cb) {
+    read: function(email, cb) {
         // WARNING: can"t add locale here by now.
         if (email === null || email === undefined)
             return cb("Must provide a valid username.", null);
-        myCache.get(myCacheName + "readUser" + email, function (err, value) {
+        myCache.get(myCacheName + "readUser" + email, function(err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _read(email, function (err, readValue) {
+            _read(email, function(err, readValue) {
                 if (err)
                     return cb(err, null);
-                myCache.set(myCacheName + "readUser" + email, readValue, function (err, success) {
+                myCache.set(myCacheName + "readUser" + email, readValue, function(err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -73,16 +73,16 @@ module.exports = {
         });
     },
 
-    all: function (cb) {
-        myCache.get(myCacheName + "all", function (err, value) {
+    all: function(cb) {
+        myCache.get(myCacheName + "all", function(err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _all(function (err, readAll) {
+            _all(function(err, readAll) {
                 if (err)
                     return cb(err, null);
-                myCache.set(myCacheName + "all", readAll, function (err, success) {
+                myCache.set(myCacheName + "all", readAll, function(err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -93,7 +93,7 @@ module.exports = {
         });
     },
 
-    getEmailFromTokenUser: function (headers, cb) {
+    getEmailFromTokenUser: function(headers, cb) {
         var token = _getToken(headers);
         if (!token)
             return null;
@@ -101,11 +101,11 @@ module.exports = {
         return decodedUser.email;
     },
 
-    saveProfile: function (email, data, locale, cb) {
+    saveProfile: function(email, data, locale, cb) {
         util.translate(myLocals, locale);
         if (email === null)
             return cb(myLocals.translate("Must provide a valid email."), null);
-        userDAL.read(email, function (err, userData) {
+        userDAL.read(email, function(err, userData) {
             if (err)
                 return cb(err, null);
             var user = model.create();
@@ -115,13 +115,13 @@ module.exports = {
             else
                 data.available = false;
             user.update(data);
-            user.validate().then(function () {
+            user.validate().then(function() {
                 if (!user.isValid)
                     return cb(user.errors, null);
-                imageDAL.create(email, data.image, function (err, dataImg) {
+                imageDAL.create(email, data.image, function(err, dataImg) {
                     if (err)
                         return cb(err, null);
-                    userDAL.create(email, user.toJSON(), function (err, data) {
+                    userDAL.create(email, user.toJSON(), function(err, data) {
                         if (err)
                             return cb(err, null);
                         myCache.del(myCacheName + "readMyProfile" + email);
@@ -130,29 +130,29 @@ module.exports = {
                         return cb(null, data);
                     });
                 });
-            }).catch(function (err) {
+            }).catch(function(err) {
                 return cb(err, null);
             });
         });
     },
 
-    getProfile: function (url, locale, cb) {
+    getProfile: function(url, locale, cb) {
         util.translate(myLocals, locale);
         if (url === null || url === undefined)
             return cb(myLocals.translate("Must provide a valid name."), null);
-        myCache.get(myCacheName + "readUserProfile" + url, function (err, value) {
+        myCache.get(myCacheName + "readUserProfile" + url, function(err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            module.exports.all(function (err, users) {
+            module.exports.all(function(err, users) {
                 if (err)
                     return cb(err, null);
                 var found = false;
-                users.forEach(function (item) {
+                users.forEach(function(item) {
                     if (item.url === url) {
                         found = true;
-                        _read(item.email, function (err, readValue) {
+                        _read(item.email, function(err, readValue) {
                             if (err)
                                 return cb(err, null);
                             delete readValue.password;
@@ -160,11 +160,11 @@ module.exports = {
                             var profile = modelProfile.create();
                             profile.update(readValue);
                             var data = profile.toJSON();
-                            imageDAL.read(data.email, function (err, img) {
+                            imageDAL.read(data.email, function(err, img) {
                                 if (err && err.id != 5)
                                     return cb(err, null);
                                 data.image = img;
-                                myCache.set(myCacheName + "readUserProfile" + url, data, function (err, success) {
+                                myCache.set(myCacheName + "readUserProfile" + url, data, function(err, success) {
                                     if (err)
                                         return cb(err, null);
                                     if (success)
@@ -181,31 +181,31 @@ module.exports = {
         });
     },
 
-    getMyProfile: function (email, locale, cb) {
+    getMyProfile: function(email, locale, cb) {
         util.translate(myLocals, locale);
         if (email === null || email === undefined)
             return cb(myLocals.translate("Must provide a valid name."), null);
-        myCache.get(myCacheName + "readMyProfile" + email, function (err, value) {
+        myCache.get(myCacheName + "readMyProfile" + email, function(err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _readProfile(email, function (err, readValue) {
+            _readProfile(email, function(err, data) {
                 if (err)
                     return cb(err, null);
-                if (readValue.available === "true" || readValue.available === true)
-                    readValue.available === true
+                if (data.available === "true" || data.available === true)
+                    data.available === true
                 else
-                    readValue.available === false
-                imageDAL.read(email, function (err, value) {
+                    data.available === false
+                imageDAL.read(email, function(err, pic) {
                     if (err && err.id != 5)
                         return cb(err, null);
-                    readValue.image = value;
-                    myCache.set(myCacheName + "readMyProfile" + email, readValue, function (err, success) {
+                    data.image = pic;
+                    myCache.set(myCacheName + "readMyProfile" + email, data, function(err, success) {
                         if (err)
                             return cb(err, null);
                         if (success)
-                            return cb(null, readValue);
+                            return cb(null, data);
                         return cb("cache internal failure", null);
                     });
                 })
@@ -213,18 +213,18 @@ module.exports = {
         });
     },
 
-    search: function (data, cb) {
-        var cachename = myCacheName + "search" + data.category + data.radius + data.regLat.toString() + data.regLng.toString();
-        myCache.get(cachename, function (err, value) {
+    search: function(data, cb) {
+        var cachename = myCacheName + "search" + data.tag + data.radius + data.regLat.toString() + data.regLng.toString();
+        myCache.get(cachename, function(err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            module.exports.all(function (err, readAll) {
+            module.exports.all(function(err, readAll) {
                 if (err)
                     return cb(err, null);
-                var result = readAll.filter(function (user) {
-                    if (user.category === data.category && parseFloat(user.credit) > 0 && user.available &&
+                var result = readAll.filter(function(user) {
+                    if (checkInsideUserTags(user.tags, data.tag) && parseFloat(user.credit) > 0 && user.available &&
                         ((dist.CalcDist(user.regLat, user.regLng, data) < parseInt(data.radius)) ||
                             (dist.CalcDist(user.curLat, user.curLng, data) < parseInt(data.radius)))
                     ) {
@@ -232,7 +232,7 @@ module.exports = {
                         return user;
                     }
                 });
-                myCache.set(cachename, result, function (err, success) {
+                myCache.set(cachename, result, function(err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -243,18 +243,18 @@ module.exports = {
         });
     },
 
-    getUsernameByEmail: function (email, cb) {
+    getUsernameByEmail: function(email, cb) {
         var cachename = myCacheName + "getUsernameByEmail" + email;
-        myCache.get(cachename, function (err, value) {
+        myCache.get(cachename, function(err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _read(email, function (err, readValue) {
+            _read(email, function(err, readValue) {
                 if (err)
                     return cb(err, null);
                 readValue = readValue.username;
-                myCache.set(myCacheName + "getUsernameByEmail" + email, readValue, function (err, success) {
+                myCache.set(myCacheName + "getUsernameByEmail" + email, readValue, function(err, success) {
                     if (err)
                         return cb(err, null);
                     if (success)
@@ -265,19 +265,19 @@ module.exports = {
         });
     },
 
-    getEmailByNameUrl: function (url, cb) {
+    getEmailByNameUrl: function(url, cb) {
         var cachename = myCacheName + "getEmailByNameUrl" + url;
-        myCache.get(cachename, function (err, value) {
+        myCache.get(cachename, function(err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _all(function (err, readValue) {
+            _all(function(err, readValue) {
                 if (err)
                     return cb(err, null);
-                readValue.forEach(function (element) {
+                readValue.forEach(function(element) {
                     if (element.url == url)
-                        myCache.set(myCacheName + "getEmailByNameUrl" + url, element.email, function (err, success) {
+                        myCache.set(myCacheName + "getEmailByNameUrl" + url, element.email, function(err, success) {
                             if (err)
                                 return cb(err, null);
                             if (success)
@@ -289,19 +289,19 @@ module.exports = {
         });
     },
 
-    getEmailByGuid: function (guid, cb) {
+    getEmailByGuid: function(guid, cb) {
         var cachename = myCacheName + "getEmailByGuid" + guid;
-        myCache.get(cachename, function (err, value) {
+        myCache.get(cachename, function(err, value) {
             if (err)
                 return cb(err, null);
             if (value != undefined)
                 return cb(null, value);
-            _all(function (err, readValue) {
+            _all(function(err, readValue) {
                 if (err)
                     return cb(err, null);
-                readValue.forEach(function (element) {
+                readValue.forEach(function(element) {
                     if (element.guid.replace(/-/g, "") == guid)
-                        myCache.set(myCacheName + "getEmailByGuid" + guid, element.email, function (err, success) {
+                        myCache.set(myCacheName + "getEmailByGuid" + guid, element.email, function(err, success) {
                             if (err)
                                 return cb(err, null);
                             if (success)
@@ -313,43 +313,43 @@ module.exports = {
         });
     },
 
-    addCredit: function (email, credit, locale, cb) {
+    addCredit: function(email, credit, locale, cb) {
         util.translate(myLocals, locale);
         if (email === null || email === undefined || credit === null || credit === undefined || credit < 0)
             return cb(myLocals.translate("Must provide a value and an email."), null);
-        userDAL.read(email, function (err, userData) {
+        userDAL.read(email, function(err, userData) {
             if (err)
                 return cb(err, null);
             var user = model.create();
             user.update(userData);
             user.credit(parseFloat(user.credit()) + parseFloat(credit));
-            user.validate().then(function () {
+            user.validate().then(function() {
                 if (!user.isValid)
                     return cb(user.errors, null);
-                userDAL.create(email, user.toJSON(), function (err, data) {
+                userDAL.create(email, user.toJSON(), function(err, data) {
                     if (err)
                         return cb(err, null);
                     myCache.del(myCacheName + "readMyProfile" + email);
                     myCache.del(myCacheName + "readUserProfile" + data.url);
                     myCache.del(myCacheName + "all");
                     emailer.addCredit(email, parseFloat(user.credit()) + parseFloat(credit), locale,
-                        function (err, status, body, headers) {
+                        function(err, status, body, headers) {
                             if (err)
                                 return cb(err, null);
                             return cb(null, data);
                         });
                 });
-            }).catch(function (err) {
+            }).catch(function(err) {
                 return cb(err, null);
             });
         });
     },
 
-    activate: function (email, code, locale, cb) {
+    activate: function(email, code, locale, cb) {
         util.translate(myLocals, locale);
         if (email === null || email === undefined || code === null || code === undefined)
             return cb(myLocalize.translate("Must provide a code and an email."), null);
-        userDAL.read(email, function (err, userData) {
+        userDAL.read(email, function(err, userData) {
             if (err)
                 return cb(err, null);
             var user = model.create();
@@ -357,41 +357,41 @@ module.exports = {
             if (user.guid().replace(/-/g, "") !== code)
                 return cb(myLocalize.translate("Code is not correct."), null);
             user.activated(true);
-            user.validate().then(function () {
+            user.validate().then(function() {
                 if (!user.isValid)
                     return cb(user.errors, null);
-                userDAL.create(email, user.toJSON(), function (err, data) {
+                userDAL.create(email, user.toJSON(), function(err, data) {
                     if (err)
                         return cb(err, null);
                     myCache.del(myCacheName + "readMyProfile" + email);
                     myCache.del(myCacheName + "readUserProfile" + data.url);
                     myCache.del(myCacheName + "all");
-                    emailer.activate(email, locale, function (err, status, body, headers) {
+                    emailer.activate(email, locale, function(err, status, body, headers) {
                         if (err)
                             return cb(err, null);
                         return cb(null, data);
                     });
                 });
-            }).catch(function (err) {
+            }).catch(function(err) {
                 return cb(err, null);
             });
         });
     },
 
-    changePassword: function (email, data, locale, cb) {
+    changePassword: function(email, data, locale, cb) {
         util.translate(myLocals, locale);
         if (email === null)
             return cb(myLocals.translate("Must provide a valid email."), null);
-        userDAL.read(email, function (err, userData) {
+        userDAL.read(email, function(err, userData) {
             if (err)
                 return cb(err, null);
             var user = model.create();
             user.update(userData);
             user.password(model.generateHash(data));
-            user.validate().then(function () {
+            user.validate().then(function() {
                 if (!user.isValid)
                     return cb(user.errors, null);
-                userDAL.create(email, user.toJSON(), function (err, data) {
+                userDAL.create(email, user.toJSON(), function(err, data) {
                     if (err)
                         return cb(err, null);
                     myCache.del(myCacheName + "readMyProfile" + email);
@@ -399,7 +399,7 @@ module.exports = {
                     myCache.del(myCacheName + "all");
                     return cb(null, data);
                 });
-            }).catch(function (err) {
+            }).catch(function(err) {
                 return cb(err, null);
             });
         });
@@ -431,7 +431,7 @@ function _getToken(headers) {
 
 function _read(email, cb) {
     try {
-        userDAL.read(email, function (err, data) {
+        userDAL.read(email, function(err, data) {
             if (err)
                 return cb(err, null);
             var m = model.create();
@@ -445,7 +445,7 @@ function _read(email, cb) {
 
 function _readProfile(email, cb) {
     try {
-        userDAL.read(email, function (err, data) {
+        userDAL.read(email, function(err, data) {
             if (err)
                 return cb(err, null);
             var m = modelProfile.create();
@@ -459,7 +459,7 @@ function _readProfile(email, cb) {
 
 function _all(cb) {
     try {
-        userDAL.all(function (err, data) {
+        userDAL.all(function(err, data) {
             if (err && err.id != 5)
                 return cb(err, null);
             var users = [];
@@ -495,4 +495,15 @@ function getGuid() {
     }
     return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
         s4() + "-" + s4() + s4() + s4();
+};
+
+function checkInsideUserTags(userTags, tag) {
+    var found = false;
+    userTags.split(",").forEach(function(item) {
+        if (item == tag) {
+            found = true;
+            return;
+        }
+    }, this);
+    return found;
 };

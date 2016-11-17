@@ -1,85 +1,83 @@
-var model = require('nodejs-model');
+var model = require("nodejs-model");
 
 var profile = new model("Profile")
-    .attr('username', {
+    .attr("username", {
         validations: {
             presence: {
-                message: 'Username is required!'
+                message: "Username is required!"
             }
         }
     })
-    .attr('name', {
+    .attr("name", {
         validations: {
             presence: {
-                message: 'Name is required!'
+                message: "Name is required!"
             }
         }
     })
-    .attr('url', {
+    .attr("url", {
         validations: {
             presence: {
-                message: 'Name Url is required!'
+                message: "Name Url is required!"
             }
         }
     })
-    .attr('description')
-    .attr('birthday')
-    .attr('rating')
-    .attr('address', {
+    .attr("description")
+    .attr("rating")
+    .attr("address", {
         validations: {
             presence: {
-                message: 'Address is required!'
+                message: "Address is required!"
             }
         }
     })
-    .attr('email')
-    .attr('hourRate')
-    .attr('dayRate')
-    .attr('regLng', {
+    .attr("email")
+    .attr("hourRate")
+    .attr("dayRate")
+    .attr("regLng", {
         validations: {
             presence: {
-                message: 'Latitude is required!'
+                message: "Latitude is required!"
             }
         }
     })
-    .attr('regLat', {
+    .attr("regLat", {
         validations: {
             presence: {
-                message: 'Longitude is required!'
+                message: "Longitude is required!"
             }
         }
     })
-    .attr('curLat', {
+    .attr("curLat", {
         validations: {
             presence: {
-                message: 'Current Latitude is required!'
+                message: "Current Latitude is required!"
             }
         }
     })
-    .attr('curLng', {
+    .attr("curLng", {
         validations: {
             presence: {
-                message: 'Current Longitude is required!'
+                message: "Current Longitude is required!"
             }
         }
     })
-    .attr('mobile', {
+    .attr("mobile", {
         validations: {
             presence: {
-                message: 'Mobile is required!'
+                message: "Mobile is required!"
             }
         }
     })
-    .attr('credit')
-    .attr('available')
-    .attr('category', {
+    .attr("credit")
+    .attr("available")
+    .attr("tags", {
         validations: {
             presence: {
-                message: 'Category is required!'
+                message: "Tags required!"
             }
         }
     })
-    .attr('tags')
-    .attr('activated');
+    .attr("activated");
 
 module.exports = profile;

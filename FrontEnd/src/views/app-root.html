@@ -12,7 +12,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li [routerLinkActive]="['active']"><a [routerLink]="['/categories']">{{ 'Categories' | translate }}</a></li>
+				<li [routerLinkActive]="['active']"><a [routerLink]="['/tags']">{{ 'Tags' | translate }}</a></li>
 				<li [routerLinkActive]="['active']" *ngIf="!isDisabledIfLoggedIn()"><a [routerLink]="['/register']">{{ 'Register' | translate }}</a></li>
 				<li [routerLinkActive]="['active']" *ngIf="!isDisabledIfLoggedIn()"><a [routerLink]="['/login']">{{ 'Login' | translate }}</a></li>
 				<li [routerLinkActive]="['active']" *ngIf="isDisabledIfLoggedIn()"><a [routerLink]="['/dashboard']">{{ 'Dashboard' | translate }}</a></li>

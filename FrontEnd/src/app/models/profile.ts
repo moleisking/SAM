@@ -14,10 +14,8 @@ export class ProfileModel {
     rating: number;
     curLat: number;
     curLng: number;
-    category: number;
-    categoryName: string;
+    tags: string;
     average: number;
     available: boolean;
     activated: boolean;
-    birthday: string;
 }

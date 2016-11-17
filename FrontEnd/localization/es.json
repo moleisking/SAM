@@ -5,7 +5,6 @@
     "DoneSearchCall": "Finalizado llamada a la busqueda.",
     "Where": "¿Donde?",
     "Search": "Buscar",
-    "Categories": "Categorías",
     "Register": "Registro",
     "Login": "Conectarse",
     "Logout": "Salir",
@@ -61,7 +60,6 @@
     "Description": "Descripción",
     "DayRate": "Tarifa por día",
     "HourRate": "Tarifa por hora",
-    "Category": "Categoría",
     "Save": "Grabar",
     "ActivelyLookingWork": "Actívamente buscando trabajo",
     "DescriptionRequired": "Descripción es requerida.",
@@ -111,5 +109,6 @@
     "ActivationCodeNotValid": "Lo siento, tu código de activación no es válido.",
     "ActivationCodeTrying": "Intentando activar tu codigo...",
     "ActivationCodeValid": "Felicidades, tu código está activado :) Disfruta.",
-    "DoneActivationCode": "Hecho enviando activación de código."
+    "DoneActivationCode": "Hecho enviando activación de código.",
+    "NoTagsYet": "No hay etiquetas seleccionadas todavía"
 }

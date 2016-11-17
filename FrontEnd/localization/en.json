@@ -5,7 +5,6 @@
     "DoneSearchCall": "Done search call.",
     "Where": "Where?",
     "Search": "Search",
-    "Categories": "Categories",
     "Register": "Register",
     "Login": "Login",
     "Logout": "Logout",
@@ -61,7 +60,6 @@
     "Description": "Description",
     "DayRate": "Day rate",
     "HourRate": "Hour rate",
-    "Category": "Category",
     "Save": "Save",
     "ActivelyLookingWork": "Actively looking for work",
     "DescriptionRequired": "Description is required.",
@@ -111,5 +109,6 @@
     "ActivationCodeNotValid": "Sorry, your activation code is not valid.",
     "ActivationCodeTrying": "Trying to activate your code...",
     "ActivationCodeValid": "Congrats, your account is activated :) Enjoy.",
-    "DoneActivationCode": "Done sending activation code."
+    "DoneActivationCode": "Done sending activation code.",
+    "NoTagsYet": "No tags selected yet"
 }

@@ -1,45 +1,45 @@
-var model = require('nodejs-model');
-var bCrypt = require('bcrypt-nodejs');
+var model = require("nodejs-model");
+var bCrypt = require("bcrypt-nodejs");
 
 var message = new model("Message")
-    .attr('id')        
-    .attr('from_name')    
-    .attr('from_url')   
-    .attr('from_email', {
+    .attr("id")
+    .attr("from_name")
+    .attr("from_url")
+    .attr("from_email", {
         validations: {
             presence: {
-                message: 'From email is required!'
-            }
-        }
-    }) 
-    .attr('to_name')    
-    .attr('to_url')   
-    .attr('to_email', {
-        validations: {
-            presence: {
-                message: 'To is required!'
+                message: "From email is required!"
             }
         }
     })
-    .attr('text', {
+    .attr("to_name")
+    .attr("to_url")
+    .attr("to_email", {
         validations: {
             presence: {
-                message: 'Text is required!'
+                message: "To is required!"
+            }
+        }
+    })
+    .attr("text", {
+        validations: {
+            presence: {
+                message: "Text is required!"
             },
             length: {
                 minimum: 3,
                 maximum: 500,
                 messages: {
-                    tooShort: 'Text is too short!',
-                    tooLong: 'Text is too long!'
+                    tooShort: "Text is too short!",
+                    tooLong: "Text is too long!"
                 }
             }
         }
     })
-    .attr('datetimestamp', {
+    .attr("datetimestamp", {
         validations: {
             presence: {
-                message: 'DateStamp is required!'
+                message: "DateStamp is required!"
             }
         }
     });

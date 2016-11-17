@@ -11,7 +11,7 @@
 <tabset>
 	<tab title="{{ 'MyProfile' | translate }}">
 		<br>
-		<profile-form-component *ngIf="modelProfileForm && catList" [model]="modelProfileForm" [cats]="catList"></profile-form-component>
+		<profile-form-component *ngIf="modelProfileForm && catList" [model]="modelProfileForm" [catAll]="catList"></profile-form-component>
 	</tab>
 	<tab title="{{ 'ListAllUsers' | translate }}">
 		<br> {{ errorUsers }}

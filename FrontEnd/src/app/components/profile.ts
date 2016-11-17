@@ -30,9 +30,10 @@ export class Profile implements OnInit, OnDestroy {
     private itsMe: boolean;
 
     private message: string;
+    private tagsName: string = "";
 
     private model: ProfileModel = <ProfileModel>{};
-    private cats: CategoryModel[];
+    private catAll: CategoryModel[];
 
     constructor(
         private route: ActivatedRoute,
@@ -51,13 +52,10 @@ export class Profile implements OnInit, OnDestroy {
             this.user.getProfile(id).subscribe(
                 profile => {
                     this.model = profile;
-                    console.log(profile.image)
                     this.model.image = profile.image === undefined || profile.image === ""
                         ? this.defaultImage : profile.image;
                     this.cat.all().subscribe(
                         c => {
-                            this.cats = c;
-                            this.model.categoryName = this.cats.find(x => x.id == this.model.category).name;
                             if (this.authService.isLoggedIn()) {
                                 this.user.getMyProfile().subscribe(
                                     my => this.itsMe = profile.email === my.email,
@@ -83,7 +81,12 @@ export class Profile implements OnInit, OnDestroy {
                                     () => this.trans.get("DoneGetRatingProfile")
                                         .subscribe((res: string) => console.log(res))
                                 );
-                            }
+                            };
+                            this.model.tags.split(",").map(t => {
+                                this.tagsName += c.find(y => y.id === +t).text + ", ";
+                            });
+                            if (this.tagsName.length > 0)
+                                this.tagsName = this.tagsName.substr(0, this.tagsName.length - 2);
                         },
                         error => this.message = <any>error
                     );
