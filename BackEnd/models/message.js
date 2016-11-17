@@ -2,19 +2,14 @@ var model = require("nodejs-model");
 var bCrypt = require("bcrypt-nodejs");
 
 var message = new model("Message")
-    .attr("id")
-    .attr("from_name")
-    .attr("from_url")
-    .attr("from_email", {
+    .attr("from", {
         validations: {
             presence: {
-                message: "From email is required!"
+                message: "From is required!"
             }
         }
     })
-    .attr("to_name")
-    .attr("to_url")
-    .attr("to_email", {
+    .attr("to", {
         validations: {
             presence: {
                 message: "To is required!"
@@ -36,7 +31,7 @@ var message = new model("Message")
             }
         }
     })
-    .attr("datetimestamp", {
+    .attr("datestamp", {
         validations: {
             presence: {
                 message: "DateStamp is required!"

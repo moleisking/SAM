@@ -6,11 +6,11 @@ var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var jwt = require("jwt-simple");
 var config = require("../config/settings");
-var dist = require("./util");
+var dist = require("../util/util");
 var toURLString = require("speakingurl");
 var myCacheName = "user";
 var emailer = require("./emailer");
-var util = require("./util");
+var util = require("../util/util");
 var Localize = require("localize");
 var myLocals = new Localize("localizations/user");
 

@@ -2,10 +2,7 @@ node_modules
 *.gz
 *.log
 
-BackEnd/SAM.json
-BackEnd/Messages.json
-BackEnd/Rating.json
-BackEnd/Images.json
+BackEnd/*db.json
 
 FrontEnd/typings/
 FrontEnd/dist/

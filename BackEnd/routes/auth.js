@@ -6,13 +6,13 @@ var user = require("../core/user");
 var emailer = require("../core/emailer");
 var model = require("../models/user");
 var router = express.Router();
-var util = require('../core/util');
+var util = require('../util/util');
 var Localize = require("localize");
 var myLocals = new Localize("localizations/user");
 
-require("../config/passport")(passport);
+require("../util/passport")(passport);
 
-router.post("/signup", function(req, res) {
+router.post("/signup", function (req, res) {
     util.translate(myLocals, req.query.locale);
     if (
         !req.body.username ||
@@ -26,12 +26,12 @@ router.post("/signup", function(req, res) {
         return res.status(400).json({
             app_err: myLocals.translate("Please, provide username, name, email, password, coordenades and tags.")
         });
-    user.read(req.body.email, function(err, data) {
+    user.read(req.body.email, function (err, data) {
         if (err && err.id != 5)
             return res.status(500).json({ err });
         if (data)
             return res.status(409).send({ app_err: myLocals.translate("User already exists") });
-        user.create(req.body, req.query.locale, function(err, data) {
+        user.create(req.body, req.query.locale, function (err, data) {
             if (err)
                 return res.status(500).json({ err });
             res.status(201).json({ signup: data });
@@ -39,11 +39,11 @@ router.post("/signup", function(req, res) {
     });
 });
 
-router.post("/authenticate", function(req, res) {
+router.post("/authenticate", function (req, res) {
     util.translate(myLocals, req.query.locale);
     if (!req.body.email || !req.body.password)
         return res.status(400).json({ app_err: myLocals.translate("Please provide email and password.") });
-    user.read(req.body.email, function(err, data) {
+    user.read(req.body.email, function (err, data) {
         if (err && err.id != 5)
             return res.status(500).json({ err });
         if (!data)
@@ -55,9 +55,9 @@ router.post("/authenticate", function(req, res) {
     });
 });
 
-router.get("/dashboard", passport.authenticate("jwt", { session: false }), function(req, res) {
+router.get("/dashboard", passport.authenticate("jwt", { session: false }), function (req, res) {
     util.translate(myLocals, req.query.locale);
-    user.read(user.getEmailFromTokenUser(req.headers), function(err, data) {
+    user.read(user.getEmailFromTokenUser(req.headers), function (err, data) {
         if (err && err.id != 5)
             return res.status(500).json({ err });
         if (!data)
@@ -66,16 +66,16 @@ router.get("/dashboard", passport.authenticate("jwt", { session: false }), funct
     });
 });
 
-router.post("/forgottenpassword", function(req, res) {
+router.post("/forgottenpassword", function (req, res) {
     util.translate(myLocals, req.query.locale);
     if (!req.body.email)
         return res.status(400).json({ app_err: myLocals.translate("Please provide email.") });
-    user.read(req.body.email, function(err, data) {
+    user.read(req.body.email, function (err, data) {
         if (err && err.id != 5)
             return res.status(500).json({ err });
         if (!data)
             return res.status(404).json({ app_err: myLocals.translate("The user don't exist.") });
-        emailer.forgottenpassword(data.email, data.guid, req.query.locale, function(err, status, body, headers) {
+        emailer.forgottenpassword(data.email, data.guid, req.query.locale, function (err, status, body, headers) {
             if (err)
                 return res.status(500).json({ err });
             res.json({ status, body, headers });
@@ -83,57 +83,57 @@ router.post("/forgottenpassword", function(req, res) {
     });
 });
 
-router.post("/changepassword", passport.authenticate("jwt", { session: false }), function(req, res) {
+router.post("/changepassword", passport.authenticate("jwt", { session: false }), function (req, res) {
     util.translate(myLocals, req.query.locale);
     if (!req.body.oldpassword || !req.body.newpassword || !req.body.confirmpassword)
         return res.status(400).json({ app_err: myLocals.translate("Please provide passwords to validate.") });
     if (req.body.newpassword != req.body.confirmpassword)
         return res.status(400).json({ app_err: myLocals.translate("New password and confirm password must be the same.") });
     var email = user.getEmailFromTokenUser(req.headers);
-    user.read(email, function(err, data) {
+    user.read(email, function (err, data) {
         if (err && err.id != 5)
             return res.status(500).json({ err });
         if (!data)
             return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking password.") });
         if (!model.validPassword(req.body.oldpassword, data.password))
             return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking old password. Old password not valid.") });
-        user.changePassword(email, req.body.newpassword, req.query.locale, function(err, data) {
+        user.changePassword(email, req.body.newpassword, req.query.locale, function (err, data) {
             res.json({ changepassword: data });
         });
     });
 });
 
-router.post("/changeforgottenpassword", function(req, res) {
+router.post("/changeforgottenpassword", function (req, res) {
     util.translate(myLocals, req.query.locale);
     if (!req.body.oldpassword || req.body.oldpassword.length !== 32 || !req.body.newpassword || !req.body.confirmpassword)
         return res.status(400).json({ app_err: myLocals.translate("Please provide passwords to validate.") });
     if (req.body.newpassword != req.body.confirmpassword)
         return res.status(400).json({ app_err: myLocals.translate("New password and confirm password must be the same.") });
-    user.getEmailByGuid(req.body.oldpassword, function(err, email) {
+    user.getEmailByGuid(req.body.oldpassword, function (err, email) {
         if (err)
             return res.status(500).json({ err });
-        user.read(email, function(err, data) {
+        user.read(email, function (err, data) {
             if (err && err.id != 5)
                 return res.status(500).json({ err });
             if (!data)
                 return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking password.") });
-            user.changePassword(email, req.body.newpassword, req.query.locale, function(err, data) {
+            user.changePassword(email, req.body.newpassword, req.query.locale, function (err, data) {
                 res.json({ changeforgottenpassword: data });
             });
         });
     });
 });
 
-router.post("/activate", function(req, res) {
+router.post("/activate", function (req, res) {
     util.translate(myLocals, req.query.locale);
     if (!req.body.code || req.body.code.length != 32)
         return res.status(400).json({ app_err: myLocals.translate("Please provide code to validate.") });
-    user.getEmailByGuid(req.body.code, function(err, email) {
+    user.getEmailByGuid(req.body.code, function (err, email) {
         if (err)
             return res.status(500).json({ err });
         if (!email)
             return res.status(500).json({ app_err: myLocals.translate("Profile not found") });
-        user.activate(email, req.body.code, req.query.locale, function(err, data) {
+        user.activate(email, req.body.code, req.query.locale, function (err, data) {
             if (err && err.id != 5)
                 return res.status(500).json({ err });
             if (!data)

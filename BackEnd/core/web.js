@@ -1,7 +1,7 @@
 var NodeCache = require("node-cache");
 var myCache = new NodeCache({ stdTTL: 300, checkperiod: 310 }); //300 = 5 min
 var myCacheName = "web";
-var util = require('../core/util');
+var util = require('../util/util');
 var Localize = require("localize");
 var myLocals = new Localize("localizations");
 

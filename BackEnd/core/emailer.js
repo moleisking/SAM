@@ -1,6 +1,6 @@
 var config = require("../config/settings");
 //var configSys = require("../config/settings");
-var util = require('./util');
+var util = require("../util/util");
 var Localize = require("localize");
 var myLocals = new Localize("localizations/emailer");
 
@@ -64,7 +64,7 @@ module.exports = {
         var content = new helper.Content("text/html", body);
         var mail = new helper.Mail(from_email, subject, to_email, content);
 
-        var sg = require("sendgrid")(config.mail_provider_key);               
+        var sg = require("sendgrid")(config.mail_provider_key);
         var request = sg.emptyRequest({
             method: "POST",
             path: "/v3/mail/send",
