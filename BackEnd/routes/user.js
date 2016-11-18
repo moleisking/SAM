@@ -47,7 +47,7 @@ router.get("/getprofile/:url", function (req, res, next) {
 
 router.post("/search", function (req, res, next) {
     util.translate(myLocals, req.query.locale);
-    if (!req.body.regLat || !req.body.regLng || !req.body.tag || !req.body.radius)
+     if (!req.body.regLat || !req.body.regLng || !req.body.curLat || !req.body.curLng || !req.body.tags || !req.body.radius)
         return res.status(400).json({ app_err: myLocals.translate("Please provide radius, tag, lat and lng.") });
     user.search(req.body, function (err, data) {
         if (err)
