@@ -10,17 +10,7 @@ var mongoUri = config.database_address; //"mongodb://192.168.1.100:27017/test"; 
 
 module.exports = {
 
-    create: function (data, cb) {
-        if (config.database_type == "nodedb") {
-            console.log("nodedb create message");
-            try {
-                db.push(_path + "[]", data, true);
-                return cb(null, data);
-            } catch (error) {
-                return cb(error, null);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+    create: function (data, cb) {        
             console.log("mongodb create message");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -41,21 +31,12 @@ module.exports = {
                 console.log(err);
                 return cb(err, null);
             }
-        }
+        
     },
 
     //this should be all    
     read: function (cb) {
-        if (config.database_type == "nodedb") {
-            console.log("nodedb read message");
-            try {
-                var data = db.getData(_path);
-                return cb(null, data);
-            } catch (err) {
-                return cb(err);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+       
             console.log("mongodb read message");
 
             try {
@@ -74,6 +55,6 @@ module.exports = {
                 return cb(err, null);
             }
 
-        }//close if (config.database_type == "mongodb")     
-    },
+        },//close if (config.database_type == "mongodb")     
+    
 }

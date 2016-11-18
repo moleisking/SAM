@@ -1,6 +1,7 @@
 var model = require("nodejs-model");
 
 var profile = new model("Profile")
+    .attr('id')     
     .attr("username", {
         validations: {
             presence: {
@@ -23,7 +24,8 @@ var profile = new model("Profile")
         }
     })
     .attr("description")
-    .attr("rating")
+    .attr("score")
+    .attr("total")
     .attr("address", {
         validations: {
             presence: {

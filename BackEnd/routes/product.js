@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var user = require("../core/user");
+var user = require("../dal/product");
 var passport = require("passport");
 var util = require('../util/util');
 var Localize = require("localize");

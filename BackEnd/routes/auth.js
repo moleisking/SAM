@@ -2,41 +2,53 @@ var express = require("express");
 var passport = require("passport");
 var jwt = require("jwt-simple");
 var config = require("../config/settings");
-var user = require("../core/user");
-var emailer = require("../core/emailer");
+var user = require("../dal/user");
+var emailer = require("../dal/emailer");
 var model = require("../models/user");
 var router = express.Router();
 var util = require('../util/util');
 var Localize = require("localize");
 var myLocals = new Localize("localizations/user");
+var uuid = require('node-uuid');
 
 require("../util/passport")(passport);
 
 router.post("/signup", function (req, res) {
-    util.translate(myLocals, req.query.locale);
-    if (
-        !req.body.username ||
-        !req.body.name ||
-        !req.body.email ||
-        !req.body.password ||
-        !req.body.regLat ||
-        !req.body.regLng ||
-        !req.body.tags
-    )
-        return res.status(400).json({
-            app_err: myLocals.translate("Please, provide username, name, email, password, coordenades and tags.")
-        });
-    user.read(req.body.email, function (err, data) {
-        if (err && err.id != 5)
-            return res.status(500).json({ err });
-        if (data)
-            return res.status(409).send({ app_err: myLocals.translate("User already exists") });
-        user.create(req.body, req.query.locale, function (err, data) {
-            if (err)
-                return res.status(500).json({ err });
-            res.status(201).json({ signup: data });
-        });
-    });
+  console.log("route signup called");   
+ 
+  if (req.body.username === "" || req.body.name === "" || req.body.email === "" || req.body.password === "" || req.body.regLat === "" ||
+    req.body.regLng === "") {    
+    //error not all fields fulled
+     return res.status(400).json({ backend_route_err: "Please, provide username, name, email, password and coordinates." });
+  }
+  else
+  { 
+    //generate user id
+    req.body.id = uuid.v1();
+  } 
+  
+  //check for duplicate user
+  user.read(req.body.email, function (err, data) {
+    //&& err.id != 5
+    //if (err ){ return res.status(500).json({ err });}
+      
+    if (data) {
+      return res.status(409).send({ app_err: myLocals.translate("User already exists") });
+    }
+    else
+    { 
+      console.log("route user read");
+      console.log(data);
+    }
+      
+    /*user.create(req.body,  function (err, data) {
+      if (err) {
+         console.log(err);
+        return res.status(500).json({ err });
+      }       
+      res.status(201).json({ signup: data });
+    });*/
+  });
 });
 
 router.post("/authenticate", function (req, res) {

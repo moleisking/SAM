@@ -11,17 +11,7 @@ var assert = require('assert');
 module.exports = {
 
     create: function (data, cb) {
-        if (config.database_type == "nodedb") {
-            console.log("nodedb create product");
-            try {
-                jsondb.push(_path + "/", data, true);
-                return cb(null, data);
-            }
-            catch (error) {
-                return cb(error, null);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+   
             console.log("monogodb create product");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -41,20 +31,11 @@ module.exports = {
                 console.log(err);
                 return cb(err, null);
             }
-        }
+        
     },
 
     read: function (id, cb) {
-        console.log("nodedb read product");
-        if (config.database_type == "nodedb") {
-            try {
-                var data = jsondb.getData(_path + "/" + id);
-                return cb(null, data);
-            } catch (err) {
-                return cb(err, null);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+       
             console.log("mongodb read product");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -74,20 +55,12 @@ module.exports = {
                 return cb(err, null);
             }
 
-        }//close if (config.database_type == "mongodb")
+       
 
     },
 
     all: function (cb) {
-        if (config.database_type == "nodedb") {
-            try {
-                var data = jsondb.getData(_path);
-                return cb(null, data);
-            } catch (err) {
-                return cb(err, null);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+        
             console.log("mongodb all product");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -105,7 +78,7 @@ module.exports = {
                 console.log(err);
                 return cb(err, null);
             }
-        }// if (config.database_type == "mongodb")
+        
     },
 
     // delete: function (usernameurl, cb) {

@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
-var web = require("../core/web");
-var cat = require("../core/categories");
-var emailer = require("../core/emailer");
+var web = require("../dal/web");
+//var cat = require("../core/categories");
+var emailer = require("../util/util");
 var Localize = require("localize");
 var myLocals = new Localize("localizations/web");
 
@@ -37,16 +37,6 @@ router.post("/sendcontactform", function (req, res, next) {
         if (err)
             return res.status(500).json({ err });
         res.json({ status, body, headers });
-    });
-});
-
-router.get("/categories", function (req, res, next) {
-    cat.all(req.query.locale, function (err, data) {
-        if (err)
-            return res.status(500).json({ err });
-        if (data.length === 0)
-            return res.status(404).json({ "categories": data });
-        res.json({ categories: data });
     });
 });
 

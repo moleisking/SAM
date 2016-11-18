@@ -28,5 +28,27 @@ module.exports = {
         if (lang === undefined || lang === "" || lang.length > 2)
             lang = "en";
         locals.setLocale(lang);
+    },
+
+    email: function (from_name, from_email, to_email, body, subject, cb) {
+        var helper = require("sendgrid").mail;
+        var from_email = new helper.Email(from_email, from_name);
+        var to_email = new helper.Email(to_email);
+        var content = new helper.Content("text/html", body);
+        var mail = new helper.Mail(from_email, subject, to_email, content);
+
+        var sg = require("sendgrid")(config.mail_provider_key);               
+        var request = sg.emptyRequest({
+            method: "POST",
+            path: "/v3/mail/send",
+            body: mail.toJSON(),
+        });
+
+        sg.API(request, function (err, response) {
+            console.log(response.statusCode);
+            console.log(response.body);
+            console.log(response.headers);
+            return cb(err, response.statusCode, response.body, response.headers);
+        });
     }
 }

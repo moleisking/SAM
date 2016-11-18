@@ -9,17 +9,7 @@ var mongoUri = config.database_address;
 module.exports = {
 
     create: function (id, data, cb) {
-        if (config.database_type == "nodedb") {
-            console.log("read nodedb image");
-            try {
-                db.push(_path + id, data, true);
-                return cb(null, data);
-            }
-            catch (error) {
-                return cb(error, null);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+     
             console.log("read mongodb image");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -38,20 +28,11 @@ module.exports = {
                 console.log(err);
                 return cb(err, null);
             }
-        }
+        
     },
 
     read: function (id, cb) {
-        if (config.database_type == "nodedb") {
-            console.log("read nodedb image");
-            try {
-                var data = db.getData(_path + id);
-                return cb(null, data);
-            } catch (err) {
-                return cb(err);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+        
             console.log("read mongodb image");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -68,6 +49,6 @@ module.exports = {
                 console.log(err);
                 return cb(err, null);
             }
-        }//close if (config.database_type == "mongodb")     
-    },
+        },//close if (config.database_type == "mongodb")     
+    
 }

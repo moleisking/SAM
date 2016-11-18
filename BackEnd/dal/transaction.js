@@ -45,16 +45,7 @@ module.exports = {
     },
 
     read: function (id, cb) {
-        console.log("nodedb read transactions");
-        if (config.database_type == "nodedb") {
-            try {
-                var data = jsondb.getData(_path + "/" + id);
-                return cb(null, data);
-            } catch (err) {
-                return cb(err, null);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+      
             console.log("mongodb read transactions");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -73,20 +64,10 @@ module.exports = {
                 return cb(err, null);
             }
 
-        }//close if (config.database_type == "mongodb")
-
     },
 
     all: function (cb) {
-        if (config.database_type == "nodedb") {
-            try {
-                var data = jsondb.getData(_path);
-                return cb(null, data);
-            } catch (err) {
-                return cb(err, null);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+       
             console.log("mongodb all transaction");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -104,7 +85,7 @@ module.exports = {
                 console.log(err);
                 return cb(err, null);
             }
-        }// if (config.database_type == "mongodb")
+        
     },
 
     // delete: function (usernameurl, cb) {
