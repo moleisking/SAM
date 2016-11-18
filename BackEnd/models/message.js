@@ -44,7 +44,9 @@ var message = new model("Message")
                 message: 'DateStamp is required!'
             }
         }
-    });
+    })
+    .attr('read')    
+    .attr('sent');
 
 module.exports = message;
 
