@@ -24,6 +24,20 @@ router.post("/saveprofile", passport.authenticate("jwt", { session: false }), fu
             return res.status(500).json({ err });
         res.json({ profile_saved: data });
     });
+
+    /*
+    userDAL.create(email, user.toJSON(), function (err, data) {
+                        if (err)
+                            return cb(err, null);
+                        myCache.del(myCacheName + "readMyProfile" + email);
+                        myCache.del(myCacheName + "readUserProfile" + data.url);
+                        myCache.del(myCacheName + "all");
+                        return cb(null, data);
+                    });
+                });
+
+                 imageDAL.create(email, data.image, function (err, dataImg)
+     */
 });
 
 router.get("/getmyprofile", passport.authenticate("jwt", { session: false }), function (req, res, next) {
@@ -46,23 +60,42 @@ router.get("/getprofile/:url", function (req, res, next) {
 });
 
 router.post("/search", function (req, res, next) {
-    util.translate(myLocals, req.query.locale);
-     if (!req.body.regLat || !req.body.regLng || !req.body.curLat || !req.body.curLng || !req.body.tags || !req.body.radius)
-        return res.status(400).json({ app_err: myLocals.translate("Please provide radius, tag, lat and lng.") });
+  
+    if (!req.body.regLat || !req.body.regLng || !req.body.curLat || !req.body.curLng || !req.body.tags || !req.body.radius)
+    { 
+        //error not all fields filled in
+        return res.status(400).json({ app_err: "Please provide radius, tag, lat and lng."});
+    }
+       
     user.search(req.body, function (err, data) {
-        if (err)
-            return res.status(500).json({ err });
-        res.json({ users: data });
+          if (err ){ return res.status(500).json({ err });}
+           
+            if (JSON.stringify(data).indexOf("name") >= 0) {
+                //data returned "name" so users found               
+                res.json(data);
+                return res.status(200).send({ app_ack: "Users found"});
+            }
+            else if (JSON.stringify(data) === "[]")
+            { 
+                res.json("No results found");
+                return res.status(204).send({ app_ack: "Users found" });
+            }        
     });
 });
 
 router.post("/activate", passport.authenticate("jwt", { session: false }), function (req, res, next) {
-    util.translate(myLocals, req.query.locale);
+   
     if (!req.body.code)
-        return res.status(400).json({ app_err: myLocals.translate("Please provide code.") });
-    user.activate(user.getEmailFromTokenUser(req.headers), req.body.code, req.query.locale, function (err, data) {
+    { 
+        return res.status(400).json({ app_err: "Please provide awt code." });
+    }
+        
+    user.update(user.getEmailFromTokenUser(req.headers), req.body.code, req.query.locale, function (err, data) {
         if (err)
+        { 
             return res.status(500).json({ err });
+        }
+           
         res.json({ activate: data });
     });
 });

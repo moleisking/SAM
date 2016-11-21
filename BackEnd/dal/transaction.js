@@ -11,17 +11,7 @@ var mongoUri = config.database_address;
 module.exports = {
 
     create: function (data, cb) {
-        if (config.database_type == "nodedb") {
-            console.log("nodedb create transactions");
-            try {
-                jsondb.push(_path + "/", data, true);
-                return cb(null, data);
-            }
-            catch (error) {
-                return cb(error, null);
-            }
-        }
-        else if (config.database_type == "mongodb") {
+      
             console.log("monogodb create transactions");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -41,11 +31,10 @@ module.exports = {
                 console.log(err);
                 return cb(err, null);
             }
-        }
-    },
+   },
 
-    read: function (id, cb) {
-      
+    read: function (id, cb) {            
+          
             console.log("mongodb read transactions");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
@@ -63,7 +52,7 @@ module.exports = {
                 console.log(err);
                 return cb(err, null);
             }
-
+        
     },
 
     all: function (cb) {

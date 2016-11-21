@@ -15,7 +15,9 @@ module.exports = {
             console.log("monogodb create product");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;
+                    if (err) {
+                         console.log("mongodb failed to connect");
+                     };
                     console.log(data);
 
                     db.collection('products').insert(data, function (err, result) {
@@ -39,7 +41,9 @@ module.exports = {
             console.log("mongodb read product");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;
+                    if (err) {
+                         console.log("mongodb failed to connect");
+                     };
 
                     db.collection('products').find({ id: id }).toArray(function (err, data) {
                         console.log("product found");
@@ -55,18 +59,42 @@ module.exports = {
                 return cb(err, null);
             }
 
-       
-
     },
 
-    all: function (cb) {
+    update: function (id, data, cb) {
+       
+            console.log("mongodb update user");
+            try {
+                mongoClient.connect(mongoUri, function (err, db) {
+                    if (err) {
+                         console.log("mongodb failed to connect");
+                     };
+                    console.log("mongodb read user query");
+                    db.collection('users').update({ id: id }, data, {}).toArray(function (err, data) {
+                        console.log("dal user found");
+                        assert.equal(err, null);
+                        //console.dir(data);                        
+                        return cb(null, data);
+                    });
+
+                }); //close connection
+            }
+            catch (err) {
+                console.log("mongodb read user:" + err);
+                return cb(err, null);
+            }
+    },
+
+    all: function (tags, cb) {
         
             console.log("mongodb all product");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;
+                    if (err) {
+                         console.log("mongodb failed to connect");
+                     };
 
-                    db.collection('products').find().toArray(function (err, data) {
+                    db.collection('products').find({ tags: tags }).toArray(function (err, data) {
                         assert.equal(err, null);
                         console.log("product found");
                         console.dir(data);

@@ -98,7 +98,8 @@ var user = new model("User")
     .attr("dayRate")
     .attr("credit")
     .attr("guid")
-    .attr("activated")
+    .attr("authenticated")
+    .attr("currency")
     .attr('datetimeStamp');
 
 module.exports = user;

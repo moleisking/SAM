@@ -25,7 +25,9 @@ module.exports = {
             console.log("monogodb create user");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;
+                    if (err)  {
+                         console.log("mongodb failed to connect");
+                     };
                     console.log(data);
 
                     db.collection('users').insert(data, function (err, result) {
@@ -49,34 +51,85 @@ module.exports = {
             console.log("mongodb read user");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;
-
+                    if (err) {
+                         console.log("mongodb failed to connect");
+                     };
+                    console.log("mongodb read user query");
                     db.collection('users').find({ email: email }).toArray(function (err, data) {
-                        console.log("user found");
+                        console.log("dal user found");
                         assert.equal(err, null);
-                        console.dir(data);
+                        //console.dir(data);                        
                         return cb(null, data);
                     });
 
                 }); //close connection
             }
             catch (err) {
-                console.log(err);
+                console.log("mongodb read user:" + err);
                 return cb(err, null);
             }
 
-      
-
     },
 
-    all: function (cb) {
+    update: function (email, data, cb) {
+       
+            console.log("mongodb update user");
+            try {
+                mongoClient.connect(mongoUri, function (err, db) {
+                    if (err) {
+                         console.log("mongodb failed to connect");
+                     };
+                    console.log("mongodb read user query");
+                    db.collection('users').update({ email: email }, { $set: { data } }, {}).toArray(function (err, data) {
+                        console.log("dal user found");
+                        assert.equal(err, null);
+                        //console.dir(data);                        
+                        return cb(null, data);
+                    });
+
+                }); //close connection
+            }
+            catch (err) {
+                console.log("mongodb read user:" + err);
+                return cb(err, null);
+            }
+    },
+
+    updateGuid: function (guid, cb) {
+       
+            console.log("mongodb update user");
+            try {
+                mongoClient.connect(mongoUri, function (err, db) {
+                    if (err) {
+                         console.log("mongodb failed to connect");
+                     };
+                    console.log("mongodb read user query");
+                    db.collection('users').updateOne({ guid: guid }, { $set: { authenticated: true } }, {}).toArray(function (err, data) {
+                        console.log("dal user found");
+                        assert.equal(err, null);
+                        //console.dir(data);                        
+                        return cb(null, data);
+                    });
+
+                }); //close connection
+            }
+            catch (err) {
+                console.log("mongodb read user:" + err);
+                return cb(err, null);
+            }
+    },
+
+
+    all: function ( tags , cb) {
        
             console.log("mongodb all user");
             try {
                 mongoClient.connect(mongoUri, function (err, db) {
-                    if (err) throw err;
+                    if (err)  {
+                         console.log("mongodb failed to connect");
+                     };
 
-                    db.collection('users').find().toArray(function (err, data) {
+                    db.collection('users').find({ tags: tags }).toArray(function (err, data) {
                         assert.equal(err, null);
                         console.log("user found");
                         console.dir(data);

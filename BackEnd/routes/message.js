@@ -7,6 +7,7 @@ var user = require("../dal/user");
 var util = require("../util/util");
 var Localize = require("localize");
 var myLocals = new Localize("localizations/message");
+var uuid = require('node-uuid');
 
 router.get("/readalllasts", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   message.readAllLasts(user.getEmailFromTokenUser(req.headers), req.query.locale, function (err, data) {

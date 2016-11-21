@@ -5,6 +5,7 @@ var passport = require("passport");
 var util = require('../util/util');
 var Localize = require("localize");
 var myLocals = new Localize("localizations/user");
+var uuid = require('node-uuid');
 
 router.get("/", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   user.all(function (err, data) {
@@ -14,7 +15,26 @@ router.get("/", passport.authenticate("jwt", { session: false }), function (req,
   });
 });
 
-router.post("/saveprofile", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+router.post("/create", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+  util.translate(myLocals, req.query.locale);
+  if (req.body.name === "" || req.body.address === "" || req.body.tag) {
+    return res.status(400).json({ app_err: myLocals.translate("Please provide description, category, mobile and address.") });
+  }
+  else
+  {
+    //generate user id
+    req.body.id = uuid.v1();
+   }
+    
+  req.body.image = req.body.image.replace(/ /g, "+");
+  user.saveProfile(user.getEmailFromTokenUser(req.headers), req.body, req.query.locale, function (err, data) {
+    if (err)
+      return res.status(500).json({ err });
+    res.json({ profile_saved: data });
+  });
+});
+
+router.post("/save", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   util.translate(myLocals, req.query.locale);
   if (!req.body.description || !req.body.mobile || !req.body.address || !req.body.category)
     return res.status(400).json({ app_err: myLocals.translate("Please provide description, category, mobile and address.") });
@@ -26,7 +46,7 @@ router.post("/saveprofile", passport.authenticate("jwt", { session: false }), fu
   });
 });
 
-router.get("/getmyprofile", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+router.get("/get", passport.authenticate("jwt", { session: false }), function (req, res, next) {
   user.getMyProfile(user.getEmailFromTokenUser(req.headers), req.query.locale, function (err, data) {
     if (err)
       return res.status(500).json({ err });
@@ -34,7 +54,7 @@ router.get("/getmyprofile", passport.authenticate("jwt", { session: false }), fu
   });
 });
 
-router.get("/getprofile/:url", function (req, res, next) {
+router.get("/getproduct/:url", function (req, res, next) {
   util.translate(myLocals, req.query.locale);
   if (!req.params.url)
     return res.status(400).json({ app_err: myLocals.translate("Please provide url.") });

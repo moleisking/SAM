@@ -50,5 +50,23 @@ module.exports = {
             console.log(response.headers);
             return cb(err, response.statusCode, response.body, response.headers);
         });
+    },
+    
+    getEmailFromTokenUser: function (headers, cb) {
+        var token = _getToken(headers);
+        if (!token)
+            return null;
+        var decodedUser = jwt.decode(token, config.secret);
+        return decodedUser.email;
+    },
+
+     _getToken : function (headers) {
+    if (!headers || !headers.authorization)
+        return null;
+    var parted = headers.authorization.split(" ");
+    if (parted.length === 2)
+        return parted[1];
+    else
+        return null;
     }
 }
