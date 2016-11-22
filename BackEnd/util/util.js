@@ -1,3 +1,6 @@
+var JwtStrategy = require("passport-jwt").Strategy;
+var ExtractJwt = require("passport-jwt").ExtractJwt;
+
 module.exports = {
 
     CalcDist: function (userLat, userLng, placeMap) {
@@ -51,16 +54,34 @@ module.exports = {
             return cb(err, response.statusCode, response.body, response.headers);
         });
     },
-    
-    getEmailFromTokenUser: function (headers, cb) {
+
+    getEmailFromTokenUser: function (headers, cb) {        
         var token = _getToken(headers);
         if (!token)
             return null;
         var decodedUser = jwt.decode(token, config.secret);
         return decodedUser.email;
     },
+    
+    /*getPassport: function (passport) {  
+        var opts = {};
+        opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
+        opts.secretOrKey = config.secret;
+        passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
+            user.read(jwt_payload.email, function (err, data) {
+                if (err)
+                    return done(err, false);
+                if (data)
+                    done(null, data);
+                else
+                    done(null, false);
+            });
+        }));
+     },*/
+     
+}
 
-     _getToken : function (headers) {
+function _getToken(headers) {
     if (!headers || !headers.authorization)
         return null;
     var parted = headers.authorization.split(" ");
@@ -68,5 +89,4 @@ module.exports = {
         return parted[1];
     else
         return null;
-    }
-}
+};

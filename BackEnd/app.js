@@ -4,6 +4,7 @@ var logger = require("morgan");
 var bodyParser = require("body-parser");
 var passport = require("passport");
 var swagger = require('swagger-express');
+var config = require("./config/settings");
 
 var home = require("./routes/home");
 var web = require("./routes/web");
@@ -14,6 +15,7 @@ var score = require("./routes/score");
 var transaction = require("./routes/transaction");
 var product = require("./routes/product");
 var tag = require("./routes/tag");
+
 
 var app = express();
 
@@ -54,8 +56,52 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+
+/*var JwtStrategy = require("passport-jwt").Strategy;
+var ExtractJwt = require("passport-jwt").ExtractJwt;
+var user = require("./dal/user");
+var config = require("./config/settings");
+var passport = require('passport'); //scott added this
+var opts = {};
+    opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
+    opts.secretOrKey = config.secret;
+    //opts.issuer = "accounts.examplesoft.com";
+    //opts.audience = "yoursite.net";
+    passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
+        user.read(jwt_payload.email, function (err, data) {
+            if (err)
+            {
+                console.log("passport_err:" + err);
+                return done(err, false);
+            }
+            if (data)
+            {
+                console.log("passport_data_err:" + err);
+                done(null, data);
+            }                
+            else
+            {
+                console.log("passport_else_err:" + err);
+                done(null, false);
+            }
+                
+        });
+    }));*/
+
+//passport-jwt 
+//app.use( session({
+//  saveUninitialized : true,
+//  secret : 'Some Secret' ,
+//  resave : true,
+//}));
 app.use(passport.initialize());
+//app.use( passport.session());//Scott added this
+
 app.use(allowCrossDomain);
+
+
+
+
 
 app.use("/", home);
 app.use("/", web);

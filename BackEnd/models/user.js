@@ -1,5 +1,6 @@
 var model = require("nodejs-model");
 var bCrypt = require("bcrypt-nodejs");
+var jwt = require("jwt-simple");//Scott added
 
 var user = new model("User")
     .attr('id')     

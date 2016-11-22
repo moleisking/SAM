@@ -1,5 +1,5 @@
 var express = require("express");
-var passport = require("../util/passport");
+var passport = require("passport");
 var jwt = require("jwt-simple");
 var config = require("../config/settings");
 var user = require("../dal/user");
@@ -11,6 +11,7 @@ var Localize = require("localize");
 var myLocals = new Localize("localizations/user");
 var uuid = require('node-uuid');
 
+//used to actually point to custom config/passport.js
 require("../util/passport")(passport);
 
 router.post("/signup", function (req, res) {
@@ -102,11 +103,13 @@ router.get("/dashboard", passport.authenticate("jwt", { session: false }), funct
     
 // var token = jwt.encode(data, config.secret);
 
-
-
+ console.log("dashboard route success");
+ console.log(util.getEmailFromTokenUser(req.headers));
+    
     user.read(util.getEmailFromTokenUser(req.headers), function (err, data) {
         if (err)
-        { 
+        {
+            console.log("dashboard if error");
             return res.status(500).json({ err });
         }
 
@@ -134,7 +137,10 @@ router.post("/forgottenpassword", function (req, res) {
         return res.status(400).json({ app_err: myLocals.translate("Please provide email.") });
     user.read(req.body.email, function (err, data) {
         if (err)
+        { 
             return res.status(500).json({ err });
+        }
+            
         if (!data)
             return res.status(404).json({ app_err: myLocals.translate("The user don't exist.") });
         emailer.forgottenpassword(data.email, data.guid, req.query.locale, function (err, status, body, headers) {
@@ -148,17 +154,26 @@ router.post("/forgottenpassword", function (req, res) {
 router.post("/changepassword", passport.authenticate("jwt", { session: false }), function (req, res) {
     util.translate(myLocals, req.query.locale);
     if (!req.body.oldpassword || !req.body.newpassword || !req.body.confirmpassword)
-        return res.status(400).json({ app_err: myLocals.translate("Please provide passwords to validate.") });
+    { 
+         return res.status(400).json({ app_err: myLocals.translate("Please provide passwords to validate.") });
+    }
+       
     if (req.body.newpassword != req.body.confirmpassword)
         return res.status(400).json({ app_err: myLocals.translate("New password and confirm password must be the same.") });
     var email = user.getEmailFromTokenUser(req.headers);
     user.read(email, function (err, data) {
         if (err)
+        { 
             return res.status(500).json({ err });
+        }
+           
         if (!data)
             return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking password.") });
         if (!model.validPassword(req.body.oldpassword, data.password))
+        { 
             return res.status(500).json({ app_err: myLocals.translate("Authentication failed checking old password. Old password not valid.") });
+        }
+            
         user.changePassword(email, req.body.newpassword, req.query.locale, function (err, data) {
             res.json({ changepassword: data });
         });
@@ -232,3 +247,15 @@ module.exports = router;
 // console.log(myLocalize.translate("Testing...")); // Pruebas...
 // myLocalize.setLocale("sr");
 // console.log(myLocalize.translate("Substitution: $[1]", 5)); // замена: 5
+
+//1xx Informational.
+//2xx Success.
+//3xx Redirection.
+//4xx Client Error.
+//5xx Server Error.
+
+//app.post('/signup', passport.authenticate('local', {
+// successRedirect: '/signin',
+// failureRedirect: '/signup',
+// failureFlash: true
+//}));
